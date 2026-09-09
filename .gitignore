@@ -32,12 +32,7 @@ _deps/
 *.blg
 
 # --- Editors ---
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/c_cpp_properties.json
+.vscode/
 .idea/
 *.swp
 
@@ -45,8 +40,14 @@ _deps/
 .DS_Store
 Thumbs.db
 
-# --- Python (reference scripts) ---
+# --- Python (uv) ---
 __pycache__/
 *.py[cod]
 .venv/
 venv/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+dist/
+*.egg-info/
+# uv.lock and .python-version are committed on purpose (reproducible env).
