@@ -15,6 +15,12 @@ _deps/
 *.dll
 *.exe
 
+# --- Plain g++ build output ---
+/gem_solver
+
+# --- Downloaded data (large, fetched from the PDG API, not source) ---
+/data/
+
 # --- Generated output (regenerable) ---
 /REPORT.md
 /figures/
