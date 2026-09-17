@@ -1,7 +1,3 @@
-# --- Holding areas (old implementation, being rewritten) ---
-/dump/
-/dumpdocs/
-
 # --- CMake / build ---
 /build/
 /cmake-build-*/
