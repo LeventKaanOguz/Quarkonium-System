@@ -1,5 +1,7 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[margin=2.4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{amsmath,amssymb,amsthm,bm,mathtools}
 \usepackage{booktabs,enumitem,array,multirow}
 \usepackage[dvipsnames]{xcolor}
@@ -4501,6 +4503,48 @@ $\int\frac{\dd^3q}{(2\pi)^3}\ee^{\ii\vq\cdot\vr}\frac{4\pi}{q^2}\ee^{-q^2/4\gamm
 $\int_0^\infty\frac{\sin qr}{q}\dd q$ & $\dfrac\pi2$\\\bottomrule
 \end{tabular}
 \end{center}
+
+\section{Addendum (v1.0.0): grading, decays and Bayesian inference}\label{app:v1}
+The program as released grades its fits by standard methods; the iterated floor of
+Alg.~11.10 remains a diagnostic.
+
+\paragraph{Theory floor.} With residuals $\Delta$ and $V(\sigma)=V_{\rm exp}+\sigma^2W$, the
+floor solves $\Delta^{\!\top}V(\sigma)^{-1}\Delta=N-p$ with the full PDG covariance: the
+Paule--Mandel random-effects estimator. Its interval is the $\chi^2$ test inverted (the
+Q-profile interval): every $\sigma$ with $\chi^2_{N-p}(\tfrac{1-\mathrm{CL}}{2})\le
+\Delta^{\!\top}V(\sigma)^{-1}\Delta\le\chi^2_{N-p}(\tfrac{1+\mathrm{CL}}{2})$.
+
+\paragraph{Grades.} One mass error $\sigma_\star$ per system is declared for all models: the
+Paule--Mandel estimator pooled over the physical set,
+$\sum_m\Delta_m^{\!\top}V_m(\sigma_\star)^{-1}\Delta_m=\sum_m\nu_m$. Each model is refitted at
+$\sigma_\star$ and graded by Pearson's $\chi^2/\nu$ and $P(\chi^2_\nu\ge\chi^2)$. The measured
+annihilation widths of the fitted states are a held-out benchmark: with the NLO prediction
+$\Gamma$ of the mass-only fit, $\chi^2_\Gamma=(\Gamma_{\rm PDG}-\Gamma)^{\!\top}(V_{\rm exp}
++V_{\rm th}+J_\Gamma C J_\Gamma^{\!\top})^{-1}(\Gamma_{\rm PDG}-\Gamma)$.
+
+\paragraph{Widths.} $\Gamma(V\to e^+e^-)=4\alpha^2e_Q^2A^2/M^2$ with
+$A=R_S(0)+\tfrac{5}{2\sqrt2\,m_Q^2}R''_D(0)$ (S--D mixed states included); NLO multiplies by
+$1-\tfrac{16\alpha_s}{3\pi}$ ($e^+e^-$, $^3P_2$), $1-\tfrac{(20-\pi^2)\alpha_s}{3\pi}$ ($^1S_0$),
+$1+(\tfrac{\pi^2}{3}-\tfrac{28}{9})\tfrac{\alpha_s}{\pi}$ ($^3P_0$), with the
+$\overline{\rm MS}$ coupling (two-loop, $\alpha_s(M_Z)=0.1180$) at $\mu=M/2$. Theory error:
+half the band $\mu=M/4\ldots M$ (correlated within a process) $\oplus\ \langle v^2\rangle\Gamma$.
+
+\paragraph{Bayesian inference.} The posterior of $(u,\ln\sigma)$ is
+$\propto\exp[-\tfrac12(\chi^2+\ln\det V)]$ with flat priors in $u$ and in $\ln\sigma$ on
+$[10^{-5},0.05]$\,GeV; posterior predictive $p$-values use $T=\chi^2$ and $T=\max_i|z_i|$,
+both exact per draw.
+
+\paragraph{Joint fit.} $c\bar c$ and $b\bar b$ share the string tension (and, optionally,
+the coupling normalisation or the GI slope $s$); each floor solves
+$\chi^2_s=N_s-\sum_{i\in s}h_{ii}$ with the leverages $h$ of the joint fit, and the
+universality test is $\chi^2_{\rm joint}-\chi^2_{\rm separate}\sim\chi^2_k$ at the separate
+floors.
+
+\paragraph{Selection.} A model wins only if no test is rejected at $\alpha=0.05$ after Holm's
+correction (masses and decays, both systems) and it passes the physics checks: radial
+nodes, $m_b-m_c$ against heavy-quark symmetry, $\sqrt b$ against the lattice, the $1P$
+centre of gravity, convergence, $\langle v^2\rangle<0.5$; among those, the lowest
+$\chi^2_{\rm masses}+\chi^2_{\rm decays}+2p$.
 
 \section*{References}
 \addcontentsline{toc}{section}{References}
