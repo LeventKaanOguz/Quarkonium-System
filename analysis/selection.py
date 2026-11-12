@@ -7,7 +7,7 @@ docs/EXPLANATION.md, "Model selection"). A model wins only if it
                mass error (Paule-Mandel pooled over the physical set, refit);
              decays c c-bar, decays b b-bar: the decay benchmark, Pearson
                chi^2 of the measured widths of the fitted states against the
-               mass-only fit (V = V_exp + V_theory + V_par);
+               same mass-only fit (V = V_exp + V_theory + V_par);
   Gate 2 - is physically sound, every check at its stated threshold:
              (a) non-degenerate fit, condition number < 1e10;
              (b) basis converged: nested size meeting 0.1 MeV <= n of the fits;
@@ -66,7 +66,8 @@ def select(main_runs, floor2_runs, nested_runs, tags, pooled_mev):
                 pv[f"mass_{sname}"] = float(ms.stats.chi2.sf(s2["chi2"], s2["nu"]))
                 chi2m += s2["chi2"]
                 row[f"mass_{sname}_chi2nu"] = s2["chi2"] / s2["nu"]
-            db = system(r, sname)["analysis"].get("decay_benchmark")
+            # the decays from the same fit as the masses (declared error)
+            db = s2["analysis"].get("decay_benchmark") if s2 is not None else None
             if db:
                 pv[f"decay_{sname}"] = db["p"]
                 row[f"decay_{sname}_chi2n"] = db["chi2"] / db["n"]

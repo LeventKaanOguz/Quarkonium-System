@@ -239,15 +239,26 @@ def pooled_floors():
     tags = physical_set()
     out = {}
     for sname in SYSTEMS:
-        blocks, nu = [], 0
+        blocks, nu, skipped = [], 0, []
         for t in tags:
             r = json.loads((RES / "main" / f"{t}.json").read_text())
-            s = next(x for x in r["systems"] if x["system"] == sname)
+            s = next((x for x in r["systems"] if x["system"] == sname), None)
+            if s is None or "V_exp_GeV2" not in s:
+                skipped.append(t)
+                continue
             fit = [x for x in s["states"] if x["in_fit"]]
-            d = np.array([x["model_GeV"] - x["pdg_GeV"] for x in fit])
+            d = np.array([(x["model_GeV"] if x["model_GeV"] is not None else math.nan)
+                          - x["pdg_GeV"] for x in fit])
+            if not np.all(np.isfinite(d)):
+                skipped.append(t)
+                continue
             w = np.array([x.get("floor_w", 1.0) for x in fit])
             blocks.append((d, np.array(s["V_exp_GeV2"]), w))
             nu += s["nu"]
+        if skipped:
+            print(f"pooled floor ({sname}): left out {', '.join(skipped)}")
+        if len(blocks) < 10:
+            raise SystemExit(f"pooled floor ({sname}): only {len(blocks)} models")
 
         def f(sig):
             return sum(d @ np.linalg.solve(V + np.diag((sig * w) ** 2), d)
@@ -308,7 +319,7 @@ SWEEPS = {
     "lm": lambda: [(t, a + ["--multistart", "8"]) for t, a in _cfg()],
     "minuit": lambda: [(t, a + ["--fitter", "minuit2", "--minuit-check"])
                        for t, a in _cfg()],
-    "main": lambda: [(t, a + restarts(t, 8, 3) + ["--loo"] +
+    "main": lambda: [(t, a + restarts(t, 8, 3) + ["--loo", "--wf-band"] +
                       seeds(t, ["lm", "minuit"])) for t, a in _cfg()],
     # the conventional fit: PDG errors only (sigma_th = 0), physical set
     "floor0": lambda: [(t, a + ["--floor", "0"] + restarts(t, 4, 0) +

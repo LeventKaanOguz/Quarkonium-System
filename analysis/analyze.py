@@ -91,12 +91,13 @@ def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
                     ["", ".2f", ".3g", ".2f", ".3g", ".2f", ".3g"]) +
                 f"\n{sum(r['p'] >= 0.05 for r in crows0)} of {len(crows0)} models pass at "
                 "5 % (combined).\n\n")
-    drows = decay_rows(main_runs, stats_runs, phys)
+    drows = decay_rows(floor2_runs, stats_runs, phys)
     if drows:
         write_csv("decay_benchmark.csv", drows)
         out += ("## Goodness of fit: decays (held-out benchmark)\n\n"
                 "The measured annihilation widths of the fitted states, predicted by the "
-                "mass-only fit that never saw them: Pearson χ² with V = V_exp + V_theory + "
+                "mass-only fit at the declared error (the fit graded above), which never saw "
+                "them: Pearson χ² with V = V_exp + V_theory + "
                 "V_par. Theory error: the truncation of the α_s series by scale variation "
                 "(μ = M/4 … M, half the band, correlated within a process) in quadrature "
                 "with the O(v²) relativistic correction of NRQCD power counting, ⟨v²⟩Γ. "
