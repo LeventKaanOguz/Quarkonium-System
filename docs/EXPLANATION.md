@@ -291,7 +291,7 @@ The grades use standard methods only; σ_th itself does not grade.
 | misfit at PDG precision | Cochran's Q (χ² with PDG errors only) | Cochran, Biometrics 10, 101 (1954) |
 | **declared mass error** (one for all models) | Paule–Mandel pooled over the physical set, per system | as above |
 | **mass grade** | Pearson χ²/ν and P(χ²_ν ≥ χ²) at the declared error (refit) | Pearson (1900) |
-| **decay grade** | Pearson χ² of the measured widths of the fitted states against the mass-only fit; V = V_exp + V_theory + V_par | — |
+| **decay grade** | Pearson χ² of the measured widths of the fitted states against the same mass-only fit at the declared error; V = V_exp + V_theory + V_par | — |
 | width theory error | scale variation μ = M/4 … M (half the band, correlated within a process) ⊕ O(v²) NRQCD power counting, ⟨v²⟩Γ | Bodwin, Braaten & Lepage, PRD 51, 1125 (1995) |
 | Bayesian check | posterior predictive p-values, T = χ² and T = max\|z\| | Gelman, Meng & Stern, Stat. Sinica 6, 733 (1996) |
 | residual structure | Shapiro–Wilk; Wald–Wolfowitz runs | Shapiro & Wilk (1965); Wald & Wolfowitz (1940) |
@@ -304,7 +304,9 @@ the selection uses the mass-only fits.
 
 **Bayesian inference** (`--mcmc STEPS`). The theory error is a parameter: the posterior of (θ, ln σ_th)
 with the Gaussian likelihood and its normalisation −½ ln det V, flat priors in u (flat in ln θ for positive
-parameters) and flat in ln σ_th on [10⁻⁵, 0.2] GeV (scale invariant), sampled by 4 Metropolis chains with
+parameters) and flat in ln σ_th on [10⁻⁵, 0.05] GeV (scale invariant; a model that misses by more than
+50 MeV is no spectroscopic description, and the bound keeps the posterior proper along nearly flat
+parameter directions), sampled by 4 Metropolis chains started at the mode, with
 R̂ and the effective sample size. It gives parameter errors that include the uncertainty of σ_th, the
 posterior of σ_th itself, and posterior predictive p-values for the masses and the decays. With σ_th
 marginalised, the χ² check is not sensitive to the overall scale (by design); max|z| flags single states.
