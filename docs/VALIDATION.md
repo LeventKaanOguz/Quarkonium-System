@@ -47,7 +47,7 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 | `Test6.CharmoniumWorkedExampleOfTheNotes` (held-out part) | a refit without χ_c0 re-solves its floor (χ²/ν = 1 on the kept data, below the full floor) and gives a parametric error; ν = 0 left gives no floor | definition |
 | `SemiRelativistic.MassDerivativeFirstOrderLimitAndHerbstBound` (`test_relativistic`) | √(p²+m²) − m: ∂H/∂m equals finite differences; at small v the shift equals ⟨p⁴⟩/4m³ (5 %); point Coulomb refused | first-order perturbation theory; Herbst bound |
 | `Chi2Problem.UnresolvedSmearedContactIsOutsideTheModel` (`test_fit`) | a smeared contact with σ·r₁ > 1 is refused by the χ² (basis-resolution wall) | numerical validity |
-| `analysis_model_selection` (CTest, Python) | AIC/AICc/BIC, Laplace evidence (and its refusal outside the prior), predictive densities, t-coverage, the variance-ratio test, stacking, Burnham–Anderson averaging, Holm/BH, Kendall τ against hand values | hand computation |
+| `analysis_model_selection` (CTest, Python) | AIC/AICc/BIC, Laplace evidence (and its refusal outside the prior), predictive densities, t-coverage, the variance-ratio test, stacking, Burnham–Anderson averaging, Holm/BH, Kendall τ against hand values; the log-form decay test (zero at Γ_NLO = Γ_PDG, symmetric under Γ → Γ_PDG²/Γ, beyond the −1/f bound of the linear pull for a ×13 overprediction) | hand computation |
 | `Minuit2.*` (`tests/root/`, ROOT build only) | Migrad, Hesse and Minos on the straight line; the §10.10 fit equals Levenberg–Marquardt | notes Toy 2 (exact); LM |
 | `ComplexRange.*` | complex-range matrix elements, nested enlargement, the table of notes §7.10.5 | quadrature of the real functions; own finite-difference solver |
 

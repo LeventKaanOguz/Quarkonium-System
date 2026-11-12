@@ -83,6 +83,29 @@ def test_kendall():
     close(ms.kendall_tau([1, 2, 3, 4], [4, 3, 2, 1]), -1.0)
 
 
+def test_decay_log_test():
+    """The amended decay test: zero at Gamma_NLO = Gamma_PDG, symmetric in
+    over- and underprediction, and unbounded for an overprediction (the
+    linear pull with sigma_th = f Gamma_NLO is bounded below by -1/f)."""
+    from selection import decay_log_chi2
+
+    def system_with(nlo):
+        w = {"label": "chi_c0(1P)", "process": "gamma gamma", "in_fit": 1,
+             "pdg_keV": 2.0, "pdg_err_keV": 0.1, "nlo_keV": nlo,
+             "nlo_band_lo_keV": 0.8 * nlo, "nlo_band_hi_keV": 1.2 * nlo,
+             "nlo_err_par_keV": 0.05 * nlo, "v2": 0.3}
+        return {"analysis": {"decay_benchmark": {"labels": [w["label"]]}}, "widths": [w]}
+
+    close(decay_log_chi2(system_with(2.0))[0], 0.0)
+    _, n, lab, z_over = decay_log_chi2(system_with(2.0 * 13))
+    _, _, _, z_under = decay_log_chi2(system_with(2.0 / 13))
+    assert n == 1 and lab == "chi_c0(1P)"
+    close(z_over, -z_under, 1e-12)
+    f = math.hypot(0.2, 0.3, 0.05)                   # relative error of the prediction
+    assert z_over < -1 / f                             # beyond the linear bound
+    close(z_over, -math.log(13) / math.hypot(f, 0.05), 1e-12)
+
+
 if __name__ == "__main__":
     for name, f in list(globals().items()):
         if name.startswith("test_"):
