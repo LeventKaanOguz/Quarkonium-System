@@ -1,0 +1,39 @@
+tag,label,system,sth_med,sth_lo,sth_hi,ppp_chi2,ppp_max,rhat_max,neff_min
+A-apt-coff-smeared,A APT smeared,ccbar,7.74716,5.63741,12.0204,0.504336,0.512404,1.01592,373.909
+A-apt-coff-smeared,A APT smeared,bbar,2.40774,1.86417,3.23112,0.513934,0.572677,1.00203,652.231
+A-frozen-coff-smeared,A frozen smeared,ccbar,8.40337,5.88197,12.9526,0.505641,0.48629,1.00548,408.627
+A-frozen-coff-smeared,A frozen smeared,bbar,2.57108,1.99988,3.48679,0.491178,0.60798,1.00429,509.936
+A-gi-coff-smeared,A GI run smeared,ccbar,8.44075,5.93446,13.9094,0.5033,0.501659,1.05387,137.107
+A-gi-coff-smeared,A GI run smeared,bbar,3.12529,2.39382,4.22086,0.465283,0.613203,1.00784,453.69
+B-apt-coff-smeared,B APT smeared,ccbar,8.99715,6.48948,13.6952,0.499693,0.468011,1.0093,224.968
+B-apt-coff-smeared,B APT smeared,bbar,3.13175,2.43075,4.20631,0.474911,0.356581,1.0023,564.775
+B-gi-coff-smeared,B GI run smeared,ccbar,8.48955,6.05918,13.3666,0.51433,0.500278,1.03537,240.771
+B-gi-coff-smeared,B GI run smeared,bbar,4.30604,3.31705,5.79975,0.465644,0.389186,1.00491,497.51
+B-frozen-coff-smeared,B frozen smeared,ccbar,10.3265,7.24257,15.8508,0.513487,0.482487,1.01061,262.921
+B-frozen-coff-smeared,B frozen smeared,bbar,3.64345,2.76712,4.93252,0.459913,0.334211,1.00451,455.396
+A-const-coff-first,A const,ccbar,9.08071,6.55381,14.2067,0.477801,0.432867,1.01314,289.298
+A-const-coff-first,A const,bbar,5.48895,4.28097,7.34335,0.467962,0.391424,1.01076,529.084
+C-const-coff-s,C const (s free),ccbar,11.6266,8.07098,17.9698,0.507406,0.504527,1.04918,90.1925
+C-const-coff-s,C const (s free),bbar,3.78181,2.94411,4.9281,0.518895,0.432853,1.02639,153.007
+D-const-coff-s,D const (s free),ccbar,12.4769,9.13134,18.6505,0.495026,0.488649,1.05201,89.8035
+D-const-coff-s,D const (s free),bbar,2.21077,1.72756,2.99421,0.522791,0.595361,1.03901,135.603
+B-const-coff-first,B const,ccbar,15.7682,10.8739,25.0756,0.489498,0.427487,1.06276,151.754
+B-const-coff-first,B const,bbar,3.33113,2.62921,4.43702,0.506705,0.359919,1.01157,499.095
+A-gi-coff-first,A GI run,ccbar,16.2522,11.382,24.4686,0.498711,0.501089,1.06598,203.796
+A-gi-coff-first,A GI run,bbar,3.28151,2.53446,4.50562,0.51696,0.679963,1.01067,273.176
+A-const-coff-smeared,A const smeared,ccbar,16.3797,11.4595,25.273,0.483758,0.461167,1.01384,177.567
+A-const-coff-smeared,A const smeared,bbar,5.92128,4.65453,7.91741,0.463419,0.455702,1.00597,462.373
+C-gi-coff-s,C GI run (s free),ccbar,15.1394,11.3489,21.9962,0.469851,0.347239,1.10167,105.022
+C-gi-coff-s,C GI run (s free),bbar,7.05008,5.52084,9.57504,0.404562,0.287102,1.01912,181.763
+A-frozen-coff-first,A frozen,ccbar,17.2517,12.2756,26.3177,0.494147,0.460196,1.02279,457.537
+A-frozen-coff-first,A frozen,bbar,3.03795,2.37704,4.02178,0.499918,0.621435,1.00585,537.411
+D-gi-coff-s,D GI run (s free),ccbar,17.583,12.7749,24.7967,0.460077,0.361238,1.02561,138.888
+D-gi-coff-s,D GI run (s free),bbar,2.5776,1.98911,3.38078,0.405953,0.451196,1.00695,274.545
+B-gi-coff-first,B GI run,ccbar,18.4287,13.1361,26.5667,0.504262,0.42248,1.00624,308.937
+B-gi-coff-first,B GI run,bbar,4.40134,3.40548,5.85453,0.496309,0.450343,1.01063,382.718
+B-apt-coff-first,B APT,ccbar,19.0912,13.7012,28.5038,0.522017,0.442333,1.00944,260.261
+B-apt-coff-first,B APT,bbar,3.61156,2.81902,4.84266,0.497885,0.512505,1.00948,468.134
+B-const-coff-smeared,B const smeared,ccbar,20.6072,14.8374,30.1444,0.482149,0.461458,1.01265,368.191
+B-const-coff-smeared,B const smeared,bbar,3.81579,2.97822,5.09701,0.490839,0.462008,1.00428,510.637
+B-frozen-coff-first,B frozen,ccbar,20.6153,14.7439,30.1046,0.492788,0.414297,1.02439,142.749
+B-frozen-coff-first,B frozen,bbar,4.0325,3.1475,5.33867,0.490308,0.477864,1.00382,475.654

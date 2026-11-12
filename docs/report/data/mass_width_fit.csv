@@ -1,0 +1,39 @@
+tag,label,system,floor_mass_only,floor_combined,chi2w_n,p_w,shift_par,shift
+A-apt-coff-smeared,A APT smeared,ccbar,7.30916,8.99853,1.79095,0.0965607,sigma,-1.28386
+A-apt-coff-smeared,A APT smeared,bbar,2.27295,2.28029,1.99586,0.112216,sigma,-0.278039
+A-frozen-coff-smeared,A frozen smeared,ccbar,7.38742,8.77517,1.59166,0.144928,sigma,-1.16861
+A-frozen-coff-smeared,A frozen smeared,bbar,2.50535,2.52285,2.6661,0.0460467,sigma,-0.367357
+A-gi-coff-smeared,A GI run smeared,ccbar,7.30481,8.67162,1.67612,0.122283,sigma,-1.17622
+A-gi-coff-smeared,A GI run smeared,bbar,3.06751,3.10139,3.1136,0.0250866,sigma,-0.449406
+B-apt-coff-smeared,B APT smeared,ccbar,8.23541,10.6905,1.44967,0.191286,sigma,-1.29071
+B-apt-coff-smeared,B APT smeared,bbar,3.11473,3.25213,4.57906,0.00328564,sigma,-0.792755
+B-gi-coff-smeared,B GI run smeared,ccbar,7.75908,9.76138,1.465,0.185736,sigma,-1.23952
+B-gi-coff-smeared,B GI run smeared,bbar,4.22597,4.60875,6.25605,0.000305297,sigma,-1.03894
+B-frozen-coff-smeared,B frozen smeared,ccbar,9.20696,11.9383,1.2972,0.25442,sigma,-1.24679
+B-frozen-coff-smeared,B frozen smeared,bbar,3.62568,3.9336,5.84778,0.000546297,sigma,-1.01453
+A-const-coff-first,A const,ccbar,8.34371,8.36387,1.13914,0.33639,b,-0.0923405
+A-const-coff-first,A const,bbar,5.467,5.43729,0.078944,0.971435,alpha_s,-0.11938
+C-const-coff-s,C const (s free),ccbar,10.3114,10.6621,1.1702,0.318891,s,-0.432132
+C-const-coff-s,C const (s free),bbar,3.49683,3.49199,0.406959,0.748002,s,0.130458
+D-const-coff-s,D const (s free),ccbar,11.6614,12.0152,1.11556,0.350138,s,-0.387663
+D-const-coff-s,D const (s free),bbar,2.07137,2.07108,0.531835,0.66041,s,0.144743
+B-const-coff-first,B const,ccbar,13.5661,13.6063,1.05027,0.390262,b,-0.199905
+B-const-coff-first,B const,bbar,3.15791,3.15036,0.433596,0.728946,sigma,-0.093727
+A-gi-coff-first,A GI run,ccbar,14.3604,14.2831,0.90736,0.488231,sigma,-0.24198
+A-gi-coff-first,A GI run,bbar,3.14475,3.16056,2.8496,0.0359322,sigma,-0.329034
+A-const-coff-smeared,A const smeared,ccbar,14.7764,17.9955,0.971103,0.44289,sigma,-1.16855
+A-const-coff-smeared,A const smeared,bbar,6.03021,5.96968,0.0824159,0.969624,sigma,-0.03426
+C-gi-coff-s,C GI run (s free),ccbar,14.2996,15.2787,1.0663,0.380132,s,-0.764289
+C-gi-coff-s,C GI run (s free),bbar,7.20435,7.19159,0.904786,0.437793,b,-0.0631764
+A-frozen-coff-first,A frozen,ccbar,15.9481,15.8711,0.91218,0.484716,b,-0.275288
+A-frozen-coff-first,A frozen,bbar,2.89307,2.90263,2.36761,0.0686918,sigma,-0.280448
+D-gi-coff-s,D GI run (s free),ccbar,16.5283,17.6253,0.985356,0.433104,s,-0.741536
+D-gi-coff-s,D GI run (s free),bbar,2.66614,2.66564,0.336458,0.798984,b,-0.0159845
+B-gi-coff-first,B GI run,ccbar,16.6095,16.5077,0.943837,0.461977,b,-0.344127
+B-gi-coff-first,B GI run,bbar,4.19994,4.35721,5.66228,0.000711161,sigma,-0.694922
+B-apt-coff-first,B APT,ccbar,17.4911,17.3219,0.914226,0.483228,b,-0.303026
+B-apt-coff-first,B APT,bbar,3.46631,3.52045,3.92639,0.00817925,sigma,-0.498747
+B-const-coff-smeared,B const smeared,ccbar,18.9884,22.9417,0.68722,0.659992,sigma,-0.991401
+B-const-coff-smeared,B const smeared,bbar,3.72037,3.73939,0.998081,0.392514,sigma,-0.421217
+B-frozen-coff-first,B frozen,ccbar,19.0361,18.9151,0.942952,0.462604,b,-0.383849
+B-frozen-coff-first,B frozen,bbar,3.87953,3.999,5.08294,0.0016159,sigma,-0.636806

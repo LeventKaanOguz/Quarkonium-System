@@ -1,0 +1,20 @@
+tag,label,elpd_ccbar,elpd_bbar,elpd,pseudo_bma_weight,stacking_weight
+A-apt-coff-smeared,A APT smeared,21.9825,55.49,77.4725,0.826762,0.670375
+A-gi-coff-smeared,A GI run smeared,22.8757,52.9112,75.7869,0.153227,3.47223e-18
+D-const-coff-s,D const (s free),16.4825,56.5875,73.0701,0.0101256,0.301195
+A-frozen-coff-smeared,A frozen smeared,18.2032,54.832,73.0353,0.00977924,2.1116e-142
+A-gi-coff-first,A GI run,15.7629,52.7289,68.4919,0.000104026,4.94066e-324
+B-apt-coff-smeared,B APT smeared,16.9376,47.3942,64.3318,1.62351e-06,1.08755e-130
+B-gi-coff-smeared,B GI run smeared,18.0894,45.1476,63.2369,5.43186e-07,5.23925e-296
+C-const-coff-s,C const (s free),15.3375,46.266,61.6034,1.06054e-07,3.66594e-264
+A-frozen-coff-first,A frozen,7.33989,53.1674,60.5073,3.54395e-08,4.94066e-324
+B-const-coff-smeared,B const smeared,10.2507,47.619,57.8697,2.53519e-09,4.94066e-324
+A-const-coff-first,A const,13.821,42.7596,56.5806,6.98472e-10,9.88131e-324
+B-gi-coff-first,B GI run,8.33012,46.6703,55.0004,1.4384e-10,4.94066e-324
+B-frozen-coff-smeared,B frozen smeared,9.87033,43.7334,53.6037,3.5588e-11,1.76559e-260
+B-apt-coff-first,B APT,2.11716,50.3187,52.4358,1.10684e-11,4.94066e-324
+A-const-coff-smeared,A const smeared,8.78501,43.6035,52.3885,1.05565e-11,4.94066e-324
+B-const-coff-first,B const,3.67735,45.871,49.5483,6.16693e-13,5.14221e-214
+B-frozen-coff-first,B frozen,-4.01312,48.3288,44.3157,3.29276e-15,4.94066e-324
+C-gi-coff-s,C GI run (s free),2.24001,41.0306,43.2706,1.15797e-15,4.94066e-324
+D-gi-coff-s,D GI run (s free),-11.58,54.0802,42.5002,5.35939e-16,0.0284307

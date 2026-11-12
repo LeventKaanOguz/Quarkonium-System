@@ -1,0 +1,20 @@
+tag,label,ccbar_kf_train,ccbar_kf_test,ccbar_kf_median,bbar_kf_train,bbar_kf_test,bbar_kf_median
+A-apt-coff-smeared,A APT smeared,3.82553,15.409,14.17,2.01277,5.06902,3.56242
+A-frozen-coff-smeared,A frozen smeared,3.80168,14.8814,14.7109,2.27195,6.01202,3.90866
+A-gi-coff-smeared,A GI run smeared,3.88208,16.0234,13.4883,2.81655,6.14906,4.6216
+B-apt-coff-smeared,B APT smeared,4.36519,15.4495,15.0438,2.89259,7.59085,4.53791
+B-gi-coff-smeared,B GI run smeared,4.07615,14.7177,14.0745,3.76888,9.29196,5.86899
+B-frozen-coff-smeared,B frozen smeared,4.89993,17.3684,17.0891,3.29977,8.87492,5.18604
+A-const-coff-first,A const,4.94846,27.3991,12.8846,4.52308,22.087,7.00396
+C-const-coff-s,C const (s free),5.51522,24.3944,16.079,2.70546,5.66132,5.3387
+D-const-coff-s,D const (s free),6.24479,30.477,18.6042,1.7359,3.72611,3.18659
+B-const-coff-first,B const,7.66219,181.367,22.2832,2.67013,22.1747,4.19623
+A-gi-coff-first,A GI run,8.71761,26.8928,18.7542,2.67724,7.20255,3.95998
+A-const-coff-smeared,A const smeared,8.19288,33.3183,25.7876,5.02362,11.1414,7.45821
+C-gi-coff-s,C GI run (s free),10.6413,23.6937,16.6276,6.06127,13.3607,8.61717
+A-frozen-coff-first,A frozen,9.78297,30.6988,20.2978,2.34286,7.96008,4.0015
+D-gi-coff-s,D GI run (s free),12.2336,29.9014,15.6051,2.75731,5.15158,3.66121
+B-gi-coff-first,B GI run,10.2022,4829.45,24.5796,3.55222,9.81909,5.38598
+B-apt-coff-first,B APT,10.8696,328331,26.0761,2.87413,9.54251,4.44953
+B-const-coff-smeared,B const smeared,10.927,40.8245,31.5943,3.21823,6.76896,5.76783
+B-frozen-coff-first,B frozen,11.7541,48820.2,28.7173,3.21725,10.629,4.87664

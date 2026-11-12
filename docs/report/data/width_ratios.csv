@@ -1,0 +1,96 @@
+tag,label,ratio,model_lo,model_nlo,pdg,pdg_err
+A-apt-coff-smeared,A APT smeared,psi(2S) / J/psi(1S),0.412664,0.457031,0.420889,0.0103092
+A-apt-coff-smeared,A APT smeared,Upsilon(2S) / Upsilon(1S),0.421936,0.425918,0.456716,0.0102482
+A-apt-coff-smeared,A APT smeared,Upsilon(3S) / Upsilon(1S),0.296802,0.301134,0.330597,0.00744069
+A-apt-coff-smeared,A APT smeared,Upsilon(4S) / Upsilon(1S),0.241225,0.245674,0.203234,0.0214731
+A-apt-coff-smeared,A APT smeared,chi_c2(1P) / chi_c0(1P),0.0488503,0.022477,0.229911,0.0170959
+A-frozen-coff-smeared,A frozen smeared,psi(2S) / J/psi(1S),0.414231,0.458683,0.420889,0.0103092
+A-frozen-coff-smeared,A frozen smeared,Upsilon(2S) / Upsilon(1S),0.421583,0.425569,0.456716,0.0102482
+A-frozen-coff-smeared,A frozen smeared,Upsilon(3S) / Upsilon(1S),0.296942,0.301277,0.330597,0.00744069
+A-frozen-coff-smeared,A frozen smeared,Upsilon(4S) / Upsilon(1S),0.242311,0.24678,0.203234,0.0214731
+A-frozen-coff-smeared,A frozen smeared,chi_c2(1P) / chi_c0(1P),0.0476809,0.0219316,0.229911,0.0170959
+A-gi-coff-smeared,A GI run smeared,psi(2S) / J/psi(1S),0.406132,0.449739,0.420889,0.0103092
+A-gi-coff-smeared,A GI run smeared,Upsilon(2S) / Upsilon(1S),0.422402,0.426408,0.456716,0.0102482
+A-gi-coff-smeared,A GI run smeared,Upsilon(3S) / Upsilon(1S),0.292786,0.297059,0.330597,0.00744069
+A-gi-coff-smeared,A GI run smeared,Upsilon(4S) / Upsilon(1S),0.235809,0.240135,0.203234,0.0214731
+A-gi-coff-smeared,A GI run smeared,chi_c2(1P) / chi_c0(1P),0.0525464,0.0241827,0.229911,0.0170959
+B-apt-coff-smeared,B APT smeared,psi(2S) / J/psi(1S),0.394069,0.436323,0.420889,0.0103092
+B-apt-coff-smeared,B APT smeared,Upsilon(2S) / Upsilon(1S),0.428032,0.432103,0.456716,0.0102482
+B-apt-coff-smeared,B APT smeared,Upsilon(3S) / Upsilon(1S),0.285202,0.289353,0.330597,0.00744069
+B-apt-coff-smeared,B APT smeared,Upsilon(4S) / Upsilon(1S),0.215987,0.21989,0.203234,0.0214731
+B-apt-coff-smeared,B APT smeared,chi_c2(1P) / chi_c0(1P),0.0403621,0.0185623,0.229911,0.0170959
+B-gi-coff-smeared,B GI run smeared,psi(2S) / J/psi(1S),0.38864,0.430258,0.420889,0.0103092
+B-gi-coff-smeared,B GI run smeared,Upsilon(2S) / Upsilon(1S),0.428656,0.432747,0.456716,0.0102482
+B-gi-coff-smeared,B GI run smeared,Upsilon(3S) / Upsilon(1S),0.281336,0.285428,0.330597,0.00744069
+B-gi-coff-smeared,B GI run smeared,Upsilon(4S) / Upsilon(1S),0.210192,0.213969,0.203234,0.0214731
+B-gi-coff-smeared,B GI run smeared,chi_c2(1P) / chi_c0(1P),0.0432289,0.0198838,0.229911,0.0170959
+B-frozen-coff-smeared,B frozen smeared,psi(2S) / J/psi(1S),0.392083,0.43401,0.420889,0.0103092
+B-frozen-coff-smeared,B frozen smeared,Upsilon(2S) / Upsilon(1S),0.428217,0.432296,0.456716,0.0102482
+B-frozen-coff-smeared,B frozen smeared,Upsilon(3S) / Upsilon(1S),0.284581,0.288722,0.330597,0.00744069
+B-frozen-coff-smeared,B frozen smeared,Upsilon(4S) / Upsilon(1S),0.215412,0.2193,0.203234,0.0214731
+B-frozen-coff-smeared,B frozen smeared,chi_c2(1P) / chi_c0(1P),0.0384258,0.0176651,0.229911,0.0170959
+A-const-coff-first,A const,psi(2S) / J/psi(1S),0.425332,0.471883,0.420889,0.0103092
+A-const-coff-first,A const,Upsilon(2S) / Upsilon(1S),0.426532,0.430459,0.456716,0.0102482
+A-const-coff-first,A const,Upsilon(3S) / Upsilon(1S),0.313533,0.318113,0.330597,0.00744069
+A-const-coff-first,A const,Upsilon(4S) / Upsilon(1S),0.260834,0.265742,0.203234,0.0214731
+A-const-coff-first,A const,chi_c2(1P) / chi_c0(1P),0.266667,0.122706,0.229911,0.0170959
+C-const-coff-s,C const (s free),psi(2S) / J/psi(1S),0.524191,0.580198,0.420889,0.0103092
+C-const-coff-s,C const (s free),Upsilon(2S) / Upsilon(1S),0.464564,0.468894,0.456716,0.0102482
+C-const-coff-s,C const (s free),Upsilon(3S) / Upsilon(1S),0.354693,0.359884,0.330597,0.00744069
+C-const-coff-s,C const (s free),Upsilon(4S) / Upsilon(1S),0.304963,0.310673,0.203234,0.0214731
+C-const-coff-s,C const (s free),chi_c2(1P) / chi_c0(1P),0.094126,0.043329,0.229911,0.0170959
+D-const-coff-s,D const (s free),psi(2S) / J/psi(1S),0.484465,0.536146,0.420889,0.0103092
+D-const-coff-s,D const (s free),Upsilon(2S) / Upsilon(1S),0.474757,0.479216,0.456716,0.0102482
+D-const-coff-s,D const (s free),Upsilon(3S) / Upsilon(1S),0.341658,0.346647,0.330597,0.00744069
+D-const-coff-s,D const (s free),Upsilon(4S) / Upsilon(1S),0.273494,0.278515,0.203234,0.0214731
+D-const-coff-s,D const (s free),chi_c2(1P) / chi_c0(1P),0.102862,0.0473647,0.229911,0.0170959
+B-const-coff-first,B const,psi(2S) / J/psi(1S),0.384241,0.426404,0.420889,0.0103092
+B-const-coff-first,B const,Upsilon(2S) / Upsilon(1S),0.434385,0.438438,0.456716,0.0102482
+B-const-coff-first,B const,Upsilon(3S) / Upsilon(1S),0.29991,0.304278,0.330597,0.00744069
+B-const-coff-first,B const,Upsilon(4S) / Upsilon(1S),0.232403,0.23667,0.203234,0.0214731
+B-const-coff-first,B const,chi_c2(1P) / chi_c0(1P),0.266667,0.122683,0.229911,0.0170959
+A-gi-coff-first,A GI run,psi(2S) / J/psi(1S),0.412604,0.456989,0.420889,0.0103092
+A-gi-coff-first,A GI run,Upsilon(2S) / Upsilon(1S),0.425021,0.429041,0.456716,0.0102482
+A-gi-coff-first,A GI run,Upsilon(3S) / Upsilon(1S),0.295352,0.299659,0.330597,0.00744069
+A-gi-coff-first,A GI run,Upsilon(4S) / Upsilon(1S),0.23817,0.242538,0.203234,0.0214731
+A-gi-coff-first,A GI run,chi_c2(1P) / chi_c0(1P),0.266667,0.122679,0.229911,0.0170959
+A-const-coff-smeared,A const smeared,psi(2S) / J/psi(1S),0.450322,0.498679,0.420889,0.0103092
+A-const-coff-smeared,A const smeared,Upsilon(2S) / Upsilon(1S),0.429637,0.433574,0.456716,0.0102482
+A-const-coff-smeared,A const smeared,Upsilon(3S) / Upsilon(1S),0.316716,0.321326,0.330597,0.00744069
+A-const-coff-smeared,A const smeared,Upsilon(4S) / Upsilon(1S),0.264003,0.268955,0.203234,0.0214731
+A-const-coff-smeared,A const smeared,chi_c2(1P) / chi_c0(1P),0.0362372,0.0166372,0.229911,0.0170959
+C-gi-coff-s,C GI run (s free),psi(2S) / J/psi(1S),0.605525,0.671271,0.420889,0.0103092
+C-gi-coff-s,C GI run (s free),Upsilon(2S) / Upsilon(1S),0.534455,0.539284,0.456716,0.0102482
+C-gi-coff-s,C GI run (s free),Upsilon(3S) / Upsilon(1S),0.411102,0.417027,0.330597,0.00744069
+C-gi-coff-s,C GI run (s free),Upsilon(4S) / Upsilon(1S),0.351069,0.357565,0.203234,0.0214731
+C-gi-coff-s,C GI run (s free),chi_c2(1P) / chi_c0(1P),0.0702884,0.0322948,0.229911,0.0170959
+A-frozen-coff-first,A frozen,psi(2S) / J/psi(1S),0.419561,0.464732,0.420889,0.0103092
+A-frozen-coff-first,A frozen,Upsilon(2S) / Upsilon(1S),0.424281,0.428283,0.456716,0.0102482
+A-frozen-coff-first,A frozen,Upsilon(3S) / Upsilon(1S),0.29956,0.303931,0.330597,0.00744069
+A-frozen-coff-first,A frozen,Upsilon(4S) / Upsilon(1S),0.244691,0.249204,0.203234,0.0214731
+A-frozen-coff-first,A frozen,chi_c2(1P) / chi_c0(1P),0.266667,0.122611,0.229911,0.0170959
+D-gi-coff-s,D GI run (s free),psi(2S) / J/psi(1S),0.549017,0.608631,0.420889,0.0103092
+D-gi-coff-s,D GI run (s free),Upsilon(2S) / Upsilon(1S),0.513314,0.518066,0.456716,0.0102482
+D-gi-coff-s,D GI run (s free),Upsilon(3S) / Upsilon(1S),0.366348,0.371644,0.330597,0.00744069
+D-gi-coff-s,D GI run (s free),Upsilon(4S) / Upsilon(1S),0.288412,0.293644,0.203234,0.0214731
+D-gi-coff-s,D GI run (s free),chi_c2(1P) / chi_c0(1P),0.0820772,0.0377137,0.229911,0.0170959
+B-gi-coff-first,B GI run,psi(2S) / J/psi(1S),0.386825,0.42836,0.420889,0.0103092
+B-gi-coff-first,B GI run,Upsilon(2S) / Upsilon(1S),0.43147,0.435577,0.456716,0.0102482
+B-gi-coff-first,B GI run,Upsilon(3S) / Upsilon(1S),0.283969,0.288095,0.330597,0.00744069
+B-gi-coff-first,B GI run,Upsilon(4S) / Upsilon(1S),0.212524,0.216343,0.203234,0.0214731
+B-gi-coff-first,B GI run,chi_c2(1P) / chi_c0(1P),0.266667,0.122637,0.229911,0.0170959
+B-apt-coff-first,B APT,psi(2S) / J/psi(1S),0.392586,0.434841,0.420889,0.0103092
+B-apt-coff-first,B APT,Upsilon(2S) / Upsilon(1S),0.430822,0.434909,0.456716,0.0102482
+B-apt-coff-first,B APT,Upsilon(3S) / Upsilon(1S),0.287771,0.291955,0.330597,0.00744069
+B-apt-coff-first,B APT,Upsilon(4S) / Upsilon(1S),0.218227,0.22217,0.203234,0.0214731
+B-apt-coff-first,B APT,chi_c2(1P) / chi_c0(1P),0.266667,0.122614,0.229911,0.0170959
+B-const-coff-smeared,B const smeared,psi(2S) / J/psi(1S),0.411495,0.455381,0.420889,0.0103092
+B-const-coff-smeared,B const smeared,Upsilon(2S) / Upsilon(1S),0.437102,0.441162,0.456716,0.0102482
+B-const-coff-smeared,B const smeared,Upsilon(3S) / Upsilon(1S),0.302436,0.306826,0.330597,0.00744069
+B-const-coff-smeared,B const smeared,Upsilon(4S) / Upsilon(1S),0.234664,0.23896,0.203234,0.0214731
+B-const-coff-smeared,B const smeared,chi_c2(1P) / chi_c0(1P),0.0292714,0.0134335,0.229911,0.0170959
+B-frozen-coff-first,B frozen,psi(2S) / J/psi(1S),0.389456,0.431278,0.420889,0.0103092
+B-frozen-coff-first,B frozen,Upsilon(2S) / Upsilon(1S),0.431053,0.435149,0.456716,0.0102482
+B-frozen-coff-first,B frozen,Upsilon(3S) / Upsilon(1S),0.28723,0.291406,0.330597,0.00744069
+B-frozen-coff-first,B frozen,Upsilon(4S) / Upsilon(1S),0.217738,0.221668,0.203234,0.0214731
+B-frozen-coff-first,B frozen,chi_c2(1P) / chi_c0(1P),0.266667,0.122571,0.229911,0.0170959

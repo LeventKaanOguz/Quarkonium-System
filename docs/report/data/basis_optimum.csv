@@ -1,0 +1,17 @@
+label,system,r1,rmax,floor
+A APT smeared,ccbar,0.0347818,13.7841,7.30916
+A APT smeared,bbar,0.0556142,16.6942,2.27296
+A const,ccbar,0.0249256,24.1015,8.34373
+A const,bbar,0.0433307,17.529,5.46704
+A frozen smeared,ccbar,0.0380258,17.0516,7.38742
+A frozen smeared,bbar,0.0570539,16.6392,2.50535
+A GI run smeared,ccbar,0.0670502,15.1695,7.30481
+A GI run smeared,bbar,0.0513596,14.2277,3.06751
+B GI run smeared,ccbar,0.0667857,12.6517,7.75908
+B GI run smeared,bbar,0.0569932,15.7845,4.22597
+C GI run (s free),ccbar,0.0533855,14.8751,14.2996
+C GI run (s free),bbar,0.0536122,14.894,7.20435
+D const (s free),ccbar,0.0774765,12.3707,11.6614
+D const (s free),bbar,0.0631073,11.6104,2.07137
+D GI run (s free),ccbar,0.0633597,14.514,16.5283
+D GI run (s free),bbar,0.0516522,14.3196,2.66614

@@ -1,0 +1,133 @@
+null,alt,system,test,dchi2,dp,p_value,verdict,p_holm,p_bh
+D GI run (s free),D GI run fitmu_s (s free),ccbar,free GI amplitudes,3.43179,1,0.0639528,not significant,1,0.468987
+D GI run (s free),D GI run fitmu_s (s free),bbar,free GI amplitudes,0.616139,1,0.432486,not significant,1,0.835443
+C GI run (s free),D GI run fitmu_s (s free),ccbar,free GI amplitudes,-0.0024393,1,1,not significant,1,1
+C GI run (s free),D GI run fitmu_s (s free),bbar,free GI amplitudes,5.05228,1,0.0245935,extension significant (p < 0.05),1,0.295122
+D GI run,D GI run fitmu_s,ccbar,screening mass fitted (vs fixed),3.43469,1,0.0638405,not significant,1,0.468987
+D GI run,D GI run fitmu_s,bbar,screening mass fitted (vs fixed),0.192368,1,0.660953,not significant,1,0.948324
+C GI run,D GI run fitmu_s,ccbar,screening mass fitted (vs none),-0.0024393,1,0.5,not significant,1,0.835443
+C GI run,D GI run fitmu_s,bbar,screening mass fitted (vs none),4.56983,1,0.0162699,extension significant (p < 0.05),1,0.251535
+C GI run,C GI run +c,ccbar,c free,1.52634,1,0.216663,not significant,1,0.835443
+C GI run,C GI run +c,bbar,c free,2.48366,1,0.115035,not significant,1,0.584021
+D GI run,D GI run +c,ccbar,c free,2.13178,1,0.144273,not significant,1,0.656691
+D GI run,D GI run +c,bbar,c free,0.0985769,1,0.753544,not significant,1,1
+B const,B const +c,ccbar,c free,5.86511,1,0.0154439,extension significant (p < 0.05),1,0.251535
+B const,B const +c,bbar,c free,0.661108,1,0.416169,not significant,1,0.835443
+A GI run smeared,A GI run +c smeared,ccbar,c free,0.344977,1,0.556971,not significant,1,0.87524
+A GI run smeared,A GI run +c smeared,bbar,c free,0.439224,1,0.507497,not significant,1,0.83737
+A APT smeared,A APT +c smeared,ccbar,c free,0.0867974,1,0.768289,not significant,1,1
+A APT smeared,A APT +c smeared,bbar,c free,0.152564,1,0.696097,not significant,1,0.977498
+A frozen smeared,A frozen +c smeared,ccbar,c free,0.0417462,1,0.838104,not significant,1,1
+A frozen smeared,A frozen +c smeared,bbar,c free,0.194328,1,0.659339,not significant,1,0.948324
+B APT smeared,B APT smeared fitmu_s,ccbar,screening mass fitted (vs fixed),0.575803,1,0.447962,not significant,1,0.835443
+B APT smeared,B APT smeared fitmu_s,bbar,screening mass fitted (vs fixed),0.533133,1,0.465293,not significant,1,0.835443
+A APT smeared,B APT smeared fitmu_s,ccbar,screening mass fitted (vs none),-0.000137261,1,0.5,not significant,1,0.835443
+A APT smeared,B APT smeared fitmu_s,bbar,screening mass fitted (vs none),-0.000231996,1,0.5,not significant,1,0.835443
+B frozen smeared,B frozen smeared fitmu_s,ccbar,screening mass fitted (vs fixed),1.20699,1,0.271929,not significant,1,0.835443
+B frozen smeared,B frozen smeared fitmu_s,bbar,screening mass fitted (vs fixed),0.727724,1,0.393622,not significant,1,0.835443
+A frozen smeared,B frozen smeared fitmu_s,ccbar,screening mass fitted (vs none),-0.000465083,1,0.5,not significant,1,0.835443
+A frozen smeared,B frozen smeared fitmu_s,bbar,screening mass fitted (vs none),-0.000775725,1,0.5,not significant,1,0.835443
+B GI run smeared,B GI run smeared fitmu_s,ccbar,screening mass fitted (vs fixed),0.285202,1,0.593312,not significant,1,0.900197
+B GI run smeared,B GI run smeared fitmu_s,bbar,screening mass fitted (vs fixed),0.822607,1,0.364419,not significant,1,0.835443
+A GI run smeared,B GI run smeared fitmu_s,ccbar,screening mass fitted (vs none),0.0114523,1,0.457388,not significant,1,0.835443
+A GI run smeared,B GI run smeared fitmu_s,bbar,screening mass fitted (vs none),-0.0030491,1,0.5,not significant,1,0.835443
+B GI run smeared,B GI run +c smeared,ccbar,c free,0.0876941,1,0.767129,not significant,1,1
+B GI run smeared,B GI run +c smeared,bbar,c free,0.727246,1,0.393777,not significant,1,0.835443
+B APT smeared,B APT +c smeared,ccbar,c free,8.46717e-05,1,0.992658,not significant,1,1
+B APT smeared,B APT +c smeared,bbar,c free,0.316447,1,0.57375,not significant,1,0.891001
+B const,B const fitmu_s,ccbar,screening mass fitted (vs fixed),4.57303,1,0.0324791,extension significant (p < 0.05),1,0.355928
+B const,B const fitmu_s,bbar,screening mass fitted (vs fixed),0.0833205,1,0.772847,not significant,1,1
+A const,B const fitmu_s,ccbar,screening mass fitted (vs none),-0.00257845,1,0.5,not significant,1,0.835443
+A const,B const fitmu_s,bbar,screening mass fitted (vs none),1.98339,1,0.079517,not significant,1,0.512736
+A const,A const +c,ccbar,c free,1.62087,1,0.202971,not significant,1,0.829421
+A const,A const +c,bbar,c free,0.153578,1,0.695139,not significant,1,0.977498
+B frozen smeared,B frozen +c smeared,ccbar,c free,0.00446681,1,0.946714,not significant,1,1
+B frozen smeared,B frozen +c smeared,bbar,c free,0.399,1,0.527606,not significant,1,0.849317
+D const (s free),D const fitmu_s (s free),ccbar,free GI amplitudes,1.18495,1,0.27635,not significant,1,0.835443
+D const (s free),D const fitmu_s (s free),bbar,free GI amplitudes,0.000225195,1,0.988027,not significant,1,1
+C const (s free),D const fitmu_s (s free),ccbar,free GI amplitudes,-0.0010053,1,1,not significant,1,1
+C const (s free),D const fitmu_s (s free),bbar,free GI amplitudes,0.704741,1,0.401195,not significant,1,0.835443
+A GI run,A GI run +c,ccbar,c free,0.481749,1,0.487631,not significant,1,0.835443
+A GI run,A GI run +c,bbar,c free,0.0737559,1,0.785945,not significant,1,1
+B GI run,B GI run fitmu_s,ccbar,screening mass fitted (vs fixed),2.78309,1,0.0952644,not significant,1,0.571586
+B GI run,B GI run fitmu_s,bbar,screening mass fitted (vs fixed),0.759087,1,0.383614,not significant,1,0.835443
+A GI run,B GI run fitmu_s,ccbar,screening mass fitted (vs none),-0.00162206,1,0.5,not significant,1,0.835443
+A GI run,B GI run fitmu_s,bbar,screening mass fitted (vs none),-0.00197564,1,0.5,not significant,1,0.835443
+A frozen,A frozen +c,ccbar,c free,1.10374,1,0.293446,not significant,1,0.835443
+A frozen,A frozen +c,bbar,c free,0.00322474,1,0.954715,not significant,1,1
+B APT,B APT fitmu_s,ccbar,screening mass fitted (vs fixed),3.03331,1,0.0815717,not significant,1,0.512736
+B APT,B APT fitmu_s,bbar,screening mass fitted (vs fixed),0.486724,1,0.485392,not significant,1,0.835443
+A APT,B APT fitmu_s,ccbar,screening mass fitted (vs none),-0.00189855,1,0.5,not significant,1,0.835443
+A APT,B APT fitmu_s,bbar,screening mass fitted (vs none),47.8915,1,2.25233e-12,extension significant (p < 0.05),2.97307e-10,2.97307e-10
+A const smeared,A const +c smeared,ccbar,c free,1.2184,1,0.269676,not significant,1,0.835443
+A const smeared,A const +c smeared,bbar,c free,1.10836,1,0.292438,not significant,1,0.835443
+B const smeared,B const smeared fitmu_s,ccbar,screening mass fitted (vs fixed),5.68095,1,0.0171501,extension significant (p < 0.05),1,0.251535
+B const smeared,B const smeared fitmu_s,bbar,screening mass fitted (vs fixed),0.226656,1,0.634014,not significant,1,0.929888
+A const smeared,B const smeared fitmu_s,ccbar,screening mass fitted (vs none),-0.0034562,1,0.5,not significant,1,0.835443
+A const smeared,B const smeared fitmu_s,bbar,screening mass fitted (vs none),2.31874,1,0.0639119,not significant,1,0.468987
+B frozen,B frozen fitmu_s,ccbar,screening mass fitted (vs fixed),4.31626,1,0.0377499,extension significant (p < 0.05),1,0.355928
+B frozen,B frozen fitmu_s,bbar,screening mass fitted (vs fixed),0.681727,1,0.408993,not significant,1,0.835443
+A frozen,B frozen fitmu_s,ccbar,screening mass fitted (vs none),-0.00271452,1,0.5,not significant,1,0.835443
+A frozen,B frozen fitmu_s,bbar,screening mass fitted (vs none),-0.000405543,1,0.5,not significant,1,0.835443
+B APT,B APT +c,ccbar,c free,1.5898,1,0.207355,not significant,1,0.829421
+B APT,B APT +c,bbar,c free,0.010116,1,0.919885,not significant,1,1
+B GI run,B GI run +c,ccbar,c free,0.749371,1,0.386675,not significant,1,0.835443
+B GI run,B GI run +c,bbar,c free,0.125898,1,0.722724,not significant,1,1
+B const smeared,B const +c smeared,ccbar,c free,0.297915,1,0.585193,not significant,1,0.898203
+B const smeared,B const +c smeared,bbar,c free,1.02759,1,0.310725,not significant,1,0.835443
+B frozen,B frozen +c,ccbar,c free,0.902373,1,0.342146,not significant,1,0.835443
+B frozen,B frozen +c,bbar,c free,0.0174961,1,0.894768,not significant,1,1
+A APT,A APT +c,ccbar,c free,1.07534,1,0.299743,not significant,1,0.835443
+A APT,A APT +c,bbar,c free,41.5657,1,1.13978e-10,extension significant (p < 0.05),1.49311e-08,7.52252e-09
+D const,D const fitmu_s,ccbar,screening mass fitted (vs fixed),11.2597,1,0.000792071,extension significant (p < 0.05),0.101385,0.0209107
+D const,D const fitmu_s,bbar,screening mass fitted (vs fixed),5.20617,1,0.0225068,extension significant (p < 0.05),1,0.295122
+C const,D const fitmu_s,ccbar,screening mass fitted (vs none),-0.00864727,1,0.5,not significant,1,0.835443
+C const,D const fitmu_s,bbar,screening mass fitted (vs none),14.5621,1,6.78088e-05,extension significant (p < 0.05),0.00881515,0.00298359
+C const,C const +c,ccbar,c free,10.1895,1,0.0014124,extension significant (p < 0.05),0.179374,0.0310727
+C const,C const +c,bbar,c free,3.13023,1,0.0768531,not significant,1,0.512736
+D const,D const +c,ccbar,c free,13.4631,1,0.000243298,extension significant (p < 0.05),0.0313855,0.00802885
+D const,D const +c,bbar,c free,0.0526595,1,0.818498,not significant,1,1
+C GI run (s free),C free run (s free),ccbar,free GI amplitudes,5.98846,3,0.112173,not significant,1,0.584021
+C GI run (s free),C free run (s free),bbar,free GI amplitudes,4.87576,3,0.181124,not significant,1,0.774135
+C GI run,C free run,ccbar,free GI amplitudes,5.54995,3,0.135681,not significant,1,0.63964
+C GI run,C free run,bbar,free GI amplitudes,4.86693,3,0.181804,not significant,1,0.774135
+D GI run (s free),D free run (s free),ccbar,free GI amplitudes,8.47119,3,0.0372142,extension significant (p < 0.05),1,0.355928
+D GI run (s free),D free run (s free),bbar,free GI amplitudes,0.820036,3,0.844669,not significant,1,1
+D GI run,D free run,ccbar,free GI amplitudes,8.03914,3,0.0452096,extension significant (p < 0.05),1,0.397845
+D GI run,D free run,bbar,free GI amplitudes,0.828555,3,0.842626,not significant,1,1
+B GI run none,B GI run +c none,ccbar,c free,0,1,1,not significant,1,1
+B GI run none,B GI run +c none,bbar,c free,1.26708,1,0.260316,not significant,1,0.835443
+A frozen none,A frozen +c none,ccbar,c free,0,1,1,not significant,1,1
+A frozen none,A frozen +c none,bbar,c free,0.072355,1,0.787938,not significant,1,1
+A APT none,A APT +c none,ccbar,c free,0,1,1,not significant,1,1
+A APT none,A APT +c none,bbar,c free,6.56943e-05,1,0.993533,not significant,1,1
+A GI run none,A GI run +c none,ccbar,c free,0,1,1,not significant,1,1
+A GI run none,A GI run +c none,bbar,c free,0.0782312,1,0.779709,not significant,1,1
+B APT none,B APT +c none,ccbar,c free,0,1,1,not significant,1,1
+B APT none,B APT +c none,bbar,c free,0.58707,1,0.443554,not significant,1,0.835443
+B frozen none,B frozen +c none,ccbar,c free,0,1,1,not significant,1,1
+B frozen none,B frozen +c none,bbar,c free,0.838013,1,0.359966,not significant,1,0.835443
+B const none,B const +c none,ccbar,c free,0,1,1,not significant,1,1
+B const none,B const +c none,bbar,c free,0.404082,1,0.524988,not significant,1,0.849317
+A const none,A const +c none,ccbar,c free,0,1,1,not significant,1,1
+A const none,A const +c none,bbar,c free,0.00208947,1,0.963541,not significant,1,1
+C free run,C free run +c,ccbar,c free,0.0455954,1,0.830913,not significant,1,1
+C free run,C free run +c,bbar,c free,0.27025,1,0.603164,not significant,1,0.904746
+C GI run +c,C free run +c,ccbar,free GI amplitudes,4.06921,3,0.254087,not significant,1,0.835443
+C GI run +c,C free run +c,bbar,free GI amplitudes,2.65352,3,0.448183,not significant,1,0.835443
+D free run (s free),D free run fitmu_s (s free),ccbar,free GI amplitudes,0.95061,1,0.329564,not significant,1,0.835443
+D free run (s free),D free run fitmu_s (s free),bbar,free GI amplitudes,1.96136e-05,1,0.996466,not significant,1,1
+C free run (s free),D free run fitmu_s (s free),ccbar,free GI amplitudes,-0.000893172,1,1,not significant,1,1
+C free run (s free),D free run fitmu_s (s free),bbar,free GI amplitudes,0.380433,1,0.537372,not significant,1,0.854615
+D GI run fitmu_s (s free),D free run fitmu_s (s free),ccbar,free GI amplitudes,5.99001,3,0.112097,not significant,1,0.584021
+D GI run fitmu_s (s free),D free run fitmu_s (s free),bbar,free GI amplitudes,0.203916,3,0.976955,not significant,1,1
+D free run,D free run fitmu_s,ccbar,screening mass fitted (vs fixed),0.947024,1,0.330478,not significant,1,0.835443
+D free run,D free run fitmu_s,bbar,screening mass fitted (vs fixed),0.0101388,1,0.919795,not significant,1,1
+C free run,D free run fitmu_s,ccbar,screening mass fitted (vs none),-0.000916241,1,0.5,not significant,1,0.835443
+C free run,D free run fitmu_s,bbar,screening mass fitted (vs none),0.349227,1,0.277276,not significant,1,0.835443
+D GI run fitmu_s,D free run fitmu_s,ccbar,screening mass fitted (vs fixed),5.55148,3,0.135592,not significant,1,0.63964
+D GI run fitmu_s,D free run fitmu_s,bbar,screening mass fitted (vs fixed),0.646326,3,0.88575,not significant,1,1
+D free run,D free run +c,ccbar,c free,0.248437,1,0.618178,not significant,1,0.916848
+D free run,D free run +c,bbar,c free,0.0131751,1,0.908617,not significant,1,1
+D GI run +c,D free run +c,ccbar,free GI amplitudes,6.1558,3,0.104271,not significant,1,0.584021
+D GI run +c,D free run +c,bbar,free GI amplitudes,0.743153,3,0.86301,not significant,1,1

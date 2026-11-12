@@ -1,0 +1,15 @@
+criterion,first,second,third
+σ_th (iterated),A APT smeared,A frozen smeared,A GI run smeared
+AIC 10,A APT smeared,A frozen smeared,A GI run smeared
+AICc 10,D GI run (s free),C GI run (s free),A APT smeared
+BIC 10,A APT smeared,A frozen smeared,A GI run smeared
+−ln Z 10,B APT smeared,B GI run smeared,A APT smeared
+AIC 13.3/3.9,A APT smeared,A frozen smeared,D const (s free)
+AICc 13.3/3.9,D GI run (s free),A APT smeared,A frozen smeared
+BIC 13.3/3.9,A APT smeared,A frozen smeared,D const (s free)
+−ln Z 13.3/3.9,D GI run (s free),A APT smeared,A frozen smeared
+LOO RMS,A GI run smeared,A APT smeared,A frozen smeared
+LMO RMS,B APT smeared,A frozen smeared,B GI run smeared
+−elpd LOO,A APT smeared,A GI run smeared,D const (s free)
+above-thr. RMS,A frozen,A frozen smeared,A GI run
+|B_c − PDG|,C GI run (s free),D GI run (s free),B frozen smeared

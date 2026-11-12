@@ -1,0 +1,101 @@
+tag,label,system,r1,rmax,floor,trace,num_all,trace_excess_MeV
+A-apt-coff-smeared,A APT smeared,ccbar,0.01,120,7.30916,47.6917,0.306058,0.341998
+A-apt-coff-smeared,A APT smeared,bbar,0.01,120,2.27371,235.661,7.40604,10.0763
+A-apt-coff-smeared,A APT smeared,ccbar,0.01,15,7.30916,47.6913,0.00202926,0.0113516
+A-apt-coff-smeared,A APT smeared,bbar,0.01,15,2.27295,235.651,0.0581295,0.171429
+A-apt-coff-smeared,A APT smeared,ccbar,0.01,30,7.30916,47.6914,0.0227787,0.0334212
+A-apt-coff-smeared,A APT smeared,bbar,0.01,30,2.27302,235.654,2.88702,3.35344
+A-apt-coff-smeared,A APT smeared,ccbar,0.01,60,7.30916,47.6914,0.0189088,0.0330765
+A-apt-coff-smeared,A APT smeared,bbar,0.01,60,2.27337,235.661,8.13331,9.67716
+A-apt-coff-smeared,A APT smeared,ccbar,0.01,8,7.30916,47.6913,0.00512359,0.014625
+A-apt-coff-smeared,A APT smeared,bbar,0.01,8,2.27295,235.651,0.332033,0.4156
+A-apt-coff-smeared,A APT smeared,ccbar,0.02,120,7.30916,47.6914,0.0769536,0.0922525
+A-apt-coff-smeared,A APT smeared,bbar,0.02,120,2.27337,235.659,6.46953,7.68249
+A-apt-coff-smeared,A APT smeared,ccbar,0.02,15,7.30916,47.6913,0.000327898,0.0095458
+A-apt-coff-smeared,A APT smeared,bbar,0.02,15,2.27295,235.651,0.0103618,0.078546
+A-apt-coff-smeared,A APT smeared,ccbar,0.02,30,7.30916,47.6913,0.0061448,0.0154981
+A-apt-coff-smeared,A APT smeared,bbar,0.02,30,2.27296,235.652,0.729667,0.870846
+A-apt-coff-smeared,A APT smeared,ccbar,0.02,60,7.30916,47.6914,0.00823332,0.0186451
+A-apt-coff-smeared,A APT smeared,bbar,0.02,60,2.27299,235.654,2.69719,3.2144
+A-apt-coff-smeared,A APT smeared,ccbar,0.02,8,7.30916,47.6913,0.0003196,0.0095055
+A-apt-coff-smeared,A APT smeared,bbar,0.02,8,2.27295,235.651,0.00342055,0.058691
+A-apt-coff-smeared,A APT smeared,ccbar,0.05,120,7.30916,47.6914,0.0188348,0.0286023
+A-apt-coff-smeared,A APT smeared,bbar,0.05,120,2.27298,235.652,0.565278,0.771581
+A-apt-coff-smeared,A APT smeared,ccbar,0.05,15,7.30916,47.6913,5.84701e-06,0.0091655
+A-apt-coff-smeared,A APT smeared,bbar,0.05,15,2.27295,235.651,0.00178032,0.057897
+A-apt-coff-smeared,A APT smeared,ccbar,0.05,30,7.30916,47.6913,3.61466e-06,0.0091734
+A-apt-coff-smeared,A APT smeared,bbar,0.05,30,2.27296,235.651,0.00109597,0.063709
+A-apt-coff-smeared,A APT smeared,ccbar,0.05,60,7.30916,47.6913,0.00253183,0.0117615
+A-apt-coff-smeared,A APT smeared,bbar,0.05,60,2.27296,235.651,0.321761,0.417259
+A-apt-coff-smeared,A APT smeared,ccbar,0.05,8,7.30916,47.6913,1.62433e-05,0.0091929
+A-apt-coff-smeared,A APT smeared,bbar,0.05,8,2.27295,235.651,0.00445645,0.058333
+A-apt-coff-smeared,A APT smeared,ccbar,0.1,120,7.30915,47.6913,0.000275422,0.0086933
+A-apt-coff-smeared,A APT smeared,bbar,0.1,120,2.27312,235.651,0.0815296,0.171561
+A-apt-coff-smeared,A APT smeared,ccbar,0.1,15,7.30915,47.6913,4.18374e-05,0.0087088
+A-apt-coff-smeared,A APT smeared,bbar,0.1,15,2.27305,235.651,0.00405129,0.052682
+A-apt-coff-smeared,A APT smeared,ccbar,0.1,30,7.30915,47.6913,6.47814e-05,0.0086066
+A-apt-coff-smeared,A APT smeared,bbar,0.1,30,2.27307,235.651,0.00356563,0.053044
+A-apt-coff-smeared,A APT smeared,ccbar,0.1,60,7.30915,47.6913,9.0192e-05,0.0085538
+A-apt-coff-smeared,A APT smeared,bbar,0.1,60,2.2731,235.651,0.00443295,0.052844
+A-apt-coff-smeared,A APT smeared,ccbar,0.1,8,7.30915,47.6913,2.80478e-05,0.0087865
+A-apt-coff-smeared,A APT smeared,bbar,0.1,8,2.27304,235.651,0.00518707,0.053722
+A-apt-coff-smeared,A APT smeared,ccbar,0.2,120,7.30903,47.6913,0.00103373,0
+A-apt-coff-smeared,A APT smeared,bbar,0.2,120,2.27493,235.651,0.0108312,0
+A-apt-coff-smeared,A APT smeared,ccbar,0.2,15,7.30907,47.6913,0.000328461,0.0030116
+A-apt-coff-smeared,A APT smeared,bbar,0.2,15,2.27427,235.651,0.00344141,0.015122
+A-apt-coff-smeared,A APT smeared,ccbar,0.2,30,7.30906,47.6913,0.000492713,0.0022516
+A-apt-coff-smeared,A APT smeared,bbar,0.2,30,2.27443,235.651,0.0051471,0.01008
+A-apt-coff-smeared,A APT smeared,ccbar,0.2,60,7.30904,47.6913,0.000749887,0.0011284
+A-apt-coff-smeared,A APT smeared,bbar,0.2,60,2.27467,235.651,0.0078249,0.000407
+A-apt-coff-smeared,A APT smeared,ccbar,0.2,8,7.30908,47.6913,0.000228797,0.0034078
+A-apt-coff-smeared,A APT smeared,bbar,0.2,8,2.27418,235.651,0.00240352,0.020482
+D-const-coff-s,D const (s free),ccbar,0.01,120,11.6614,47.5663,0.00575861,0.0065242
+D-const-coff-s,D const (s free),bbar,0.01,120,2.07172,235.602,1.83395,2.52064
+D-const-coff-s,D const (s free),ccbar,0.01,15,11.6614,47.5663,1.09182e-05,1.78e-05
+D-const-coff-s,D const (s free),bbar,0.01,15,2.07137,235.599,0.00530059,0.00789
+D-const-coff-s,D const (s free),ccbar,0.01,30,11.6614,47.5663,0.000199283,0.0002124
+D-const-coff-s,D const (s free),bbar,0.01,30,2.07137,235.6,0.536869,0.623983
+D-const-coff-s,D const (s free),ccbar,0.01,60,11.6614,47.5663,0.000249747,0.0003417
+D-const-coff-s,D const (s free),bbar,0.01,60,2.07141,235.602,2.01341,2.42243
+D-const-coff-s,D const (s free),ccbar,0.01,8,11.6614,47.5663,2.46227e-06,7.1e-06
+D-const-coff-s,D const (s free),bbar,0.01,8,2.07137,235.599,0.0314838,0.034022
+D-const-coff-s,D const (s free),ccbar,0.02,120,11.6614,47.5663,0.000944548,0.0010543
+D-const-coff-s,D const (s free),bbar,0.02,120,2.07144,235.601,1.47529,1.77142
+D-const-coff-s,D const (s free),ccbar,0.02,15,11.6614,47.5663,1.1769e-06,4.03e-05
+D-const-coff-s,D const (s free),bbar,0.02,15,2.07137,235.599,0.00335426,0.004415
+D-const-coff-s,D const (s free),ccbar,0.02,30,11.6614,47.5663,2.90648e-05,3.12e-05
+D-const-coff-s,D const (s free),bbar,0.02,30,2.07137,235.599,0.0941684,0.106965
+D-const-coff-s,D const (s free),ccbar,0.02,60,11.6614,47.5663,6.72397e-05,7.81e-05
+D-const-coff-s,D const (s free),bbar,0.02,60,2.07137,235.6,0.539292,0.638525
+D-const-coff-s,D const (s free),ccbar,0.02,8,11.6614,47.5663,1.8071e-07,6.7e-06
+D-const-coff-s,D const (s free),bbar,0.02,8,2.07137,235.599,0.000126347,0.00015
+D-const-coff-s,D const (s free),ccbar,0.05,120,11.6614,47.5663,0.000164123,0.0001779
+D-const-coff-s,D const (s free),bbar,0.05,120,2.07137,235.599,0.0574474,0.079312
+D-const-coff-s,D const (s free),ccbar,0.05,15,11.6614,47.5663,1.66089e-09,9.00002e-07
+D-const-coff-s,D const (s free),bbar,0.05,15,2.07137,235.599,6.21701e-05,9.2e-05
+D-const-coff-s,D const (s free),ccbar,0.05,30,11.6614,47.5663,7.04397e-08,8e-07
+D-const-coff-s,D const (s free),bbar,0.05,30,2.07137,235.599,0.000151218,0.000231
+D-const-coff-s,D const (s free),ccbar,0.05,60,11.6614,47.5663,9.52872e-06,1.07e-05
+D-const-coff-s,D const (s free),bbar,0.05,60,2.07137,235.599,0.030843,0.035445
+D-const-coff-s,D const (s free),ccbar,0.05,8,11.6614,47.5663,1.2701e-10,0
+D-const-coff-s,D const (s free),bbar,0.05,8,2.07137,235.599,3.3306e-05,0.000269
+D-const-coff-s,D const (s free),ccbar,0.1,120,11.6614,47.5663,1.62429e-06,2.8e-06
+D-const-coff-s,D const (s free),bbar,0.1,120,2.07137,235.599,0.0161805,0.020991
+D-const-coff-s,D const (s free),ccbar,0.1,15,11.6614,47.5663,6.29718e-10,8e-07
+D-const-coff-s,D const (s free),bbar,0.1,15,2.07137,235.599,8.79333e-05,8.6e-05
+D-const-coff-s,D const (s free),ccbar,0.1,30,11.6614,47.5663,7.90479e-11,8e-07
+D-const-coff-s,D const (s free),bbar,0.1,30,2.07137,235.599,7.85929e-05,0.000159
+D-const-coff-s,D const (s free),ccbar,0.1,60,11.6614,47.5663,1.11202e-07,9.99997e-07
+D-const-coff-s,D const (s free),bbar,0.1,60,2.07137,235.599,0.000142732,0.000388
+D-const-coff-s,D const (s free),ccbar,0.1,8,11.6614,47.5663,3.33422e-09,1.2e-06
+D-const-coff-s,D const (s free),bbar,0.1,8,2.07137,235.599,0.000191738,7.6e-05
+D-const-coff-s,D const (s free),ccbar,0.2,120,11.6614,47.5663,1.77922e-07,2.99998e-07
+D-const-coff-s,D const (s free),bbar,0.2,120,2.07137,235.599,0.000922485,0.001283
+D-const-coff-s,D const (s free),ccbar,0.2,15,11.6614,47.5663,2.32969e-09,2.08e-05
+D-const-coff-s,D const (s free),bbar,0.2,15,2.07137,235.599,0.000105642,5e-05
+D-const-coff-s,D const (s free),ccbar,0.2,30,11.6614,47.5663,6.46594e-10,6.5e-06
+D-const-coff-s,D const (s free),bbar,0.2,30,2.07137,235.599,0.000110201,4.7e-05
+D-const-coff-s,D const (s free),ccbar,0.2,60,11.6614,47.5663,8.03801e-10,3.93e-05
+D-const-coff-s,D const (s free),bbar,0.2,60,2.07137,235.599,0.000130926,0
+D-const-coff-s,D const (s free),ccbar,0.2,8,11.6614,47.5663,2.37677e-09,6.71e-05
+D-const-coff-s,D const (s free),bbar,0.2,8,2.07137,235.599,8.09212e-05,0.000119

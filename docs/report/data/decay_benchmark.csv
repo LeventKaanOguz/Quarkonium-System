@@ -1,0 +1,39 @@
+tag,label,system,n,chi2n,p,ppp,worst,worst_pull,log_chi2n,log_p,log_worst,log_worst_z
+A-apt-coff-smeared,A APT smeared,ccbar,6,1.58791,0.146014,0.018648,chi_c0(1P),-1.97174,4.00031,0.00052184,chi_c0(1P),-3.94339
+A-apt-coff-smeared,A APT smeared,bbar,3,2.00523,0.110849,0.0976387,Upsilon(3S),2.2613,1.48318,0.216837,Upsilon(3S),1.9605
+A-frozen-coff-smeared,A frozen smeared,ccbar,6,1.39093,0.213861,0.0375031,chi_c0(1P),-1.95931,3.91179,0.000653215,chi_c0(1P),-4.06206
+A-frozen-coff-smeared,A frozen smeared,bbar,3,2.68703,0.0447659,0.035309,Upsilon(3S),2.6327,1.92964,0.122343,Upsilon(3S),2.23474
+A-gi-coff-smeared,A GI run smeared,ccbar,6,1.47905,0.180771,0.0284752,chi_c0(1P),-1.99904,3.80156,0.000862919,chi_c0(1P),-3.95821
+A-gi-coff-smeared,A GI run smeared,bbar,3,3.17252,0.0231452,0.0184471,Upsilon(3S),2.91348,2.21322,0.0843142,Upsilon(3S),2.44018
+B-apt-coff-smeared,B APT smeared,ccbar,6,1.22398,0.290214,0.0174573,chi_c2(1P),1.80569,3.40422,0.00232553,chi_c0(1P),-3.55657
+B-apt-coff-smeared,B APT smeared,bbar,3,4.64232,0.00300627,0.00206145,Upsilon(3S),3.61594,3.00543,0.0290749,Upsilon(3S),2.90136
+B-gi-coff-smeared,B GI run smeared,ccbar,6,1.17682,0.315252,0.0205841,chi_c0(1P),-1.66267,3.26754,0.00325467,chi_c0(1P),-3.58798
+B-gi-coff-smeared,B GI run smeared,bbar,3,6.51994,0.000209397,0.000148735,Upsilon(3S),4.30672,3.95947,0.00781149,Upsilon(3S),3.34048
+B-frozen-coff-smeared,B frozen smeared,ccbar,6,1.11515,0.350382,0.0188188,chi_c0(1P),-1.60474,3.33349,0.00276836,chi_c0(1P),-3.64202
+B-frozen-coff-smeared,B frozen smeared,bbar,3,5.96915,0.000459613,0.000230905,Upsilon(3S),4.11955,3.75363,0.0103957,Upsilon(3S),3.20988
+A-const-coff-first,A const,ccbar,6,1.13088,0.34116,0.317812,chi_c0(1P),-1.89137,2.02444,0.0587757,chi_c0(1P),-2.56895
+A-const-coff-first,A const,bbar,3,0.0805493,0.970601,0.951347,Upsilon(1S),-0.365051,0.078677,0.971573,Upsilon(1S),-0.375957
+C-const-coff-s,C const (s free),ccbar,6,1.18393,0.311376,0.259161,chi_c0(1P),-1.80186,5.57518,8.58495e-06,chi_c0(1P),-4.98579
+C-const-coff-s,C const (s free),bbar,3,0.4154,0.741946,0.730806,Upsilon(1S),1.02628,0.35368,0.786486,Upsilon(1S),0.949397
+D-const-coff-s,D const (s free),ccbar,6,1.15208,0.329016,0.287511,chi_c0(1P),-1.77966,5.34899,1.56549e-05,chi_c0(1P),-4.90723
+D-const-coff-s,D const (s free),bbar,3,0.503454,0.679881,0.659174,Upsilon(1S),1.20506,0.432562,0.729682,Upsilon(1S),1.10063
+B-const-coff-first,B const,ccbar,6,1.09225,0.364115,0.316261,chi_c0(1P),-1.96918,1.98132,0.0645171,chi_c0(1P),-2.77656
+B-const-coff-first,B const,bbar,3,0.430058,0.731468,0.696384,Upsilon(3S),1.03541,0.354796,0.785677,Upsilon(3S),0.964455
+A-gi-coff-first,A GI run,ccbar,6,0.944992,0.461158,0.358022,chi_c0(1P),-1.49824,1.4623,0.186706,eta_c(1S),-2.05229
+A-gi-coff-first,A GI run,bbar,3,2.88439,0.0342758,0.0292483,Upsilon(3S),2.78387,2.04587,0.105104,Upsilon(3S),2.35094
+A-const-coff-smeared,A const smeared,ccbar,6,1.23946,0.282337,0.038814,chi_c0(1P),-1.85179,4.50307,0.000143662,chi_c0(1P),-4.37093
+A-const-coff-smeared,A const smeared,bbar,3,0.091032,0.965006,0.88052,Upsilon(2S),0.396939,0.0759026,0.972997,Upsilon(2S),0.385869
+C-gi-coff-s,C GI run (s free),ccbar,6,1.20636,0.299381,0.204503,chi_c0(1P),-1.82669,6.8831,2.52872e-07,chi_c0(1P),-5.48746
+C-gi-coff-s,C GI run (s free),bbar,3,0.916704,0.431778,0.361031,Upsilon(1S),0.715605,0.879261,0.450904,Upsilon(3S),-0.749202
+A-frozen-coff-first,A frozen,ccbar,6,0.967398,0.445456,0.323408,chi_c0(1P),-1.57872,1.51625,0.168168,eta_c(1S),-2.00218
+A-frozen-coff-first,A frozen,bbar,3,2.38141,0.0674404,0.0567015,Upsilon(3S),2.47939,1.74012,0.156355,Upsilon(3S),2.12534
+D-gi-coff-s,D GI run (s free),ccbar,6,1.16874,0.319698,0.243633,chi_c0(1P),-1.79926,6.38969,9.64696e-07,chi_c0(1P),-5.33292
+D-gi-coff-s,D GI run (s free),bbar,3,0.338175,0.797737,0.798756,Upsilon(1S),0.407806,0.333493,0.801136,Upsilon(1S),0.395033
+B-gi-coff-first,B GI run,ccbar,6,0.99851,0.424192,0.272275,chi_c0(1P),-1.60356,1.48044,0.180287,chi_c0(1P),-2.03003
+B-gi-coff-first,B GI run,bbar,3,5.85416,0.000541358,0.000413765,Upsilon(3S),4.10117,3.64533,0.0120771,Upsilon(3S),3.24396
+B-apt-coff-first,B APT,ccbar,6,0.980819,0.436205,0.295848,chi_c0(1P),-1.55892,1.54302,0.159574,eta_c(1S),-2.04771
+B-apt-coff-first,B APT,bbar,3,3.9975,0.00740885,0.005123,Upsilon(3S),3.37035,2.65996,0.0464293,Upsilon(3S),2.76032
+B-const-coff-smeared,B const smeared,ccbar,6,0.966561,0.446037,0.0482525,psi(2S),1.5652,3.77284,0.000927611,chi_c0(1P),-3.89434
+B-const-coff-smeared,B const smeared,bbar,3,1.04204,0.372587,0.288998,Upsilon(3S),1.70695,0.839684,0.471858,Upsilon(3S),1.51916
+B-frozen-coff-first,B frozen,ccbar,6,1.02948,0.403672,0.259294,chi_c0(1P),-1.67548,1.5459,0.158673,chi_c0(1P),-2.16971
+B-frozen-coff-first,B frozen,bbar,3,5.22322,0.00132525,0.00100616,Upsilon(3S),3.86773,3.3457,0.0182533,Upsilon(3S),3.08802

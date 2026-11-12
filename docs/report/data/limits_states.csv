@@ -1,0 +1,609 @@
+tag,label,system,state,in_fit,r_rms_fm,v2,p4_term_MeV,below_threshold_MeV,resid_MeV,resid_oos_MeV,err_MeV,floor_MeV
+A-apt-coff-smeared,A APT smeared,ccbar,eta_c(1S),1,0.344181,0.304009,106.918,745.605,-5.40764,19.003,11.4678,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,J/psi(1S),1,0.395881,0.216455,47.2022,632.8,6.55813,-21.2724,8.87254,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,chi_c0(1P),1,0.558809,0.303455,70.7749,314.203,7.0308,-16.2619,8.71132,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,chi_c1(1P),1,0.61999,0.238041,39.9356,219.03,-3.97966,4.92576,8.94854,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,h_c(1P),1,0.629587,0.230163,37.2698,204.332,-8.1679,11.0111,7.46483,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,chi_c2(1P),1,0.67011,0.198567,25.3821,173.532,2.95339,-5.38964,10.9625,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,eta_c(2S),1,0.792166,0.26197,90.5865,91.9372,0.132194,-0.227055,11.1315,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,psi(2S),1,0.830984,0.240625,61.7614,43.6026,0.911036,-3.3468,15.8421,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,psi(3770),0,0.808217,0.272403,46.1997,-43.9771,-3.98465,-3.98465,9.31477,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,chi_c2(3930),0,1.06531,0.247508,47.4549,-192.761,35.1002,35.1002,12.7728,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,psi(4040),0,1.20241,0.282481,79.9903,-309.9,26.3123,26.3123,19.1407,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,psi(4160),0,1.18636,0.307872,74.0161,-461.618,-78.7144,-78.7144,19.1225,7.30916
+A-apt-coff-smeared,A APT smeared,ccbar,psi(4415),0,1.53011,0.325071,100.599,-684.813,-41.5281,-41.5281,30.0908,7.30916
+A-apt-coff-smeared,A APT smeared,bbar,eta_b(1S),1,0.206649,0.096068,34.3458,1160.3,0.548782,-1.65888,5.7054,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,Upsilon(1S),1,0.222633,0.0792626,20.6961,1098.6,-0.973756,4.52933,4.85412,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,chi_b0(1P),1,0.361828,0.0809306,14.9782,699.56,0.0587168,-0.0334576,3.092,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,chi_b1(1P),1,0.380215,0.0716963,10.9674,666.22,-1.03927,1.33475,2.73747,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,h_b(1P),1,0.384104,0.0700013,10.3609,659.721,-1.3399,1.75041,2.84033,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,chi_b2(1P),1,0.395285,0.0652697,8.56915,646.79,2.99511,-4.29589,2.47701,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,eta_b(2S),1,0.486336,0.0784066,26.3838,560,3.76428,-3.9771,4.96523,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,Upsilon(2S),1,0.500176,0.0739091,20.2213,535.6,2.1526,-2.48142,2.49921,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,chi_b0(2P),1,0.626122,0.0826345,19.7449,326.5,-0.295129,0.386618,3.03354,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,chi_b1(2P),1,0.641296,0.0778918,16.1759,303.54,-2.90196,3.42973,2.41859,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,h_b(2P),1,0.644307,0.077072,15.6404,299.2,-3.49374,4.09545,2.59673,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,chi_b2(2P),1,0.654289,0.0741031,13.7273,290.35,-0.346641,0.374885,2.75386,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,Upsilon(3S),1,0.745178,0.0817515,22.9396,203.9,3.03312,-5.52468,2.68266,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,Upsilon_2(1D),0,0.527992,0.0709998,8.93102,395.294,-9.40214,-9.40214,2.87939,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,chi_b1(3P),0,0.8687,0.0871893,20.8682,45.58,11.9598,11.9598,3.22208,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,chi_b2(3P),0,0.880246,0.0843849,18.457,34.98,14.0224,14.0224,3.25852,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,Upsilon(4S),0,0.962705,0.0914248,26.7265,-20.3809,37.9877,37.9877,3.92537,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,Upsilon(10860),0,1.16066,0.101343,31.0803,-326.222,-45.8759,-45.8759,5.40732,2.27295
+A-apt-coff-smeared,A APT smeared,bbar,Upsilon(11020),0,1.34429,0.111102,35.8169,-440.87,38.2052,38.2052,7.50277,2.27295
+A-frozen-coff-smeared,A frozen smeared,ccbar,eta_c(1S),1,0.353493,0.323512,113.308,745.605,-6.49258,22.689,9.1733,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,J/psi(1S),1,0.408218,0.228411,49.2236,632.8,7.26776,-22.7402,7.37854,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,chi_c0(1P),1,0.573426,0.324034,76.2649,314.203,7.82709,-18.3072,7.65616,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,chi_c1(1P),1,0.638358,0.252235,42.3662,219.03,-2.76648,3.41151,9.26886,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,h_c(1P),1,0.648452,0.243768,39.5452,204.332,-7.30838,9.81504,8.11263,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,chi_c2(1P),1,0.690297,0.210016,26.7536,173.532,0.77954,-1.44799,11.6348,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,eta_c(2S),1,0.815392,0.276914,95.3373,91.9372,-0.0100106,0.0171498,11.1726,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,psi(2S),1,0.855257,0.254948,64.9668,43.6026,0.718624,-2.62125,16.1521,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,psi(3770),0,0.83184,0.288878,49.1234,-43.9771,0.431436,0.431436,9.48534,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,chi_c2(3930),0,1.0924,0.264451,50.768,-192.761,34.4175,34.4175,12.8272,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,psi(4040),0,1.23166,0.302689,85.5583,-309.9,28.5201,28.5201,19.2307,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,psi(4160),0,1.21504,0.330043,79.911,-461.618,-73.5147,-73.5147,19.2812,7.38742
+A-frozen-coff-smeared,A frozen smeared,ccbar,psi(4415),0,1.56085,0.351475,109.206,-684.813,-34.2381,-34.2381,29.9541,7.38742
+A-frozen-coff-smeared,A frozen smeared,bbar,eta_b(1S),1,0.208332,0.0971366,34.2313,1160.3,0.444604,-1.34352,6.16914,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,Upsilon(1S),1,0.224446,0.0801643,20.5768,1098.6,-1.1068,4.97229,5.24031,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,chi_b0(1P),1,0.363735,0.0825773,15.37,699.56,-0.174027,0.333648,3.38688,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,chi_b1(1P),1,0.382463,0.073056,11.2245,666.22,-1.05463,1.35284,3.01788,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,h_b(1P),1,0.3864,0.0713215,10.6025,659.721,-1.32215,1.73126,3.12336,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,chi_b2(1P),1,0.397787,0.0664445,8.7546,646.79,2.75358,-3.94254,2.88392,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,eta_b(2S),1,0.490452,0.0793421,26.4734,560,4.87636,-5.18535,5.0636,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,Upsilon(2S),1,0.504477,0.0747599,20.2601,535.6,3.07761,-3.53756,2.60562,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,chi_b0(2P),1,0.631194,0.0837231,20.0459,326.5,-0.287363,0.38704,3.3216,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,chi_b1(2P),1,0.646568,0.0789109,16.4037,303.54,-3.02823,3.57373,2.68415,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,h_b(2P),1,0.649612,0.0780817,15.8598,299.2,-3.66913,4.30994,2.81883,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,chi_b2(2P),1,0.659638,0.0750887,13.9179,290.35,-0.813106,0.947628,3.00886,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,Upsilon(3S),1,0.751588,0.082748,23.0477,203.9,3.144,-5.6964,3.00867,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,Upsilon_2(1D),0,0.532119,0.0720679,9.07716,395.294,-8.72277,-8.72277,3.10039,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,chi_b1(3P),0,0.875179,0.0885057,21.1854,45.58,11.5111,11.5111,3.52334,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,chi_b2(3P),0,0.886689,0.0856899,18.7414,34.98,13.3178,13.3178,3.55972,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,Upsilon(4S),0,0.969657,0.0928677,26.9964,-20.3809,37.9826,37.9826,4.26946,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,Upsilon(10860),0,1.16711,0.10334,31.5791,-326.222,-45.1785,-45.1785,5.83344,2.50535
+A-frozen-coff-smeared,A frozen smeared,bbar,Upsilon(11020),0,1.34965,0.113685,36.5948,-440.87,40.2473,40.2473,7.97622,2.50535
+A-gi-coff-smeared,A GI run smeared,ccbar,eta_c(1S),1,0.349516,0.307171,103.022,745.605,-4.67965,15.8517,12.5941,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,J/psi(1S),1,0.400523,0.221928,47.7091,632.8,6.50829,-21.0447,8.89794,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,chi_c0(1P),1,0.566308,0.309686,71.0939,314.203,5.49003,-13.4398,10.488,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,chi_c1(1P),1,0.627777,0.244317,41.104,219.03,-4.53885,5.61341,8.79783,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,h_c(1P),1,0.636786,0.237,38.7344,204.332,-8.74032,11.7721,7.04722,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,chi_c2(1P),1,0.680984,0.20236,25.8473,173.532,4.36953,-8.1514,10.4679,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,eta_c(2S),1,0.808297,0.262955,88.2117,91.9372,1.74973,-2.98393,10.931,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,psi(2S),1,0.847533,0.242384,61.5483,43.6026,-0.0843553,0.311826,15.6271,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,psi(3770),0,0.82059,0.278427,47.3634,-43.9771,-6.63834,-6.63834,9.31165,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,chi_c2(3930),0,1.09217,0.247112,46.7759,-192.761,28.3653,28.3653,13.0712,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,psi(4040),0,1.2339,0.280914,78.1953,-309.9,15.9448,15.9448,19.627,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,psi(4160),0,1.21688,0.30735,73.0387,-461.618,-89.7246,-89.7246,19.6323,7.30481
+A-gi-coff-smeared,A GI run smeared,ccbar,psi(4415),0,1.57243,0.322668,97.6905,-684.813,-61.3113,-61.3113,31.1812,7.30481
+A-gi-coff-smeared,A GI run smeared,bbar,eta_b(1S),1,0.207777,0.0952539,32.7264,1160.3,0.94569,-3.21398,7.18076,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,Upsilon(1S),1,0.223318,0.0791581,19.9979,1098.6,-1.44212,6.37425,6.18792,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,chi_b0(1P),1,0.361247,0.081873,15.1674,699.56,-1.30909,2.07706,4.01188,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,chi_b1(1P),1,0.379523,0.0726578,11.2012,666.22,-1.70347,2.16694,3.63496,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,h_b(1P),1,0.383297,0.0710026,10.6111,659.721,-1.93377,2.53205,3.73829,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,chi_b2(1P),1,0.394923,0.0660492,8.75096,646.79,3.44983,-4.93308,3.47182,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,eta_b(2S),1,0.488279,0.0783478,25.7832,560,6.58772,-7.1243,5.32675,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,Upsilon(2S),1,0.502011,0.0739165,19.8984,535.6,4.46812,-5.13527,2.972,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,chi_b0(2P),1,0.629896,0.0821586,19.56,326.5,-0.34504,0.521978,4.00137,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,chi_b1(2P),1,0.645268,0.0775164,16.1144,303.54,-3.12203,3.68532,3.35995,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,h_b(2P),1,0.648221,0.0767424,15.6101,299.2,-3.78522,4.4582,3.44742,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,chi_b2(2P),1,0.658789,0.0736887,13.6747,290.35,-0.350046,0.40068,3.67433,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,Upsilon(3S),1,0.75331,0.0804354,22.2376,203.9,2.42001,-4.40498,4.16166,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,Upsilon_2(1D),0,0.529102,0.0714534,9.03728,395.294,-8.17509,-8.17509,3.65058,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,chi_b1(3P),0,0.880926,0.0852663,20.2446,45.58,6.7138,6.7138,4.31254,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,chi_b2(3P),0,0.892884,0.0825342,17.9157,34.98,8.57947,8.57947,4.35493,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,Upsilon(4S),0,0.978576,0.0889448,25.5341,-20.3809,30.702,30.702,5.22045,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,Upsilon(10860),0,1.18317,0.0980883,29.4269,-326.222,-60.7163,-60.7163,7.16612,3.06751
+A-gi-coff-smeared,A GI run smeared,bbar,Upsilon(11020),0,1.37235,0.107287,33.7194,-440.87,15.8743,15.8743,9.62862,3.06751
+B-apt-coff-smeared,B APT smeared,ccbar,eta_c(1S),1,0.352344,0.325419,117.945,745.605,-7.73215,26.1897,8.87418,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,J/psi(1S),1,0.408186,0.225761,46.5062,632.8,7.55895,-23.1755,10.1371,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,chi_c0(1P),1,0.57202,0.327572,80.7686,314.203,9.93885,-20.6827,7.01407,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,chi_c1(1P),1,0.639796,0.250947,42.4644,219.03,-1.3498,1.62251,10.3938,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,h_c(1P),1,0.649706,0.24231,39.3357,204.332,-7.12311,9.41806,9.50964,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,chi_c2(1P),1,0.689368,0.210536,27.3233,173.532,-0.296291,0.63469,14.2229,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,eta_c(2S),1,0.825651,0.270237,95.4873,91.9372,-1.64305,2.68152,12.1417,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,psi(2S),1,0.874906,0.24075,59.4648,43.6026,0.631654,-2.2322,18.7238,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,psi(3770),0,0.854573,0.274479,45.2546,-43.9771,0.172662,0.172662,11.118,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,chi_c2(3930),0,1.15472,0.233385,43.1509,-192.761,12.0683,12.0683,13.6747,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,psi(4040),0,1.33518,0.250194,66.0135,-309.9,-10.5826,-10.5826,20.2395,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,psi(4160),0,1.32827,0.274274,60.8416,-461.618,-113.574,-113.574,20.9211,8.23541
+B-apt-coff-smeared,B APT smeared,ccbar,psi(4415),0,1.81203,0.249049,67.9567,-684.813,-143.965,-143.965,30.0018,8.23541
+B-apt-coff-smeared,B APT smeared,bbar,eta_b(1S),1,0.208186,0.0968675,35.2868,1160.3,-0.432881,1.92274,7.72614,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,Upsilon(1S),1,0.224931,0.0787616,19.3653,1098.6,-0.778421,3.54727,6.81196,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,chi_b0(1P),1,0.360912,0.0835257,16.0254,699.56,-0.763393,1.18247,4.04652,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,chi_b1(1P),1,0.379765,0.0735903,11.4119,666.22,-1.66374,2.11785,3.7032,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,h_b(1P),1,0.383765,0.0717569,10.7117,659.721,-2.0964,2.75147,3.78143,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,chi_b2(1P),1,0.39427,0.0671945,8.96251,646.79,1.21914,-1.73981,3.97828,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,eta_b(2S),1,0.488382,0.0801037,27.4979,560,6.92853,-7.57264,5.3567,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,Upsilon(2S),1,0.503994,0.0744613,19.8029,535.6,6.90772,-7.88151,1.81111,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,chi_b0(2P),1,0.635459,0.0822239,20.1197,326.5,0.330376,-0.439508,4.02857,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,chi_b1(2P),1,0.652773,0.0767319,15.9634,303.54,-2.36937,2.80307,3.53722,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,h_b(2P),1,0.656287,0.0757399,15.3191,299.2,-2.97522,3.51132,3.64372,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,chi_b2(2P),1,0.666462,0.0728235,13.4922,290.35,-0.953559,1.14159,3.69828,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,Upsilon(3S),1,0.768392,0.0779509,21.2284,203.9,0.42672,-0.773769,4.48697,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,Upsilon_2(1D),0,0.530786,0.0721564,9.18359,395.294,-6.66164,-6.66164,3.68666,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,chi_b1(3P),0,0.911778,0.0802156,18.7613,45.58,-3.20874,-3.20874,4.26067,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,chi_b2(3P),0,0.925159,0.0773217,16.4502,34.98,-2.6924,-2.6924,4.28863,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,Upsilon(4S),0,1.02493,0.0810578,22.5619,-20.3809,13.0178,13.0178,5.06661,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,Upsilon(10860),0,1.28032,0.0830006,23.5454,-326.222,-105.157,-105.157,6.70401,3.11473
+B-apt-coff-smeared,B APT smeared,bbar,Upsilon(11020),0,1.53936,0.0837378,24.1135,-440.87,-65.0385,-65.0385,8.83874,3.11473
+B-gi-coff-smeared,B GI run smeared,ccbar,eta_c(1S),1,0.357958,0.32947,113.95,745.605,-7.13936,23.2608,9.05863,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,J/psi(1S),1,0.413526,0.231425,46.9696,632.8,7.73077,-23.7291,7.68985,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,chi_c0(1P),1,0.579459,0.335467,81.5007,314.203,8.24274,-18.0404,8.32118,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,chi_c1(1P),1,0.648013,0.258118,43.8162,219.03,-1.85704,2.22595,9.72973,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,h_c(1P),1,0.657451,0.24992,40.9373,204.332,-7.63268,10.061,8.5029,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,chi_c2(1P),1,0.700649,0.215081,27.8961,173.532,0.751262,-1.67803,13.5043,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,eta_c(2S),1,0.842739,0.271919,93.2577,91.9372,-0.044122,0.0715442,11.4557,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,psi(2S),1,0.893004,0.242873,59.3551,43.6026,-0.0220659,0.0813234,17.4574,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,psi(3770),0,0.868507,0.280972,46.5134,-43.9771,-1.75045,-1.75045,10.5301,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,chi_c2(3930),0,1.18639,0.232452,42.413,-192.761,5.67529,5.67529,13.2187,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,psi(4040),0,1.37506,0.247313,64.093,-309.9,-20.5193,-20.5193,19.7176,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,psi(4160),0,1.3682,0.272199,59.6362,-461.618,-124.047,-124.047,20.4417,7.75908
+B-gi-coff-smeared,B GI run smeared,ccbar,psi(4415),0,1.87749,0.243029,64.6415,-684.813,-164.188,-164.188,29.68,7.75908
+B-gi-coff-smeared,B GI run smeared,bbar,eta_b(1S),1,0.209145,0.0962784,34.1562,1160.3,-0.243841,1.36321,10.0658,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,Upsilon(1S),1,0.225654,0.0785989,18.7282,1098.6,-0.869826,4.08393,9.04741,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,chi_b0(1P),1,0.360289,0.0844726,16.2728,699.56,-2.37799,3.49047,5.23866,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,chi_b1(1P),1,0.379195,0.0744516,11.6244,666.22,-2.40414,3.04301,4.9727,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,h_b(1P),1,0.383139,0.0726308,10.9272,659.721,-2.70584,3.54957,5.07887,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,chi_b2(1P),1,0.394077,0.0678584,9.11422,646.79,1.61295,-2.29095,5.37089,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,eta_b(2S),1,0.490061,0.0801111,27.1025,560,9.2026,-10.4113,5.94745,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,Upsilon(2S),1,0.505746,0.074441,19.4927,535.6,8.95559,-10.2456,2.61173,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,chi_b0(2P),1,0.638698,0.0818879,20.0323,326.5,0.0277128,0.0349213,5.37061,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,chi_b1(2P),1,0.656407,0.0764081,15.916,303.54,-2.64486,3.13728,4.82258,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,h_b(2P),1,0.659922,0.0754395,15.2874,299.2,-3.26004,3.87059,4.8968,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,chi_b2(2P),1,0.670726,0.0724246,13.4324,290.35,-0.938807,1.13354,4.98883,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,Upsilon(3S),1,0.776553,0.0766605,20.58,203.9,-0.208505,0.356897,6.06449,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,Upsilon_2(1D),0,0.531764,0.0725785,9.28221,395.294,-5.73993,-5.73993,4.81884,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,chi_b1(3P),0,0.924858,0.0782873,18.1737,45.58,-8.20366,-8.20366,5.78754,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,chi_b2(3P),0,0.938891,0.0754284,15.9208,34.98,-7.81915,-7.81915,5.82196,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,Upsilon(4S),0,1.04303,0.0785052,21.457,-20.3809,5.93404,5.93404,6.87882,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,Upsilon(10860),0,1.30937,0.0795631,22.0522,-326.222,-119.762,-119.762,9.1378,4.22597
+B-gi-coff-smeared,B GI run smeared,bbar,Upsilon(11020),0,1.58027,0.0796475,22.3002,-440.87,-87.2003,-87.2003,11.7929,4.22597
+B-frozen-coff-smeared,B frozen smeared,ccbar,eta_c(1S),1,0.361892,0.348662,126.979,745.605,-9.34109,31.5466,7.11312,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,J/psi(1S),1,0.421445,0.238878,48.5711,632.8,8.35707,-24.4103,11.8776,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,chi_c0(1P),1,0.587723,0.351592,88.1719,314.203,11.5594,-24.0384,6.89798,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,chi_c1(1P),1,0.66051,0.266165,45.1036,219.03,0.51436,-0.616102,11.64,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,h_c(1P),1,0.67094,0.256834,41.7434,204.332,-5.88218,7.73555,11.3796,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,chi_c2(1P),1,0.711442,0.223215,28.9168,173.532,-2.80267,6.15501,16.0995,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,eta_c(2S),1,0.852712,0.285383,100.954,91.9372,-2.41311,3.86252,13.3719,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,psi(2S),1,0.904777,0.253789,62.084,43.6026,0.00023719,-0.00350837,21.0824,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,psi(3770),0,0.885494,0.289079,47.4625,-43.9771,5.03223,5.03223,12.595,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,chi_c2(3930),0,1.19354,0.246521,45.4068,-192.761,8.13162,8.13162,15.3002,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,psi(4040),0,1.38212,0.26331,68.8186,-309.9,-13.6626,-13.6626,22.6373,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,psi(4160),0,1.37761,0.288392,63.6413,-461.618,-113.403,-113.403,23.5274,9.20696
+B-frozen-coff-smeared,B frozen smeared,ccbar,psi(4415),0,1.87825,0.261357,70.6076,-684.813,-149.388,-149.388,33.5663,9.20696
+B-frozen-coff-smeared,B frozen smeared,bbar,eta_b(1S),1,0.20986,0.0980758,35.5987,1160.3,-0.669565,3.01411,8.83258,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,Upsilon(1S),1,0.226885,0.0795448,19.1521,1098.6,-0.717241,3.21768,7.89895,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,chi_b0(1P),1,0.362624,0.0853646,16.5597,699.56,-1.15527,1.74395,4.63561,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,chi_b1(1P),1,0.381918,0.0750222,11.6909,666.22,-1.76372,2.24348,4.31265,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,h_b(1P),1,0.385994,0.0731259,10.9587,659.721,-2.16002,2.83828,4.40524,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,chi_b2(1P),1,0.396613,0.0684554,9.1671,646.79,0.783999,-1.10361,4.66043,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,eta_b(2S),1,0.492369,0.0812017,27.8401,560,8.00885,-8.90505,5.62677,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,Upsilon(2S),1,0.508418,0.0753025,19.8019,535.6,8.07341,-9.21564,1.92854,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,chi_b0(2P),1,0.640838,0.0833,20.5162,326.5,0.268417,-0.330189,4.64825,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,chi_b1(2P),1,0.658627,0.0776129,16.1653,303.54,-2.47712,2.93436,4.13282,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,h_b(2P),1,0.662242,0.0765838,15.4928,299.2,-3.10884,3.68295,4.21747,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,chi_b2(2P),1,0.672443,0.0736565,13.6516,290.35,-1.46137,1.75693,4.26204,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,Upsilon(3S),1,0.776314,0.0785859,21.2008,203.9,0.331827,-0.604702,5.20702,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,Upsilon_2(1D),0,0.534919,0.0732652,9.34262,395.294,-5.92686,-5.92686,4.20287,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,chi_b1(3P),0,0.921099,0.0809327,18.9057,45.58,-4.61704,-4.61704,4.94104,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,chi_b2(3P),0,0.93456,0.0780176,16.566,34.98,-4.42745,-4.42745,4.96928,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,Upsilon(4S),0,1.03612,0.0816425,22.5212,-20.3809,11.4064,11.4064,5.85753,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,Upsilon(10860),0,1.29449,0.0835996,23.5074,-326.222,-108.096,-108.096,7.7169,3.62568
+B-frozen-coff-smeared,B frozen smeared,bbar,Upsilon(11020),0,1.55645,0.084354,24.0815,-440.87,-69.0784,-69.0784,10.0195,3.62568
+A-const-coff-first,A const,ccbar,eta_c(1S),1,0.366433,0.35245,145.197,745.605,-2.10674,19.4619,27.5691,8.34371
+A-const-coff-first,A const,ccbar,J/psi(1S),1,0.416417,0.258213,73.5159,632.8,-4.52591,13.9386,14.8698,8.34371
+A-const-coff-first,A const,ccbar,chi_c0(1P),1,0.682391,0.248954,36.0257,314.203,13.8349,-18.0596,3.58065,8.34371
+A-const-coff-first,A const,ccbar,chi_c1(1P),1,0.682391,0.248954,36.0257,219.03,-0.929296,1.13228,10.6308,8.34371
+A-const-coff-first,A const,ccbar,h_c(1P),1,0.671106,0.26018,41.2812,204.332,-5.90037,7.87901,10.2085,8.34371
+A-const-coff-first,A const,ccbar,chi_c2(1P),1,0.682391,0.248954,36.0257,173.532,3.02533,-6.9791,14.4491,8.34371
+A-const-coff-first,A const,ccbar,eta_c(2S),1,0.828689,0.313268,119.217,91.9372,0.390039,-0.818152,14.0778,8.34371
+A-const-coff-first,A const,ccbar,psi(2S),1,0.859428,0.29615,89.2682,43.6026,-4.15702,10.8954,14.8177,8.34371
+A-const-coff-first,A const,ccbar,psi(3770),0,0.893584,0.281102,39.8669,-43.9771,21.4544,21.4544,10.5941,8.34371
+A-const-coff-first,A const,ccbar,chi_c2(3930),0,1.07375,0.317773,69.1341,-192.761,63.6272,63.6272,13.087,8.34371
+A-const-coff-first,A const,ccbar,psi(4040),0,1.22066,0.359964,117.23,-309.9,51.5459,51.5459,19.161,8.34371
+A-const-coff-first,A const,ccbar,psi(4160),0,1.25134,0.350704,74.8473,-461.618,-30.1449,-30.1449,19.405,8.34371
+A-const-coff-first,A const,ccbar,psi(4415),0,1.53577,0.422635,149.968,-684.813,19.9074,19.9074,28.4896,8.34371
+A-const-coff-first,A const,bbar,eta_b(1S),1,0.208965,0.107287,50.9456,1160.3,1.93332,-19.0242,18.4751,5.467
+A-const-coff-first,A const,bbar,Upsilon(1S),1,0.226355,0.0869833,31.153,1098.6,-0.0523014,0.720838,15.1693,5.467
+A-const-coff-first,A const,bbar,chi_b0(1P),1,0.402979,0.0688299,9.28377,699.56,6.40297,-7.6623,5.75185,5.467
+A-const-coff-first,A const,bbar,chi_b1(1P),1,0.402979,0.0688299,9.28377,666.22,1.13612,-1.47431,6.57988,5.467
+A-const-coff-first,A const,bbar,h_b(1P),1,0.401166,0.0697332,9.74639,659.721,0.370702,-0.511111,6.70763,5.467
+A-const-coff-first,A const,bbar,chi_b2(1P),1,0.402979,0.0688299,9.28377,646.79,1.05814,-1.53501,6.93306,5.467
+A-const-coff-first,A const,bbar,eta_b(2S),1,0.492586,0.0850542,34.067,560,-9.73881,11.8663,7.16993,5.467
+A-const-coff-first,A const,bbar,Upsilon(2S),1,0.505523,0.0807127,26.4726,535.6,-11.3274,12.864,3.86184,5.467
+A-const-coff-first,A const,bbar,chi_b0(2P),1,0.649041,0.0832364,16.2049,326.5,-1.12317,1.29847,6.34291,5.467
+A-const-coff-first,A const,bbar,chi_b1(2P),1,0.649041,0.0832364,16.2049,303.54,-0.207638,0.215846,6.37913,5.467
+A-const-coff-first,A const,bbar,h_b(2P),1,0.646943,0.084129,16.858,299.2,-0.0076298,-0.0186627,6.46654,5.467
+A-const-coff-first,A const,bbar,chi_b2(2P),1,0.649041,0.0832364,16.2049,290.35,3.42004,-4.14944,6.25551,5.467
+A-const-coff-first,A const,bbar,Upsilon(3S),1,0.73528,0.0936885,30.4093,203.9,4.83218,-8.21504,6.99967,5.467
+A-const-coff-first,A const,bbar,Upsilon_2(1D),0,0.540249,0.0735928,8.96232,395.294,-15.6953,-15.6953,6.09181,5.467
+A-const-coff-first,A const,bbar,chi_b1(3P),0,0.857079,0.0984913,23.1479,45.58,34.3543,34.3543,7.18415,5.467
+A-const-coff-first,A const,bbar,chi_b2(3P),0,0.857079,0.0984913,23.1479,34.98,39.5415,39.5415,7.15994,5.467
+A-const-coff-first,A const,bbar,Upsilon(4S),0,0.93462,0.107994,36.1834,-20.3809,65.0645,65.0645,8.34756,5.467
+A-const-coff-first,A const,bbar,Upsilon(10860),0,1.11466,0.122058,42.8947,-326.222,9.89015,9.89015,10.647,5.467
+A-const-coff-first,A const,bbar,Upsilon(11020),0,1.2811,0.135648,50.2682,-440.87,123.878,123.878,13.3688,5.467
+C-const-coff-s,C const (s free),ccbar,eta_c(1S),1,0.300026,0.468638,195.23,745.605,-5.89068,25.1464,20.2059,10.3114
+C-const-coff-s,C const (s free),ccbar,J/psi(1S),1,0.339088,0.357496,109.025,632.8,4.86561,-8.37645,14.9019,10.3114
+C-const-coff-s,C const (s free),ccbar,chi_c0(1P),1,0.482707,0.494981,174.06,314.203,11.9453,-31.1398,7.48441,10.3114
+C-const-coff-s,C const (s free),ccbar,chi_c1(1P),1,0.522206,0.417728,122.773,219.03,-4.64558,6.30146,13.4195,10.3114
+C-const-coff-s,C const (s free),ccbar,h_c(1P),1,0.526938,0.413272,123.597,204.332,-10.5502,15.6917,11.4126,10.3114
+C-const-coff-s,C const (s free),ccbar,chi_c2(1P),1,0.568427,0.342127,77.069,173.532,5.78362,-14.6228,17.2363,10.3114
+C-const-coff-s,C const (s free),ccbar,eta_c(2S),1,0.686684,0.433906,215.703,91.9372,4.58973,-10.2279,16.9442,10.3114
+C-const-coff-s,C const (s free),ccbar,psi(2S),1,0.706552,0.422852,177.365,43.6026,-6.08315,10.8437,14.6738,10.3114
+C-const-coff-s,C const (s free),ccbar,psi(3770),0,0.701139,0.443844,119.427,-43.9771,34.897,34.897,15.0666,10.3114
+C-const-coff-s,C const (s free),ccbar,chi_c2(3930),0,0.892138,0.451493,159.768,-192.761,38.2484,38.2484,17.7873,10.3114
+C-const-coff-s,C const (s free),ccbar,psi(4040),0,1.0161,0.508322,250.23,-309.9,37.7754,37.7754,25.0393,10.3114
+C-const-coff-s,C const (s free),ccbar,psi(4160),0,1.01566,0.527948,210.441,-461.618,-34.3686,-34.3686,29.3196,10.3114
+C-const-coff-s,C const (s free),ccbar,psi(4415),0,1.28183,0.596578,332.237,-684.813,-10.0215,-10.0215,41.0684,10.3114
+C-const-coff-s,C const (s free),bbar,eta_b(1S),1,0.193014,0.118377,43.0854,1160.3,0.886961,-2.26088,6.76083,3.49683
+C-const-coff-s,C const (s free),bbar,Upsilon(1S),1,0.208159,0.0987867,28.3794,1098.6,-0.226717,0.424915,4.91519,3.49683
+C-const-coff-s,C const (s free),bbar,chi_b0(1P),1,0.337206,0.103427,25.3267,699.56,-0.701941,0.926242,4.2451,3.49683
+C-const-coff-s,C const (s free),bbar,chi_b1(1P),1,0.35621,0.0905105,18.4846,666.22,0.246531,-0.31247,4.24789,3.49683
+C-const-coff-s,C const (s free),bbar,h_b(1P),1,0.360366,0.0881913,17.5699,659.721,0.575704,-0.769351,4.36171,3.49683
+C-const-coff-s,C const (s free),bbar,chi_b2(1P),1,0.372628,0.0807352,13.7081,646.79,4.77651,-7.28181,3.80759,3.49683
+C-const-coff-s,C const (s free),bbar,eta_b(2S),1,0.458188,0.0971888,37.6118,560,-1.13831,1.90963,7.14448,3.49683
+C-const-coff-s,C const (s free),bbar,Upsilon(2S),1,0.4694,0.0932754,31.0562,535.6,-4.25311,8.21574,4.06713,3.49683
+C-const-coff-s,C const (s free),bbar,chi_b0(2P),1,0.583147,0.106728,33.8345,326.5,-0.827233,0.964964,4.11109,3.49683
+C-const-coff-s,C const (s free),bbar,chi_b1(2P),1,0.595463,0.101583,28.4719,303.54,-3.22359,3.97275,3.93099,3.49683
+C-const-coff-s,C const (s free),bbar,h_b(2P),1,0.597586,0.101016,27.9708,299.2,-3.99014,5.03077,4.02326,3.49683
+C-const-coff-s,C const (s free),bbar,chi_b2(2P),1,0.607731,0.0960469,23.5424,290.35,0.374512,-0.483398,4.14757,3.49683
+C-const-coff-s,C const (s free),bbar,Upsilon(3S),1,0.69124,0.106402,37.8647,203.9,6.5947,-10.9117,2.91332,3.49683
+C-const-coff-s,C const (s free),bbar,Upsilon_2(1D),0,0.504185,0.0842771,12.5289,395.294,3.95065,3.95065,4.35112,3.49683
+C-const-coff-s,C const (s free),bbar,chi_b1(3P),0,0.797706,0.116235,37.9526,45.58,24.4699,24.4699,5.3877,3.49683
+C-const-coff-s,C const (s free),bbar,chi_b2(3P),0,0.80761,0.112358,33.1232,34.98,27.4208,27.4208,5.40423,3.49683
+C-const-coff-s,C const (s free),bbar,Upsilon(4S),0,0.88347,0.121604,46.2557,-20.3809,58.3838,58.3838,5.97429,3.49683
+C-const-coff-s,C const (s free),bbar,Upsilon(10860),0,1.0562,0.13691,55.6355,-326.222,-6.38469,-6.38469,8.75696,3.49683
+C-const-coff-s,C const (s free),bbar,Upsilon(11020),0,1.21495,0.151944,65.8079,-440.87,97.4229,97.4229,12.0858,3.49683
+D-const-coff-s,D const (s free),ccbar,eta_c(1S),1,0.301457,0.471888,189.511,745.605,-5.50686,22.8556,24.2751,11.6614
+D-const-coff-s,D const (s free),ccbar,J/psi(1S),1,0.338056,0.368457,112.284,632.8,3.79951,-6.67964,17.5115,11.6614
+D-const-coff-s,D const (s free),ccbar,chi_c0(1P),1,0.486091,0.503633,176.731,314.203,12.7843,-35.6386,9.97362,11.6614
+D-const-coff-s,D const (s free),ccbar,chi_c1(1P),1,0.525022,0.42911,128.554,219.03,-4.42979,6.05953,15.3789,11.6614
+D-const-coff-s,D const (s free),ccbar,h_c(1P),1,0.527859,0.428428,131.835,204.332,-11.7978,17.7884,13.0029,11.6614
+D-const-coff-s,D const (s free),ccbar,chi_c2(1P),1,0.573219,0.350803,81.7833,173.532,7.7248,-18.6793,18.295,11.6614
+D-const-coff-s,D const (s free),ccbar,eta_c(2S),1,0.709806,0.415716,202.178,91.9372,6.27568,-13.4169,18.1986,11.6614
+D-const-coff-s,D const (s free),ccbar,psi(2S),1,0.732412,0.403714,168.048,43.6026,-8.83658,15.8442,15.591,11.6614
+D-const-coff-s,D const (s free),ccbar,psi(3770),0,0.727367,0.432623,115.563,-43.9771,29.4383,29.4383,16.6309,11.6614
+D-const-coff-s,D const (s free),ccbar,chi_c2(3930),0,0.962793,0.402287,138.742,-192.761,10.7885,10.7885,18.9226,11.6614
+D-const-coff-s,D const (s free),ccbar,psi(4040),0,1.12473,0.423793,198.204,-309.9,-10.2548,-10.2548,26.1351,11.6614
+D-const-coff-s,D const (s free),ccbar,psi(4160),0,1.1368,0.440632,162.988,-461.618,-87.5557,-87.5557,29.9196,11.6614
+D-const-coff-s,D const (s free),ccbar,psi(4415),0,1.52355,0.42985,214.517,-684.813,-130.257,-130.257,41.0527,11.6614
+D-const-coff-s,D const (s free),bbar,eta_b(1S),1,0.195982,0.11836,43.4193,1160.3,2.03027,-4.30751,4.20948,2.07137
+D-const-coff-s,D const (s free),bbar,Upsilon(1S),1,0.210841,0.0988448,28.2161,1098.6,-2.26434,4.59971,2.6866,2.07137
+D-const-coff-s,D const (s free),bbar,chi_b0(1P),1,0.341272,0.103372,24.8299,699.56,2.369,-3.16155,2.36868,2.07137
+D-const-coff-s,D const (s free),bbar,chi_b1(1P),1,0.359059,0.0912173,18.3284,666.22,0.235381,-0.288757,2.56159,2.07137
+D-const-coff-s,D const (s free),bbar,h_b(1P),1,0.362969,0.088973,17.4101,659.721,-0.324461,0.422452,2.68346,2.07137
+D-const-coff-s,D const (s free),bbar,chi_b2(1P),1,0.373732,0.0823632,13.9578,646.79,1.53661,-2.46483,2.72827,2.07137
+D-const-coff-s,D const (s free),bbar,eta_b(2S),1,0.46163,0.0994836,38.9286,560,0.87745,-1.1216,5.48339,2.07137
+D-const-coff-s,D const (s free),bbar,Upsilon(2S),1,0.47343,0.0947913,31.6073,535.6,-2.19013,4.60775,2.73608,2.07137
+D-const-coff-s,D const (s free),bbar,chi_b0(2P),1,0.596811,0.104618,32.6043,326.5,2.49708,-3.00613,2.27742,2.07137
+D-const-coff-s,D const (s free),bbar,chi_b1(2P),1,0.610044,0.0991327,27.2437,303.54,-1.77261,2.21414,2.41232,2.07137
+D-const-coff-s,D const (s free),bbar,h_b(2P),1,0.612452,0.098397,26.643,299.2,-2.91395,3.62914,2.54446,2.07137
+D-const-coff-s,D const (s free),bbar,chi_b2(2P),1,0.622328,0.0938031,22.6875,290.35,-0.636766,0.755205,2.50295,2.07137
+D-const-coff-s,D const (s free),bbar,Upsilon(3S),1,0.714686,0.101927,35.9571,203.9,1.88287,-3.17501,2.70709,2.07137
+D-const-coff-s,D const (s free),bbar,Upsilon_2(1D),0,0.509018,0.0852388,12.6926,395.294,5.09677,5.09677,2.87011,2.07137
+D-const-coff-s,D const (s free),bbar,chi_b1(3P),0,0.842477,0.106452,33.4519,45.58,9.74412,9.74412,3.27521,2.07137
+D-const-coff-s,D const (s free),bbar,chi_b2(3P),0,0.853602,0.102647,29.1452,34.98,10.2302,10.2302,3.26641,2.07137
+D-const-coff-s,D const (s free),bbar,Upsilon(4S),0,0.943875,0.108379,39.9208,-20.3809,30.904,30.904,3.646,2.07137
+D-const-coff-s,D const (s free),bbar,Upsilon(10860),0,1.1689,0.113101,43.1611,-326.222,-69.0597,-69.0597,5.36689,2.07137
+D-const-coff-s,D const (s free),bbar,Upsilon(11020),0,1.39456,0.116093,45.5975,-440.87,-10.34,-10.34,7.69311,2.07137
+B-const-coff-first,B const,ccbar,eta_c(1S),1,0.374075,0.367381,144.132,745.605,-3.43627,33.9813,47.3081,13.5661
+B-const-coff-first,B const,ccbar,J/psi(1S),1,0.422242,0.274531,75.8454,632.8,-9.4982,31.7015,22.0582,13.5661
+B-const-coff-first,B const,ccbar,chi_c0(1P),1,0.704011,0.258663,37.9659,314.203,22.2783,-30.9407,5.07186,13.5661
+B-const-coff-first,B const,ccbar,chi_c1(1P),1,0.704011,0.258663,37.9659,219.03,3.50545,-4.19528,16.9993,13.5661
+B-const-coff-first,B const,ccbar,h_c(1P),1,0.691818,0.270893,43.6091,204.332,-4.18075,5.49071,17.8294,13.5661
+B-const-coff-first,B const,ccbar,chi_c2(1P),1,0.704011,0.258663,37.9659,173.532,1.66465,-3.89018,25.7241,13.5661
+B-const-coff-first,B const,ccbar,eta_c(2S),1,0.874069,0.30554,112.192,91.9372,-0.696058,1.38689,22.4048,13.5661
+B-const-coff-first,B const,ccbar,psi(2S),1,0.910189,0.286283,83.823,43.6026,-10.2421,22.0289,20.3951,13.5661
+B-const-coff-first,B const,ccbar,psi(3770),0,0.953123,0.273658,37.127,-43.9771,20.5135,20.5135,17.5127,13.5661
+B-const-coff-first,B const,ccbar,chi_c2(3930),0,1.18425,0.284347,58.6053,-192.761,23.1502,23.1502,20.4938,13.5661
+B-const-coff-first,B const,ccbar,psi(4040),0,1.38278,0.299519,90.1996,-309.9,-9.6425,-9.6425,28.2599,13.5661
+B-const-coff-first,B const,ccbar,psi(4160),0,1.43816,0.290427,54.7966,-461.618,-91.6243,-91.6243,29.3965,13.5661
+B-const-coff-first,B const,ccbar,psi(4415),0,1.87173,0.299153,91.5952,-684.813,-131.334,-131.334,40.1215,13.5661
+B-const-coff-first,B const,bbar,eta_b(1S),1,0.211027,0.107008,49.1127,1160.3,0.0842548,-1.52801,13.3291,3.15791
+B-const-coff-first,B const,bbar,Upsilon(1S),1,0.229166,0.0853724,27.1608,1098.6,-0.802974,5.63117,8.8703,3.15791
+B-const-coff-first,B const,bbar,chi_b0(1P),1,0.400645,0.0714972,9.89575,699.56,7.34339,-8.64276,1.90331,3.15791
+B-const-coff-first,B const,bbar,chi_b1(1P),1,0.400645,0.0714972,9.89575,666.22,0.243144,-0.310787,3.83628,3.15791
+B-const-coff-first,B const,bbar,h_b(1P),1,0.399245,0.0722326,10.3012,659.721,-1.0822,1.40655,3.91009,3.15791
+B-const-coff-first,B const,bbar,chi_b2(1P),1,0.400645,0.0714972,9.89575,646.79,-1.96276,2.87852,3.95618,3.15791
+B-const-coff-first,B const,bbar,eta_b(2S),1,0.495258,0.0866582,34.3103,560,-4.6132,5.31655,5.69667,3.15791
+B-const-coff-first,B const,bbar,Upsilon(2S),1,0.5104,0.0808018,24.8161,535.6,-4.35066,4.95516,3.15332,3.15791
+B-const-coff-first,B const,bbar,chi_b0(2P),1,0.664128,0.0811302,15.825,326.5,1.79592,-2.12411,3.65174,3.15791
+B-const-coff-first,B const,bbar,chi_b1(2P),1,0.664128,0.0811302,15.825,303.54,-0.368556,0.429437,3.72031,3.15791
+B-const-coff-first,B const,bbar,h_b(2P),1,0.66236,0.0818588,16.3684,299.2,-0.762968,0.882455,3.86016,3.15791
+B-const-coff-first,B const,bbar,chi_b2(2P),1,0.664128,0.0811302,15.825,290.35,0.55339,-0.680492,3.74937,3.15791
+B-const-coff-first,B const,bbar,Upsilon(3S),1,0.763811,0.0878695,26.8854,203.9,1.15232,-1.9535,4.3723,3.15791
+B-const-coff-first,B const,bbar,Upsilon_2(1D),0,0.543288,0.0749215,9.28248,395.294,-11.8738,-11.8738,3.72437,3.15791
+B-const-coff-first,B const,bbar,chi_b1(3P),0,0.908246,0.0889214,20.2311,45.58,13.2892,13.2892,4.1824,3.15791
+B-const-coff-first,B const,bbar,chi_b2(3P),0,0.908246,0.0889214,20.2311,34.98,14.9442,14.9442,4.1721,3.15791
+B-const-coff-first,B const,bbar,Upsilon(4S),0,1.00486,0.0938958,29.1923,-20.3809,32.4954,32.4954,4.87385,3.15791
+B-const-coff-first,B const,bbar,Upsilon(10860),0,1.24234,0.0981128,31.1302,-326.222,-65.324,-65.324,6.2262,3.15791
+B-const-coff-first,B const,bbar,Upsilon(11020),0,1.48132,0.100625,32.5419,-440.87,-4.92689,-4.92689,8.11169,3.15791
+A-gi-coff-first,A GI run,ccbar,eta_c(1S),1,0.351902,0.311391,105.881,745.605,-8.33704,43.3829,31.3041,14.3604
+A-gi-coff-first,A GI run,ccbar,J/psi(1S),1,0.405477,0.220237,45.2135,632.8,5.80137,-17.5025,32.7717,14.3604
+A-gi-coff-first,A GI run,ccbar,chi_c0(1P),1,0.65395,0.227059,33.2593,314.203,22.2982,-30.519,8.9918,14.3604
+A-gi-coff-first,A GI run,ccbar,chi_c1(1P),1,0.65395,0.227059,33.2593,219.03,-7.07158,8.67827,17.7329,14.3604
+A-gi-coff-first,A GI run,ccbar,h_c(1P),1,0.639021,0.240603,39.2095,204.332,-13.0751,16.9745,16.2182,14.3604
+A-gi-coff-first,A GI run,ccbar,chi_c2(1P),1,0.65395,0.227059,33.2593,173.532,1.44378,-2.65313,22.9099,14.3604
+A-gi-coff-first,A GI run,ccbar,eta_c(2S),1,0.807815,0.271163,92.1573,91.9372,-1.26516,2.31098,23.0273,14.3604
+A-gi-coff-first,A GI run,ccbar,psi(2S),1,0.849039,0.247626,61.7575,43.6026,0.0911382,-0.303778,34.6773,14.3604
+A-gi-coff-first,A GI run,ccbar,psi(3770),0,0.874433,0.245798,33.9713,-43.9771,-2.3876,-2.3876,18.2305,14.3604
+A-gi-coff-first,A GI run,ccbar,chi_c2(3930),0,1.06594,0.267132,56.2844,-192.761,31.6583,31.6583,25.709,14.3604
+A-gi-coff-first,A GI run,ccbar,psi(4040),0,1.23006,0.290054,80.4263,-309.9,22.8763,22.8763,38.4392,14.3604
+A-gi-coff-first,A GI run,ccbar,psi(4160),0,1.25565,0.290193,58.4105,-461.618,-79.8544,-79.8544,37.8306,14.3604
+A-gi-coff-first,A GI run,ccbar,psi(4415),0,1.56389,0.334693,101.818,-684.813,-47.0659,-47.0659,61.5385,14.3604
+A-gi-coff-first,A GI run,bbar,eta_b(1S),1,0.207549,0.0960458,34.045,1160.3,-0.866267,5.11327,9.44253,3.14475
+A-gi-coff-first,A GI run,bbar,Upsilon(1S),1,0.224111,0.078522,19.4126,1098.6,-0.352183,1.94876,8.14362,3.14475
+A-gi-coff-first,A GI run,bbar,chi_b0(1P),1,0.386668,0.0695348,9.95122,699.56,1.91204,-2.49936,3.79821,3.14475
+A-gi-coff-first,A GI run,bbar,chi_b1(1P),1,0.386668,0.0695348,9.95122,666.22,-2.58856,3.27713,3.60092,3.14475
+A-gi-coff-first,A GI run,bbar,h_b(1P),1,0.383636,0.0709477,10.5709,659.721,-2.98177,3.83481,3.64647,3.14475
+A-gi-coff-first,A GI run,bbar,chi_b2(1P),1,0.386668,0.0695348,9.95122,646.79,2.9473,-4.1369,3.70808,3.14475
+A-gi-coff-first,A GI run,bbar,eta_b(2S),1,0.48764,0.0789204,26.5129,560,4.71196,-5.26872,5.58758,3.14475
+A-gi-coff-first,A GI run,bbar,Upsilon(2S),1,0.502432,0.0738896,19.6504,535.6,4.16541,-4.75012,3.17206,3.14475
+A-gi-coff-first,A GI run,bbar,chi_b0(2P),1,0.650847,0.0759615,14.9526,326.5,0.678125,-0.887022,3.89083,3.14475
+A-gi-coff-first,A GI run,bbar,chi_b1(2P),1,0.650847,0.0759615,14.9526,303.54,-3.60619,4.27126,3.3659,3.14475
+A-gi-coff-first,A GI run,bbar,h_b(2P),1,0.647835,0.0769488,15.6361,299.2,-4.2334,4.9653,3.4568,3.14475
+A-gi-coff-first,A GI run,bbar,chi_b2(2P),1,0.650847,0.0759615,14.9526,290.35,-0.429702,0.501657,3.73844,3.14475
+A-gi-coff-first,A GI run,bbar,Upsilon(3S),1,0.752891,0.080663,22.1315,203.9,2.7477,-4.9783,4.19313,3.14475
+A-gi-coff-first,A GI run,bbar,Upsilon_2(1D),0,0.531608,0.0707625,8.80211,395.294,-9.31382,-9.31382,3.72915,3.14475
+A-gi-coff-first,A GI run,bbar,chi_b1(3P),0,0.88495,0.0843959,19.2158,45.58,7.17395,7.17395,4.4047,3.14475
+A-gi-coff-first,A GI run,bbar,chi_b2(3P),0,0.88495,0.0843959,19.2158,34.98,9.44024,9.44024,4.45331,3.14475
+A-gi-coff-first,A GI run,bbar,Upsilon(4S),0,0.977278,0.0893426,25.5296,-20.3809,32.0133,32.0133,5.34099,3.14475
+A-gi-coff-first,A GI run,bbar,Upsilon(10860),0,1.18106,0.098617,29.51,-326.222,-58.3512,-58.3512,7.321,3.14475
+A-gi-coff-first,A GI run,bbar,Upsilon(11020),0,1.36951,0.107927,33.886,-440.87,19.2919,19.2919,9.81327,3.14475
+A-const-coff-smeared,A const smeared,ccbar,eta_c(1S),1,0.362324,0.380237,177.023,745.605,-11.8802,50.5876,19.9361,14.7764
+A-const-coff-smeared,A const smeared,ccbar,J/psi(1S),1,0.428626,0.246042,60.9431,632.8,9.03201,-27.2699,26.4148,14.7764
+A-const-coff-smeared,A const smeared,ccbar,chi_c0(1P),1,0.595698,0.357428,89.4206,314.203,20.3213,-38.3374,8.31086,14.7764
+A-const-coff-smeared,A const smeared,ccbar,chi_c1(1P),1,0.665856,0.271446,44.6612,219.03,2.47773,-3.04584,18.8828,14.7764
+A-const-coff-smeared,A const smeared,ccbar,h_c(1P),1,0.677827,0.260426,40.6479,204.332,-4.73894,6.29915,19.4288,14.7764
+A-const-coff-smeared,A const smeared,ccbar,chi_c2(1P),1,0.709378,0.233201,29.8003,173.532,-11.4659,20.132,20.0906,14.7764
+A-const-coff-smeared,A const smeared,ccbar,eta_c(2S),1,0.823771,0.329425,136.824,91.9372,-7.88469,13.3958,21.1449,14.7764
+A-const-coff-smeared,A const smeared,ccbar,psi(2S),1,0.868485,0.296171,82.2297,43.6026,3.96352,-13.6498,34.7238,14.7764
+A-const-coff-smeared,A const smeared,ccbar,psi(3770),0,0.859214,0.316542,53.2437,-43.9771,21.4494,21.4494,19.2133,14.7764
+A-const-coff-smeared,A const smeared,ccbar,chi_c2(3930),0,1.09376,0.311582,62.2174,-192.761,52.8633,52.8633,23.5479,14.7764
+A-const-coff-smeared,A const smeared,ccbar,psi(4040),0,1.22611,0.36504,112.898,-309.9,63.0257,63.0257,34.6639,14.7764
+A-const-coff-smeared,A const smeared,ccbar,psi(4160),0,1.21679,0.387593,96.9553,-461.618,-24.6896,-24.6896,34.6095,14.7764
+A-const-coff-smeared,A const smeared,ccbar,psi(4415),0,1.53836,0.43132,148.04,-684.813,35.9551,35.9551,51.9438,14.7764
+A-const-coff-smeared,A const smeared,bbar,eta_b(1S),1,0.207837,0.109601,54.707,1160.3,-1.08812,5.17498,15.6895,6.03021
+A-const-coff-smeared,A const smeared,bbar,Upsilon(1S),1,0.227441,0.0859294,29.9656,1098.6,3.06475,-11.9683,13.1016,6.03021
+A-const-coff-smeared,A const smeared,bbar,chi_b0(1P),1,0.378993,0.0806132,14.4718,699.56,8.14054,-10.9791,6.37281,6.03021
+A-const-coff-smeared,A const smeared,bbar,chi_b1(1P),1,0.397623,0.0713026,10.316,666.22,1.78735,-2.30345,7.23468,6.03021
+A-const-coff-smeared,A const smeared,bbar,h_b(1P),1,0.40191,0.0694654,9.66238,659.721,0.530514,-0.71342,7.40425,6.03021
+A-const-coff-smeared,A const smeared,bbar,chi_b2(1P),1,0.410748,0.0657253,8.18331,646.79,-1.66043,2.26327,7.49693,6.03021
+A-const-coff-smeared,A const smeared,bbar,eta_b(2S),1,0.491653,0.0858068,35.6568,560,-12.1354,13.9075,7.13256,6.03021
+A-const-coff-smeared,A const smeared,bbar,Upsilon(2S),1,0.506671,0.0802936,25.837,535.6,-10.6108,12.205,5.1444,6.03021
+A-const-coff-smeared,A const smeared,bbar,chi_b0(2P),1,0.629871,0.090453,21.6977,326.5,3.1856,-4.32866,7.38423,6.03021
+A-const-coff-smeared,A const smeared,bbar,chi_b1(2P),1,0.644508,0.0849706,17.431,303.54,0.23286,-0.305232,7.03073,6.03021
+A-const-coff-smeared,A const smeared,bbar,h_b(2P),1,0.647655,0.0839539,16.763,299.2,-0.354934,0.39929,7.13256,6.03021
+A-const-coff-smeared,A const smeared,bbar,chi_b2(2P),1,0.655668,0.0811298,14.8854,290.35,-0.0180023,0.00455812,7.07541,6.03021
+A-const-coff-smeared,A const smeared,bbar,Upsilon(3S),1,0.736336,0.0933953,29.8793,203.9,4.93035,-8.59455,7.91757,6.03021
+A-const-coff-smeared,A const smeared,bbar,Upsilon_2(1D),0,0.539195,0.0739832,9.09222,395.294,-16.339,-16.339,6.64216,6.03021
+A-const-coff-smeared,A const smeared,bbar,chi_b1(3P),0,0.853009,0.0999124,24.4706,45.58,34.7322,34.7322,7.90936,6.03021
+A-const-coff-smeared,A const smeared,bbar,chi_b2(3P),0,0.86306,0.0967962,21.7181,34.98,35.6899,35.6899,7.93428,6.03021
+A-const-coff-smeared,A const smeared,bbar,Upsilon(4S),0,0.935614,0.107758,35.6983,-20.3809,64.8488,64.8488,9.22782,6.03021
+A-const-coff-smeared,A const smeared,bbar,Upsilon(10860),0,1.11562,0.121858,42.4356,-326.222,9.47244,9.47244,11.7357,6.03021
+A-const-coff-smeared,A const smeared,bbar,Upsilon(11020),0,1.28202,0.135473,49.8266,-440.87,123.314,123.314,14.6507,6.03021
+C-gi-coff-s,C GI run (s free),ccbar,eta_c(1S),1,0.303541,0.507716,277.944,745.605,-5.81118,27.3041,33.4192,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,J/psi(1S),1,0.346509,0.361318,115.045,632.8,0.704381,-1.15795,20.6367,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,chi_c0(1P),1,0.494097,0.494544,176.446,314.203,28.5433,-32.8261,4.96564,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,chi_c1(1P),1,0.530388,0.417232,117.123,219.03,-1.54553,1.93607,17.9237,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,h_c(1P),1,0.53703,0.405973,111.278,204.332,-10.5449,14.2613,17.302,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,chi_c2(1P),1,0.564764,0.358112,79.0285,173.532,-6.88185,9.30141,18.1161,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,eta_c(2S),1,0.665299,0.513396,311.487,91.9372,-3.24089,7.01628,24.0398,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,psi(2S),1,0.69204,0.470899,209.371,43.6026,-1.46921,2.32755,20.2095,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,psi(3770),0,0.697673,0.461917,120.895,-43.9771,46.8636,46.8636,17.713,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,chi_c2(3930),0,0.872659,0.488208,173.908,-192.761,60.3539,60.3539,20.4139,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,psi(4040),0,0.984499,0.57408,304.428,-309.9,68.3371,68.3371,25.8049,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,psi(4160),0,0.993106,0.569636,227.325,-461.618,8.25907,8.25907,26.5073,14.2996
+C-gi-coff-s,C GI run (s free),ccbar,psi(4415),0,1.23647,0.677609,410.491,-684.813,44.7835,44.7835,35.7208,14.2996
+C-gi-coff-s,C GI run (s free),bbar,eta_b(1S),1,0.189454,0.133104,101.729,1160.3,1.99985,-7.06247,15.4523,7.20435
+C-gi-coff-s,C GI run (s free),bbar,Upsilon(1S),1,0.209768,0.0971045,33.7319,1098.6,12.6507,-17.7463,6.42683,7.20435
+C-gi-coff-s,C GI run (s free),bbar,chi_b0(1P),1,0.338498,0.0991312,25.0753,699.56,-0.975939,1.16333,8.38198,7.20435
+C-gi-coff-s,C GI run (s free),bbar,chi_b1(1P),1,0.355627,0.0869963,16.8427,666.22,-3.33462,4.08772,8.38537,7.20435
+C-gi-coff-s,C GI run (s free),bbar,h_b(1P),1,0.359606,0.0845317,15.5226,659.721,-3.84281,4.77098,8.43051,7.20435
+C-gi-coff-s,C GI run (s free),bbar,chi_b2(1P),1,0.3689,0.0792464,12.8142,646.79,-1.49055,1.836,8.4946,7.20435
+C-gi-coff-s,C GI run (s free),bbar,eta_b(2S),1,0.440464,0.112326,74.8599,560,-16.2116,19.4532,7.67562,7.20435
+C-gi-coff-s,C GI run (s free),bbar,Upsilon(2S),1,0.45824,0.0988554,37.9566,535.6,-7.98261,8.696,7.37445,7.20435
+C-gi-coff-s,C GI run (s free),bbar,chi_b0(2P),1,0.573008,0.108428,36.4305,326.5,2.83035,-3.3266,8.19873,7.20435
+C-gi-coff-s,C GI run (s free),bbar,chi_b1(2P),1,0.587026,0.100873,27.6178,303.54,1.21136,-1.45177,8.30411,7.20435
+C-gi-coff-s,C GI run (s free),bbar,h_b(2P),1,0.590283,0.0992667,26.1071,299.2,1.10751,-1.33256,8.38717,7.20435
+C-gi-coff-s,C GI run (s free),bbar,chi_b2(2P),1,0.598341,0.095548,22.7559,290.35,3.38882,-4.05813,8.2461,7.20435
+C-gi-coff-s,C GI run (s free),bbar,Upsilon(3S),1,0.675777,0.111036,44.9193,203.9,6.78658,-10.1367,8.70879,7.20435
+C-gi-coff-s,C GI run (s free),bbar,Upsilon_2(1D),0,0.491188,0.0862671,13.1087,395.294,-4.26022,-4.26022,7.74539,7.20435
+C-gi-coff-s,C GI run (s free),bbar,chi_b1(3P),0,0.789154,0.115074,37.2237,45.58,31.6991,31.6991,9.03965,7.20435
+C-gi-coff-s,C GI run (s free),bbar,chi_b2(3P),0,0.799142,0.110837,31.987,34.98,33.7421,33.7421,9.07802,7.20435
+C-gi-coff-s,C GI run (s free),bbar,Upsilon(4S),0,0.869099,0.124506,53.0406,-20.3809,59.1133,59.1133,10.1454,7.20435
+C-gi-coff-s,C GI run (s free),bbar,Upsilon(10860),0,1.04419,0.138293,62.0545,-326.222,-7.35203,-7.35203,12.3259,7.20435
+C-gi-coff-s,C GI run (s free),bbar,Upsilon(11020),0,1.20562,0.151996,71.7818,-440.87,93.6124,93.6124,14.8571,7.20435
+A-frozen-coff-first,A frozen,ccbar,eta_c(1S),1,0.355919,0.325772,114.459,745.605,-9.66669,52.7333,34.3556,15.9481
+A-frozen-coff-first,A frozen,ccbar,J/psi(1S),1,0.412072,0.227079,47.0697,632.8,5.33649,-15.2114,37.5586,15.9481
+A-frozen-coff-first,A frozen,ccbar,chi_c0(1P),1,0.66344,0.234307,34.215,314.203,26.6555,-35.581,6.79173,15.9481
+A-frozen-coff-first,A frozen,ccbar,chi_c1(1P),1,0.66344,0.234307,34.215,219.03,-5.37498,6.58331,20.1168,15.9481
+A-frozen-coff-first,A frozen,ccbar,h_c(1P),1,0.649905,0.247062,40.0214,204.332,-11.9597,15.5002,19.0593,15.9481
+A-frozen-coff-first,A frozen,ccbar,chi_c2(1P),1,0.66344,0.234307,34.215,173.532,-2.28829,4.15113,25.5597,15.9481
+A-frozen-coff-first,A frozen,ccbar,eta_c(2S),1,0.815335,0.283574,98.1992,91.9372,-2.81438,5.09466,25.4937,15.9481
+A-frozen-coff-first,A frozen,ccbar,psi(2S),1,0.856201,0.259567,65.2122,43.6026,-0.0563846,0.174359,38.9943,15.9481
+A-frozen-coff-first,A frozen,ccbar,psi(3770),0,0.881399,0.256851,35.7626,-43.9771,3.7067,3.7067,20.3574,15.9481
+A-frozen-coff-first,A frozen,ccbar,chi_c2(3930),0,1.06809,0.283622,60.4185,-192.761,36.3597,36.3597,27.7211,15.9481
+A-frozen-coff-first,A frozen,ccbar,psi(4040),0,1.22896,0.310344,87.4852,-309.9,33.1785,33.1785,41.262,15.9481
+A-frozen-coff-first,A frozen,ccbar,psi(4160),0,1.25303,0.310064,63.6969,-461.618,-65.4001,-65.4001,40.6393,15.9481
+A-frozen-coff-first,A frozen,ccbar,psi(4415),0,1.55505,0.36144,112.748,-684.813,-23.8741,-23.8741,64.8511,15.9481
+A-frozen-coff-first,A frozen,bbar,eta_b(1S),1,0.208132,0.0978771,35.4871,1160.3,-1.35533,7.55105,8.89166,2.89307
+A-frozen-coff-first,A frozen,bbar,Upsilon(1S),1,0.225218,0.0795288,19.9865,1098.6,-0.166276,0.82869,7.68916,2.89307
+A-frozen-coff-first,A frozen,bbar,chi_b0(1P),1,0.389514,0.0699438,9.9655,699.56,3.20204,-4.24591,3.27275,2.89307
+A-frozen-coff-first,A frozen,bbar,chi_b1(1P),1,0.389514,0.0699438,9.9655,666.22,-2.00497,2.55221,3.37424,2.89307
+A-frozen-coff-first,A frozen,bbar,h_b(1P),1,0.386688,0.0712784,10.5659,659.721,-2.46006,3.169,3.4214,2.89307
+A-frozen-coff-first,A frozen,bbar,chi_b2(1P),1,0.389514,0.0699438,9.9655,646.79,2.16287,-3.01942,3.524,2.89307
+A-frozen-coff-first,A frozen,bbar,eta_b(2S),1,0.489816,0.0799005,27.1731,560,3.02226,-3.35028,5.47709,2.89307
+A-frozen-coff-first,A frozen,bbar,Upsilon(2S),1,0.504839,0.0747468,20.0181,535.6,2.71606,-3.09694,3.14201,2.89307
+A-frozen-coff-first,A frozen,bbar,chi_b0(2P),1,0.6519,0.0773607,15.2189,326.5,0.919162,-1.22699,3.57916,2.89307
+A-frozen-coff-first,A frozen,bbar,chi_b1(2P),1,0.6519,0.0773607,15.2189,303.54,-3.51718,4.17182,3.07189,2.89307
+A-frozen-coff-first,A frozen,bbar,h_b(2P),1,0.649192,0.0782907,15.8883,299.2,-4.14575,4.85976,3.18286,2.89307
+A-frozen-coff-first,A frozen,bbar,chi_b2(2P),1,0.6519,0.0773607,15.2189,290.35,-0.91911,1.08737,3.4281,2.89307
+A-frozen-coff-first,A frozen,bbar,Upsilon(3S),1,0.751159,0.0829751,22.9427,203.9,3.44424,-6.1782,3.5551,2.89307
+A-frozen-coff-first,A frozen,bbar,Upsilon_2(1D),0,0.534371,0.0714389,8.85863,395.294,-9.89785,-9.89785,3.47693,2.89307
+A-frozen-coff-first,A frozen,bbar,chi_b1(3P),0,0.879085,0.0875783,20.0952,45.58,11.9464,11.9464,4.02119,2.89307
+A-frozen-coff-first,A frozen,bbar,chi_b2(3P),0,0.879085,0.0875783,20.0952,34.98,14.1387,14.1387,4.06303,2.89307
+A-frozen-coff-first,A frozen,bbar,Upsilon(4S),0,0.968477,0.0932482,26.9875,-20.3809,39.2281,39.2281,4.85461,2.89307
+A-frozen-coff-first,A frozen,bbar,Upsilon(10860),0,1.16526,0.103841,31.6549,-326.222,-42.9429,-42.9429,6.581,2.89307
+A-frozen-coff-first,A frozen,bbar,Upsilon(11020),0,1.34719,0.114288,36.7526,-440.87,43.4638,43.4638,8.8471,2.89307
+D-gi-coff-s,D GI run (s free),ccbar,eta_c(1S),1,0.307679,0.513117,257.516,745.605,-5.3541,24.7564,38.9488,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,J/psi(1S),1,0.347926,0.378378,120.475,632.8,-2.87747,4.69799,23.6376,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,chi_c0(1P),1,0.504363,0.5046,177.734,314.203,33.5538,-38.5127,4.61006,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,chi_c1(1P),1,0.54066,0.429074,122.122,219.03,0.592493,-0.743607,20.7499,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,h_c(1P),1,0.545886,0.420609,118.345,204.332,-10.1976,14.0185,20.6362,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,chi_c2(1P),1,0.575519,0.369006,83.7609,173.532,-6.54749,9.03013,21.3538,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,eta_c(2S),1,0.694449,0.493389,282.333,91.9372,-2.34469,4.95615,27.4772,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,psi(2S),1,0.723561,0.454686,199.732,43.6026,-7.1128,11.3291,22.7669,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,psi(3770),0,0.733297,0.449034,114.527,-43.9771,43.2837,43.2837,20.5024,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,chi_c2(3930),0,0.946033,0.443142,153.516,-192.761,29.8848,29.8848,23.4855,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,psi(4040),0,1.09411,0.489183,245.554,-309.9,17.228,17.228,29.4553,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,psi(4160),0,1.11713,0.483012,176.884,-461.618,-47.0445,-47.0445,30.4143,16.5283
+D-gi-coff-s,D GI run (s free),ccbar,psi(4415),0,1.46883,0.504237,273.546,-684.813,-79.3296,-79.3296,40.2288,16.5283
+D-gi-coff-s,D GI run (s free),bbar,eta_b(1S),1,0.19007,0.128558,75.9645,1160.3,-0.806358,2.33515,6.60318,2.66614
+D-gi-coff-s,D GI run (s free),bbar,Upsilon(1S),1,0.207958,0.0988547,32.607,1098.6,4.39133,-6.56116,2.50613,2.66614
+D-gi-coff-s,D GI run (s free),bbar,chi_b0(1P),1,0.335831,0.101867,25.5808,699.56,0.48778,-0.590387,3.1649,2.66614
+D-gi-coff-s,D GI run (s free),bbar,chi_b1(1P),1,0.352549,0.08985,17.8836,666.22,-1.82812,2.28993,3.1161,2.66614
+D-gi-coff-s,D GI run (s free),bbar,h_b(1P),1,0.356287,0.0874763,16.6444,659.721,-2.58477,3.28258,3.10961,2.66614
+D-gi-coff-s,D GI run (s free),bbar,chi_b2(1P),1,0.365742,0.0818848,13.7497,646.79,0.174385,-0.211778,3.24981,2.66614
+D-gi-coff-s,D GI run (s free),bbar,eta_b(2S),1,0.443912,0.109253,60.5966,560,-7.76809,8.51067,5.06431,2.66614
+D-gi-coff-s,D GI run (s free),bbar,Upsilon(2S),1,0.460415,0.0982892,36.7135,535.6,-3.21587,3.58076,2.73868,2.66614
+D-gi-coff-s,D GI run (s free),bbar,chi_b0(2P),1,0.58529,0.104607,34.3881,326.5,3.59349,-4.16521,2.79429,2.66614
+D-gi-coff-s,D GI run (s free),bbar,chi_b1(2P),1,0.600039,0.0975285,26.8076,303.54,0.399718,-0.454083,3.16226,2.66614
+D-gi-coff-s,D GI run (s free),bbar,h_b(2P),1,0.603263,0.096095,25.5255,299.2,-0.197558,0.225249,3.34525,2.66614
+D-gi-coff-s,D GI run (s free),bbar,chi_b2(2P),1,0.612159,0.0922738,22.1972,290.35,1.64381,-1.94205,3.11176,2.66614
+D-gi-coff-s,D GI run (s free),bbar,Upsilon(3S),1,0.700944,0.103084,40.2078,203.9,0.110019,-0.226207,3.63897,2.66614
+D-gi-coff-s,D GI run (s free),bbar,Upsilon_2(1D),0,0.494716,0.0865085,13.307,395.294,1.83144,1.83144,3.18274,2.66614
+D-gi-coff-s,D GI run (s free),bbar,chi_b1(3P),0,0.836849,0.102803,32.3188,45.58,8.91517,8.91517,3.44419,2.66614
+D-gi-coff-s,D GI run (s free),bbar,chi_b2(3P),0,0.848466,0.0988313,27.8014,34.98,9.28153,9.28153,3.47296,2.66614
+D-gi-coff-s,D GI run (s free),bbar,Upsilon(4S),0,0.935458,0.106808,42.8682,-20.3809,23.8977,23.8977,3.97312,2.66614
+D-gi-coff-s,D GI run (s free),bbar,Upsilon(10860),0,1.168,0.109339,44.8307,-326.222,-83.4475,-83.4475,4.98288,2.66614
+D-gi-coff-s,D GI run (s free),bbar,Upsilon(11020),0,1.40249,0.110581,46.0788,-440.87,-32.8592,-32.8592,6.63825,2.66614
+B-gi-coff-first,B GI run,ccbar,eta_c(1S),1,0.358885,0.329396,113.15,745.605,-10.4637,55.7074,35.8178,16.6095
+B-gi-coff-first,B GI run,ccbar,J/psi(1S),1,0.414401,0.230972,46.0387,632.8,4.60797,-12.2574,39.9821,16.6095
+B-gi-coff-first,B GI run,ccbar,chi_c0(1P),1,0.672717,0.237428,35.1438,314.203,28.3344,-35.6361,7.15253,16.6095
+B-gi-coff-first,B GI run,ccbar,chi_c1(1P),1,0.672717,0.237428,35.1438,219.03,-3.85077,4.59918,20.8811,16.6095
+B-gi-coff-first,B GI run,ccbar,h_c(1P),1,0.657817,0.251122,41.1729,204.332,-11.6213,14.8437,20.0445,16.6095
+B-gi-coff-first,B GI run,ccbar,chi_c2(1P),1,0.672717,0.237428,35.1438,173.532,-0.937816,1.87613,29.7174,16.6095
+B-gi-coff-first,B GI run,ccbar,eta_c(2S),1,0.843542,0.273081,93.3179,91.9372,-3.15308,5.49574,26.1302,16.6095
+B-gi-coff-first,B GI run,ccbar,psi(2S),1,0.893588,0.24396,59.2938,43.6026,-3.06783,8.01442,38.156,16.6095
+B-gi-coff-first,B GI run,ccbar,psi(3770),0,0.923927,0.244447,32.806,-43.9771,-0.537318,-0.537318,21.9861,16.6095
+B-gi-coff-first,B GI run,ccbar,chi_c2(3930),0,1.15949,0.246395,49.8217,-192.761,3.93266,3.93266,28.245,16.6095
+B-gi-coff-first,B GI run,ccbar,psi(4040),0,1.37509,0.24885,64.3725,-309.9,-22.6794,-22.6794,41.5206,16.6095
+B-gi-coff-first,B GI run,ccbar,psi(4160),0,1.42116,0.248391,45.2772,-461.618,-123.292,-123.292,42.3523,16.6095
+B-gi-coff-first,B GI run,ccbar,psi(4415),0,1.87689,0.244736,65.0926,-684.813,-165.501,-165.501,63.048,16.6095
+B-gi-coff-first,B GI run,bbar,eta_b(1S),1,0.208984,0.0971564,36.1725,1160.3,-1.97413,15.9864,13.8603,4.19994
+B-gi-coff-first,B GI run,bbar,Upsilon(1S),1,0.226502,0.0779328,18.0382,1098.6,0.211326,-1.91461,11.8907,4.19994
+B-gi-coff-first,B GI run,bbar,chi_b0(1P),1,0.386106,0.0713614,10.34,699.56,1.54278,-1.88217,4.98987,4.19994
+B-gi-coff-first,B GI run,bbar,chi_b1(1P),1,0.386106,0.0713614,10.34,666.22,-3.33275,4.19583,4.80647,4.19994
+B-gi-coff-first,B GI run,bbar,h_b(1P),1,0.383513,0.0725846,10.8836,659.721,-3.87245,4.98526,4.82713,4.19994
+B-gi-coff-first,B GI run,bbar,chi_b2(1P),1,0.386106,0.0713614,10.34,646.79,0.932602,-1.29336,5.34699,4.19994
+B-gi-coff-first,B GI run,bbar,eta_b(2S),1,0.489461,0.0807824,28.1926,560,7.25475,-8.56222,6.29439,4.19994
+B-gi-coff-first,B GI run,bbar,Upsilon(2S),1,0.506261,0.0744016,19.1845,535.6,8.59608,-9.73175,3.05501,4.19994
+B-gi-coff-first,B GI run,bbar,chi_b0(2P),1,0.662365,0.0747927,14.7264,326.5,1.71354,-2.10832,4.99886,4.19994
+B-gi-coff-first,B GI run,bbar,chi_b1(2P),1,0.662365,0.0747927,14.7264,303.54,-3.17256,3.76233,4.72207,4.19994
+B-gi-coff-first,B GI run,bbar,h_b(2P),1,0.65962,0.0756437,15.3069,299.2,-3.82816,4.5113,4.77305,4.19994
+B-gi-coff-first,B GI run,bbar,chi_b2(2P),1,0.662365,0.0747927,14.7264,290.35,-1.17743,1.4157,4.92022,4.19994
+B-gi-coff-first,B GI run,bbar,Upsilon(3S),1,0.776264,0.0768696,20.4337,203.9,-0.0109022,0.00201404,5.99515,4.19994
+B-gi-coff-first,B GI run,bbar,Upsilon_2(1D),0,0.534105,0.0719553,9.06238,395.294,-6.98869,-6.98869,4.80072,4.19994
+B-gi-coff-first,B GI run,bbar,chi_b1(3P),0,0.929733,0.0773557,17.1686,45.58,-7.84096,-7.84096,5.73935,4.19994
+B-gi-coff-first,B GI run,bbar,chi_b2(3P),0,0.929733,0.0773557,17.1686,34.98,-7.17721,-7.17721,5.77341,4.19994
+B-gi-coff-first,B GI run,bbar,Upsilon(4S),0,1.04174,0.0788699,21.4165,-20.3809,7.01885,7.01885,6.83455,4.19994
+B-gi-coff-first,B GI run,bbar,Upsilon(10860),0,1.30698,0.0800343,22.0891,-326.222,-117.744,-117.744,9.08321,4.19994
+B-gi-coff-first,B GI run,bbar,Upsilon(11020),0,1.57667,0.0801971,22.397,-440.87,-84.2794,-84.2794,11.7318,4.19994
+B-apt-coff-first,B APT,ccbar,eta_c(1S),1,0.353587,0.323482,114.972,745.605,-10.3667,56.8744,40.2296,17.4911
+B-apt-coff-first,B APT,ccbar,J/psi(1S),1,0.408515,0.225614,45.8196,632.8,3.72219,-9.84902,43.1291,17.4911
+B-apt-coff-first,B APT,ccbar,chi_c0(1P),1,0.66277,0.23141,34.1861,314.203,30.5114,-37.9504,6.22779,17.4911
+B-apt-coff-first,B APT,ccbar,chi_c1(1P),1,0.66277,0.23141,34.1861,219.03,-3.48237,4.1716,22.0832,17.4911
+B-apt-coff-first,B APT,ccbar,h_c(1P),1,0.649579,0.243479,39.6077,204.332,-11.3401,14.5269,21.4323,17.4911
+B-apt-coff-first,B APT,ccbar,chi_c2(1P),1,0.66277,0.23141,34.1861,173.532,-2.17989,4.20253,30.745,17.4911
+B-apt-coff-first,B APT,ccbar,eta_c(2S),1,0.826786,0.270396,94.3993,91.9372,-4.29087,7.53412,27.5563,17.4911
+B-apt-coff-first,B APT,ccbar,psi(2S),1,0.874898,0.241761,59.5269,43.6026,-2.7892,7.11792,40.5305,17.4911
+B-apt-coff-first,B APT,ccbar,psi(3770),0,0.904175,0.241304,32.6565,-43.9771,0.759166,0.759166,23.0415,17.4911
+B-apt-coff-first,B APT,ccbar,chi_c2(3930),0,1.1292,0.246785,50.4437,-192.761,10.0747,10.0747,28.9799,17.4911
+B-apt-coff-first,B APT,ccbar,psi(4040),0,1.33481,0.251466,66.3359,-309.9,-13.2276,-13.2276,42.2836,17.4911
+B-apt-coff-first,B APT,ccbar,psi(4160),0,1.37737,0.250645,46.6181,-461.618,-113.175,-113.175,42.9477,17.4911
+B-apt-coff-first,B APT,ccbar,psi(4415),0,1.81128,0.250408,68.4019,-684.813,-145.936,-145.936,63.1617,17.4911
+B-apt-coff-first,B APT,bbar,eta_b(1S),1,0.208086,0.0976023,36.936,1160.3,-2.06155,14.3167,11.5075,3.46631
+B-apt-coff-first,B APT,bbar,Upsilon(1S),1,0.225731,0.0781319,18.7093,1098.6,0.0888554,-0.766278,9.83288,3.46631
+B-apt-coff-first,B APT,bbar,chi_b0(1P),1,0.386452,0.0706135,10.1636,699.56,3.10352,-3.92178,3.95925,3.46631
+B-apt-coff-first,B APT,bbar,chi_b1(1P),1,0.386452,0.0706135,10.1636,666.22,-2.65567,3.36229,3.99744,3.46631
+B-apt-coff-first,B APT,bbar,h_b(1P),1,0.384084,0.0717342,10.6766,659.721,-3.33729,4.30345,3.99484,3.46631
+B-apt-coff-first,B APT,bbar,chi_b2(1P),1,0.386452,0.0706135,10.1636,646.79,0.465207,-0.633999,4.42959,3.46631
+B-apt-coff-first,B APT,bbar,eta_b(2S),1,0.487869,0.0807015,28.4046,560,5.08544,-5.809,5.86431,3.46631
+B-apt-coff-first,B APT,bbar,Upsilon(2S),1,0.504456,0.0744402,19.5195,535.6,6.48228,-7.35007,2.8876,3.46631
+B-apt-coff-first,B APT,bbar,chi_b0(2P),1,0.658474,0.075142,14.779,326.5,2.09535,-2.6309,4.10528,3.46631
+B-apt-coff-first,B APT,bbar,chi_b1(2P),1,0.658474,0.075142,14.779,303.54,-2.92359,3.4669,3.8753,3.46631
+B-apt-coff-first,B APT,bbar,h_b(2P),1,0.656004,0.0759394,15.3414,299.2,-3.59106,4.21999,3.94976,3.46631
+B-apt-coff-first,B APT,bbar,chi_b2(2P),1,0.658474,0.075142,14.779,290.35,-1.23669,1.48228,4.06289,3.46631
+B-apt-coff-first,B APT,bbar,Upsilon(3S),1,0.768163,0.0781498,21.0924,203.9,0.545753,-0.967479,4.93593,3.46631
+B-apt-coff-first,B APT,bbar,Upsilon_2(1D),0,0.532907,0.0716012,8.98419,395.294,-7.92507,-7.92507,4.04358,3.46631
+B-apt-coff-first,B APT,bbar,chi_b1(3P),0,0.916591,0.07923,17.7182,45.58,-2.94412,-2.94412,4.70838,3.46631
+B-apt-coff-first,B APT,bbar,chi_b2(3P),0,0.916591,0.07923,17.7182,34.98,-2.16421,-2.16421,4.73649,3.46631
+B-apt-coff-first,B APT,bbar,Upsilon(4S),0,1.02392,0.0813886,22.5206,-20.3809,13.9346,13.9346,5.58883,3.46631
+B-apt-coff-first,B APT,bbar,Upsilon(10860),0,1.27845,0.0834238,23.5749,-326.222,-103.416,-103.416,7.36139,3.46631
+B-apt-coff-first,B APT,bbar,Upsilon(11020),0,1.53655,0.0842303,24.1988,-440.87,-62.5027,-62.5027,9.5997,3.46631
+B-const-coff-smeared,B const smeared,ccbar,eta_c(1S),1,0.370133,0.410667,196.49,745.605,-15.2339,63.9623,25.4938,18.9884
+B-const-coff-smeared,B const smeared,ccbar,J/psi(1S),1,0.441017,0.258295,58.5985,632.8,9.56092,-26.8414,36.9943,18.9884
+B-const-coff-smeared,B const smeared,ccbar,chi_c0(1P),1,0.613997,0.38464,103.383,314.203,26.963,-45.9038,11.9978,18.9884
+B-const-coff-smeared,B const smeared,ccbar,chi_c1(1P),1,0.692576,0.283486,46.9767,219.03,7.0309,-8.45622,23.5928,18.9884
+B-const-coff-smeared,B const smeared,ccbar,h_c(1P),1,0.704108,0.272276,42.6277,204.332,-2.73852,3.57913,25.1802,18.9884
+B-const-coff-smeared,B const smeared,ccbar,chi_c2(1P),1,0.73383,0.245879,31.9986,173.532,-14.2399,26.7243,30.3744,18.9884
+B-const-coff-smeared,B const smeared,ccbar,eta_c(2S),1,0.868256,0.332684,140.991,91.9372,-11.5032,18.5071,26.0544,18.9884
+B-const-coff-smeared,B const smeared,ccbar,psi(2S),1,0.927824,0.287134,74.749,43.6026,0.0465605,-0.125808,45.677,18.9884
+B-const-coff-smeared,B const smeared,ccbar,psi(3770),0,0.926667,0.308022,48.8705,-43.9771,22.9827,22.9827,26.1161,18.9884
+B-const-coff-smeared,B const smeared,ccbar,chi_c2(3930),0,1.21025,0.282545,53.4236,-192.761,15.3416,15.3416,29.3519,18.9884
+B-const-coff-smeared,B const smeared,ccbar,psi(4040),0,1.39767,0.30641,85.2505,-309.9,3.71897,3.71897,42.6758,18.9884
+B-const-coff-smeared,B const smeared,ccbar,psi(4160),0,1.40674,0.325002,71.6274,-461.618,-83.2447,-83.2447,44.3424,18.9884
+B-const-coff-smeared,B const smeared,ccbar,psi(4415),0,1.88393,0.308986,89.3705,-684.813,-113.704,-113.704,60.8835,18.9884
+B-const-coff-smeared,B const smeared,bbar,eta_b(1S),1,0.209816,0.109728,54.3533,1160.3,-2.91232,16.1502,9.16781,3.72037
+B-const-coff-smeared,B const smeared,bbar,Upsilon(1S),1,0.230236,0.0843881,26.0377,1098.6,2.47921,-10.6672,8.18434,3.72037
+B-const-coff-smeared,B const smeared,bbar,chi_b0(1P),1,0.376542,0.0841383,15.9347,699.56,6.96719,-9.17543,3.1628,3.72037
+B-const-coff-smeared,B const smeared,bbar,chi_b1(1P),1,0.395631,0.0739486,10.9708,666.22,0.870921,-1.11907,4.50035,3.72037
+B-const-coff-smeared,B const smeared,bbar,h_b(1P),1,0.399951,0.0719703,10.2094,659.721,-0.629715,0.820939,4.62049,3.72037
+B-const-coff-smeared,B const smeared,bbar,chi_b2(1P),1,0.408018,0.0684114,8.7687,646.79,-3.84076,5.36508,4.26061,3.72037
+B-const-coff-smeared,B const smeared,bbar,eta_b(2S),1,0.494008,0.0877445,36.7077,560,-6.90009,7.69441,5.83988,3.72037
+B-const-coff-smeared,B const smeared,bbar,Upsilon(2S),1,0.511516,0.0804036,24.1818,535.6,-3.29334,3.78695,4.06911,3.72037
+B-const-coff-smeared,B const smeared,bbar,chi_b0(2P),1,0.642212,0.0893081,22.1174,326.5,3.32741,-4.4365,4.38983,3.72037
+B-const-coff-smeared,B const smeared,bbar,chi_b1(2P),1,0.659315,0.082918,17.0666,303.54,0.0611852,-0.0886675,4.37469,3.72037
+B-const-coff-smeared,B const smeared,bbar,h_b(2P),1,0.663009,0.0817091,16.2732,299.2,-0.650942,0.759294,4.50867,3.72037
+B-const-coff-smeared,B const smeared,bbar,chi_b2(2P),1,0.670963,0.0790433,14.5378,290.35,-1.63214,1.95156,4.3311,3.72037
+B-const-coff-smeared,B const smeared,bbar,Upsilon(3S),1,0.764835,0.087617,26.3862,203.9,1.72592,-2.99417,5.17204,3.72037
+B-const-coff-smeared,B const smeared,bbar,Upsilon_2(1D),0,0.542394,0.0752796,9.40225,395.294,-12.1509,-12.1509,4.26327,3.72037
+B-const-coff-smeared,B const smeared,bbar,chi_b1(3P),0,0.903397,0.090396,21.498,45.58,13.6907,13.6907,4.89629,3.72037
+B-const-coff-smeared,B const smeared,bbar,chi_b2(3P),0,0.914887,0.0872908,18.9344,34.98,12.7707,12.7707,4.91044,3.72037
+B-const-coff-smeared,B const smeared,bbar,Upsilon(4S),0,1.00581,0.0937183,28.7706,-20.3809,32.8913,32.8913,5.71163,3.72037
+B-const-coff-smeared,B const smeared,bbar,Upsilon(10860),0,1.24322,0.0979844,30.7652,-326.222,-64.9995,-64.9995,7.23529,3.72037
+B-const-coff-smeared,B const smeared,bbar,Upsilon(11020),0,1.48214,0.100533,32.223,-440.87,-4.62611,-4.62611,9.23164,3.72037
+B-frozen-coff-first,B frozen,ccbar,eta_c(1S),1,0.36301,0.345062,122.188,745.605,-11.8428,66.2644,42.3351,19.0361
+B-frozen-coff-first,B frozen,ccbar,J/psi(1S),1,0.420922,0.238933,48.1664,632.8,3.86775,-9.92396,47.0879,19.0361
+B-frozen-coff-first,B frozen,ccbar,chi_c0(1P),1,0.683758,0.244738,36.1217,314.203,33.5089,-41.5846,6.00511,19.0361
+B-frozen-coff-first,B frozen,ccbar,chi_c1(1P),1,0.683758,0.244738,36.1217,219.03,-1.69,2.01901,24.1235,19.0361
+B-frozen-coff-first,B frozen,ccbar,h_c(1P),1,0.670257,0.257625,42.0053,204.332,-10.2612,13.0958,23.8517,19.0361
+B-frozen-coff-first,B frozen,ccbar,chi_c2(1P),1,0.683758,0.244738,36.1217,173.532,-4.53542,8.77433,33.9682,19.0361
+B-frozen-coff-first,B frozen,ccbar,eta_c(2S),1,0.854093,0.283953,98.6342,91.9372,-5.06345,8.7186,29.7223,19.0361
+B-frozen-coff-first,B frozen,ccbar,psi(2S),1,0.904227,0.254184,62.1645,43.6026,-4.15475,10.2362,43.769,19.0361
+B-frozen-coff-first,B frozen,ccbar,psi(3770),0,0.934863,0.254028,34.1752,-43.9771,4.87462,4.87462,25.3008,19.0361
+B-frozen-coff-first,B frozen,ccbar,chi_c2(3930),0,1.16801,0.259369,52.774,-192.761,5.29686,5.29686,31.6,19.0361
+B-frozen-coff-first,B frozen,ccbar,psi(4040),0,1.38184,0.26357,68.9593,-309.9,-17.7795,-17.7795,46.1308,19.0361
+B-frozen-coff-first,B frozen,ccbar,psi(4160),0,1.42644,0.262928,48.5246,-461.618,-114.43,-114.43,47.11,19.0361
+B-frozen-coff-first,B frozen,ccbar,psi(4415),0,1.87834,0.261494,70.7364,-684.813,-153.572,-153.572,68.8085,19.0361
+B-frozen-coff-first,B frozen,bbar,eta_b(1S),1,0.209755,0.098834,37.4408,1160.3,-2.29186,17.1392,12.981,3.87953
+B-frozen-coff-first,B frozen,bbar,Upsilon(1S),1,0.227693,0.0788912,18.468,1098.6,0.172803,-1.31689,11.0285,3.87953
+B-frozen-coff-first,B frozen,bbar,chi_b0(1P),1,0.388684,0.0719538,10.3999,699.56,2.92158,-3.63608,4.47917,3.87953
+B-frozen-coff-first,B frozen,bbar,chi_b1(1P),1,0.388684,0.0719538,10.3999,666.22,-2.76212,3.48964,4.4928,3.87953
+B-frozen-coff-first,B frozen,bbar,h_b(1P),1,0.386313,0.0730895,10.919,659.721,-3.4233,4.41439,4.50184,3.87953
+B-frozen-coff-first,B frozen,bbar,chi_b2(1P),1,0.388684,0.0719538,10.3999,646.79,0.0115321,0.0120779,4.95777,3.87953
+B-frozen-coff-first,B frozen,bbar,eta_b(2S),1,0.491819,0.0818208,28.8417,560,6.12491,-7.11982,6.13974,3.87953
+B-frozen-coff-first,B frozen,bbar,Upsilon(2S),1,0.508867,0.0752727,19.5027,535.6,7.62283,-8.62492,3.03219,3.87953
+B-frozen-coff-first,B frozen,bbar,chi_b0(2P),1,0.664321,0.0760048,14.9582,326.5,2.13941,-2.65646,4.58361,3.87953
+B-frozen-coff-first,B frozen,bbar,chi_b1(2P),1,0.664321,0.0760048,14.9582,303.54,-3.04097,3.6058,4.3563,3.87953
+B-frozen-coff-first,B frozen,bbar,h_b(2P),1,0.661907,0.0767848,15.5139,299.2,-3.74313,4.40726,4.40986,3.87953
+B-frozen-coff-first,B frozen,bbar,chi_b2(2P),1,0.664321,0.0760048,14.9582,290.35,-1.7628,2.11209,4.50875,3.87953
+B-frozen-coff-first,B frozen,bbar,Upsilon(3S),1,0.776016,0.0787878,21.0565,203.9,0.446184,-0.792756,5.51793,3.87953
+B-frozen-coff-first,B frozen,bbar,Upsilon_2(1D),0,0.536992,0.0727031,9.13986,395.294,-7.22704,-7.22704,4.46898,3.87953
+B-frozen-coff-first,B frozen,bbar,chi_b1(3P),0,0.925823,0.0799473,17.8493,45.58,-4.3335,-4.3335,5.26218,3.87953
+B-frozen-coff-first,B frozen,bbar,chi_b2(3P),0,0.925823,0.0799473,17.8493,34.98,-3.88787,-3.88787,5.29016,3.87953
+B-frozen-coff-first,B frozen,bbar,Upsilon(4S),0,1.03498,0.0819813,22.4754,-20.3809,12.3492,12.3492,6.23746,3.87953
+B-frozen-coff-first,B frozen,bbar,Upsilon(10860),0,1.29244,0.0840332,23.5347,-326.222,-106.301,-106.301,8.19993,3.87953
+B-frozen-coff-first,B frozen,bbar,Upsilon(11020),0,1.55341,0.0848584,24.1663,-440.87,-66.4644,-66.4644,10.5882,3.87953

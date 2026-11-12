@@ -1,0 +1,65 @@
+tag,label,ccbar_runs_p,ccbar_runs,ccbar_runs_all_p,bbar_runs_p,bbar_runs,bbar_runs_all_p,pull_normal_p,pull_rms
+B-const-con-first,B const +c,1,5,1,0.242424,5,0.0552296,0.691316,1.01708
+A-apt-coff-smeared,A APT smeared,0.714286,4,1,1,7,0.637186,0.258322,1.01742
+A-frozen-coff-smeared,A frozen smeared,0.742857,6,1,0.222222,5,0.153435,0.233542,1.02927
+A-gi-coff-smeared,A GI run smeared,1,5,1,0.222222,5,0.153435,0.0871818,0.98649
+A-gi-con-smeared,A GI run +c smeared,0.742857,6,0.388112,0.554002,6,0.344389,0.09907,0.99741
+A-const-con-first,A const +c,1,5,0.771562,0.0181818,3,0.00163399,0.576523,0.978526
+A-apt-con-smeared,A APT +c smeared,0.742857,6,0.388112,0.554002,6,0.344389,0.234901,1.02336
+A-frozen-con-smeared,A frozen +c smeared,0.714286,4,0.242424,0.554002,6,0.344389,0.248099,1.01081
+B-apt-coff-smeared-fitmu,B APT smeared fitmu_s,0.714286,4,1,1,7,0.637186,0.291339,1.08898
+B-apt-coff-smeared,B APT smeared,0.714286,4,0.222222,0.0699301,4,1,0.0858599,0.986756
+B-gi-coff-smeared,B GI run smeared,1,5,1,0.0181818,3,0.53268,0.0403433,0.983391
+B-frozen-coff-smeared-fitmu,B frozen smeared fitmu_s,0.742857,6,1,0.222222,5,0.153435,0.341646,1.11161
+B-gi-coff-smeared-fitmu,B GI run smeared fitmu_s,0.714286,4,1,0.222222,5,0.153435,0.140435,1.08227
+B-gi-con-smeared,B GI run +c smeared,0.714286,4,0.222222,0.562937,6,0.623422,0.305959,1.00245
+B-frozen-coff-smeared,B frozen smeared,0.742857,4,0.242424,0.0699301,4,1,0.0141061,0.994109
+B-apt-con-smeared,B APT +c smeared,0.714286,4,0.222222,0.554002,6,0.432405,0.322242,0.990262
+A-const-coff-first,A const,1,5,0.796037,0.242424,5,0.0193697,0.87193,0.944597
+B-const-coff-first-fitmu,B const fitmu_s,1,5,0.796037,0.554002,6,0.144796,0.00145592,1.07626
+C-const-coff-s,C const (s free),1,5,1,0.242424,5,0.630468,0.455237,1.04258
+B-frozen-con-smeared,B frozen +c smeared,0.742857,4,0.242424,0.554002,6,0.432405,0.194927,1.00113
+D-const-coff-s,D const (s free),1,5,1,0.388112,9,1,0.128056,1.04141
+D-const-coff-fitmu-s,D const fitmu_s (s free),1,5,1,0.388112,9,1,0.172258,1.09299
+B-const-coff-first,B const,1,5,1,1,7,0.344389,0.0389703,0.943553
+A-gi-coff-first,A GI run,0.742857,6,0.388112,0.562937,6,1,0.290452,0.945111
+C-free-coff-s,C free run (s free),1,5,1,0.771562,8,1,nan,nan
+C-free-coff,C free run,1,5,1,0.771562,8,1,0.0143475,1.23302
+C-gi-con,C GI run +c,0.714286,4,0.0699301,0.242424,5,0.144796,0.605951,1.0518
+A-const-coff-smeared,A const smeared,0.742857,4,0.554002,0.562937,6,0.0704533,0.714777,1.01744
+C-gi-coff-s,C GI run (s free),0.642857,3,0.0763403,0.0151515,3,0.0128205,0.273611,0.965906
+C-gi-coff,C GI run,0.642857,3,0.0763403,0.0151515,3,0.0128205,0.273611,0.965906
+D-gi-coff-fitmu-s,D GI run fitmu_s (s free),0.642857,3,0.0763403,0.388112,9,0.805509,0.0265771,0.986912
+D-gi-coff-fitmu,D GI run fitmu_s,0.642857,3,0.0763403,0.388112,9,0.809045,0.431738,1.06802
+D-free-coff-s,D free run (s free),1,5,1,0.12432,10,0.497153,0.167686,0.998177
+A-frozen-coff-first,A frozen,0.642857,3,0.222222,0.562937,6,1,0.422985,0.96521
+A-gi-con-first,A GI run +c,1,5,1,0.562937,6,1,0.102554,0.984707
+A-const-con-smeared,A const +c smeared,0.742857,4,0.554002,0.771562,8,0.594575,0.8409,1.00186
+D-gi-coff-s,D GI run (s free),0.642857,3,0.222222,0.796037,8,0.630468,0.0579345,0.949733
+D-gi-coff,D GI run,0.642857,3,0.222222,0.796037,8,0.630468,0.0664137,0.953482
+D-free-coff,D free run,1,5,1,0.358197,9,0.809045,0.0432305,1.1678
+B-gi-coff-first-fitmu,B GI run fitmu_s,0.742857,6,0.388112,0.562937,6,1,0.573693,1.05632
+B-gi-coff-first,B GI run,0.642857,3,0.748252,0.242424,5,0.803525,0.129955,0.940586
+D-gi-con,D GI run +c,0.214286,3,0.242424,0.388112,9,0.809045,0.183267,1.05608
+B-const-coff-smeared-fitmu,B const smeared fitmu_s,0.742857,4,0.554002,0.562937,6,0.153435,0.439979,1.15476
+A-frozen-con-first,A frozen +c,1,5,1,0.562937,6,1,0.151979,1.00483
+B-apt-coff-first-fitmu,B APT fitmu_s,0.714286,4,1,0.562937,6,1,0.576254,1.04589
+B-apt-coff-first,B APT,0.642857,3,0.334266,0.562937,6,0.805509,0.209327,0.946778
+B-frozen-coff-first-fitmu,B frozen fitmu_s,0.642857,3,0.222222,0.562937,6,1,0.567758,1.07193
+A-apt-con-first,A APT +c,0.742857,6,0.388112,0.554002,6,1,0.111261,1.27842
+B-gi-con-first,B GI run +c,1,5,1,0.562937,6,0.623422,0.168262,0.979899
+B-apt-con-first,B APT +c,1,5,1,0.562937,6,0.805509,0.198636,0.987867
+B-const-coff-smeared,B const smeared,0.742857,4,0.242424,0.562937,6,0.153435,0.519888,1.07215
+B-frozen-coff-first,B frozen,0.642857,3,0.334266,0.562937,6,0.805509,0.22145,0.954674
+D-free-coff-fitmu-s,D free run fitmu_s (s free),1,5,1,0.12432,10,0.497153,1.726e-09,72.948
+C-free-con,C free run +c,1,5,1,1,7,0.803525,2.74814e-08,6.11129
+B-frozen-con-first,B frozen +c,0.642857,3,0.334266,0.562937,6,0.623422,0.18098,0.977664
+D-free-coff-fitmu,D free run fitmu_s,1,5,1,0.796037,8,0.637186,5.21009e-07,3.48443
+B-const-con-smeared,B const +c smeared,0.214286,3,0.222222,0.562937,6,0.153435,0.638793,1.15585
+D-free-con,D free run +c,1,5,1,0.771562,8,0.637186,0.000185473,2.20226
+C-const-con,C const +c,0.742857,4,0.0853147,0.0181818,3,0.00163399,0.265328,1.51699
+A-apt-coff-first,A APT,0.714286,4,1,0.490909,8,0.805509,0.705968,0.925752
+C-const-coff,C const,0.642857,3,0.0763403,0.0763403,4,0.00299675,0.0548257,1.18807
+D-const-con,D const +c,0.214286,3,0.242424,0.0181818,3,0.0217087,0.0506962,1.63705
+D-const-coff-fitmu,D const fitmu_s,0.642857,3,0.0763403,0.0763403,4,0.00269906,0.0252659,1.12866
+D-const-coff,D const,0.642857,3,0.222222,0.0699301,4,0.0704533,0.213019,1.178

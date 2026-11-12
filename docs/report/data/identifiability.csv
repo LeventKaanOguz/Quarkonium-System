@@ -1,0 +1,75 @@
+label,system,combination,rel_sigma
+B APT smeared fitmu_s,ccbar,-1.00·mu_s,1937.27
+B APT smeared fitmu_s,bbar,-1.00·mu_s,9.78927
+B frozen smeared fitmu_s,ccbar,-1.00·mu_s,1620.36
+B frozen smeared fitmu_s,bbar,-1.00·mu_s,442.27
+B GI run smeared fitmu_s,bbar,-1.00·mu_s,587.113
+B APT +c smeared,ccbar,-0.32·m1 -0.10·b +1.00·c -0.68·sigma,1.24554
+B const fitmu_s,ccbar,-1.00·mu_s,909.194
+D const fitmu_s (s free),ccbar,-1.00·mu_s,2744.95
+C free run (s free),ccbar,covariance not finite,inf
+C free run (s free),bbar,covariance not finite,inf
+C free run,ccbar,+1.00·sigma0,5573.24
+C free run,bbar,+0.26·b -1.00·alpha2 +0.75·alpha3,0.112115
+D GI run fitmu_s (s free),ccbar,-1.00·mu_s,1912.43
+D GI run fitmu_s,ccbar,-1.00·mu_s,1912.43
+D GI run fitmu_s,bbar,+1.00·sigma0,506.95
+D free run (s free),ccbar,covariance not finite,inf
+D GI run,bbar,+1.00·sigma0,364.695
+D free run,ccbar,+1.00·sigma0,5839.81
+D free run,bbar,-1.00·alpha1,0.668705
+B GI run fitmu_s,ccbar,-1.00·mu_s,2754.38
+B GI run fitmu_s,bbar,-1.00·mu_s,589.955
+D GI run +c,bbar,-1.00·sigma0,455.739
+B const smeared fitmu_s,ccbar,-1.00·mu_s,2480
+A frozen +c,bbar,-0.10·m1 +1.00·c -0.29·sigma,1.35813
+B APT fitmu_s,ccbar,-1.00·mu_s,3073.2
+B frozen fitmu_s,ccbar,-1.00·mu_s,2720.35
+B frozen fitmu_s,bbar,-1.00·mu_s,495.406
+A APT +c,bbar,+1.00·c,1.6018
+B APT +c,bbar,-0.10·m1 +1.00·c -0.33·sigma,1.42695
+D free run fitmu_s (s free),ccbar,+1.00·mu_s,7194.08
+C free run +c,ccbar,-1.00·sigma0,13376.1
+D free run fitmu_s,ccbar,+1.00·sigma0 +0.94·mu_s,5785.93
+D free run fitmu_s,bbar,-1.00·alpha1 -0.17·mu_s,1.23055
+D free run +c,ccbar,+1.00·sigma0,18201.4
+D free run +c,bbar,+1.00·alpha1,39.7501
+C const +c,bbar,-1.00·c,5.40695
+A APT,bbar,covariance not finite,inf
+C const,bbar,+1.00·sigma0,2579.81
+D const +c,bbar,+1.00·sigma0,3225.09
+D const fitmu_s,ccbar,+1.00·mu_s,2908.69
+D const fitmu_s,bbar,+0.66·b -0.24·alpha1 +1.00·mu_s,0.242402
+D const,bbar,+1.00·sigma0,2213.86
+A APT none,ccbar,covariance not finite,inf
+A APT none,bbar,covariance not finite,inf
+A frozen none,ccbar,covariance not finite,inf
+A frozen none,bbar,covariance not finite,inf
+A GI run none,ccbar,covariance not finite,inf
+A GI run none,bbar,covariance not finite,inf
+B APT none,ccbar,covariance not finite,inf
+B APT none,bbar,covariance not finite,inf
+B const none,ccbar,covariance not finite,inf
+B const none,bbar,covariance not finite,inf
+B frozen none,ccbar,covariance not finite,inf
+B frozen none,bbar,covariance not finite,inf
+B GI run none,ccbar,covariance not finite,inf
+B GI run none,bbar,covariance not finite,inf
+A const none,ccbar,covariance not finite,inf
+A const none,bbar,covariance not finite,inf
+B GI run +c none,ccbar,covariance not finite,inf
+B GI run +c none,bbar,covariance not finite,inf
+A frozen +c none,ccbar,covariance not finite,inf
+A frozen +c none,bbar,covariance not finite,inf
+A APT +c none,ccbar,covariance not finite,inf
+A APT +c none,bbar,covariance not finite,inf
+B frozen +c none,ccbar,covariance not finite,inf
+B frozen +c none,bbar,covariance not finite,inf
+B APT +c none,ccbar,covariance not finite,inf
+B APT +c none,bbar,covariance not finite,inf
+A GI run +c none,ccbar,covariance not finite,inf
+A GI run +c none,bbar,covariance not finite,inf
+B const +c none,ccbar,covariance not finite,inf
+B const +c none,bbar,covariance not finite,inf
+A const +c none,ccbar,covariance not finite,inf
+A const +c none,bbar,covariance not finite,inf
