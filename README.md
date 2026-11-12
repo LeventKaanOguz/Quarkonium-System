@@ -14,11 +14,12 @@ are compared by a full statistical analysis.
 
 **Results** ([report](docs/report/REPORT.md)):
 
-- **No model passes the pre-registered selection** (good masses *and* decays, *and* physically sound). Of 19
-  physical models, 7 fail exactly one check, each a different one:
+- **No model passes the selection rule as amended (see below)**: good masses *and* decays, *and* physically sound.
+  Of 19 physical models, 7 fail exactly one check, spread over four different checks:
   - the spin terms in the Hamiltonian overpredict Γ_γγ(χ_c0) 5–17×;
   - screened running-coupling models underpredict Γ_ee(Υ(3S)) by a third;
-  - constant-coupling models miss the lattice string tension or m_b − m_c.
+  - the first-order models A const, B const and A frozen pass the decays but miss the lattice string tension
+    or m_b − m_c.
 
   Best compromise: the GI-relativized model with constant α_s (C const, s free).
 - **Masses at one declared error** (Paule–Mandel, pooled: c c̄ 13.3 MeV, b b̄ 3.9 MeV) pass in 17 of 19 models.

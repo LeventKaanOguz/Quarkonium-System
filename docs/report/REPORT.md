@@ -7,13 +7,13 @@ generated tables are in [`tables.md`](tables.md). Data: PDG 2026 (`pdg-2026.0.sq
 
 ## Summary
 
-**No model passes the selection rule.** The rule, fixed before the final sweeps, has two gates:
+**No model passes the selection rule as amended (§2.3).** The rule, fixed before the final sweeps, has two
+gates:
 
 - **Gate 1, observables.** No rejection of the masses or of the measured decays.
 - **Gate 2, physics.** Seven checks on the physical soundness of the fit.
 
-Of the 19 models in the physical set, 7 fail exactly one check. Each of these models gets a different
-observable or physics constraint wrong:
+Of the 19 models in the physical set, 7 fail exactly one check, spread over four different checks:
 
 | model | the one failed check | what it gets wrong |
 |---|---|---|
@@ -34,7 +34,8 @@ is practically tied with that of B const (34.18).
      width by a factor of 5–17. Their ³P₀ wave function is pulled in too far at short distance (§4.2).
    - The screened models with running couplings and first-order spin terms describe the P waves but
      underpredict the Υ(3S) leptonic width by about a third. Their |R_3S(0)|² is too small.
-   - The constant-coupling models pass every decay test but fail the string tension or the quark masses.
+   - The first-order models A const, B const and A frozen pass the decays but fail the string tension or the
+     quark masses.
 2. **Masses alone do not discriminate.** At one declared mass error for all models, 17 of 19 models pass the
    mass test. The declared error is c c̄ 13.3 MeV and b b̄ 3.9 MeV, from the Paule–Mandel estimator pooled
    over the ensemble. The decays and the physics checks decide.
@@ -279,7 +280,7 @@ those two show a drift pattern that would point to a missing term.
 ![widths](figures/widths.png)
 
 *Γ(model)/Γ(PDG) for every measured width. Open markers: LO (Van Royen–Weisskopf). Filled markers: NLO at
-μ = M/2. Bars: the scale band, μ = M/4 … M.*
+μ = M/2. Bars: the total error of the log-form test (theory, parametric and PDG), drawn as ratio × e^{±σ}.*
 
 **The two-photon P-wave widths separate the spin treatments.** The ratio Γ_γγ(χ_c2)/Γ_γγ(χ_c0) does not depend
 on the normalisation of the wave function.
