@@ -73,7 +73,9 @@ def spin_structure_rows(main_runs, tags):
             if not mod:
                 continue
             out.append({"tag": t, "label": plain(t), "system": sname,
-                        "spin": r["config"]["spin"],
+                        # C/D: the relativized spin terms are in H
+                        "spin": ("GI, in H" if r["config"]["model"] in ("C", "D")
+                                 else r["config"]["spin"]),
                         **{f"{k}_model" if not k.endswith("_err") else
                            f"{k[:-4]}_model_err": v for k, v in mod.items()},
                         **{f"{k}_pdg": v for k, v in pdg.items()}})

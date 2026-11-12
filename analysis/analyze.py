@@ -46,16 +46,20 @@ R_STRING_BREAK_FM = 1.25
 
 
 def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
-                nested_runs, phys):
+                nested_runs, phys, featured):
     """Model selection (pre-registered rule) and the goodness of fit: Pearson
     chi^2 of the masses at the declared error, the decay benchmark, the
     Bayesian posterior predictive checks; then the diagnostics."""
     out = ""
     pf = pooled_floors()
-    rows, win, best = selection.select(main_runs, floor2_runs, nested_runs, phys, pf)
+    rows, win, best = selection.select_both(main_runs, floor2_runs, nested_runs, phys, pf)
+    featured.append((win or best)["tag"])  # the model the report shows
+    featured.append("selected model" if win else "best compromise")
     write_csv("selection.csv", [{**r, "fails": "; ".join(r["fails"])} for r in rows])
     fig_selection(rows)
-    out += ("## Model selection (pre-registered rule)\n\n"
+    n_lin = sum(r["verdict_linear"] == "pass" for r in rows)
+    n_log = sum(r["verdict_log"] == "pass" for r in rows)
+    out += ("## Model selection (pre-registered rule; decay test amended)\n\n"
             "A model wins only if it (1) reproduces the observables, masses and decays: "
             "no rejection at α = 0.05 after Holm's correction over its four Pearson χ² "
             "tests, and (2) is physically sound: non-degenerate, basis converged, radial "
@@ -63,18 +67,40 @@ def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
             "0.44 ± 0.04 GeV (lattice), 1P centre of gravity − h at the PDG value, "
             "⟨v²⟩ < 0.5; each within 2σ. Among those, the lowest AIC = χ²_masses + "
             "χ²_decays + 2p. The rule and its thresholds were fixed before the final "
-            "sweeps (docs/EXPLANATION.md).\n\n" + md_table(
-                rows, ["label", "p_mass_ccbar", "p_mass_bbar", "p_decay_ccbar",
-                       "p_decay_bbar", "aic", "n_fail", "verdict"],
-                ["configuration", "p masses cc̄", "p masses bb̄", "p decays cc̄",
-                 "p decays bb̄", "AIC", "failed checks", "verdict"],
-                ["", ".3g", ".3g", ".3g", ".3g", ".1f", "d", ""]) + "\n")
+            "sweeps (docs/EXPLANATION.md). Amendment, made after the results were seen: "
+            "the registered decay test is linear in Γ with a theory error ∝ Γ_NLO, so its "
+            "pull is bounded below by −1/f and it cannot reject an overprediction. Gate 1 "
+            "now requires both the registered linear test and the same test on "
+            "ln(Γ_PDG/Γ_NLO) (log; symmetric, milder on underpredictions), each with Holm "
+            "over its four tests: the amendment only adds rejections. Ranking and "
+            "tiebreak: the registered AIC (linear decays). Verdicts: linear = the rule as "
+            f"registered ({n_lin} pass), log = log form alone ({n_log} pass), both = the "
+            "amended rule.\n\n" + md_table(
+                rows, ["label", "p_mass_ccbar", "p_mass_bbar", "p_lin_decay_ccbar",
+                       "p_lin_decay_bbar", "p_decay_ccbar", "p_decay_bbar", "aic",
+                       "n_fail", "verdict_linear", "verdict_log", "verdict"],
+                ["configuration", "p masses cc̄", "p masses bb̄", "p decays cc̄ linear",
+                 "p decays bb̄ linear", "p decays cc̄ log", "p decays bb̄ log",
+                 "AIC", "failed checks", "linear", "log", "both"],
+                ["", ".3g", ".3g", ".3g", ".3g", ".3g", ".3g", ".1f", "d", "", "",
+                 ""]) + "\n")
     out += ("**Winner: " + (f"{win['label']}** (AIC {win['aic']:.1f})." if win else
-            f"none.** No model passes both gates. Best compromise: {best['label']} "
+            f"none.** No model passes both gates. Best compromise (fewest failed checks; "
+            f"ties: registered AIC): {best['label']} "
             f"({best['n_fail']} failed check{'s' if best['n_fail'] != 1 else ''}: "
             f"{'; '.join(best['fails'])}).") + "\n\nFailed checks per model:\n\n" +
             "".join(f"- {r['label']}: {'; '.join(r['fails']) or 'none'}\n" for r in rows) +
             "\n")
+    # gate 2 at the central values alone (no 2-sigma allowance): how much the
+    # parametric errors carry the physics checks
+    lo, hi = selection.quark_mass_window()
+    central = [r["label"] for r in rows if all(
+        selection.SQRT_SIGMA[0] <= r.get(f"sqrtb_{s}", 0.44) <= selection.SQRT_SIGMA[1]
+        and r[f"v2max_{s}"] < selection.V2_MAX and abs(r[f"cogh_{s}"]) <= r[f"cogh_{s}_tol"]
+        for s in ("ccbar", "bbar")) and lo <= r["dm"] <= hi]
+    out += ("Sensitivity: with gate 2 at the central values (√b, m_b − m_c and ⟨v²⟩ "
+            f"without the 2σ allowance), {len(central)} of {len(rows)} models pass it: "
+            f"{', '.join(central) or 'none'}.\n\n")
     crows0 = common_floor_rows(floor2_runs, phys)
     if crows0:
         write_csv("chi2_common_floor.csv", crows0)
@@ -102,12 +128,17 @@ def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
                 "(μ = M/4 … M, half the band, correlated within a process) in quadrature "
                 "with the O(v²) relativistic correction of NRQCD power counting, ⟨v²⟩Γ. "
                 "ppp: the Bayesian posterior predictive p-value of the same widths (stats "
-                "sweep).\n\n" + md_table(
+                "sweep), linear form. log: the amended form (the selection requires both), "
+                "on ln(Γ_PDG/Γ_NLO) with the same errors taken relative (scale band "
+                "correlated within a one-loop-factor class; parametric error diagonal), "
+                "symmetric in over- and underprediction; z: the standardised log ratio of "
+                "the worst width (z > 0: the model is too small).\n\n" + md_table(
                     drows, ["label", "system", "n", "chi2n", "p", "ppp", "worst",
-                            "worst_pull"],
-                    ["configuration", "system", "widths", "χ²/N", "p", "ppp",
-                     "largest pull", "pull"],
-                    ["", "", "d", ".2f", ".3g", ".3g", "", ".2f"]) + "\n")
+                            "worst_pull", "log_chi2n", "log_p", "log_worst", "log_worst_z"],
+                    ["configuration", "system", "widths", "χ²/N linear", "p", "ppp",
+                     "largest pull", "pull", "χ²/N log", "p", "worst", "z"],
+                    ["", "", "d", ".2f", ".3g", ".3g", "", ".2f", ".2f", ".3g", "",
+                     "+.2f"]) + "\n")
     brows = bayes_rows(stats_runs, phys)
     if brows:
         write_csv("bayes.csv", brows)
@@ -235,8 +266,11 @@ def main():
         ["", ".1f", ".1f", ".1f", ".1f", ".1f", ".1f", ".0f",
          lambda v: "yes" if v else ""]) + "\n(all in MeV)\n\n"
 
+    featured = []
     tables += gof_section(main_runs, load("floor0"), merge_systems(load("floor2")),
-                          load("cv"), load("stats"), load("nested"), phys_tags(rows))
+                          load("cv"), load("stats"), load("nested"), phys_tags(rows),
+                          featured)
+    sel, sel_kind = featured  # the winner, or the best compromise
     fig_ranking(rows)
     fig_loo_vs_floor(rows)
     fig_alpha_s()
@@ -247,11 +281,11 @@ def main():
     if top:
         fig_residuals(main_runs, top, "ccbar", "residuals_ccbar")
         fig_residuals(main_runs, top, "bbar", "residuals_bbar")
-        fig_spectrum(main_runs[top[0]], "ccbar", "spectrum_ccbar",
-                     f"charmonium, {describe(top[0])}")
-        fig_spectrum(main_runs[top[0]], "bbar", "spectrum_bbar",
-                     f"bottomonium, {describe(top[0])}")
-        fig_pulls(main_runs[top[0]], "pulls_best")
+        fig_spectrum(main_runs[sel], "ccbar", "spectrum_ccbar",
+                     f"charmonium, {describe(sel)}")
+        fig_spectrum(main_runs[sel], "bbar", "spectrum_bbar",
+                     f"bottomonium, {describe(sel)}")
+        fig_pulls(main_runs[sel], "pulls_best")
         fig_params(main_runs, good[:10])
 
     floor_runs = load("floor")
@@ -528,11 +562,12 @@ def main():
                             ["", "", ".2f", ".2f", ".2f", ".3g", "", ".2f"]) + "\n")
 
     # ---- annihilation widths: LO, NLO, PDG; ratios
-    wtags = phys[:4]
+    wtags = [sel] + [t for t in phys if t != sel][:3]
     wrows = width_rows(main_runs, wtags)
     if wrows:
         write_csv("widths.csv", width_rows(main_runs, phys))
-        tables += ("## Annihilation widths (best four of the physical set; keV)\n\n"
+        tables += (f"## Annihilation widths ({sel_kind}, then the three lowest floors of "
+                   "the physical set; keV)\n\n"
                    "LO: Van Royen–Weisskopf (vector states: |R_S(0) + 5R″_D(0)/(2√2 m²)|², "
                    "so the S–D mixed ψ(3770) is included). NLO: × one-loop QCD factor with "
                    "the MS-bar α_s at μ = M/2 (band μ = M/4 … M); the series converges "
@@ -562,15 +597,15 @@ def main():
     jr = load("joint")
     qrows = validity.quark_mass_rows(main_runs, jr, phys)
     srows = validity.string_tension_rows(main_runs, jr, phys)
-    ref_tag = phys[0]
+    ref_tag = sel
     wrows = validity.wavefunction_check(main_runs[ref_tag])
     write_csv("wavefunction_check.csv", wrows)
     mix, own = validity.mixing_angle(main_runs[ref_tag])
     fig_wavefunctions(main_runs[ref_tag], describe(ref_tag))
     tables += ("## Validity audit\n\n"
                "Physics against references the fits never saw, and the wave functions "
-               "rebuilt from their logged parameters alone (best model of the physical "
-               f"set, {plain(ref_tag)}). Failures are kept.\n\n" +
+               f"rebuilt from their logged parameters alone ({sel_kind}, "
+               f"{plain(ref_tag)}). Failures are kept.\n\n" +
                "".join(f"- {line}\n" for line in validity.summary(sp, qrows, srows, wrows,
                                                                    mix, own)) +
                "\nSpin structure per model (MeV; ρ = (M₂ − M₁)/(M₁ − M₀); cog − h: the 1P "

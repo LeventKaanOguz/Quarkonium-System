@@ -385,8 +385,13 @@ def fig_widths(runs, tags):
     one.SetLineColor(INK2)
     one.SetLineStyle(2)
     one.Draw()
-    leg = keep(ROOT.TLegend(0.09, 0.80, 0.97, 0.97))
-    leg.SetNColumns(2)
+    leg = keep(ROOT.TLegend(0.09, 0.90, 0.97, 0.98))
+    leg.SetNColumns(len(tags))
+    note = keep(ROOT.TLatex())
+    note.SetNDC()
+    note.SetTextSize(0.03)
+    note.SetTextColor(INK2)
+    note.DrawLatex(0.10, 0.85, "open: LO;  filled: NLO, bar: scale band #mu = M/4 ... M")
     for j, t in enumerate(tags):
         g0 = keep(ROOT.TGraph())
         g1 = keep(ROOT.TGraphAsymmErrors())
@@ -410,7 +415,7 @@ def fig_widths(runs, tags):
             g.SetMarkerSize(1.1)
         g0.Draw("P same")
         g1.Draw("PZ same")
-        leg.AddEntry(g1, f"{describe(t)}: open LO, filled NLO (band #mu = M/4 ... M)", "p")
+        leg.AddEntry(g1, describe(t), "p")
     leg.Draw()
     save(c, "widths")
 
@@ -434,11 +439,13 @@ def fig_pulls(run, name):
     st = keep(ROOT.THStack(f"s{name}", ""))
     st.Add(h)
     st.Add(hp)
+    peak = (h.Integral() + hp.Integral()) * 0.5 / math.sqrt(2 * math.pi)
+    st.SetMaximum(1.25 * max(st.GetMaximum(), peak))
     st.Draw("hist")
-    st.GetXaxis().SetTitle("pull (leave-one-out for fitted states)")
+    st.GetXaxis().SetTitle("pull (leave-one-out for fitted states; outside #pm4 in the end bins)")
     st.GetYaxis().SetTitle("states")
     f = keep(ROOT.TF1(f"f{name}", "[0]*exp(-0.5*x*x)", -4, 4))
-    f.SetParameter(0, (h.Integral() + hp.Integral()) * 0.5 / math.sqrt(2 * math.pi))
+    f.SetParameter(0, peak)
     f.SetLineColor(INK2)
     f.SetLineStyle(2)
     f.Draw("same")
@@ -828,20 +835,22 @@ def fig_selection(rows):
     both systems) against alpha = 0.05; filled: passes the physics checks,
     open: fails one. Sorted as the selection table."""
     keys = [("p_mass_ccbar", "masses c#bar{c}"), ("p_mass_bbar", "masses b#bar{b}"),
-            ("p_decay_ccbar", "decays c#bar{c}"), ("p_decay_bbar", "decays b#bar{b}")]
+            ("p_lin_decay_ccbar", "decays c#bar{c} (linear)"),
+            ("p_lin_decay_bbar", "decays b#bar{b} (linear)"),
+            ("p_decay_ccbar", "decays c#bar{c} (log)"), ("p_decay_bbar", "decays b#bar{b} (log)")]
     n = len(rows)
     H = 150 + 24 * n
     c = ROOT.TCanvas("sel", "", 1100, H)
     c.SetLeftMargin(0.30)
     c.SetRightMargin(0.04)
-    c.SetTopMargin(60.0 / H)
+    c.SetTopMargin(80.0 / H)
     c.SetBottomMargin(90.0 / H)
     c.SetLogx()
     c.SetGridx()
     h = keep(ROOT.TH2F("hsel", "", 10, 1e-6, 1.5, n, 0, n))
     h.GetXaxis().SetTitle("p-value (Pearson #chi^{2})")
     for k, r in enumerate(rows):
-        h.GetYaxis().SetBinLabel(n - k, describe(r["tag"]) + ("  #checkmark" if r["verdict"] == "pass" else ""))
+        h.GetYaxis().SetBinLabel(n - k, describe(r["tag"]) + ("  [pass]" if r["verdict"] == "pass" else ""))
     for ax in (h.GetXaxis(), h.GetYaxis()):
         ax.SetLabelFont(43)
         ax.SetTitleFont(43)
@@ -855,8 +864,8 @@ def fig_selection(rows):
     line.SetLineColor(INK2)
     line.SetLineStyle(2)
     line.Draw()
-    leg = keep(ROOT.TLegend(0.31, 1 - 55.0 / H, 0.96, 1 - 6.0 / H))
-    leg.SetNColumns(4)
+    leg = keep(ROOT.TLegend(0.31, 1 - 75.0 / H, 0.96, 1 - 4.0 / H))
+    leg.SetNColumns(3)
     leg.SetTextFont(43)
     leg.SetTextSize(15)
     for j, (key, lab) in enumerate(keys):
@@ -865,8 +874,8 @@ def fig_selection(rows):
             for k, r in enumerate(rows):
                 gate2 = not any(not f.startswith(("mass_", "decay_")) for f in r["fails"])
                 if key in r and math.isfinite(r[key]) and gate2 == physics_ok:
-                    g.SetPoint(g.GetN(), max(r[key], 1.1e-6), n - k - 0.5 + (j - 1.5) * 0.15)
-            g.SetMarkerStyle((20, 21, 22, 23)[j] if physics_ok else (24, 25, 26, 32)[j])
+                    g.SetPoint(g.GetN(), max(r[key], 1.1e-6), n - k - 0.5 + (j - 2.5) * 0.12)
+            g.SetMarkerStyle((20, 21, 22, 23, 33, 34)[j] if physics_ok else (24, 25, 26, 32, 27, 28)[j])
             g.SetMarkerColor(COL[j])
             g.SetMarkerSize(1.0)
             if g.GetN():
@@ -874,6 +883,13 @@ def fig_selection(rows):
             if physics_ok:
                 leg.AddEntry(g, lab, "p")
     leg.Draw()
+    note = keep(ROOT.TLatex())
+    note.SetNDC()
+    note.SetTextFont(43)
+    note.SetTextSize(14)
+    note.SetTextColor(INK2)
+    note.DrawLatex(0.01, 12.0 / H, "filled: physics checks (gate 2) passed;  open: failed;  "
+                   "dashed: #alpha = 0.05 (before Holm)")
     save(c, "selection")
 
 

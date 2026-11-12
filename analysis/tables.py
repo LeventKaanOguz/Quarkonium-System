@@ -1094,10 +1094,16 @@ def decay_rows(main_runs, stats_runs, tags):
             i = int(np.argmax(np.abs(db["pulls"])))
             st = stats_runs.get(t)
             sdb = system(st, sname)["analysis"].get("decay_benchmark", {}) if st else {}
+            from selection import decay_log_chi2  # the amended (log-normal) test
+            lg = decay_log_chi2(s)
             out.append({"tag": t, "label": plain(t), "system": sname, "n": db["n"],
                         "chi2n": db["chi2"] / db["n"], "p": db["p"],
                         "ppp": sdb.get("ppp", math.nan), "worst": db["labels"][i],
-                        "worst_pull": db["pulls"][i]})
+                        "worst_pull": db["pulls"][i],
+                        "log_chi2n": lg[0] / lg[1] if lg else math.nan,
+                        "log_p": float(stats.chi2.sf(lg[0], lg[1])) if lg else math.nan,
+                        "log_worst": lg[2] if lg else "",
+                        "log_worst_z": lg[3] if lg else math.nan})
     return out
 
 
