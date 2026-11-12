@@ -2,6 +2,7 @@
 // notes (Test 6).
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <cmath>
 #include <filesystem>
 
@@ -10,6 +11,7 @@
 #include "fit/driver.hpp"
 #include "fit/joint.hpp"
 #include "fit/least_squares.hpp"
+#include "fit/widths.hpp"
 #include "models/nr_model.hpp"
 
 using namespace qgem;
@@ -459,4 +461,102 @@ TEST(Joint, SharedParametersJacobianAndSeparateLimit) {
   const FitResult fs = levenberg_marquardt(jb, u);
   EXPECT_NEAR(fs.chi2, 2 * 4.0, 1e-6);
   EXPECT_THROW(JointProblem(a, b, {"c"}), std::invalid_argument);  // not free
+}
+
+namespace {
+// the charmonium worked example of the notes (8 states, model A first order)
+struct CharmFit {
+  PdgDatabase pdg{data_path()};
+  Dataset ds = load_dataset(
+      std::string(QGEM_SOURCE_DIR) + "/config/ccbar_fit.states", pdg);
+  NRModel model{{.screened = false,
+                 .spin = SpinMode::FirstOrder,
+                 .contact_in_all_L = true}};
+  ParamSet ps{{{"m1", 1.48, true, Transform::Log},
+               {"m2", 1.48, false, Transform::Identity, -1e300, 1e300, "m1"},
+               {"alpha_s", 0.55, true, Transform::Log},
+               {"b", 0.14, true, Transform::Log},
+               {"c", 0.0, false},
+               {"sigma", 1.1, true, Transform::Log},
+               {"mu_s", 0.1, false}}};
+  BasisSpec bs{.n = 30, .r1 = 0.02, .rmax = 30.0, .eta = 1e-12};
+  Chi2Problem prob{model, ds, ps, MatrixCache(bs), 0.010};
+  FloorFit ff = fit_with_floor(prob, ps.u0());
+};
+}  // namespace
+
+TEST(Widths, ClosureOfTheCombinedFitAndTheoryCovariance) {
+  if (!std::filesystem::exists(data_path()))
+    GTEST_SKIP() << "PDG snapshot not present (data/ is git-ignored)";
+  CharmFit c;
+  ASSERT_TRUE(c.ff.fit.converged);
+  const double eQ = 2.0 / 3.0;
+  MatrixCache cache(c.bs);
+  // the vector and pseudoscalar states of the fit have widths
+  std::vector<WidthChannel> ch;
+  for (const WidthChannel& w : width_channels(c.ds))
+    if (c.ds.d[w.datum].in_fit) ch.push_back(w);
+  ASSERT_EQ(ch.size(), 6u);  // eta_c, J/psi, chi_c0, chi_c2, eta_c(2S), psi(2S)
+  const Vec th = c.ps.theta(c.ff.fit.u);
+  const auto w = compute_widths(c.model, th, c.ds, cache, eQ, ch);
+  for (const WidthValue& x : w) {
+    EXPECT_GT(x.nlo, 0);
+    EXPECT_NEAR(width_theory_error(x),
+                std::hypot(0.5 * std::fabs(x.nlo_hi - x.nlo_lo), x.v2 * x.nlo),
+                1e-15);
+  }
+  // the scale part is correlated within a process, not across processes
+  const Mat V = width_theory_covariance(w, ch);
+  EXPECT_GT(V(1, 5), 0);         // J/psi and psi(2S), both e+e-
+  EXPECT_DOUBLE_EQ(V(0, 1), 0);  // eta_c (gamma gamma) and J/psi (e+e-)
+  // closure: the model's own widths as data are fitted with chi2_w = 0 and
+  // the mass-only parameters are kept
+  WidthData wd{ch, Vec(6), Vec::Constant(6, 1e-7)};
+  for (int k = 0; k < 6; ++k) wd.y(k) = w[k].nlo;
+  WidthProblem wp(c.model, c.ds, c.ps, MatrixCache(c.bs), eQ, wd, c.ff.fit.u);
+  Chi2Problem pm(c.prob);
+  MassWidthProblem mw(pm, wp);
+  const MassWidthFit f = fit_masses_and_widths(mw, c.ff.fit.u, c.ff.sigma_th);
+  ASSERT_TRUE(f.fit.J.size());
+  EXPECT_LT(f.chi2_w, 1e-6);
+  // the widths take part of the leverage, so the mass block keeps more than
+  // N - p degrees of freedom and its floor (chi2_m = nu_m) is a little lower
+  EXPECT_GT(f.nu_m, 4.0);
+  EXPECT_LT(f.nu_m, 8.0);
+  EXPECT_NEAR(f.chi2_m, f.nu_m, 1e-6);
+  EXPECT_LE(f.sigma_th, c.ff.sigma_th);
+  EXPECT_LT((f.fit.u - c.ff.fit.u).cwiseAbs().maxCoeff(), 1e-4);
+}
+
+TEST(Bayes, FloorPosteriorAgreesWithTheQProfileInterval) {
+  if (!std::filesystem::exists(data_path()))
+    GTEST_SKIP() << "PDG snapshot not present (data/ is git-ignored)";
+  CharmFit c;
+  ASSERT_TRUE(c.ff.fit.converged);
+  // ln det V is the Gaussian normalisation of the covariance in use
+  c.prob.set_sigma_th(c.ff.sigma_th);
+  EXPECT_NEAR(c.prob.log_det_covariance(),
+              std::log(c.prob.covariance().determinant()), 1e-9);
+  const McmcResult mr = sample_posterior_floor(c.prob, c.ff.fit, c.ff.sigma_th,
+                                               c.ps, 2, 1500, 300, 7);
+  Mat all(0, c.ps.n_free() + 1);
+  for (const Chain& ch : mr.chains) {
+    all.conservativeResize(all.rows() + ch.samples.rows(), Eigen::NoChange);
+    all.bottomRows(ch.samples.rows()) = ch.samples;
+  }
+  std::vector<double> s(static_cast<std::size_t>(all.rows()));
+  for (int r = 0; r < all.rows(); ++r) s[r] = std::exp(all(r, c.ps.n_free()));
+  std::sort(s.begin(), s.end());
+  const double med = s[s.size() / 2];
+  // the Q-profile 95 % interval of the notes' fit (8.34 MeV, nu = 4)
+  const Vec D = *c.prob.raw_residuals(c.ff.fit.u);
+  const Mat Ve = c.prob.exp_covariance();
+  EXPECT_GT(med, solve_theory_floor(D, Ve, chi2_quantile(0.975, 4)));
+  EXPECT_LT(med, solve_theory_floor(D, Ve, chi2_quantile(0.025, 4)));
+  const PosteriorCheck pc = posterior_predictive(c.prob, all, 200);
+  EXPECT_GT(pc.draws, 100);
+  EXPECT_GT(pc.ppp_chi2, 0.05);  // the floor absorbs the scale
+  EXPECT_LT(pc.ppp_chi2, 0.95);
+  EXPECT_GE(pc.ppp_max, 0.0);
+  EXPECT_LE(pc.ppp_max, 1.0);
 }
