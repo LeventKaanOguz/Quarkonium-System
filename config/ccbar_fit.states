@@ -1,0 +1,16 @@
+# charmonium: every PDG state with a Monte Carlo id. mcid channel n [fit|predict]
+# fit set = the eight states below the D Dbar threshold (notes Table 2); the rest are predictions.
+# (X(3872) = chi_c1(2P) has no Monte Carlo id in the PDG file and is not listed.)
+441      1S0  0 fit      # eta_c(1S)
+443      3S1  0 fit      # J/psi(1S)
+10441    3P0  0 fit      # chi_c0(1P)
+20443    3P1  0 fit      # chi_c1(1P)
+10443    1P1  0 fit      # h_c(1P)
+445      3P2  0 fit      # chi_c2(1P)
+100441   1S0  1 fit      # eta_c(2S)
+100443   3S1  1 fit      # psi(2S)
+30443    3D1  0 predict  # psi(3770)
+100445   3P2  1 predict  # chi_c2(3930) = chi_c2(2P)
+9000443  3S1  2 predict  # psi(4040) = 3S
+9010443  3D1  1 predict  # psi(4160) = 2D
+9020443  3S1  3 predict  # psi(4415) = 4S
