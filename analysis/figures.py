@@ -78,7 +78,9 @@ def text(x, y, s, size=0.035, color=INK, align=11, ndc=True):
 
 
 def fig_ranking(rows):
-    """Dot plot: theory floor of each configuration, both systems."""
+    """Dot plot: the theory floor (Paule-Mandel) of each configuration with its
+    68 % Q-profile interval, both systems (a diagnostic; the grades are the
+    goodness-of-fit tests)."""
     n = len(rows)
     c = ROOT.TCanvas("rank", "", 1100, 160 + 22 * n)
     c.SetLeftMargin(0.30)
@@ -107,13 +109,18 @@ def fig_ranking(rows):
     h.Draw()
     for j, (sname, lab) in enumerate((("ccbar", "c#bar{c}"),
                                       ("bbar", "b#bar{b}"))):
-        g = keep(ROOT.TGraph())
+        g = keep(ROOT.TGraphAsymmErrors())
         for k, r in enumerate(rows):
-            g.SetPoint(k, max(r[f"{sname}_floor"], 1.01), n - k - 0.5)
+            f = max(r[f"{sname}_floor"], 1.01)
+            g.SetPoint(k, f, n - k - 0.5 + (0.12 if j else -0.12))
+            lo, hi = r.get(f"{sname}_floor_lo", math.nan), r.get(f"{sname}_floor_hi", math.nan)
+            if math.isfinite(lo) and math.isfinite(hi):
+                g.SetPointError(k, max(f - max(lo, 1.0), 0), max(hi - f, 0), 0, 0)
         g.SetMarkerStyle(20 if j == 0 else 21)
         g.SetMarkerSize(1.1)
         g.SetMarkerColor(COL[j])
-        g.Draw("P same")
+        g.SetLineColor(COL[j])
+        g.Draw("PZ same")
     leg = keep(ROOT.TLegend(0.72, 1 - 55.0 / (160 + 22 * n), 0.96, 1 - 8.0 / (160 + 22 * n)))
     leg.SetTextFont(43)
     leg.SetTextSize(20)
@@ -179,7 +186,9 @@ def fig_residuals(runs, tags, sname, name):
 
 
 def fig_spectrum(run, sname, name, title):
-    """Level diagram: PDG (black) and model (colour) by J^PC column."""
+    """Level diagram by J^PC column: PDG (black line, grey band +- sigma_exp)
+    and model (coloured line, box +- sqrt(sigma_th^2 + sigma_par^2 +
+    sigma_num^2))."""
     s = system(run, sname)
     cols = ["1S0", "3S1", "1P1", "3P0", "3P1", "3P2", "3D1", "3D2"]
     jpc = {"1S0": "0^{#minus+}", "3S1": "1^{#minus#minus}",
@@ -208,17 +217,32 @@ def fig_spectrum(run, sname, name, title):
     ln.SetLineColor(INK2)
     ln.Draw()
     text(0.05, thr[0] + 0.01, thr[1], 0.030, INK2, 11, ndc=False)
+    sth = s.get("sigma_th_GeV", 0.0)
     for x in s["states"]:
         k = used.index(x["channel"])
+        e = x.get("sigma_exp_GeV") or 0.0
+        if e > 0.0005:
+            band = keep(ROOT.TBox(k + 0.12, x["pdg_GeV"] - e, k + 0.48, x["pdg_GeV"] + e))
+            band.SetFillColorAlpha(INK2, 0.35)
+            band.Draw()
         pdg = keep(ROOT.TLine(k + 0.12, x["pdg_GeV"], k + 0.48, x["pdg_GeV"]))
         pdg.SetLineColor(INK)
         pdg.SetLineWidth(3)
         pdg.Draw()
         m = x["model_GeV"]
-        mod = keep(ROOT.TBox(k + 0.52, m - 0.0025, k + 0.88, m + 0.0025))
-        mod.SetFillColor(COL[0] if x["in_fit"] else COL[1])
+        if m is None:
+            continue
+        err = math.sqrt((sth * x.get("floor_w", 1.0)) ** 2 + (x.get("sigma_par_GeV") or 0) ** 2
+                        + (x.get("sigma_num_GeV") or 0) ** 2)
+        err = max(err, 0.0015)
+        mod = keep(ROOT.TBox(k + 0.52, m - err, k + 0.88, m + err))
+        mod.SetFillColorAlpha(COL[0] if x["in_fit"] else COL[1], 0.45)
         mod.Draw()
-    leg = keep(ROOT.TLegend(0.62, 0.80, 0.96, 0.91))
+        mid = keep(ROOT.TLine(k + 0.52, m, k + 0.88, m))
+        mid.SetLineColor(COL[0] if x["in_fit"] else COL[1])
+        mid.SetLineWidth(2)
+        mid.Draw()
+    leg = keep(ROOT.TLegend(0.36, 0.80, 0.97, 0.92))
     l1 = keep(ROOT.TLine())
     l1.SetLineWidth(3)
     l1.SetLineColor(INK)
@@ -226,9 +250,9 @@ def fig_spectrum(run, sname, name, title):
     b1.SetFillColor(COL[0])
     b2 = keep(ROOT.TBox())
     b2.SetFillColor(COL[1])
-    leg.AddEntry(l1, "PDG", "l")
-    leg.AddEntry(b1, "model, fitted state", "f")
-    leg.AddEntry(b2, "model, prediction", "f")
+    leg.AddEntry(l1, "PDG (band: #pm#sigma_{exp})", "l")
+    leg.AddEntry(b1, "model, fitted (box: #pm#sqrt{#sigma_{th}^{2}+#sigma_{par}^{2}+#sigma_{num}^{2}})", "f")
+    leg.AddEntry(b2, "model, prediction (same)", "f")
     leg.Draw()
     text(0.10, 0.94, title, 0.035)
     save(c, name)
@@ -305,17 +329,22 @@ def fig_loo_vs_floor(rows):
     leg = keep(ROOT.TLegend(0.13, 0.75, 0.50, 0.90))
     for j, (sname, lab) in enumerate((("ccbar", "c#bar{c}"),
                                       ("bbar", "b#bar{b}"))):
-        g = keep(ROOT.TGraph())
+        g = keep(ROOT.TGraphAsymmErrors())
         k = 0
         for r in rows:
             x, y = r[f"{sname}_floor"], r[f"{sname}_loo_rms"]
             if math.isfinite(y) and x > 0:
                 g.SetPoint(k, max(x, 1.05), max(y, 1.05))
+                lo, hi = r.get(f"{sname}_floor_lo", math.nan), r.get(f"{sname}_floor_hi", math.nan)
+                ey = y / math.sqrt(2 * r[f"{sname}_N"])  # sampling error of an RMS
+                g.SetPointError(k, x - lo if math.isfinite(lo) else 0,
+                                hi - x if math.isfinite(hi) else 0, min(ey, y - 1.0), ey)
                 k += 1
         g.SetMarkerStyle(20 if j == 0 else 21)
         g.SetMarkerColor(COL[j])
+        g.SetLineColor(COL[j])
         g.SetMarkerSize(1.1)
-        g.Draw("P same")
+        g.Draw("PZ same")
         leg.AddEntry(g, lab, "p")
     leg.Draw()
     text(0.55, 0.18, "dashed: LOO RMS = #sigma_{th}", 0.03, INK2)
@@ -794,6 +823,60 @@ def fig_averaged(arows, keys):
     save(c, "averaged_predictions")
 
 
+def fig_selection(rows):
+    """The four goodness-of-fit p-values of every model (masses and decays,
+    both systems) against alpha = 0.05; filled: passes the physics checks,
+    open: fails one. Sorted as the selection table."""
+    keys = [("p_mass_ccbar", "masses c#bar{c}"), ("p_mass_bbar", "masses b#bar{b}"),
+            ("p_decay_ccbar", "decays c#bar{c}"), ("p_decay_bbar", "decays b#bar{b}")]
+    n = len(rows)
+    H = 150 + 24 * n
+    c = ROOT.TCanvas("sel", "", 1100, H)
+    c.SetLeftMargin(0.30)
+    c.SetRightMargin(0.04)
+    c.SetTopMargin(60.0 / H)
+    c.SetBottomMargin(90.0 / H)
+    c.SetLogx()
+    c.SetGridx()
+    h = keep(ROOT.TH2F("hsel", "", 10, 1e-6, 1.5, n, 0, n))
+    h.GetXaxis().SetTitle("p-value (Pearson #chi^{2})")
+    for k, r in enumerate(rows):
+        h.GetYaxis().SetBinLabel(n - k, describe(r["tag"]) + ("  #checkmark" if r["verdict"] == "pass" else ""))
+    for ax in (h.GetXaxis(), h.GetYaxis()):
+        ax.SetLabelFont(43)
+        ax.SetTitleFont(43)
+    h.GetYaxis().SetLabelSize(15)
+    h.GetYaxis().SetTickLength(0)
+    h.GetXaxis().SetLabelSize(18)
+    h.GetXaxis().SetTitleSize(20)
+    h.GetXaxis().SetTitleOffset(1.6)
+    h.Draw()
+    line = keep(ROOT.TLine(0.05, 0, 0.05, n))
+    line.SetLineColor(INK2)
+    line.SetLineStyle(2)
+    line.Draw()
+    leg = keep(ROOT.TLegend(0.31, 1 - 55.0 / H, 0.96, 1 - 6.0 / H))
+    leg.SetNColumns(4)
+    leg.SetTextFont(43)
+    leg.SetTextSize(15)
+    for j, (key, lab) in enumerate(keys):
+        for physics_ok in (True, False):
+            g = keep(ROOT.TGraph())
+            for k, r in enumerate(rows):
+                gate2 = not any(not f.startswith(("mass_", "decay_")) for f in r["fails"])
+                if key in r and math.isfinite(r[key]) and gate2 == physics_ok:
+                    g.SetPoint(g.GetN(), max(r[key], 1.1e-6), n - k - 0.5 + (j - 1.5) * 0.15)
+            g.SetMarkerStyle((20, 21, 22, 23)[j] if physics_ok else (24, 25, 26, 32)[j])
+            g.SetMarkerColor(COL[j])
+            g.SetMarkerSize(1.0)
+            if g.GetN():
+                g.Draw("P same")
+            if physics_ok:
+                leg.AddEntry(g, lab, "p")
+    leg.Draw()
+    save(c, "selection")
+
+
 def fig_floor_intervals(grows):
     """Forest plot: the theory floor of each model of the physical set with the
     68 % (thick) and 95 % (thin) intervals of the inverted chi^2 test, one
@@ -852,7 +935,8 @@ def fig_floor_intervals(grows):
 
 def fig_wavefunctions(run, title):
     """Reduced radial wave functions u(r) = r R(r) of the S and P states,
-    rebuilt from the logged expansion (nu, N_nL, c) alone: one panel per
+    rebuilt from the logged expansion (nu, N_nL, c) alone, with their 68 %
+    parametric band (40 draws from the fit's covariance): one panel per
     system, r in fm."""
     import validity
     c = ROOT.TCanvas("wf", "", 1300, 560)
@@ -887,7 +971,20 @@ def fig_wavefunctions(run, title):
         for j, x in enumerate(pick[:6]):
             dom = max(x["wavefunction"]["components"], key=lambda q: q["weight"])
             u = r * validity.radial(nu, norms[dom["L"]], dom["c"], dom["L"], r)
-            u *= np.sign(u[np.argmax(np.abs(u) > 1e-3 * np.abs(u).max())])  # u > 0 at small r
+            sgn = np.sign(u[np.argmax(np.abs(u) > 1e-3 * np.abs(u).max())])  # u > 0 at small r
+            u *= sgn
+            b = x.get("wavefunction_band")
+            if b:  # 16-84 % of u(r) over parameter draws
+                rb = np.array(b["r_fm"])
+                ok = rb <= rmax
+                lo, hi = sgn * np.array(b["u_q16"])[ok], sgn * np.array(b["u_q84"])[ok]
+                lo, hi = np.minimum(lo, hi), np.maximum(lo, hi)
+                xs = np.concatenate([rb[ok], rb[ok][::-1]])
+                ys = np.concatenate([lo, hi[::-1]])
+                band = keep(ROOT.TGraph(len(xs), xs.astype(float), ys.astype(float)))
+                band.SetFillColorAlpha(COL[j % len(COL)], 0.30)
+                band.SetLineWidth(0)
+                band.Draw("F same")
             g = keep(ROOT.TGraph(len(r), (r * hbarc).astype(float), u.astype(float)))
             g.SetLineColor(COL[j % len(COL)])
             g.SetLineWidth(2)
@@ -988,15 +1085,20 @@ def fig_limits(rows, tags, r_break=None):
         leg.SetTextSize(0.032)
         for j, t in enumerate(tags):
             for fitted, mk in ((1, 20), (0, 24)):
-                g = keep(ROOT.TGraph())
+                g = keep(ROOT.TGraphAsymmErrors())
                 for r in rows:
                     if r["tag"] == t and r["in_fit"] == fitted:
-                        g.SetPoint(g.GetN(), r[key], max(abs(r["resid_oos_MeV"]), 0.06))
+                        y = max(abs(r["resid_oos_MeV"]), 0.06)
+                        n = g.GetN()
+                        g.SetPoint(n, r[key], y)
+                        e = r.get("err_MeV", 0.0)
+                        g.SetPointError(n, 0, 0, min(e, y - 0.05), e)
                 g.SetMarkerStyle(mk)
                 g.SetMarkerColor(COL[j])
+                g.SetLineColor(COL[j])
                 g.SetMarkerSize(1.1)
                 if g.GetN():
-                    g.Draw("P same")
+                    g.Draw("PZ same")
                 if fitted:
                     leg.AddEntry(g, describe(t), "p")
         if key == "r_rms_fm" and r_break:

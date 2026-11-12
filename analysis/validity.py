@@ -25,18 +25,36 @@ SPIN = {  # (system, label): what it tests
 }
 
 
-def _spin_values(states, key):
+def _spin_values(states, key, cov=None):
+    """Splittings (MeV) and the fine-structure ratio; with the prediction
+    covariance (GeV^2), their parametric errors (linear propagation)."""
+    lab = [x["label"] for x in states]
     m = {x["label"]: 1e3 * x[key] for x in states if x[key] is not None}
-    s = SPIN
     out = {}
-    for sname, d in s.items():
+    for sname, d in SPIN.items():
         if d["hf1"][0] not in m:
             continue
-        out["hf1"] = m[d["hf1"][0]] - m[d["hf1"][1]]
-        out["hf2"] = m[d["hf2"][0]] - m[d["hf2"][1]]
-        m0, m1, m2, h = (m[k] for k in d["P"])
-        out["rho"] = (m2 - m1) / (m1 - m0)            # fine-structure ratio
-        out["cog_h"] = (m0 + 3 * m1 + 5 * m2) / 9 - h  # P-wave hyperfine
+        lin = {"hf1": {d["hf1"][0]: 1, d["hf1"][1]: -1},
+               "hf2": {d["hf2"][0]: 1, d["hf2"][1]: -1},
+               "cog_h": {d["P"][0]: 1 / 9, d["P"][1]: 3 / 9, d["P"][2]: 5 / 9, d["P"][3]: -1}}
+        for k, a in lin.items():
+            out[k] = sum(c * m[n] for n, c in a.items())
+        m0, m1, m2 = (m[k] for k in d["P"][:3])
+        out["rho"] = (m2 - m1) / (m1 - m0)
+        if cov is not None:
+            C = 1e6 * np.asarray(cov)
+            for k, a in lin.items():
+                v = np.zeros(len(lab))
+                for n, c in a.items():
+                    v[lab.index(n)] = c
+                out[f"{k}_err"] = float(np.sqrt(max(v @ C @ v, 0.0)))
+            # rho = (m2 - m1)/(m1 - m0): gradient in (m0, m1, m2)
+            g = np.zeros(len(lab))
+            den = m1 - m0
+            g[lab.index(d["P"][2])] = 1 / den
+            g[lab.index(d["P"][1])] = -1 / den - (m2 - m1) / den ** 2
+            g[lab.index(d["P"][0])] = (m2 - m1) / den ** 2
+            out["rho_err"] = float(np.sqrt(max(g @ C @ g, 0.0)))
     return out
 
 
@@ -48,13 +66,16 @@ def spin_structure_rows(main_runs, tags):
     for t in tags:
         r = main_runs[t]
         for sname in ("ccbar", "bbar"):
-            st = system(r, sname)["states"]
-            mod, pdg = _spin_values(st, "model_GeV"), _spin_values(st, "pdg_GeV")
+            s = system(r, sname)
+            st = s["states"]
+            mod = _spin_values(st, "model_GeV", s.get("pred_cov_GeV2"))
+            pdg = _spin_values(st, "pdg_GeV")
             if not mod:
                 continue
             out.append({"tag": t, "label": plain(t), "system": sname,
                         "spin": r["config"]["spin"],
-                        **{f"{k}_model": v for k, v in mod.items()},
+                        **{f"{k}_model" if not k.endswith("_err") else
+                           f"{k[:-4]}_model_err": v for k, v in mod.items()},
                         **{f"{k}_pdg": v for k, v in pdg.items()}})
     return out
 
@@ -86,13 +107,17 @@ def quark_mass_rows(main_runs, joint_runs, tags):
     lo, hi = quark_mass_window()
     out = []
     for t in tags:
-        mc = system(main_runs[t], "ccbar")["theta"][0]
-        mb = system(main_runs[t], "bbar")["theta"][0]
-        row = {"tag": t, "label": plain(t), "dm_sep": mb - mc, "lo": lo, "hi": hi}
+        sc, sb = system(main_runs[t], "ccbar"), system(main_runs[t], "bbar")
+        mc, mb = sc["theta"][0], sb["theta"][0]
+        row = {"tag": t, "label": plain(t), "dm_sep": mb - mc, "lo": lo, "hi": hi,
+               "dm_sep_err": math.hypot(sc["analysis"]["sigma"][0], sb["analysis"]["sigma"][0])}
         j = joint_runs.get(t, {}).get("joint")
         if j:
             v = dict(zip(j["names"], j["value"]))
+            e = dict(zip(j["names"], j["sigma"]))
             row["dm_joint"] = v.get("m1(b)", math.nan) - v.get("m1", math.nan)
+            # the joint fit correlates the masses; the quadrature sum bounds it
+            row["dm_joint_err"] = math.hypot(e.get("m1(b)", math.nan), e.get("m1", math.nan))
         out.append(row)
     return out
 
@@ -176,20 +201,30 @@ def mixing_angle(run):
     _, R1D, _ = ov["psi(3770)"]
     D = 5 * R1D / (2 * math.sqrt(2) * m * m)
     M2, M3 = st["psi(2S)"]["pdg_GeV"], st["psi(3770)"]["pdg_GeV"]
-    target = w["psi(3770)"]["pdg_keV"] / w["psi(2S)"]["pdg_keV"]
+    a, b = w["psi(3770)"], w["psi(2S)"]
+    ratio = a["pdg_keV"] / b["pdg_keV"]
+    ratio_err = ratio * math.hypot(a["pdg_err_keV"] / a["pdg_keV"],
+                                   b["pdg_err_keV"] / b["pdg_keV"])
 
-    def f(t):
-        return (M2 / M3) ** 2 * (math.sin(t) * R2S + math.cos(t) * D) ** 2 \
-            / (math.cos(t) * R2S - math.sin(t) * D) ** 2 - target
-    grid = np.linspace(-math.pi / 3, math.pi / 3, 2001)
-    vals = [f(t) for t in grid]
-    roots = [optimize.brentq(f, a, b) for a, b, fa, fb in
-             zip(grid, grid[1:], vals, vals[1:]) if fa * fb < 0]
+    def roots_for(target):
+        def f(t):
+            return (M2 / M3) ** 2 * (math.sin(t) * R2S + math.cos(t) * D) ** 2 \
+                / (math.cos(t) * R2S - math.sin(t) * D) ** 2 - target
+        grid = np.linspace(-math.pi / 3, math.pi / 3, 2001)
+        vals = [f(t) for t in grid]
+        return [optimize.brentq(f, x0, x1) for x0, x1, fa, fb in
+                zip(grid, grid[1:], vals, vals[1:]) if fa * fb < 0]
+    roots = roots_for(ratio)
+    lo, hi = roots_for(ratio - ratio_err), roots_for(ratio + ratio_err)
+    errs = []
+    for k, t0 in enumerate(roots):  # +- from the PDG ratio error
+        near = [min(x, key=lambda q: abs(q - t0)) for x in (lo, hi) if x]
+        errs.append(max((abs(q - t0) for q in near), default=math.nan))
     own = 0.0
     for q in st["psi(3770)"]["wavefunction"]["components"]:
         if q["L"] == 0:
             own = math.degrees(math.asin(math.sqrt(q["weight"])))
-    return [math.degrees(t) for t in roots], own
+    return [(math.degrees(t), math.degrees(e)) for t, e in zip(roots, errs)], own
 
 
 def string_tension_rows(main_runs, joint_runs, tags):
@@ -200,10 +235,14 @@ def string_tension_rows(main_runs, joint_runs, tags):
         for sname in ("ccbar", "bbar"):
             a = system(main_runs[t], sname)["analysis"]
             if "b" in a["names"]:
-                row[f"sqrtb_{sname}"] = math.sqrt(a["value"][a["names"].index("b")])
+                i = a["names"].index("b")
+                row[f"sqrtb_{sname}"] = math.sqrt(a["value"][i])
+                row[f"sqrtb_{sname}_err"] = a["sigma"][i] / (2 * math.sqrt(a["value"][i]))
         j = joint_runs.get(t, {}).get("joint")
         if j and "b" in j["names"]:
-            row["sqrtb_joint"] = math.sqrt(j["value"][j["names"].index("b")])
+            i = j["names"].index("b")
+            row["sqrtb_joint"] = math.sqrt(j["value"][i])
+            row["sqrtb_joint_err"] = j["sigma"][i] / (2 * math.sqrt(j["value"][i]))
         out.append(row)
     return out
 
@@ -222,20 +261,25 @@ def summary(spin_rows, qrows, srows, wrows, mix, own):
         for mode in sorted({r["spin"] for r in rs}):
             m = [r for r in rs if r["spin"] == mode]
             lines.append(
-                f"{sname}, spin {mode} ({len(m)} models): 1S hyperfine "
-                f"{med(m, 'hf1_model'):.1f} MeV (PDG {m[0]['hf1_pdg']:.1f}); "
-                f"fine-structure ratio {med(m, 'rho_model'):.2f} (PDG {m[0]['rho_pdg']:.2f}); "
-                f"cog − h {med(m, 'cog_h_model'):.1f} MeV (PDG {m[0]['cog_h_pdg']:.2f})")
+                f"{sname}, spin {mode} ({len(m)} models, medians ± median parametric error): "
+                f"1S hyperfine {med(m, 'hf1_model'):.1f} ± {med(m, 'hf1_model_err'):.1f} MeV "
+                f"(PDG {m[0]['hf1_pdg']:.1f}); fine-structure ratio {med(m, 'rho_model'):.2f} ± "
+                f"{med(m, 'rho_model_err'):.2f} (PDG {m[0]['rho_pdg']:.2f}); cog − h "
+                f"{med(m, 'cog_h_model'):.1f} ± {med(m, 'cog_h_model_err'):.1f} MeV "
+                f"(PDG {m[0]['cog_h_pdg']:.2f})")
     if qrows:
         lo, hi = qrows[0]["lo"], qrows[0]["hi"]
         ins = sum(lo <= r["dm_sep"] <= hi for r in qrows)
         lines.append(f"m_b − m_c within the heavy-quark window [{lo:.3f}, {hi:.3f}] GeV: "
-                     f"{ins} of {len(qrows)} separate fits (median {med(qrows, 'dm_sep'):.3f}); "
-                     f"joint fits median {med(qrows, 'dm_joint'):.3f} GeV")
+                     f"{ins} of {len(qrows)} separate fits (median {med(qrows, 'dm_sep'):.3f} ± "
+                     f"{med(qrows, 'dm_sep_err'):.3f}); joint fits median "
+                     f"{med(qrows, 'dm_joint'):.3f} ± {med(qrows, 'dm_joint_err'):.3f} GeV")
     if srows:
-        lines.append(f"√b: median c c̄ {med(srows, 'sqrtb_ccbar'):.3f}, b b̄ "
-                     f"{med(srows, 'sqrtb_bbar'):.3f}, joint {med(srows, 'sqrtb_joint'):.3f} GeV "
-                     f"(lattice √σ ≈ {SQRT_SIGMA_LATTICE} GeV)")
+        lines.append(f"√b: median c c̄ {med(srows, 'sqrtb_ccbar'):.3f} ± "
+                     f"{med(srows, 'sqrtb_ccbar_err'):.3f}, b b̄ {med(srows, 'sqrtb_bbar'):.3f} ± "
+                     f"{med(srows, 'sqrtb_bbar_err'):.3f}, joint {med(srows, 'sqrtb_joint'):.3f} ± "
+                     f"{med(srows, 'sqrtb_joint_err'):.3f} GeV (lattice √σ ≈ "
+                     f"{SQRT_SIGMA_LATTICE} GeV)")
     if wrows:
         dn = max(abs(r["norm_json"] - 1) for r in wrows)
         bad = sum(r["nodes_json"] != r["n"] for r in wrows)
@@ -244,6 +288,6 @@ def summary(spin_rows, qrows, srows, wrows, mix, own):
     if mix is not None:
         lines.append(f"ψ(3770): mixing angle reproducing Γee(ψ(3770))/Γee(ψ(2S)) with the "
                      f"model's own R_2S(0), R″_1D(0): "
-                     f"{', '.join(f'{a:.1f}°' for a in mix) or 'none'}; the tensor force "
+                     f"{', '.join(f'{a:.1f}° ± {e:.1f}°' for a, e in mix) or 'none'}; the tensor force "
                      f"alone gives {own:.1f}°")
     return lines

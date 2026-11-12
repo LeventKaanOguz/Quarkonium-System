@@ -23,16 +23,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import model_selection as ms  # noqa: E402
 from common import (REPORT, describe, load, md_table, plain, system, write_csv)  # noqa: E402
 from figures import (fig_alpha_s, fig_averaged, fig_bgrid, fig_error_methods,
-    fig_floor_intervals, fig_learning_curves, fig_wavefunctions, fig_limits, fig_loo_vs_floor,
+    fig_floor_intervals, fig_learning_curves, fig_selection, fig_wavefunctions, fig_limits, fig_loo_vs_floor,
     fig_minimizers,
     fig_params, fig_pulls, fig_ranking, fig_residuals, fig_spectrum, fig_tau,
     fig_weights, fig_widths, root_file)  # noqa: E402
-from sweep import SHAPES, apriori_floors, duplicate_fit  # noqa: E402
+from sweep import SHAPES, duplicate_fit, pooled_floors  # noqa: E402
+import selection  # noqa: E402
 from tables import (SCALING_LAWS, averaged_predictions, bgrid_rows,
     binned_residuals, calibration_rows, check_basis, criteria_agreement,
     cv_rows, error_methods, error_summary, floor_analysis, floor_study_rows,
-    common_floor_rows, floor_study_summary, gof_rows, ic_md, identifiability_rows, joint_rows,
-    limits_rows, truncation_rows, width_ratio_rows, width_rows,
+    bayes_rows, common_floor_rows, decay_rows, floor_study_summary, gof_rows, ic_md, identifiability_rows, joint_rows,
+    limits_rows, mass_width_rows, truncation_rows, width_ratio_rows, width_rows,
     merge_systems, minuit_analysis, nested_rows, nested_tests,
     overfitting_rows, phys_tags, predictive_analysis, rel_rows,
     residual_structure_rows, scaling_rows, summarize, universality_rows,
@@ -44,34 +45,90 @@ from tables import (SCALING_LAWS, averaged_predictions, bgrid_rows,
 R_STRING_BREAK_FM = 1.25
 
 
-def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, phys):
-    """Goodness of fit: chi2/nu at the common a-priori floor (headline), the
-    truncation test per model, the conventional chi^2 with PDG errors only,
-    the floor as an inverted chi^2 test, out-of-sample calibration, and the
-    flavour scaling of the floor."""
+def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
+                nested_runs, phys):
+    """Model selection (pre-registered rule) and the goodness of fit: Pearson
+    chi^2 of the masses at the declared error, the decay benchmark, the
+    Bayesian posterior predictive checks; then the diagnostics."""
     out = ""
+    pf = pooled_floors()
+    rows, win, best = selection.select(main_runs, floor2_runs, nested_runs, phys, pf)
+    write_csv("selection.csv", [{**r, "fails": "; ".join(r["fails"])} for r in rows])
+    fig_selection(rows)
+    out += ("## Model selection (pre-registered rule)\n\n"
+            "A model wins only if it (1) reproduces the observables, masses and decays: "
+            "no rejection at α = 0.05 after Holm's correction over its four Pearson χ² "
+            "tests, and (2) is physically sound: non-degenerate, basis converged, radial "
+            "nodes = radial quantum number, m_b − m_c in the heavy-quark window, √b in "
+            "0.44 ± 0.04 GeV (lattice), 1P centre of gravity − h at the PDG value, "
+            "⟨v²⟩ < 0.5; each within 2σ. Among those, the lowest AIC = χ²_masses + "
+            "χ²_decays + 2p. The rule and its thresholds were fixed before the final "
+            "sweeps (docs/EXPLANATION.md).\n\n" + md_table(
+                rows, ["label", "p_mass_ccbar", "p_mass_bbar", "p_decay_ccbar",
+                       "p_decay_bbar", "aic", "n_fail", "verdict"],
+                ["configuration", "p masses cc̄", "p masses bb̄", "p decays cc̄",
+                 "p decays bb̄", "AIC", "failed checks", "verdict"],
+                ["", ".3g", ".3g", ".3g", ".3g", ".1f", "d", ""]) + "\n")
+    out += ("**Winner: " + (f"{win['label']}** (AIC {win['aic']:.1f})." if win else
+            f"none.** No model passes both gates. Best compromise: {best['label']} "
+            f"({best['n_fail']} failed check{'s' if best['n_fail'] != 1 else ''}: "
+            f"{'; '.join(best['fails'])}).") + "\n\nFailed checks per model:\n\n" +
+            "".join(f"- {r['label']}: {'; '.join(r['fails']) or 'none'}\n" for r in rows) +
+            "\n")
     crows0 = common_floor_rows(floor2_runs, phys)
     if crows0:
-        fl = apriori_floors()
         write_csv("chi2_common_floor.csv", crows0)
-        out += ("## Goodness of fit: χ²/ν at the common a-priori floor\n\n"
-                f"Every model of the physical set refitted at the same floor, c c̄ "
-                f"{fl['ccbar']:.2f} MeV and b b̄ {fl['bbar']:.2f} MeV: the reference model's "
-                "truncation estimate (below), fixed before the comparison. χ²/ν and its "
-                "p-value are then the conventional test, with one error budget for all "
-                "models, including C/D, which have no truncation estimate of their own. "
-                "Sorted by the combined p-value.\n\n" + md_table(
+        out += ("## Goodness of fit: masses (Pearson χ² at the declared error)\n\n"
+                f"Every model refitted with the declared theory error of the masses, c c̄ "
+                f"{pf['ccbar']:.2f} MeV and b b̄ {pf['bbar']:.2f} MeV: the Paule–Mandel "
+                "random-effects estimator (Paule and Mandel 1982) pooled over the physical "
+                "set, so one error budget for all models, favouring none. χ²/ν and its "
+                "p-value P(χ²_ν ≥ χ²) are the conventional test. Sorted by the combined "
+                "p-value.\n\n" + md_table(
                     crows0, ["label", "ccbar_chi2nu", "ccbar_p", "bbar_chi2nu", "bbar_p",
                              "chi2nu", "p"],
                     ["configuration", "χ²/ν cc̄", "p", "χ²/ν bb̄", "p", "χ²/ν both", "p"],
                     ["", ".2f", ".3g", ".2f", ".3g", ".2f", ".3g"]) +
                 f"\n{sum(r['p'] >= 0.05 for r in crows0)} of {len(crows0)} models pass at "
                 "5 % (combined).\n\n")
+    drows = decay_rows(main_runs, stats_runs, phys)
+    if drows:
+        write_csv("decay_benchmark.csv", drows)
+        out += ("## Goodness of fit: decays (held-out benchmark)\n\n"
+                "The measured annihilation widths of the fitted states, predicted by the "
+                "mass-only fit that never saw them: Pearson χ² with V = V_exp + V_theory + "
+                "V_par. Theory error: the truncation of the α_s series by scale variation "
+                "(μ = M/4 … M, half the band, correlated within a process) in quadrature "
+                "with the O(v²) relativistic correction of NRQCD power counting, ⟨v²⟩Γ. "
+                "ppp: the Bayesian posterior predictive p-value of the same widths (stats "
+                "sweep).\n\n" + md_table(
+                    drows, ["label", "system", "n", "chi2n", "p", "ppp", "worst",
+                            "worst_pull"],
+                    ["configuration", "system", "widths", "χ²/N", "p", "ppp",
+                     "largest pull", "pull"],
+                    ["", "", "d", ".2f", ".3g", ".3g", "", ".2f"]) + "\n")
+    brows = bayes_rows(stats_runs, phys)
+    if brows:
+        write_csv("bayes.csv", brows)
+        out += ("## Bayesian inference: the theory floor marginalised\n\n"
+                "Posterior of the parameters and of σ_th (flat priors in u, i.e. in ln θ "
+                "for positive parameters; flat in ln σ_th, scale invariant), Gaussian "
+                "likelihood with its normalisation; 4 Metropolis chains. Posterior "
+                "predictive p-values (Gelman, Meng and Stern 1996) for T = χ² and T = "
+                "max|z|: small means the data are more discrepant than the model's own "
+                "replicas. With σ_th marginalised the χ² check is not sensitive to the "
+                "overall scale; max|z| flags single states.\n\n" + md_table(
+                    brows, ["label", "system", "sth_med", "sth_lo", "sth_hi", "ppp_chi2",
+                            "ppp_max", "rhat_max", "neff_min"],
+                    ["configuration", "system", "σ_th median (MeV)", "16 %", "84 %",
+                     "ppp χ²", "ppp max|z|", "max R̂", "min n_eff"],
+                    ["", "", ".2f", ".2f", ".2f", ".3f", ".3f", ".3f", ".0f"]) + "\n")
     trows = truncation_rows(main_runs, phys)
     if trows:
         write_csv("truncation.csv", trows)
-        out += ("## Goodness of fit at an a-priori floor (A/B, non-relativistic kinetic energy)\n\n"
-                "The floor is not tuned to the data: σ_a is the part of the first omitted "
+        out += ("## Diagnostic: the truncation estimate (A/B, non-relativistic kinetic energy)\n\n"
+                "Not a grade (the grades above use standard methods); a physics diagnostic. "
+                "σ_a is the part of the first omitted "
                 "term, −⟨p⁴⟩(1/8m₁³ + 1/8m₂³), that the model's parameters cannot absorb "
                 "(the model's own values shifted by the term and refitted; σ_a solves the "
                 "floor equation for the unabsorbed residuals R). At σ_a, χ²/ν is the "
@@ -80,7 +137,7 @@ def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, phys):
                 "of the same order and also omitted, so σ_a estimates one term of the "
                 "truncation, not all of it. Per model, σ_a is a self-consistency check, not "
                 "a ranking: a less flexible model absorbs less of the term and passes more "
-                "easily. Models are ranked only at the common floor above.\n\n" + md_table(
+                "easily.\n\n" + md_table(
                     trows, ["label", "system", "sigma_a", "floor", "ratio", "nu", "chi2_nu",
                             "p", "lam", "lam_err"],
                     ["configuration", "system", "σ_a (MeV)", "fitted σ_th (MeV)",
@@ -98,8 +155,10 @@ def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, phys):
     fig_floor_intervals(grows)
     worst_p = max(stats.chi2.logsf(r.get("chi2_pdg_refit", r["chi2_pdg"]), r["nu"])
                   for r in grows) / math.log(10)
-    out += ("## Goodness of fit with the fitted floor (physical set)\n\n"
-           "χ²_PDG: PDG errors only, at the floor fit and refitted (σ_th = 0). The "
+    out += ("## Diagnostic: each model's own floor (physical set)\n\n"
+           "σ_th: the Paule–Mandel estimator per model (χ² = N − p); its interval is the "
+           "Q-profile interval (Viechtbauer 2007), the χ² test inverted. χ²_PDG: "
+           "Cochran's Q, PDG errors only, at the floor fit and refitted (σ_th = 0). The "
            f"largest p-value over the set is 10^{worst_p:.0f}: no model reaches the "
            "precision of the data. σ_th: the χ² test of 'the model is accurate to "
            "σ_th' inverted (every σ_th it accepts at 68 % / 95 % CL). Shift: largest "
@@ -176,7 +235,7 @@ def main():
          lambda v: "yes" if v else ""]) + "\n(all in MeV)\n\n"
 
     tables += gof_section(main_runs, load("floor0"), merge_systems(load("floor2")),
-                          load("cv"), phys_tags(rows))
+                          load("cv"), load("stats"), load("nested"), phys_tags(rows))
     fig_ranking(rows)
     fig_loo_vs_floor(rows)
     fig_alpha_s()
@@ -209,15 +268,15 @@ def main():
             ["", "", "", ".2f", "d", ".3g", ".3g", ".3g", ""]) + "\n"
         tables += wilks_summary(tests, "10 MeV")
 
-    fl = apriori_floors()  # the floors the floor2 sweep used
+    fl = pooled_floors()  # the declared mass error the floor2 sweep used
     FL = f"{fl['ccbar']:.1f}/{fl['bbar']:.1f}"
     floor2_runs = merge_systems(load("floor2"))
     f2rows = []
     if floor2_runs:
         f2rows = floor_analysis(floor2_runs)
         write_csv("information_criteria_floor2.csv", f2rows)
-        tables += (f"## A-priori per-system floors (c c̄ {fl['ccbar']:.2f} MeV, b b̄ "
-                   f"{fl['bbar']:.2f} MeV, the reference model's truncation estimate): "
+        tables += (f"## At the declared mass error (c c̄ {fl['ccbar']:.2f} MeV, b b̄ "
+                   f"{fl['bbar']:.2f} MeV, Paule–Mandel pooled over the physical set): "
                    "information criteria"
                    "\n\n" + ic_md(f2rows[:25]))
         tests2 = nested_tests(f2rows)
@@ -451,6 +510,22 @@ def main():
                    f"{np.nanmedian([abs(r['bc_sep']) for r in jrows]):.0f} MeV separate, "
                    f"{np.nanmedian([abs(r['bc_joint']) for r in jrows]):.0f} MeV joint.)\n\n")
 
+    # ---- masses and widths fitted together (study)
+    mwr = mass_width_rows(main_runs, load("widths"), phys)
+    if mwr:
+        write_csv("mass_width_fit.csv", mwr)
+        tables += ("## Masses and widths fitted together (study)\n\n"
+                   "The measured widths of the fitted states added to the χ² with their "
+                   "experimental and theory errors (fixed); the mass floor iterated on the "
+                   "mass block (leverage share). The selection uses the mass-only fits, with "
+                   "the widths as a held-out benchmark, so that the masses are not traded "
+                   "for the widths; this table shows what the widths would pull.\n\n" +
+                   md_table(mwr, ["label", "system", "floor_mass_only", "floor_combined",
+                                  "chi2w_n", "p_w", "shift_par", "shift"],
+                            ["configuration", "system", "σ_th masses only (MeV)",
+                             "with widths", "χ²/N widths", "p", "largest shift", "(σ)"],
+                            ["", "", ".2f", ".2f", ".2f", ".3g", "", ".2f"]) + "\n")
+
     # ---- annihilation widths: LO, NLO, PDG; ratios
     wtags = phys[:4]
     wrows = width_rows(main_runs, wtags)
@@ -462,11 +537,12 @@ def main():
                    "the MS-bar α_s at μ = M/2 (band μ = M/4 … M); the series converges "
                    "poorly in charmonium. PDG values marked * are summary-table branching "
                    "fraction × total width.\n\n" + md_table(
-                       wrows, ["label", "state", "process", "lo", "nlo", "nlo_lo", "nlo_hi",
-                               "pdg", "pdg_err", "derived", "nlo_ratio"],
-                       ["configuration", "state", "process", "LO", "NLO", "band lo",
-                        "band hi", "PDG", "±", "*", "NLO/PDG"],
-                       ["", "", "", ".3f", ".3f", ".3f", ".3f", ".3f", ".3f",
+                       wrows, ["label", "state", "process", "lo", "nlo", "nlo_err_par",
+                               "nlo_err_th", "nlo_lo", "nlo_hi", "pdg", "pdg_err", "derived",
+                               "pull"],
+                       ["configuration", "state", "process", "LO", "NLO", "± par", "± th",
+                        "band lo", "band hi", "PDG", "±", "*", "pull"],
+                       ["", "", "", ".3f", ".3f", ".3f", ".3f", ".3f", ".3f", ".3f", ".3f",
                         lambda v: "*" if v else "", ".2f"]) + "\n")
         rrows = width_ratio_rows(main_runs, phys)
         write_csv("width_ratios.csv", rrows)
@@ -499,11 +575,15 @@ def main():
                "\nSpin structure per model (MeV; ρ = (M₂ − M₁)/(M₁ − M₀); cog − h: the 1P "
                "centre of gravity minus the ¹P₁ state, zero for a contact spin-spin force "
                "at first order):\n\n" + md_table(
-                   sp, ["label", "system", "spin", "hf1_model", "hf1_pdg", "hf2_model",
-                        "hf2_pdg", "rho_model", "rho_pdg", "cog_h_model", "cog_h_pdg"],
-                   ["configuration", "system", "spin", "1S hf", "PDG", "2S hf", "PDG", "ρ",
-                    "PDG", "cog − h", "PDG"],
-                   ["", "", "", ".1f", ".1f", ".1f", ".1f", ".2f", ".2f", ".1f", ".2f"]) + "\n")
+                   sp, ["label", "system", "spin", "hf1_model", "hf1_model_err", "hf1_pdg",
+                        "hf2_model", "hf2_model_err", "hf2_pdg", "rho_model", "rho_model_err",
+                        "rho_pdg", "cog_h_model", "cog_h_model_err", "cog_h_pdg"],
+                   ["configuration", "system", "spin", "1S hf", "±", "PDG", "2S hf", "±", "PDG",
+                    "ρ", "±", "PDG", "cog − h", "±", "PDG"],
+                   ["", "", "", ".1f", ".1f", ".1f", ".1f", ".1f", ".1f", ".2f", ".2f", ".2f",
+                    ".1f", ".1f", ".2f"]) +
+               "\n(± = parametric error of the model value, from the prediction covariance; "
+               "the theory error of a splitting is not included)\n\n")
 
     # ---- studies: limits of the potential description, state-dependent
     # floors, semi-relativistic kinetic energy

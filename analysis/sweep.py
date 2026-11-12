@@ -15,12 +15,14 @@ sweep resumes where it stopped.
             with the floor re-solved in every refit
     floor0  the conventional fit, PDG errors only (sigma_th = 0), physical set
     floor   common fixed floor (10 MeV): sensitivity of the same
-    floor2  per-system a-priori floors (the reference model's truncation
-            estimate): chi2/nu as a test, AIC, AICc, BIC, evidence
+    floor2  per-system declared mass error (Paule-Mandel pooled over the
+            physical set): chi2/nu and p graded, AIC, AICc, BIC, evidence
     joint   c c-bar + b b-bar with one string tension b: universality, B_c
     joint2  the same with the flavour-independent coupling or smearing shared
+    widths  masses and the measured annihilation widths fitted together
     cv      leave-multiplet-out, repeated 4-fold, learning curves
-    stats   bootstrap, MCMC, jackknife (the physical set and two contrasts)
+    stats   bootstrap, Bayesian posterior (floor marginalised) with posterior
+            predictive checks, jackknife (the physical set and two contrasts)
     nested  basis convergence of every state on nested sizes 10 ... 145
     bopt    each model's own variational (r1, rmax)
     bgrid   the (r1, rmax) plane: level sum and fit
@@ -225,6 +227,38 @@ def rel_configurations():
             and not t.endswith("fitmu")]
 
 
+def pooled_floors():
+    """The declared theory error of the masses, per system (MeV): the
+    Paule-Mandel random-effects estimator (Paule and Mandel 1982) pooled over
+    the physical set, i.e. the sigma at which sum_m Delta_m^T (V_exp +
+    sigma^2 W)^-1 Delta_m = sum_m nu_m over every model m of the set (at their
+    fitted parameters). One error for all models, favouring none: the masses
+    are graded by chi2/nu against it."""
+    import numpy as np
+    from scipy import optimize
+    tags = physical_set()
+    out = {}
+    for sname in SYSTEMS:
+        blocks, nu = [], 0
+        for t in tags:
+            r = json.loads((RES / "main" / f"{t}.json").read_text())
+            s = next(x for x in r["systems"] if x["system"] == sname)
+            fit = [x for x in s["states"] if x["in_fit"]]
+            d = np.array([x["model_GeV"] - x["pdg_GeV"] for x in fit])
+            w = np.array([x.get("floor_w", 1.0) for x in fit])
+            blocks.append((d, np.array(s["V_exp_GeV2"]), w))
+            nu += s["nu"]
+
+        def f(sig):
+            return sum(d @ np.linalg.solve(V + np.diag((sig * w) ** 2), d)
+                       for d, V, w in blocks) - nu
+        hi = 0.01
+        while f(hi) > 0:
+            hi *= 2
+        out[sname] = 1e3 * optimize.brentq(f, 0.0, hi, xtol=1e-12)
+    return out
+
+
 def apriori_floors():
     """The a-priori floors (MeV) per system: the reference model's truncation
     estimate, i.e. the part of the omitted -<p^4>/8m^3 term its parameters
@@ -284,9 +318,11 @@ SWEEPS = {
     "floor2": lambda: (lambda fl: [
         (f"{t}-{sy}", a + ["--systems", sy, "--floor", f"{fl[sy]:.6g}"] +
          restarts(t, 4, 0) + seeds(t, ["main", f"floor2:-{sy}"]))
-        for t, a in _cfg() for sy in SYSTEMS])(apriori_floors()),
+        for t, a in _cfg() for sy in SYSTEMS])(pooled_floors()),
     "joint": lambda: [(t, a + ["--shared", "b"] + restarts(t, 0, 0) +
                        seeds(t, ["main"])) for t, a in _cfg() if t in physical_set()],
+    "widths": lambda: [(t, a + ["--fit-widths"] + restarts(t, 0, 0) + seeds(t, ["main"]))
+                       for t, a in _cfg() if t in physical_set()],
     "joint2": lambda: [(t, a + ["--shared", joint_shared(t)] + restarts(t, 0, 0) +
                         seeds(t, ["main"])) for t, a in _cfg()
                        if t in physical_set() and joint_shared(t)],
@@ -313,7 +349,7 @@ SWEEPS = {
                      seeds(t, ["main"])) for t, a in rel_configurations()],
 }
 ORDER = ["lm", "minuit", "main", "floor0", "floor", "floor2", "joint", "joint2",
-         "cv", "stats", "nested", "bopt", "bgrid", "shape", "rel"]
+         "widths", "cv", "stats", "nested", "bopt", "bgrid", "shape", "rel"]
 
 
 def run_one(qgem, sweep, tag, args):

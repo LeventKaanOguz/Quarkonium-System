@@ -31,6 +31,8 @@ def summarize(runs):
                    if x["in_fit"]]
             row.update({
                 f"{sname}_floor": 1e3 * s["sigma_th_GeV"],
+                f"{sname}_floor_lo": 1e3 * (an.get("sigma_th_ci68_GeV") or [math.nan])[0],
+                f"{sname}_floor_hi": 1e3 * (an.get("sigma_th_ci68_GeV") or [0, math.nan])[1],
                 f"{sname}_chi2": s["chi2"],
                 f"{sname}_N": s["n_data"], f"{sname}_p": s["n_free"],
                 f"{sname}_cond": (an.get("condition") if an.get("condition")
@@ -802,22 +804,28 @@ def limits_rows(runs, tags):
             sname = s["system"]
             if sname not in THRESHOLD_GEV or "sigma_th_GeV" not in s:
                 continue
-            miss = {q["label"]: q["miss"] for q in held_out_points(r, sname, "loo")}
+            pts = {q["label"]: q for q in held_out_points(r, sname, "loo")}
+            miss = {k: q["miss"] for k, q in pts.items()}
             for x in s["states"]:
                 resid = 1e3 * (x["model_GeV"] - x["pdg_GeV"])
                 if x["in_fit"]:
                     if not math.isfinite(miss.get(x["label"], math.nan)):
                         continue
                     oos = 1e3 * miss[x["label"]]
+                    err = 1e3 * pts[x["label"]]["sd"]
                 else:
                     oos = resid
+                    err = 1e3 * math.sqrt((s["sigma_th_GeV"] * x.get("floor_w", 1.0)) ** 2
+                                          + (x.get("sigma_par_GeV") or 0) ** 2
+                                          + (x.get("sigma_num_GeV") or 0) ** 2
+                                          + (x.get("sigma_exp_GeV") or 0) ** 2)
                 out.append({
                     "tag": t, "label": plain(t), "system": sname,
                     "state": x["label"], "in_fit": x["in_fit"],
                     "r_rms_fm": x["r_rms_fm"], "v2": x["v2"],
                     "p4_term_MeV": 1e3 * x["p4_term_GeV"],
                     "below_threshold_MeV": 1e3 * (THRESHOLD_GEV[sname] - x["pdg_GeV"]),
-                    "resid_MeV": resid, "resid_oos_MeV": oos,
+                    "resid_MeV": resid, "resid_oos_MeV": oos, "err_MeV": err,
                     "floor_MeV": 1e3 * s["sigma_th_GeV"] * x.get("floor_w", 1.0)})
     return out
 
@@ -1008,6 +1016,9 @@ def width_rows(main_runs, tags):
                             "nlo_lo": w["nlo_band_lo_keV"], "nlo_hi": w["nlo_band_hi_keV"],
                             "pdg": w["pdg_keV"], "pdg_err": w["pdg_err_keV"],
                             "derived": w.get("pdg_derived", 0),
+                            "nlo_err_par": w.get("nlo_err_par_keV", math.nan),
+                            "nlo_err_th": w.get("nlo_err_th_keV", math.nan),
+                            "pull": w.get("pull", math.nan),
                             "lo_ratio": w["lo_keV"] / w["pdg_keV"],
                             "nlo_ratio": w["nlo_keV"] / w["pdg_keV"]})
     return out
@@ -1065,4 +1076,65 @@ def common_floor_rows(floor2_runs, tags):
             row["p"] = float(stats.chi2.sf(tot, nut))
             out.append(row)
     out.sort(key=lambda r: -r["p"])
+    return out
+
+
+def decay_rows(main_runs, stats_runs, tags):
+    """The decay benchmark per model and system: chi2/N, p, the Bayesian
+    posterior predictive p (stats sweep) and the largest pull."""
+    out = []
+    for t in tags:
+        for sname in ("ccbar", "bbar"):
+            db = system(main_runs[t], sname)["analysis"].get("decay_benchmark")
+            if not db:
+                continue
+            i = int(np.argmax(np.abs(db["pulls"])))
+            st = stats_runs.get(t)
+            sdb = system(st, sname)["analysis"].get("decay_benchmark", {}) if st else {}
+            out.append({"tag": t, "label": plain(t), "system": sname, "n": db["n"],
+                        "chi2n": db["chi2"] / db["n"], "p": db["p"],
+                        "ppp": sdb.get("ppp", math.nan), "worst": db["labels"][i],
+                        "worst_pull": db["pulls"][i]})
+    return out
+
+
+def bayes_rows(stats_runs, tags):
+    """The Bayesian posterior per model and system: sigma_th (median, 68 %),
+    posterior predictive p-values, convergence."""
+    out = []
+    for t in tags:
+        r = stats_runs.get(t)
+        if not r:
+            continue
+        for sname in ("ccbar", "bbar"):
+            m = system(r, sname)["analysis"].get("mcmc")
+            if not m or "sigma_th_median_GeV" not in m:
+                continue
+            out.append({"tag": t, "label": plain(t), "system": sname,
+                        "sth_med": 1e3 * m["sigma_th_median_GeV"],
+                        "sth_lo": 1e3 * m["sigma_th_q16_GeV"],
+                        "sth_hi": 1e3 * m["sigma_th_q84_GeV"],
+                        "ppp_chi2": m["ppp_chi2"], "ppp_max": m["ppp_max"],
+                        "rhat_max": max(m["rhat"]), "neff_min": min(m["n_eff"])})
+    return out
+
+
+def mass_width_rows(main_runs, width_runs, tags):
+    """Masses and widths fitted together: the mass floor, the width chi2, and
+    the largest parameter shift from the mass-only fit (in its errors)."""
+    out = []
+    for t in tags:
+        r = width_runs.get(t)
+        if not r:
+            continue
+        for sname in ("ccbar", "bbar"):
+            m = system(r, sname)["analysis"].get("mass_width_fit")
+            if not m:
+                continue
+            i = int(np.argmax(np.abs(m["shift_sigma"])))
+            out.append({"tag": t, "label": plain(t), "system": sname,
+                        "floor_mass_only": 1e3 * system(main_runs[t], sname)["sigma_th_GeV"],
+                        "floor_combined": 1e3 * m["sigma_th_GeV"],
+                        "chi2w_n": m["chi2_widths"] / m["n_widths"], "p_w": m["p_widths"],
+                        "shift_par": m["names"][i], "shift": m["shift_sigma"][i]})
     return out
