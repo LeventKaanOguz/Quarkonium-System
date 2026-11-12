@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Quarkonium-System: heavy-quarkonium spectroscopy with the Gaussian Expansion Method"
+abstract: >-
+  Charmonium, bottomonium and B_c spectra from non-relativistic and
+  relativized (Godfrey-Isgur) potential models, solved with the Gaussian
+  Expansion Method and fitted to the PDG, with a statistical analysis of the
+  models: information criteria, cross-validation, bootstrap, MCMC and model
+  averaging.
+authors:
+  - family-names: "Özpineci"
+    given-names: "Altuğ"
+  - family-names: "Oğuz"
+    given-names: "Levent Kaan"
+license: MIT
+version: "1.0.0"
+date-released: "2026-11-12"
+repository-code: "https://github.com/LeventKaanOguz/Quarkonium-System"
+keywords:
+  - quarkonium
+  - Gaussian expansion method
+  - potential model
+  - Godfrey-Isgur
+  - model selection
+  - CERN ROOT
