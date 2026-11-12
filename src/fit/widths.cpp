@@ -128,15 +128,24 @@ Result<Vec> WidthProblem::residuals(const Vec& u) {
 }
 
 Result<Mat> WidthProblem::jacobian(const Vec& u) {
+  // central differences; one-sided where a step leaves the parameter bounds
+  // (e.g. mu_s at its lower bound)
+  const auto z0 = residuals(u);
+  if (!z0) return fail("width Jacobian: " + z0.error().message);
   Mat J(n_data(), n_free());
   for (int a = 0; a < n_free(); ++a) {
     const double h = 1e-5 * std::max(1.0, std::fabs(u(a)));
     Vec up = u, um = u;
     up(a) += h, um(a) -= h;
     const auto zp = residuals(up), zm = residuals(um);
-    if (!zp || !zm)
-      return fail("width Jacobian: " + (zp ? zm : zp).error().message);
-    J.col(a) = (*zp - *zm) / (2 * h);
+    if (zp && zm)
+      J.col(a) = (*zp - *zm) / (2 * h);
+    else if (zp)
+      J.col(a) = (*zp - *z0) / h;
+    else if (zm)
+      J.col(a) = (*z0 - *zm) / h;
+    else
+      return fail("width Jacobian: " + zp.error().message);
   }
   return J;
 }

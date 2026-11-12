@@ -243,7 +243,7 @@ McmcResult sample_posterior_floor(const Chi2Problem& prob, const FitResult& fit,
   Chi2Problem c(prob);
   const int p = params.n_free();
   const Uncertainty U = analyse(fit, params);
-  const double lo = std::log(1e-5), hi = std::log(0.2);
+  const double lo = std::log(1e-5), hi = std::log(0.05);
   auto log_post = [&](const Vec& v) {
     const double s = v(p);
     if (s < lo || s > hi) return -std::numeric_limits<double>::infinity();
@@ -258,7 +258,10 @@ McmcResult sample_posterior_floor(const Chi2Problem& prob, const FitResult& fit,
   C(p, p) = 1.0 / (2.0 * nu);  // sd of ln sigma ~ 1/sqrt(2 nu)
   Vec v0(p + 1);
   v0 << fit.u, std::log(std::max(sigma_th, 2e-5));
-  return metropolis(log_post, v0, C, chains, steps, burn, seed);
+  // chains start near the mode (no overdispersion): a free floor makes far
+  // basins of the parameters (sigma_th ~ 0.2 GeV) reachable, and R-hat is
+  // reported to flag chains that still disagree
+  return metropolis(log_post, v0, C, chains, steps, burn, seed, 1.0);
 }
 
 PosteriorCheck posterior_predictive(const Chi2Problem& prob, const Mat& samples,

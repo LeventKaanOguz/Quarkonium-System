@@ -103,8 +103,10 @@ McmcResult sample_posterior(Chi2Problem& prob, const FitResult& fit,
 /// Hierarchical posterior of (u, ln sigma_th): the Gaussian likelihood with
 /// V(sigma) = V_exp + sigma^2 W and its normalisation -ln det V / 2, flat
 /// priors in u (flat in ln theta for positive parameters) and in ln sigma_th
-/// on [1e-5, 0.2] GeV (scale invariant). The theory floor is marginalised,
-/// not fixed. The last column of every chain is ln sigma_th.
+/// on [1e-5, 0.05] GeV (scale invariant; a model missing by more is no
+/// spectroscopic description, and the bound keeps the posterior proper). The
+/// theory floor is marginalised, not fixed. The last column of every chain is
+/// ln sigma_th.
 McmcResult sample_posterior_floor(const Chi2Problem& prob, const FitResult& fit,
                                   double sigma_th, const ParamSet& params,
                                   int chains, int steps, int burn,
