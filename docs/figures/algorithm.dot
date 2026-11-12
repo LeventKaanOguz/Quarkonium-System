@@ -1,0 +1,79 @@
+// qgem algorithm chart. Render: dot -Tsvg algorithm.dot -o algorithm.svg
+digraph qgem {
+  graph [rankdir=TB, fontname="Helvetica", fontsize=11, nodesep=0.35, ranksep=0.42,
+         bgcolor="white", pad=0.3, newrank=true, compound=true];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10.5,
+         color="#52514e", fillcolor="#fcfcfb", penwidth=1.1, margin="0.14,0.07"];
+  edge  [color="#52514e", arrowsize=0.7, fontname="Helvetica", fontsize=9, fontcolor="#52514e"];
+
+  subgraph cluster_in {
+    label="inputs"; style="rounded,dashed"; color="#b8b6ae"; fontcolor="#52514e";
+    pdg   [label="PDG 2026 snapshot\n(data/pdg-2026.0.sqlite)"];
+    states[label="state lists  config/*.states\nPDG id → channel ²ˢ⁺¹L_J, radial n,\nfit | predict, common systematics"];
+    cli   [label="configuration (qgem CLI)\nmodel A|B|C|D · α_s form · c on|off\nspin mode · μ_s · floor · fitter\n--shared · --fit-widths · --mcmc"];
+  }
+  {rank=same; pdg; states; cli;}
+  {rank=same; params; basis;}
+  {rank=same; cov; loo; resam; num;}
+  dataset [label="Dataset\nmeasured masses, covariance V_exp;\nwidths: listed, or BR × Γ_total"];
+  pdg -> dataset; states -> dataset;
+
+  subgraph cluster_model {
+    label="model  θ = (m_Q, α_s, b, σ, …)"; style="rounded"; color="#2a78d6"; fontcolor="#2a78d6";
+    params [label="ParamSet: free/fixed/tied,\nu = transform(θ)  (log for positive θ)"];
+    coupling [label="running coupling α_s(Q²)\nconst · GI 3-Gaussian · frozen · APT\n(frozen/APT → NNLS Gaussian-sum shape)"];
+    pot [label="potential + spin terms\nA/B: Cornell / screened + Breit–Fermi\nC/D: Godfrey–Isgur relativized (smeared, p-dependent)"];
+  }
+  cli -> params; cli -> coupling; coupling -> pot; params -> pot;
+
+  subgraph cluster_gem {
+    label="Gaussian Expansion Method (per channel L,S,J)"; style="rounded"; color="#1baf7a"; fontcolor="#13805a";
+    basis [label="geometric Gaussian basis\nφ_i = r^L exp(−r²/r_i²),  r_i geometric in [r₁, r_max]\n(r₁, r_max): variational level sum;  n: nested convergence (37)"];
+    me    [label="closed-form matrix elements (cached)\nS, T, ⟨r^k⟩, erf/r, exp(−μr), smeared Coulomb, √(p²+m²)"];
+    gep   [label="generalized eigenproblem  H c = E S c\ncanonical orthogonalization (drop S eigenvalues < η)"];
+    levels[label="levels → masses M = m₁+m₂+E (A/B) or E (C/D)\n+ first-order L·S, tensor ⟨W⟩;  level tracking"];
+    fh    [label="Feynman–Hellmann  ∂M/∂θ = cᵀ(∂H/∂θ)c\n(+ eigenvector term for first-order W)"];
+  }
+  pot -> me; basis -> me; me -> gep; gep -> levels; levels -> fh;
+
+  subgraph cluster_fit {
+    label="fit"; style="rounded"; color="#eb6834"; fontcolor="#c4501f";
+    chi2  [label="whitened residuals  z = L⁻¹(y − μ(θ)),\nV = V_exp + σ_th² W,  χ² = |z|²,  J = ∂z/∂u\n(+ widths block with --fit-widths;\n c c̄ + b b̄ stacked with --shared)\nphysical domain: no collapse, σ r₁ ≤ 1"];
+    minim [label="minimiser\nLevenberg–Marquardt  |  Minuit2 Migrad (ROOT)\nnested start (smaller model first)\nseeds: best minima of LM, Minuit2, nested models\n× multistart (random θ₀, keep best)"];
+    floor [label="theory floor (Paule–Mandel):\nΔᵀ(V_exp + σ_th² W)⁻¹Δ = ν, full covariance;\nQ-profile interval; or a fixed σ_th"];
+    conv  [shape=diamond, label="σ_th\nconverged?", margin="0.04,0.03", fillcolor="#fff7e6"];
+  }
+  dataset -> chi2; levels -> chi2 [label=" μ(θ)"]; fh -> chi2 [label=" J"];
+  chi2 -> minim -> floor -> conv;
+  conv -> chi2 [label=" no: refit", style=dashed];
+
+  subgraph cluster_unc {
+    label="uncertainties & model checks"; style="rounded"; color="#6250d6"; fontcolor="#6250d6";
+    cov   [label="C = (JᵀJ)⁻¹ → σ_θ, ρ, Fisher condition\n(degenerate if cond > 10¹⁰)"];
+    loo   [label="leverage h_i; leave-one-out and\nleave-multiplet-out refits (floor re-solved)\n→ calibration t, jackknife"];
+    resam [label="parametric bootstrap · Bayesian posterior\n(θ, ln σ_th): R̂, n_eff, posterior predictive p\n· Minuit2 Hesse + Minos"];
+    trunc [label="truncation diagnostic: −⟨p⁴⟩/8m³\nabsorbed by a refit → σ_a, λ (A/B)"];
+    num   [label="numerical error σ_num:\nbasis doubling n → 2n−1"];
+  }
+  conv -> cov [label=" yes"]; conv -> loo; conv -> resam; conv -> num; conv -> trunc;
+
+  subgraph cluster_out {
+    label="predictions & output"; style="rounded"; color="#e34948"; fontcolor="#c23534";
+    pred  [label="every PDG state: M ± σ_par ± σ_num, pull\nabove-threshold states = out-of-sample test"];
+    width [label="Γ(e⁺e⁻), Γ(γγ): LO from R_S(0)+R″_D(0), R′(0);\nNLO × QCD factor (MS-bar α_s, μ = M/2);\nerrors: parametric, scale band ⊕ ⟨v²⟩Γ\n→ decay benchmark (held out)"];
+    wf    [label="wave functions: components, norm,\nnodes, coefficients, 68 % band"];
+    bc    [label="B_c: joint parameters (--shared)\nor interpolated in ln(reduced mass)"];
+    json  [label="text table + JSON (--out)"];
+  }
+  cov -> pred; num -> pred; loo -> json; resam -> json;
+  pred -> width; pred -> bc; pred -> wf; pred -> json; width -> json; bc -> json; wf -> json; trunc -> json;
+
+  subgraph cluster_ana {
+    label="analysis/ (Python)"; style="rounded,dashed"; color="#b8b6ae"; fontcolor="#52514e";
+    sweep [label="sweep.py all\n80 configurations × {lm, minuit, main (seeded), declared-error refits,\njoint fits, masses + widths, cross-validation, Bayesian/bootstrap,\nbasis checks, studies}"];
+    ana   [label="analyze.py (PyROOT) + model_selection.py + validity.py\nTTrees, figures with uncertainties, CSV tables\nPearson χ² (masses, decays) · Holm · posterior predictive\nAIC · BIC · evidence · Wilks · elpd · stacking · Kendall τ"];
+    sel   [label="pre-registered selection (selection.py):\ngate 1 observables · gate 2 physics → AIC", fillcolor="#fff7e6"];
+    rep   [label="docs/report/REPORT.md", fillcolor="#eef4fc"];
+  }
+  json -> sweep [style=dashed]; sweep -> ana -> sel -> rep;
+}
