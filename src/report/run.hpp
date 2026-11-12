@@ -67,6 +67,8 @@ struct RunOptions {
   std::vector<std::string> shared;
   /// print the expansion coefficients of every wave function (always in JSON)
   bool wavefunctions = false;
+  /// a 68 % parametric band of every wave function (40 parameter draws)
+  bool wf_band = false;
   /// fit the measured annihilation widths of the fitted states together with
   /// the masses (default: masses only; the widths are then a benchmark)
   bool fit_widths = false;

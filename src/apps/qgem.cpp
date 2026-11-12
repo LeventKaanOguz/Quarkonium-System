@@ -35,6 +35,7 @@ fit
   --systems ccbar,bbar,bc   (default all three; B_c is predicted)
   --floor MeV            fixed theory floor (default: iterate to chi2/nu = 1)
   --floor-weights SYS:LABEL=W,...   state-dependent floor W_i sigma_th
+  --wf-band              68 % parametric band of every wave function (JSON)
   --fit-widths           also fit the measured annihilation widths of the
                          fitted states (default: masses only, the widths a
                          held-out benchmark)
@@ -211,6 +212,8 @@ int main(int argc, char** argv) {
         o.wavefunctions = true;
       else if (k == "--fit-widths")
         o.fit_widths = true;
+      else if (k == "--wf-band")
+        o.wf_band = true;
       else if (k == "--basis") {
         const auto v = split(val(), ',');
         if (v.size() != 3) throw std::runtime_error("--basis n,r1,rmax");

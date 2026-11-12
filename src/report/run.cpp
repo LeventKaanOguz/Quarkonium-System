@@ -276,8 +276,24 @@ int run(const RunOptions& opt, std::ostream& out) {
     std::unique_ptr<Chi2Problem> prob;
     Vec u;
     double sigma_th = 0, chi2 = 0;
+    Mat C;  // covariance of u
   };
   std::map<std::string, Kept> kept;
+  // parameter draws (theta_ccbar, theta_bbar) for the B_c's parametric error
+  std::vector<std::pair<Vec, Vec>> bc_draws;
+  // K draws u ~ N(u0, C) (C may be singular: eigen square root)
+  auto draw_u = [](const Vec& u0, const Mat& C, int K, Rng& rng) {
+    Eigen::SelfAdjointEigenSolver<Mat> es(C);
+    const Mat A = es.eigenvectors() *
+                  es.eigenvalues().cwiseMax(0.0).cwiseSqrt().asDiagonal();
+    std::vector<Vec> out;
+    for (int k = 0; k < K; ++k) {
+      Vec xi(A.cols());
+      for (int j = 0; j < xi.size(); ++j) xi(j) = rng.normal();
+      out.push_back(u0 + A * xi);
+    }
+    return out;
+  };
   bool joint_done = false;
   std::vector<std::unique_ptr<Built>> keep;
   json::Object json_all;
@@ -938,6 +954,17 @@ int run(const RunOptions& opt, std::ostream& out) {
       }
       built = fitted["ccbar"].second;
       theta = interpolate_bc(fitted["ccbar"].first, fitted["bbar"].first);
+      // parametric draws of both separate fits (independent), unless the
+      // joint fit already gave correlated ones
+      if (bc_draws.empty() && kept.count("ccbar") && kept.count("bbar") &&
+          kept["ccbar"].C.size() && kept["bbar"].C.size()) {
+        Rng rng_bc(opt.seed + 13, 2);
+        const auto dc = draw_u(kept["ccbar"].u, kept["ccbar"].C, 100, rng_bc);
+        const auto db = draw_u(kept["bbar"].u, kept["bbar"].C, 100, rng_bc);
+        for (int k = 0; k < 100; ++k)
+          bc_draws.emplace_back(kept["ccbar"].prob->params().theta(dc[k]),
+                                kept["bbar"].prob->params().theta(db[k]));
+      }
       out << "predicted from the " << (joint_done ? "joint fit" : "two fits")
           << ": m_c = " << fmt(theta(0), 0, 4)
           << ", m_b = " << fmt(theta(1), 0, 4)
@@ -977,7 +1004,24 @@ int run(const RunOptions& opt, std::ostream& out) {
                  "parameters (no prediction)\n";
         mu(i) = collapsed ? std::numeric_limits<double>::quiet_NaN()
                           : s.sc.level(s.level).M;
+        // parametric error: the 16-84 % half-spread over parameter draws
+        std::vector<double> mk;
+        for (const auto& [tc, tb] : bc_draws) {
+          try {
+            const Solved sd = solve_state(*built->model, interpolate_bc(tc, tb),
+                                          cache, ds.d[i]);
+            if (sd.sc.level(0).M > 0) mk.push_back(sd.sc.level(sd.level).M);
+          } catch (const std::exception&) {
+          }
+        }
+        if (mk.size() >= 20)
+          spar(i) = 0.5 * (percentile(mk, 0.8413) - percentile(mk, 0.1587));
       }
+      if (!bc_draws.empty())
+        out << "B_c parametric error: 16-84 % half-spread over "
+            << bc_draws.size() << " parameter draws ("
+            << (joint_done ? "joint fit, correlated" : "separate fits")
+            << "); the interpolation systematic is not included\n";
     }
 
     // per-state diagnostics at the fitted parameters (not for the B_c):
@@ -1003,7 +1047,8 @@ int run(const RunOptions& opt, std::ostream& out) {
     // component for 40 draws u ~ N(u_hat, C_u), each draw's sign aligned with
     // the central curve; 16/50/84 % quantiles on 100 points up to 4 r_rms.
     std::vector<std::string> wband(ds.d.size());
-    if (!is_bc && best_fit.J.size() && U.C.size() && U.condition < 1e10) {
+    if (opt.wf_band && !is_bc && best_fit.J.size() && U.C.size() &&
+        U.condition < 1e10) {
       Eigen::SelfAdjointEigenSolver<Mat> es(U.C);
       const Mat A = es.eigenvectors() *
                     es.eigenvalues().cwiseMax(0.0).cwiseSqrt().asDiagonal();
@@ -1106,7 +1151,8 @@ int run(const RunOptions& opt, std::ostream& out) {
       out << std::left << std::setw(15) << clean_label(x.label) << std::setw(10)
           << state_name(x) << std::right << fmt(x.y, 11, 5) << fmt(mu(i), 12, 5)
           << fmt(diff, 11, 1)
-          << (is_bc ? "         -" : fmt(1e3 * spar(i), 10, 1))
+          << (is_bc && !(spar(i) > 0) ? "         -"
+                                      : fmt(1e3 * spar(i), 10, 1))
           << fmt(1e3 * snum(i), 10, 3)
           << (show_pull ? fmt(pull, 9, 2) : "        -")
           << (x.in_fit ? fmt(h, 7, 2) : "      -") << "    "
@@ -1511,7 +1557,7 @@ int run(const RunOptions& opt, std::ostream& out) {
         .put("V_exp_GeV2", json::array(ds.V_exp()))
         .put("states", jrows);
     json_systems += (nsys++ ? ", " : "") + jsys.render(2);
-    kept[sname] = Kept{std::move(prob), best_fit.u, sigma_th, chi2};
+    kept[sname] = Kept{std::move(prob), best_fit.u, sigma_th, chi2, U.C};
 
     // ---- joint fit of c c-bar and b b-bar with shared parameters
     if (!opt.shared.empty() && !joint_done && kept.count("ccbar") &&
@@ -1623,6 +1669,11 @@ int run(const RunOptions& opt, std::ostream& out) {
         out << "\n";
         fitted["ccbar"].first = tc;  // the B_c below uses the joint parameters
         fitted["bbar"].first = tb;
+        Rng rng_bc(opt.seed + 13, 1);
+        bc_draws.clear();
+        for (const Vec& uj : draw_u(u, Cu, 100, rng_bc))
+          bc_draws.emplace_back(pc.params().theta(jp.u_a(uj)),
+                                pb.params().theta(jp.u_b(uj)));
         json::Object jj;
         jj.put("shared", json::array(opt.shared))
             .put("names", json::array(names))
