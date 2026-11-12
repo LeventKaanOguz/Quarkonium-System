@@ -35,6 +35,9 @@ fit
   --systems ccbar,bbar,bc   (default all three; B_c is predicted)
   --floor MeV            fixed theory floor (default: iterate to chi2/nu = 1)
   --floor-weights SYS:LABEL=W,...   state-dependent floor W_i sigma_th
+  --fit-widths           also fit the measured annihilation widths of the
+                         fitted states (default: masses only, the widths a
+                         held-out benchmark)
   --wavefunctions        print the expansion coefficients of every wave
                          function (the JSON always has them)
   --shared NAMES         joint c c-bar + b b-bar fit with these parameters
@@ -206,6 +209,8 @@ int main(int argc, char** argv) {
         o.shared = split(val(), ',');
       else if (k == "--wavefunctions")
         o.wavefunctions = true;
+      else if (k == "--fit-widths")
+        o.fit_widths = true;
       else if (k == "--basis") {
         const auto v = split(val(), ',');
         if (v.size() != 3) throw std::runtime_error("--basis n,r1,rmax");

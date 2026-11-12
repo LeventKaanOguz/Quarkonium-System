@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <numbers>
+#include <optional>
 #include <ostream>
 #include <sstream>
 
@@ -15,6 +16,7 @@
 #include "data/dataset.hpp"
 #include "fit/driver.hpp"
 #include "fit/joint.hpp"
+#include "fit/widths.hpp"
 #include "hyper/basis_opt.hpp"
 #include "models/alpha_s.hpp"
 #include "models/gi_model.hpp"
@@ -331,6 +333,7 @@ int run(const RunOptions& opt, std::ostream& out) {
     std::string ptable;
     json::Object jan;  // analyses of this system (JSON)
     FitResult best_fit;
+    Mat post;  // posterior draws (u, ln sigma_th) of --mcmc
 
     if (!is_bc) {
       keep.push_back(std::make_unique<Built>(build_model(opt, sys)));
@@ -875,31 +878,53 @@ int run(const RunOptions& opt, std::ostream& out) {
                  summarize_samples(ok, ps, "parametric bootstrap", out));
         jan.put("bootstrap", jb.render(4));
       }
-      // ---- Metropolis posterior
+      // ---- Bayesian posterior: the parameters and the theory floor
+      // (marginalised, scale-invariant prior), with posterior predictive checks
       if (opt.mcmc > 0) {
-        const McmcResult mr = sample_posterior(*prob, ff.fit, ps, 4, opt.mcmc,
-                                               opt.mcmc / 4, opt.seed);
+        const McmcResult mr =
+            sample_posterior_floor(*prob, ff.fit, ff.sigma_th, ps, 4, opt.mcmc,
+                                   opt.mcmc / 4, opt.seed);
         int n = 0;
         for (const Chain& c : mr.chains)
           n += static_cast<int>(c.samples.rows());
-        Mat all(n, ps.n_free());
+        post.resize(n, ps.n_free() + 1);
         int r0 = 0;
         for (const Chain& c : mr.chains) {
-          all.middleRows(r0, c.samples.rows()) = c.samples;
+          post.middleRows(r0, c.samples.rows()) = c.samples;
           r0 += static_cast<int>(c.samples.rows());
         }
         json::Object jm;
         jm.put("summary",
-               summarize_samples(all, ps, "MCMC posterior (4 chains)", out))
+               summarize_samples(post.leftCols(ps.n_free()), ps,
+                                 "Bayesian posterior (4 chains; flat in u, "
+                                 "theory floor marginalised)",
+                                 out))
             .put("rhat", json::array(mr.rhat))
             .put("n_eff", json::array(mr.n_eff));
-        out << "  R-hat:";
+        std::vector<double> sth(static_cast<std::size_t>(n));
+        for (int r = 0; r < n; ++r) sth[r] = std::exp(post(r, ps.n_free()));
+        const double s16 = percentile(sth, 0.1587), s50 = percentile(sth, 0.5),
+                     s84 = percentile(sth, 0.8413);
+        const PosteriorCheck pc = posterior_predictive(*prob, post);
+        out << "  sigma_th (posterior median, 68%): " << fmt(1e3 * s50, 0, 2)
+            << " MeV [" << fmt(1e3 * s16, 0, 2) << ", " << fmt(1e3 * s84, 0, 2)
+            << "]\n  R-hat (parameters, ln sigma_th):";
         for (int k = 0; k < mr.rhat.size(); ++k)
           out << " " << fmt(mr.rhat(k), 0, 3);
         out << "   n_eff:";
         for (int k = 0; k < mr.n_eff.size(); ++k)
           out << " " << fmt(mr.n_eff(k), 0, 0);
-        out << "\n";
+        out << "\n  posterior predictive p (masses, " << pc.draws
+            << " draws): T = chi2 " << fmt(pc.ppp_chi2, 0, 3)
+            << ", T = max |z| " << fmt(pc.ppp_max, 0, 3)
+            << " (small: the data are more discrepant than the model's own "
+               "replicas)\n";
+        jm.number("sigma_th_median_GeV", s50)
+            .number("sigma_th_q16_GeV", s16)
+            .number("sigma_th_q84_GeV", s84)
+            .number("ppp_chi2", pc.ppp_chi2)
+            .number("ppp_max", pc.ppp_max)
+            .integer("ppp_draws", pc.draws);
         jan.put("mcmc", jm.render(4));
       }
       // ---- independent minimiser (Minuit2 Hesse/Minos) at the same floor
@@ -925,7 +950,7 @@ int run(const RunOptions& opt, std::ostream& out) {
     MatrixCache cache(basis);
     Vec snum = Vec::Zero(ds.d.size());
     Vec mu(ds.d.size()), spar = Vec::Zero(ds.d.size());
-    Mat gr;
+    Mat gr, pred_cov;
     if (!is_bc) {
       Chi2Problem full(*built->model, ds, ps, MatrixCache(basis), sigma_th);
       auto pg = full.predictions_with_gradients(theta);
@@ -936,6 +961,9 @@ int run(const RunOptions& opt, std::ostream& out) {
         spar(i) = std::sqrt(std::max(
             0.0,
             propagate_variance(Vec(pg->second.row(i).transpose()), Cfull)));
+      // parametric covariance of every prediction (correlated splittings,
+      // ratios and differences need it, not only spar)
+      pred_cov = pg->second * Cfull * pg->second.transpose();
       snum = numerical_errors(*prob, theta, basis);
       // numerical_errors covers all data of the problem
     } else {
@@ -971,6 +999,67 @@ int run(const RunOptions& opt, std::ostream& out) {
         } catch (const std::exception&) {
         }
       }
+    // Parametric band of every wave function: u(r) = r R(r) of the dominant
+    // component for 40 draws u ~ N(u_hat, C_u), each draw's sign aligned with
+    // the central curve; 16/50/84 % quantiles on 100 points up to 4 r_rms.
+    std::vector<std::string> wband(ds.d.size());
+    if (!is_bc && best_fit.J.size() && U.C.size() && U.condition < 1e10) {
+      Eigen::SelfAdjointEigenSolver<Mat> es(U.C);
+      const Mat A = es.eigenvectors() *
+                    es.eigenvalues().cwiseMax(0.0).cwiseSqrt().asDiagonal();
+      Rng rng(opt.seed + 11, std::hash<std::string>{}(sname + "/wfband"));
+      const int K = 40, G = 100;
+      std::vector<Vec> draws;
+      for (int k = 0; k < K; ++k) {
+        Vec xi(A.cols());
+        for (int j = 0; j < xi.size(); ++j) xi(j) = rng.normal();
+        draws.push_back(ps.theta(Vec(best_fit.u + A * xi)));
+      }
+      for (std::size_t i = 0; i < ds.d.size(); ++i) {
+        const WaveFunction& w0 = wfs[i];
+        if (w0.c.empty() || !std::isfinite(diag(static_cast<int>(i), 1)))
+          continue;
+        const int L = w0.L[w0.dominant];
+        const double rmax = 4 * diag(static_cast<int>(i), 1) / hbarc_GeV_fm;
+        Vec r(G), u0(G);
+        for (int g = 0; g < G; ++g) {
+          r(g) = rmax * (g + 1) / G;
+          u0(g) = r(g) * radial_value(cache.basis(L), w0.c[w0.dominant], r(g));
+        }
+        std::vector<Vec> us;
+        for (const Vec& th : draws) {
+          try {
+            const Solved sd = solve_state(*built->model, th, cache, ds.d[i]);
+            const WaveFunction wk = wave_function(sd.sc, sd.level, cache);
+            int dk = 0;  // the component with the dominant L
+            for (std::size_t q = 0; q < wk.L.size(); ++q)
+              if (wk.L[q] == L) dk = static_cast<int>(q);
+            Vec u(G);
+            for (int g = 0; g < G; ++g)
+              u(g) = r(g) * radial_value(cache.basis(L), wk.c[dk], r(g));
+            if (u.dot(u0) < 0) u = -u;
+            us.push_back(u);
+          } catch (const std::exception&) {
+          }
+        }
+        if (us.size() < 10) continue;
+        Vec lo(G), mid(G), hi(G);
+        for (int g = 0; g < G; ++g) {
+          std::vector<double> v;
+          for (const Vec& u : us) v.push_back(u(g));
+          lo(g) = percentile(v, 0.1587), mid(g) = percentile(v, 0.5),
+          hi(g) = percentile(v, 0.8413);
+        }
+        json::Object jb;
+        jb.put("r_fm", json::array(Vec(r * hbarc_GeV_fm)))
+            .put("u_central", json::array(u0))
+            .put("u_q16", json::array(lo))
+            .put("u_q50", json::array(mid))
+            .put("u_q84", json::array(hi))
+            .integer("draws", static_cast<int>(us.size()));
+        wband[i] = jb.render(6);
+      }
+    }
     // Truncation test (A/B with the non-relativistic kinetic energy): the
     // first omitted term -<p^4>(1/8m1^3 + 1/8m2^3) is added to the model's own
     // values and refitted; what the parameters cannot absorb, R, is the
@@ -1055,6 +1144,7 @@ int run(const RunOptions& opt, std::ostream& out) {
               .put("components", comps + "]");
           r.put("wavefunction", jw.render(6));
         }
+        if (!wband[i].empty()) r.put("wavefunction_band", wband[i]);
       }
       jrows += (i ? ", " : "") + r.render(4);
     }
@@ -1210,74 +1300,201 @@ int run(const RunOptions& opt, std::ostream& out) {
       json_systems += (nsys++ ? ", " : "") + jsys.render(2);
       continue;
     }
-    out << "\nannihilation widths (keV; M = model mass): LO (Van Royen-"
-           "Weisskopf), NLO = LO x one-loop QCD factor with the MS-bar alpha_s "
-           "at "
-           "mu = M/2, band mu = M/4 .. M; PDG (* = summary-table BR x total "
-           "width)\n";
-    out << "state          process            LO        NLO   NLO band"
-           "                 PDG        NLO/PDG\n";
+    // Widths: LO and NLO, with the parametric error of NLO (central
+    // differences in u, propagated with the fit's covariance) and the standard
+    // theory error (half the scale band, in quadrature with <v^2> Gamma_NLO).
     const double eQ = sys.charge;
+    const auto wch = width_channels(ds);
+    const auto wv = compute_widths(*built->model, theta, ds, cache, eQ, wch);
+    const int nwc = static_cast<int>(wch.size()), pf = ps.n_free();
+    Mat Gw = Mat::Zero(nwc, pf);  // d Gamma_NLO / d u
+    if (best_fit.J.size())
+      for (int a = 0; a < pf; ++a) {
+        const double h = 1e-5 * std::max(1.0, std::fabs(best_fit.u(a)));
+        Vec up = best_fit.u, um = best_fit.u;
+        up(a) += h, um(a) -= h;
+        const auto wp =
+            compute_widths(*built->model, ps.theta(up), ds, cache, eQ, wch);
+        const auto wm =
+            compute_widths(*built->model, ps.theta(um), ds, cache, eQ, wch);
+        for (int k = 0; k < nwc; ++k)
+          Gw(k, a) = (wp[k].nlo - wm[k].nlo) / (2 * h);
+      }
+    const Mat Vpar_w =
+        U.C.size() ? Mat(Gw * U.C * Gw.transpose()) : Mat::Zero(nwc, nwc);
+    std::vector<std::optional<PdgWidth>> pw(nwc);
+    for (int k = 0; k < nwc; ++k)
+      pw[k] = pdg.partial_width(ds.d[wch[k].datum].mcid, wch[k].process);
+    out << "\nannihilation widths (keV; M = model mass): LO (Van Royen-"
+           "Weisskopf); NLO = LO x one-loop QCD factor, MS-bar alpha_s at mu = "
+           "M/2; errors: parametric, theory (scale band mu = M/4 .. M, half "
+           "width, (+) <v^2> NLO); PDG (* = summary-table BR x total width); "
+           "pull = (PDG - NLO)/total error\n";
+    out << "state          process            LO        NLO     +-par      "
+           "+-th   band [M/4, M]             PDG               pull\n";
     int nw = 0;
     std::string jw = "[";
-    for (std::size_t i = 0; i < ds.d.size(); ++i) {
-      const Datum& x = ds.d[i];
-      const std::string& lab = x.state.channel;
-      const bool vec = lab.rfind("3S1", 0) == 0 || lab.rfind("3D1", 0) == 0;
-      const bool ps0 = lab.rfind("1S0", 0) == 0;
-      const bool p0 = lab == "3P0", p2 = lab == "3P2";
-      if (!vec && !ps0 && !p0 && !p2) continue;
-      Solved s = solve_state(*built->model, theta, cache, x);
-      const double M = s.sc.level(s.level).M, mQ = theta(0);
-      double lo = 0;
-      std::string key, proc = "gamma gamma";
-      if (vec) {
-        lo = width_ee_SD(origin_derivative(s.sc, s.level, cache, 0),
-                         origin_derivative(s.sc, s.level, cache, 2), M, mQ, eQ);
-        key = "ee", proc = "e+ e-";
-      } else if (ps0) {
-        lo = width_gammagamma_S(R0_squared(s.sc, s.level, cache), M, eQ);
-        key = "gg_S";
-      } else {
-        const double Rp = origin_derivative(s.sc, s.level, cache, 1);
-        lo = width_gammagamma_P(p0 ? 0 : 2, Rp * Rp, mQ, eQ);
-        key = p0 ? "gg_P0" : "gg_P2";
-      }
-      lo *= 1e6;  // keV
-      const double a_c = alpha_s_msbar(M / 2);
-      const double nlo = lo * qcd_factor(key, a_c);
-      const double n1 = lo * qcd_factor(key, alpha_s_msbar(M / 4)),
-                   n2 = lo * qcd_factor(key, alpha_s_msbar(M));
-      const auto pw = pdg.partial_width(x.mcid, proc);
+    for (int k = 0; k < nwc; ++k) {
+      const Datum& x = ds.d[wch[k].datum];
+      const WidthValue& w = wv[k];
+      if (!std::isfinite(w.nlo)) continue;
+      const double par = std::sqrt(std::max(0.0, Vpar_w(k, k)));
+      const double th = width_theory_error(w);
       out << std::left << std::setw(15) << clean_label(x.label) << std::setw(13)
-          << proc << std::right << fmt(lo, 9, 4) << fmt(nlo, 11, 4) << "   ["
-          << fmt(std::min(n1, n2), 7, 4) << ", " << fmt(std::max(n1, n2), 7, 4)
-          << "]";
-      if (pw)
-        out << fmt(pw->value_keV, 10, 4) << " +- " << fmt(pw->err_keV, 6, 4)
-            << (pw->derived ? "*" : " ") << fmt(nlo / pw->value_keV, 8, 2);
-      else
+          << wch[k].process << std::right << fmt(1e6 * w.lo, 9, 4)
+          << fmt(1e6 * w.nlo, 11, 4) << fmt(1e6 * par, 10, 4)
+          << fmt(1e6 * th, 10, 4) << "   ["
+          << fmt(1e6 * std::min(w.nlo_lo, w.nlo_hi), 7, 4) << ", "
+          << fmt(1e6 * std::max(w.nlo_lo, w.nlo_hi), 7, 4) << "]";
+      json::Object jo;
+      jo.str("label", clean_label(x.label))
+          .str("process", wch[k].process)
+          .number("lo_keV", 1e6 * w.lo)
+          .number("nlo_keV", 1e6 * w.nlo)
+          .number("nlo_err_par_keV", 1e6 * par)
+          .number("nlo_err_th_keV", 1e6 * th)
+          .number("nlo_band_lo_keV", 1e6 * std::min(w.nlo_lo, w.nlo_hi))
+          .number("nlo_band_hi_keV", 1e6 * std::max(w.nlo_lo, w.nlo_hi))
+          .number("alpha_s_mu", alpha_s_msbar(w.M / 2))
+          .number("v2", w.v2)
+          .number("M_GeV", w.M)
+          .integer("in_fit", x.in_fit);
+      if (pw[k]) {
+        const double tot = std::sqrt(std::pow(pw[k]->err_keV, 2) +
+                                     1e12 * (par * par + th * th));
+        out << fmt(pw[k]->value_keV, 10, 4) << " +- "
+            << fmt(pw[k]->err_keV, 6, 4) << (pw[k]->derived ? "*" : " ")
+            << fmt((pw[k]->value_keV - 1e6 * w.nlo) / tot, 8, 2);
+        jo.number("pdg_keV", pw[k]->value_keV)
+            .number("pdg_err_keV", pw[k]->err_keV)
+            .integer("pdg_derived", pw[k]->derived)
+            .number("pull", (pw[k]->value_keV - 1e6 * w.nlo) / tot);
+      } else {
         out << "          -";
+      }
       out << "\n";
-      json::Object w;
-      w.str("label", clean_label(x.label))
-          .str("process", proc)
-          .number("lo_keV", lo)
-          .number("nlo_keV", nlo)
-          .number("nlo_band_lo_keV", std::min(n1, n2))
-          .number("nlo_band_hi_keV", std::max(n1, n2))
-          .number("alpha_s_mu", a_c)
-          .number("M_GeV", M);
-      if (pw)
-        w.number("pdg_keV", pw->value_keV)
-            .number("pdg_err_keV", pw->err_keV)
-            .integer("pdg_derived", pw->derived);
-      jw += (nw ? ", " : "") + w.render(6);
+      jw += (nw ? ", " : "") + jo.render(6);
       ++nw;
     }
     if (nw == 0) out << "  (no annihilation channel among these states)\n";
-    out << "\n";
     jw += "]";
+
+    // Decay benchmark: the measured widths of the fitted states, which the
+    // mass fit never saw; Pearson chi^2 with V = V_exp + V_theory (scale part
+    // correlated within a process) + V_par (correlated through the fit).
+    std::vector<int> bk;
+    for (int k = 0; k < nwc; ++k)
+      if (pw[k] && ds.d[wch[k].datum].in_fit && std::isfinite(wv[k].nlo))
+        bk.push_back(k);
+    if (!bk.empty()) {
+      const int nb = static_cast<int>(bk.size());
+      std::vector<WidthChannel> bch;
+      std::vector<WidthValue> bwv;
+      for (int k : bk) bch.push_back(wch[k]), bwv.push_back(wv[k]);
+      Mat V = width_theory_covariance(bwv, bch);
+      Vec D(nb);
+      for (int i = 0; i < nb; ++i) {
+        D(i) = 1e-6 * pw[bk[i]]->value_keV - wv[bk[i]].nlo;
+        V(i, i) += std::pow(1e-6 * pw[bk[i]]->err_keV, 2);
+        for (int j = 0; j < nb; ++j) V(i, j) += Vpar_w(bk[i], bk[j]);
+      }
+      const double chi2_dec = D.dot(V.llt().solve(D));
+      std::vector<std::string> blab;
+      Vec bpull(nb);
+      for (int i = 0; i < nb; ++i) {
+        blab.push_back(clean_label(ds.d[wch[bk[i]].datum].label));
+        bpull(i) = D(i) / std::sqrt(V(i, i));
+      }
+      out << "decay benchmark (measured widths of the fitted states; the mass "
+             "fit never saw them): chi2 = "
+          << fmt(chi2_dec, 0, 2) << " for N = " << nb
+          << ", chi2/N = " << fmt(chi2_dec / nb, 0, 2)
+          << ", P(chi2_N >= chi2) = " << fmt_p(chi2_sf(chi2_dec, nb)) << "\n";
+      json::Object jd;
+      jd.number("chi2", chi2_dec)
+          .integer("n", nb)
+          .number("p", chi2_sf(chi2_dec, nb))
+          .put("labels", json::array(blab))
+          .put("pulls", json::array(bpull));
+      // posterior predictive check of the decays: the widths of posterior
+      // draws (parametric uncertainty from the draws), V = V_exp + V_theory
+      if (post.rows() > 0) {
+        double ppp = 0;
+        int nd = 0;
+        const int step = std::max<int>(1, static_cast<int>(post.rows()) / 100);
+        for (int r = 0; r < post.rows(); r += step) {
+          const Vec th = ps.theta(Vec(post.row(r).head(pf).transpose()));
+          const auto w = compute_widths(*built->model, th, ds, cache, eQ, bch);
+          Mat Vd = width_theory_covariance(w, bch);
+          Vec Dd(nb);
+          bool ok = Vd.allFinite();
+          for (int i = 0; i < nb && ok; ++i) {
+            Dd(i) = 1e-6 * pw[bk[i]]->value_keV - w[i].nlo;
+            Vd(i, i) += std::pow(1e-6 * pw[bk[i]]->err_keV, 2);
+            ok = std::isfinite(Dd(i));
+          }
+          if (!ok) continue;
+          ppp += chi2_sf(Dd.dot(Vd.llt().solve(Dd)), nb);
+          ++nd;
+        }
+        if (nd) {
+          out << "  posterior predictive p (decays, " << nd
+              << " draws): " << fmt(ppp / nd, 0, 3) << "\n";
+          jd.number("ppp", ppp / nd).integer("ppp_draws", nd);
+        }
+      }
+      jan.put("decay_benchmark", jd.render(6));
+
+      // Combined fit of masses and these widths (--fit-widths)
+      if (opt.fit_widths && best_fit.J.size()) {
+        WidthData wd;
+        wd.y.resize(nb), wd.s_exp.resize(nb);
+        for (int i = 0; i < nb; ++i) {
+          wd.ch.push_back(wch[bk[i]]);
+          wd.y(i) = 1e-6 * pw[bk[i]]->value_keV;
+          wd.s_exp(i) = 1e-6 * pw[bk[i]]->err_keV;
+        }
+        WidthProblem wpr(*built->model, ds, ps, MatrixCache(basis), eQ, wd,
+                         best_fit.u);
+        Chi2Problem pm(*prob);
+        MassWidthProblem mw(pm, wpr);
+        const MassWidthFit f = fit_masses_and_widths(mw, best_fit.u, sigma_th);
+        if (!f.fit.J.size()) {
+          out << "masses + widths fit failed: " << f.fit.message << "\n";
+        } else {
+          const Uncertainty Uc = analyse(f.fit, ps);
+          const Vec tc = ps.theta(f.fit.u);
+          out << "masses + widths fit (--fit-widths): mass floor sigma_th = "
+              << fmt(1e3 * f.sigma_th, 0, 3) << " MeV (mass-only "
+              << fmt(1e3 * sigma_th, 0, 3)
+              << "); widths chi2 = " << fmt(f.chi2_w, 0, 2) << " for N = " << nb
+              << ", P = " << fmt_p(chi2_sf(f.chi2_w, nb)) << "\n  parameters:";
+          const auto nm = ps.free_names();
+          Vec val(pf), shift(pf);
+          for (int a = 0; a < pf; ++a) {
+            val(a) = tc(ps.free_indices()[a]);
+            shift(a) = (val(a) - theta(ps.free_indices()[a])) / U.sigma(a);
+            out << " " << nm[a] << " = " << fmt(val(a), 0, 5) << " +- "
+                << fmt(Uc.sigma(a), 0, 5) << " (" << fmt(shift(a), 0, 2)
+                << " sigma from mass-only)";
+          }
+          out << "\n";
+          json::Object jm;
+          jm.number("sigma_th_GeV", f.sigma_th)
+              .number("nu_mass", f.nu_m)
+              .number("chi2_mass", f.chi2_m)
+              .number("chi2_widths", f.chi2_w)
+              .integer("n_widths", nb)
+              .number("p_widths", chi2_sf(f.chi2_w, nb))
+              .put("names", json::array(nm))
+              .put("value", json::array(val))
+              .put("sigma", json::array(Uc.sigma))
+              .put("shift_sigma", json::array(shift));
+          jan.put("mass_width_fit", jm.render(6));
+        }
+      }
+    }
+    out << "\n";
     jsys.str("system", sys.name)
         .str("model", built->model->name())
         .number("sigma_th_GeV", sigma_th)
@@ -1289,6 +1506,9 @@ int run(const RunOptions& opt, std::ostream& out) {
         .put("analysis", jan.render(4))
         .put("widths", jw)
         .put("theta", json::array(theta))
+        .put("theta_cov", json::array(Cfull))
+        .put("pred_cov_GeV2", json::array(pred_cov))
+        .put("V_exp_GeV2", json::array(ds.V_exp()))
         .put("states", jrows);
     json_systems += (nsys++ ? ", " : "") + jsys.render(2);
     kept[sname] = Kept{std::move(prob), best_fit.u, sigma_th, chi2};

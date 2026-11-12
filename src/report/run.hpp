@@ -67,6 +67,9 @@ struct RunOptions {
   std::vector<std::string> shared;
   /// print the expansion coefficients of every wave function (always in JSON)
   bool wavefunctions = false;
+  /// fit the measured annihilation widths of the fitted states together with
+  /// the masses (default: masses only; the widths are then a benchmark)
+  bool fit_widths = false;
   bool exact_loo = false;  ///< exact leave-one-out refits (cross-validation)
   /// leave-multiplet-out: refit without every state of one (n, L) multiplet
   /// and predict them (cross-validation against overfitting the splittings)
