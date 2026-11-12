@@ -1,5 +1,6 @@
 # --- CMake / build ---
 /build/
+/build-*/
 /cmake-build-*/
 CMakeUserPresets.json
 compile_commands.json
@@ -17,10 +18,11 @@ _deps/
 # --- Downloaded data (large, fetched from the PDG API, not source) ---
 /data/
 
-# --- Generated output (regenerable) ---
-/REPORT.md
-/figures/
+# --- Generated output (regenerable: analysis/sweep.py, analysis/analyze.py) ---
 /results/
+/results_*.log
+*.root
+# docs/report/ (figures, CSV, tables) IS committed: it is the published analysis.
 
 # --- LaTeX build artifacts ---
 *.aux
@@ -32,6 +34,9 @@ _deps/
 *.synctex.gz
 *.bbl
 *.blg
+
+# --- Claude Code local settings ---
+.claude/settings.local.json
 
 # --- Editors ---
 .vscode/
@@ -52,4 +57,8 @@ venv/
 .pytest_cache/
 dist/
 *.egg-info/
-# uv.lock and .python-version are committed on purpose (reproducible env).
+# The analysis runs on the system Python that ships PyROOT (plus numpy, scipy);
+# a uv venv would need --system-site-packages to see ROOT.
+
+# --- Old holding folders (kept on disk only) ---
+/_archive-*/
