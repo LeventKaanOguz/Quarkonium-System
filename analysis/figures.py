@@ -935,63 +935,86 @@ def fig_floor_intervals(grows):
 
 def fig_wavefunctions(run, title):
     """Reduced radial wave functions u(r) = r R(r) of the S and P states,
-    rebuilt from the logged expansion (nu, N_nL, c) alone, with their 68 %
-    parametric band (40 draws from the fit's covariance): one panel per
-    system, r in fm."""
+    rebuilt from the logged expansion (nu, N_nL, c) alone (top), and the
+    width of their 68 % parametric band (40 draws from the fit's covariance)
+    as a fraction of max|u| (bottom): one column per system, r in fm."""
     import validity
-    c = ROOT.TCanvas("wf", "", 1300, 560)
-    c.Divide(2, 1, 0.004, 0.0)
+    c = ROOT.TCanvas("wf", "", 1300, 820)
     hbarc = 0.1973269804
     for ip, sname in enumerate(("ccbar", "bbar")):
         s = system(run, sname)
         if s is None or "basis" not in s:
             continue
-        pad = c.cd(ip + 1)
-        pad.SetLeftMargin(0.12)
-        pad.SetRightMargin(0.03)
-        pad.SetTopMargin(0.10)
-        pad.SetBottomMargin(0.13)
+        x0, x1 = ip * 0.5, (ip + 1) * 0.5
+        c.cd()  # pads belong to the canvas, not to the previous column
+        top = keep(ROOT.TPad(f"wft{ip}", "", x0, 0.34, x1, 1.0))
+        bot = keep(ROOT.TPad(f"wfb{ip}", "", x0, 0.0, x1, 0.34))
+        for pad in (top, bot):
+            pad.SetLeftMargin(0.13)
+            pad.SetRightMargin(0.03)
+            pad.Draw()
+        top.SetBottomMargin(0.02)
+        top.SetTopMargin(0.08)
+        bot.SetTopMargin(0.03)
+        bot.SetBottomMargin(0.30)
         nu = np.array(s["basis"]["nu_GeV2"])
         norms = {int(k): np.array(v) for k, v in s["basis"]["norm_by_L"].items()}
         pick = [x for x in s["states"] if x.get("wavefunction") and x["channel"] in
                 ("3S1", "3P2") and x["in_fit"] or x["label"] in ("psi(4040)", "Upsilon(4S)")]
         rmax = 2.0 if sname == "ccbar" else 1.4
+        top.cd()
         h = keep(ROOT.TH1F(f"hwf{ip}", "", 10, 0, rmax))
         h.SetMinimum(-0.9)
         h.SetMaximum(1.6)
-        h.GetXaxis().SetTitle("r (fm)")
+        h.GetXaxis().SetLabelSize(0)
         h.GetYaxis().SetTitle("u(r) = r R(r)  (GeV^{1/2})")
+        h.GetYaxis().SetTitleSize(0.05)
+        h.GetYaxis().SetLabelSize(0.045)
         h.Draw("AXIS")
         zero = keep(ROOT.TLine(0, 0, rmax, 0))
         zero.SetLineColor(INK2)
         zero.Draw()
-        leg = keep(ROOT.TLegend(0.55, 0.62, 0.97, 0.89))
+        leg = keep(ROOT.TLegend(0.55, 0.58, 0.97, 0.90))
         leg.SetHeader(("charmonium" if sname == "ccbar" else "bottomonium") + ", " + title)
+        bot.cd()
+        hb = keep(ROOT.TH1F(f"hwfb{ip}", "", 10, 0, rmax))
+        hb.SetMinimum(0)
+        hb.SetMaximum(0.12)
+        hb.GetXaxis().SetTitle("r (fm)")
+        hb.GetXaxis().SetTitleSize(0.10)
+        hb.GetXaxis().SetLabelSize(0.09)
+        hb.GetYaxis().SetTitle("68 % band / max|u|")
+        hb.GetYaxis().SetTitleSize(0.085)
+        hb.GetYaxis().SetTitleOffset(0.7)
+        hb.GetYaxis().SetLabelSize(0.08)
+        hb.GetYaxis().SetNdivisions(504)
+        hb.Draw("AXIS")
         r = np.linspace(1e-3, rmax / hbarc, 600)
         for j, x in enumerate(pick[:6]):
+            col = COL[j % len(COL)]
             dom = max(x["wavefunction"]["components"], key=lambda q: q["weight"])
             u = r * validity.radial(nu, norms[dom["L"]], dom["c"], dom["L"], r)
-            sgn = np.sign(u[np.argmax(np.abs(u) > 1e-3 * np.abs(u).max())])  # u > 0 at small r
-            u *= sgn
-            b = x.get("wavefunction_band")
-            if b:  # 16-84 % of u(r) over parameter draws
-                rb = np.array(b["r_fm"])
-                ok = rb <= rmax
-                lo, hi = sgn * np.array(b["u_q16"])[ok], sgn * np.array(b["u_q84"])[ok]
-                lo, hi = np.minimum(lo, hi), np.maximum(lo, hi)
-                xs = np.concatenate([rb[ok], rb[ok][::-1]])
-                ys = np.concatenate([lo, hi[::-1]])
-                band = keep(ROOT.TGraph(len(xs), xs.astype(float), ys.astype(float)))
-                band.SetFillColorAlpha(COL[j % len(COL)], 0.30)
-                band.SetLineWidth(0)
-                band.Draw("F same")
+            u *= np.sign(u[np.argmax(np.abs(u) > 1e-3 * np.abs(u).max())])  # u > 0 at small r
+            top.cd()
             g = keep(ROOT.TGraph(len(r), (r * hbarc).astype(float), u.astype(float)))
-            g.SetLineColor(COL[j % len(COL)])
+            g.SetLineColor(col)
             g.SetLineWidth(2)
             g.Draw("L same")
             leg.AddEntry(g, tlabel(x["label"]), "l")
+            b = x.get("wavefunction_band")
+            if b:
+                rb = np.array(b["r_fm"])
+                ok = rb <= rmax
+                width = np.abs(np.array(b["u_q84"]) - np.array(b["u_q16"]))[ok]
+                rel = width / max(np.abs(np.array(b["u_central"])).max(), 1e-12)
+                bot.cd()
+                gb = keep(ROOT.TGraph(int(ok.sum()), rb[ok].astype(float), rel.astype(float)))
+                gb.SetLineColor(col)
+                gb.SetLineWidth(2)
+                gb.Draw("L same")
+        top.cd()
         leg.Draw()
-    c.cd(0)
+    c.cd()
     save(c, "wavefunctions")
 
 

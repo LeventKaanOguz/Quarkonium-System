@@ -1084,8 +1084,11 @@ def decay_rows(main_runs, stats_runs, tags):
     posterior predictive p (stats sweep) and the largest pull."""
     out = []
     for t in tags:
+        if t not in main_runs:
+            continue
         for sname in ("ccbar", "bbar"):
-            db = system(main_runs[t], sname)["analysis"].get("decay_benchmark")
+            s = system(main_runs[t], sname)
+            db = s["analysis"].get("decay_benchmark") if s else None
             if not db:
                 continue
             i = int(np.argmax(np.abs(db["pulls"])))
