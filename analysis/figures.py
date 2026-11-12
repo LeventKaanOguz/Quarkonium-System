@@ -353,7 +353,8 @@ def fig_loo_vs_floor(rows):
 
 def fig_widths(runs, tags):
     """Model / PDG for every annihilation width with a PDG value: LO (open)
-    and NLO with the scale band mu = M/4 ... M (filled, error bar)."""
+    and NLO (filled) with its total error, drawn multiplicatively as in the
+    log-form decay test."""
     keys = []
     for t in tags:
         for sname in ("ccbar", "bbar"):
@@ -376,7 +377,7 @@ def fig_widths(runs, tags):
     h.GetXaxis().SetLabelSize(0.04)
     h.GetXaxis().LabelsOption("v")
     h.SetMinimum(0.05)
-    h.SetMaximum(20)
+    h.SetMaximum(40)
     h.GetYaxis().SetTitle("#Gamma(model) / #Gamma(PDG)")
     h.GetYaxis().SetMoreLogLabels()
     h.GetYaxis().SetNoExponent()
@@ -391,7 +392,9 @@ def fig_widths(runs, tags):
     note.SetNDC()
     note.SetTextSize(0.03)
     note.SetTextColor(INK2)
-    note.DrawLatex(0.10, 0.85, "open: LO;  filled: NLO, bar: scale band #mu = M/4 ... M")
+    note.DrawLatex(0.10, 0.85, "open: LO;  filled: NLO (#mu = M/2), bar: total error #times e^{#pm#sigma}, "
+                   "#sigma^{2} = (#sigma_{th}^{2} + #sigma_{par}^{2})/#Gamma_{NLO}^{2} + "
+                   "#sigma_{PDG}^{2}/#Gamma_{PDG}^{2}")
     for j, t in enumerate(tags):
         g0 = keep(ROOT.TGraph())
         g1 = keep(ROOT.TGraphAsymmErrors())
@@ -405,8 +408,11 @@ def fig_widths(runs, tags):
                 g0.SetPoint(g0.GetN(), x, w["lo_keV"] / pdg)
                 n = g1.GetN()
                 g1.SetPoint(n, x, w["nlo_keV"] / pdg)
-                g1.SetPointError(n, 0, 0, (w["nlo_keV"] - w["nlo_band_lo_keV"]) / pdg,
-                                 (w["nlo_band_hi_keV"] - w["nlo_keV"]) / pdg)
+                # the full error of the log test, drawn multiplicatively
+                rat = w["nlo_keV"] / pdg
+                sg = math.sqrt((w["nlo_err_th_keV"] ** 2 + w["nlo_err_par_keV"] ** 2) /
+                               w["nlo_keV"] ** 2 + (w["pdg_err_keV"] / pdg) ** 2)
+                g1.SetPointError(n, 0, 0, rat * (1 - math.exp(-sg)), rat * (math.exp(sg) - 1))
         g0.SetMarkerStyle(24)
         g1.SetMarkerStyle(20)
         for g in (g0, g1):
