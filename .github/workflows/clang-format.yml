@@ -8,9 +8,11 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    # Arch Linux ships the current clang-format (the same major version used locally).
+    container: archlinux:latest
     steps:
-      - uses: actions/checkout@v4
       - name: Install clang-format
-        run: sudo apt-get update && sudo apt-get install -y clang-format
+        run: pacman -Syu --noconfirm --needed clang findutils
+      - uses: actions/checkout@v5
       - name: Check formatting
-        run: find src -regex '.*\.\(cpp\|hpp\)' -exec clang-format --dry-run --Werror {} +
+        run: find src tests -regex '.*\.\(cpp\|hpp\)' -exec clang-format --dry-run --Werror {} +

@@ -1,0 +1,27 @@
+name: build
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  test:
+    # Arch Linux: CMake >= 4.1, GCC with C++23 <expected>, Eigen 5, GoogleTest.
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    strategy:
+      matrix:
+        preset: [release, asan]
+    steps:
+      - name: Install toolchain
+        run: pacman -Syu --noconfirm --needed base-devel cmake ninja eigen gtest sqlite git python-numpy python-scipy
+      - uses: actions/checkout@v5
+      - name: Configure (without ROOT; the Minuit2 bridge is optional)
+        run: cmake --preset ${{ matrix.preset }} -DQGEM_WITH_ROOT=OFF
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }}
+      - name: Test (tests needing the PDG file skip without it)
+        run: ctest --preset ${{ matrix.preset }}
+      - name: Analysis scripts compile (they need PyROOT and results/ to run)
+        run: python -m py_compile analysis/*.py
