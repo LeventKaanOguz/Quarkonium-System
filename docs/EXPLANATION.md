@@ -291,7 +291,7 @@ The grades use standard methods only; σ_th itself does not grade.
 | misfit at PDG precision | Cochran's Q (χ² with PDG errors only) | Cochran, Biometrics 10, 101 (1954) |
 | **declared mass error** (one for all models) | Paule–Mandel pooled over the physical set, per system | as above |
 | **mass grade** | Pearson χ²/ν and P(χ²_ν ≥ χ²) at the declared error (refit) | Pearson (1900) |
-| **decay grade** | Pearson χ² of the measured widths of the fitted states against the same mass-only fit at the declared error; V = V_exp + V_theory + V_par | — |
+| **decay grade** | Pearson χ² of the measured widths of the fitted states against the same mass-only fit at the declared error; V = V_exp + V_theory + V_par; in Γ (as registered) and in ln Γ (amended, below) | — |
 | width theory error | scale variation μ = M/4 … M (half the band, correlated within a process) ⊕ O(v²) NRQCD power counting, ⟨v²⟩Γ | Bodwin, Braaten & Lepage, PRD 51, 1125 (1995) |
 | Bayesian check | posterior predictive p-values, T = χ² and T = max\|z\| | Gelman, Meng & Stern, Stat. Sinica 6, 733 (1996) |
 | residual structure | Shapiro–Wilk; Wald–Wolfowitz runs | Shapiro & Wilk (1965); Wald & Wolfowitz (1940) |
@@ -326,6 +326,18 @@ marginalised, the χ² check is not sensitive to the overall scale (by design); 
 and, among the models passing both, has the lowest AIC = χ²_masses + χ²_decays + 2p. If none passes there
 is no winner, and the report names the best compromise: the fewest failed checks, ties by AIC. The
 thresholds are not tuned afterwards.
+
+**Amendment of the decay test (v1.0.0, after the final sweeps).** The registered decay test is linear in
+Γ, and its theory error is proportional to the prediction, σ_th = f Γ_NLO (scale band and ⟨v²⟩Γ). Its pull
+(Γ_PDG − Γ_NLO)/(f Γ_NLO) tends to −1/f (about −2 at f = 0.5) however large the overprediction, so it
+cannot reject one. This was found after the sweeps: the best model under the registered rule passed the
+c c̄ decays with Γ_γγ(χ_c0) 13 times the PDG value. Gate 1 now requires both the registered linear test
+and the same Pearson test on r = ln(Γ_PDG/Γ_NLO), with V = D⁻¹(V_th + V_par)D⁻¹ + diag(σ_exp/Γ_PDG)²,
+D = diag(Γ_NLO) (each form Holm-corrected over its four tests). The log form treats the theory error as
+multiplicative and is symmetric in over- and underprediction; alone it would be milder on
+underpredictions (ln(1 + x) < x), so requiring both makes the amendment add rejections only. AIC and the
+tie-break keep the registered (linear) decay χ². The report gives the linear, log and combined verdicts
+(`select_both` in `analysis/selection.py`).
 
 ## 8. Predictions
 

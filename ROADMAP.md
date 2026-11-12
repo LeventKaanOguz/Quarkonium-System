@@ -39,8 +39,11 @@ this code) or from an independent method; see [`docs/VALIDATION.md`](docs/VALIDA
 | M30 | Decays in the χ²: widths with parametric and theory errors, the held-out decay benchmark, the combined masses + widths fit | closure of the combined fit | [x] |
 | M31 | Bayesian inference: the theory floor marginalised, posterior predictive checks of masses and decays | posterior σ_th inside the Q-profile interval | [x] |
 | M32 | Standard goodness of fit (Pearson χ² at a pooled Paule–Mandel error, Holm) and a pre-registered selection rule | rule fixed before the final sweeps | [x] |
+| M33 | Decay test in ln Γ as well as in Γ (the linear test cannot reject an overprediction); both required | amendment after the sweeps, adds rejections only; three verdicts reported | [x] |
 
-Planned for v2.0.0: a momentum-space solver (an independent method for the relativized models C/D).
+Planned for v2.0.0: a momentum-space solver (an independent method for the relativized models C/D); the
+log-form decay test and its posterior predictive check in the `qgem` output (v1.0.0 computes the log form
+in `analysis/selection.py` from the logged widths, with the parametric error diagonal).
 
 Open items, deliberately left: coupled-channel (meson-loop) effects for the states near and above threshold (a separate model, not a fix); the §10.9 optimization of the running coupling (the machinery — priors, FH/finite-difference
 Jacobians, profile/bootstrap/MCMC — is in place; the parametrization with label-switching constraints is not written);
