@@ -15,7 +15,7 @@ set(QGEM_WITH_ROOT AUTO CACHE STRING "Use CERN ROOT/Minuit2: AUTO, ON or OFF")
 set_property(CACHE QGEM_WITH_ROOT PROPERTY STRINGS AUTO ON OFF)
 
 # No version argument: Eigen 3.4 and 5.x both satisfy it (a "3.4" request rejects 5.x).
-find_package(Eigen3 REQUIRED NO_MODULE)
+find_package(Eigen3 5.0 REQUIRED NO_MODULE)
 find_package(GTest REQUIRED)
 find_package(SQLite3 REQUIRED)  # target SQLite3::SQLite3 needs CMake >= 4.1
 
