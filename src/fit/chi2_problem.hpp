@@ -64,6 +64,10 @@ class Chi2Problem final : public LeastSquaresProblem {
   Mat covariance() const;
   Vec exp_errors() const;      ///< sqrt(diag V_exp) of the fitted data
   Mat exp_covariance() const;  ///< V_exp of the fitted data (PDG only)
+  /// ln det V of the covariance in use (the Gaussian normalisation)
+  double log_det_covariance() const {
+    return -2 * Linv_.diagonal().array().log().sum();
+  }
   /// Replace the measured values (parametric bootstrap); the covariance is
   /// unchanged.
   void set_measurements(const Vec& y_fitted);

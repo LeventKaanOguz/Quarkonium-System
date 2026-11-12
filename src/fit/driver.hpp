@@ -100,6 +100,27 @@ McmcResult sample_posterior(Chi2Problem& prob, const FitResult& fit,
                             const ParamSet& params, int chains, int steps,
                             int burn, std::uint64_t seed);
 
+/// Hierarchical posterior of (u, ln sigma_th): the Gaussian likelihood with
+/// V(sigma) = V_exp + sigma^2 W and its normalisation -ln det V / 2, flat
+/// priors in u (flat in ln theta for positive parameters) and in ln sigma_th
+/// on [1e-5, 0.2] GeV (scale invariant). The theory floor is marginalised,
+/// not fixed. The last column of every chain is ln sigma_th.
+McmcResult sample_posterior_floor(const Chi2Problem& prob, const FitResult& fit,
+                                  double sigma_th, const ParamSet& params,
+                                  int chains, int steps, int burn,
+                                  std::uint64_t seed);
+
+/// Posterior predictive checks of the masses (Gelman, Meng and Stern 1996)
+/// over up to `max_draws` rows (u, ln sigma_th) of `samples`: the
+/// probability that replicated data are more discrepant than the observed,
+/// for T = chi^2 and T = max_i |z_i| (both exact per draw: z ~ N(0, 1)).
+struct PosteriorCheck {
+  double ppp_chi2 = 0, ppp_max = 0;
+  int draws = 0;
+};
+PosteriorCheck posterior_predictive(const Chi2Problem& prob, const Mat& samples,
+                                    int max_draws = 400);
+
 /// Numerical error of every datum's predicted mass: |M(2n-1) - M(n)| from
 /// nested basis doubling (all partial waves), at the physical parameters theta.
 /// The criterion of the notes is sigma_num <= 1e-2 min_i s_i.

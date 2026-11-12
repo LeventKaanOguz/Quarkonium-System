@@ -236,6 +236,53 @@ McmcResult sample_posterior(Chi2Problem& prob, const FitResult& fit,
   return metropolis(log_post, fit.u, U.C, chains, steps, burn, seed);
 }
 
+McmcResult sample_posterior_floor(const Chi2Problem& prob, const FitResult& fit,
+                                  double sigma_th, const ParamSet& params,
+                                  int chains, int steps, int burn,
+                                  std::uint64_t seed) {
+  Chi2Problem c(prob);
+  const int p = params.n_free();
+  const Uncertainty U = analyse(fit, params);
+  const double lo = std::log(1e-5), hi = std::log(0.2);
+  auto log_post = [&](const Vec& v) {
+    const double s = v(p);
+    if (s < lo || s > hi) return -std::numeric_limits<double>::infinity();
+    c.set_sigma_th(std::exp(s));
+    const auto z = c.residuals(v.head(p));
+    return z ? -0.5 * (z->squaredNorm() + c.log_det_covariance())
+             : -std::numeric_limits<double>::infinity();
+  };
+  const int nu = std::max(1, prob.n_data() - p);
+  Mat C = Mat::Zero(p + 1, p + 1);
+  C.topLeftCorner(p, p) = U.C;
+  C(p, p) = 1.0 / (2.0 * nu);  // sd of ln sigma ~ 1/sqrt(2 nu)
+  Vec v0(p + 1);
+  v0 << fit.u, std::log(std::max(sigma_th, 2e-5));
+  return metropolis(log_post, v0, C, chains, steps, burn, seed);
+}
+
+PosteriorCheck posterior_predictive(const Chi2Problem& prob, const Mat& samples,
+                                    int max_draws) {
+  PosteriorCheck out;
+  Chi2Problem c(prob);
+  const int p = static_cast<int>(samples.cols()) - 1;
+  const int N = c.n_measurements();
+  const int step =
+      std::max<int>(1, static_cast<int>(samples.rows()) / max_draws);
+  for (int r = 0; r < samples.rows(); r += step) {
+    c.set_sigma_th(std::exp(samples(r, p)));
+    const auto z = c.residuals(Vec(samples.row(r).head(p).transpose()));
+    if (!z) continue;
+    const Vec zz = z->head(N);
+    out.ppp_chi2 += chi2_sf(zz.squaredNorm(), N);
+    const double m = zz.cwiseAbs().maxCoeff();
+    out.ppp_max += 1 - std::pow(1 - std::erfc(m / std::sqrt(2.0)), N);
+    ++out.draws;
+  }
+  if (out.draws) out.ppp_chi2 /= out.draws, out.ppp_max /= out.draws;
+  return out;
+}
+
 Vec numerical_errors(Chi2Problem& prob, const Vec& theta,
                      const BasisSpec& spec) {
   BasisSpec fine = spec;
