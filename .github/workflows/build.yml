@@ -21,7 +21,7 @@ jobs:
         run: cmake --preset ${{ matrix.preset }} -DQGEM_WITH_ROOT=OFF
       - name: Build
         run: cmake --build --preset ${{ matrix.preset }}
-      - name: Test (tests needing the PDG file skip without it)
+      - name: Test (the PDG tests run on tests/data/pdg-subset.sqlite)
         run: ctest --preset ${{ matrix.preset }}
       - name: Analysis scripts compile (they need PyROOT and results/ to run)
         run: python -m py_compile analysis/*.py
