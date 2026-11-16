@@ -324,8 +324,13 @@ marginalised, the χ² check is not sensitive to the overall scale (by design); 
    error and the parametric covariance); (g) ⟨v²⟩ < 0.5 for every fitted state;
 
 and, among the models passing both, has the lowest AIC = χ²_masses + χ²_decays + 2p. If none passes there
-is no winner, and the report names the best compromise: the fewest failed checks, ties by AIC. The
-thresholds are not tuned afterwards.
+is no winner, and the report names the best compromise: the model whose *worst* failed check is the
+mildest (v1.1.0; v1.0.0 took the fewest failed checks, which ranks one gross failure above two marginal
+ones). Each failure is graded in standard deviations of exceedance: a goodness-of-fit test by
+z = Φ⁻¹(1 − p/2) of its Holm-adjusted p, √b and m_b − m_c by the distance beyond the window edge in
+parametric σ, cog − h by |difference| over half its 2σ tolerance, ⟨v²⟩ by 2⟨v²⟩/0.5, a structural failure
+by ∞; ties go to fewer failures, then to the AIC. The grading was added after the results were seen and
+does not change the winner rule. The thresholds are not tuned afterwards.
 
 **Amendment of the decay test (v1.0.0, after the final sweeps).** The registered decay test is linear in
 Γ, and its theory error is proportional to the prediction, σ_th = f Γ_NLO (scale band and ⟨v²⟩Γ). Its pull

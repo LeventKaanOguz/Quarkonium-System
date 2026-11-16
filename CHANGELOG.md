@@ -6,6 +6,27 @@ All notable changes are listed here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html): the public interface is the `qgem` command
 line and its JSON output.
 
+## [Unreleased]
+
+### Changed
+
+- **analysis**: the best compromise is the model whose worst failed check is the mildest, graded in standard
+  deviations (`selection.py`, `model_selection.best_compromise`), not the model with the fewest failures. The
+  physical set now names B APT (2.2σ) in place of C const (s free) (4.1σ). The count rule stays as
+  `best_by_count`. The winner rule is unchanged: no model passes. `selection.csv` has the new columns
+  `severity` and `sev`, and `tables.md` the ranking by worst failure.
+- **docs**: REPORT §5–§7 and the figures still feature C const (s free); they are marked as the v1.0.0 best
+  compromise until `analysis/analyze.py` is re-run with ROOT.
+
+### Added
+
+- **tests**: `tests/data/pdg-subset.sqlite`, a 725 kB extract of the PDG file for the fitted states (CC BY 4.0),
+  and `tests/pdg_path.hpp`; the fit, run and validation tests now run in CI instead of skipping. 6j symmetry
+  and triangle tests and a test of the E1 angular factor for every multiplet and its sum rule.
+- **analysis**: `validity.origin_ratio_rows`, the |R(0)|² ratio of η_c(1S) to J/ψ(1S) against what the PDG widths
+  require (`origin_ratio.csv`): 1.57–3.48 in all 19 models against 0.55.
+- **docs**: the Godfrey–Isgur parameter cross-check (VALIDATION.md).
+
 ## [1.0.0] - 2026-11-12
 
 First stable release: heavy-quarkonium spectroscopy with the Gaussian Expansion Method, fitted to the PDG

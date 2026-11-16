@@ -1865,6 +1865,15 @@ $n^3S_1\to n'^3P_J$: $C=\frac{2J+1}9$, i.e.\ $\Gamma=\frac4{27}(2J+1)\alpha e_Q^
 $n^3P_J\to n'^3S_1$: $C=\frac13$, $\Gamma=\frac49\alpha e_Q^2k^3|\langle r\rangle|^2$ for all $J$;
 $n^3D_1\to n'^3P_{0,1,2}$: $C=\frac29,\frac16,\frac1{90}$.
 \end{keyresult}
+\paragraph{Evaluating $C_{fi}$ instead of tabulating it.} The program computes the $6j$ symbol for every $(L,L',S,J,J')$ with Racah's closed form,
+\begin{equation}\label{eq:Racah}
+\begin{Bmatrix}j_1&j_2&j_3\\j_4&j_5&j_6\end{Bmatrix}=\Delta(j_1j_2j_3)\Delta(j_1j_5j_6)\Delta(j_4j_2j_6)\Delta(j_4j_5j_3)\sum_t\frac{(-1)^t\,(t+1)!}{\prod_{k=1}^{4}(t-a_k)!\,\prod_{l=1}^{3}(b_l-t)!},
+\end{equation}
+with $\Delta(abc)=\big[\frac{(a+b-c)!\,(a-b+c)!\,(-a+b+c)!}{(a+b+c+1)!}\big]^{1/2}$, the four triad sums $a_k$ ($j_1{+}j_2{+}j_3$, $j_1{+}j_5{+}j_6$, $j_4{+}j_2{+}j_6$, $j_4{+}j_5{+}j_3$), and the three quad sums $b_l$ ($j_1{+}j_2{+}j_4{+}j_5$, $j_2{+}j_3{+}j_5{+}j_6$, $j_3{+}j_1{+}j_6{+}j_4$); $t$ runs over the integers for which all factorial arguments are non-negative, and the symbol is $0$ if any triad violates the triangle condition. For fixed $L,L',S,J$ the orthogonality $\sum_{J'}(2J'+1)\{L'\,J'\,S;J\,L\,1\}^2=\frac1{2L+1}$ gives the sum rule
+\begin{equation}\label{eq:E1sumrule}
+\sum_{J'}C_{fi}=\frac{\max(L,L')}{2L+1},
+\end{equation}
+which is a check that needs no table: $n^3D_1$ gives $\frac29+\frac16+\frac1{90}=\frac25$. The values above, and the first entries $1$ ($^1S_0\to{}^1P_1$), $\frac13$ ($^1P_1\to{}^1S_0$), $\frac25$ ($^1D_2\to{}^1P_1$), $\frac3{10},\frac1{10}$ ($^3D_2\to{}^3P_{1,2}$), $\frac25$ ($^3D_3\to{}^3P_2$) are unit tests of the code, together with the $6j$ symmetries and the triangle conditions (\S\ref{sec:impl}); the sum rule is tested for $L\le4$, $S=0,1$, all $J$.
 \paragraph{Common refinements.} A recoil/phase-space factor $E_f/M_i$ is often included; a finite-size form replaces $r$ by $\frac3k\big[\frac{kr}2j_0(\frac{kr}2)-j_1(\frac{kr}2)\big]$, which reduces to $r$ for $kr\ll1$. Both are model choices; state which you use.
 
 \subsection{Magnetic dipole (M1) transitions}
@@ -3762,7 +3771,7 @@ smearing & $\sigma_0=1.80\GeV$, $s=1.55$ & $\sigma=1.0946\GeV$\\
 $\epsilon_c,\epsilon_{sov},\epsilon_t,\epsilon_{sos}$ & $-0.168,\ -0.035,\ +0.025,\ +0.055$ & ---\\\bottomrule
 \end{tabular}
 \end{center}
-These values are quoted from memory of the original tables and must be checked against the papers before you use them for physics results. For Models B and D take the parameters from the specific paper you reproduce (e.g.\ Li--Chao; Wang et al.\ for the modified GI model).
+These values are quoted from memory of the original tables and must be checked against the papers before you use them for physics results. (Status in v1.1: the defaults of the program were compared with Table~I of arXiv:1811.10339, which tabulates the same Godfrey--Isgur set, and agree except for the constant $c=-0.253$\,GeV, which that table does not confirm; the original paper, Phys.\ Rev.\ D\,\textbf{32}, 189 (1985), is not on arXiv and was not consulted.) For Models B and D take the parameters from the specific paper you reproduce (e.g.\ Li--Chao; Wang et al.\ for the modified GI model).
 
 % =====================================================================
 % =====================================================================
@@ -4559,6 +4568,14 @@ ensemble passes both gates: the spin terms in $H$ contract the $^3P_0$ wave func
 ($\Gamma_{\gamma\gamma}(\chi_{c2})/\Gamma_{\gamma\gamma}(\chi_{c0})=0.03$--$0.10$ against
 $0.230\pm0.017$; first-order spin terms give exactly $4/15$), and the screened
 running-coupling models underpredict $\Gamma_{ee}(\Upsilon(3S))$ by a third.
+
+
+\section{Addendum (v1.1): ranking by the worst failure, $\eta_c$ against $J/\psi$, tests and CI}\label{app:v11}
+\paragraph{Best compromise.} When no model passes both gates, v1.0.0 reported the model with the fewest failed checks. That ranks one gross failure above two marginal ones, and the counts depend on how many checks are written down. The best compromise is now the model whose \emph{worst} failed check is the mildest. A failure is graded in standard deviations of exceedance, so that checks with different units compare: a goodness-of-fit test by $z=\Phi^{-1}(1-p/2)$ of its Holm-adjusted $p$; a window (\,$\sqrt b$, $m_b-m_c$) by the distance of the central value beyond the nearest edge in units of its parametric error; the centre of gravity minus $h_c$ by $2|\text{difference}|$ over its $2\sigma$ tolerance; $\langle v^2\rangle$ by $2\langle v^2\rangle/0.5$ (the threshold is the $2\sigma$ boundary); a degenerate fit, an unconverged basis or wrong nodes by $\infty$. The key is (worst severity, number of failures, AIC). The grading was introduced after the results were seen; it does not touch the winner rule, and no model passes either way. On the physical set it names B~APT (only failure: $b\bar b$ decays, Holm $p=0.03$, $2.2\sigma$) in place of C~const with free $s$ ($c\bar c$ log-form decays, $4.1\sigma$). The window checks show the weakness of $\sigma$-grading for a tiny parametric error: B~const fails $\sqrt b=0.512\pm0.003$\,GeV by $11\sigma$, which is why the ranking is reported with the count beside it.
+
+\paragraph{$\eta_c$ and $J/\psi$ at the origin.} With the smeared hyperfine term in $H$ (spin mode \emph{first}), $\eta_c(1S)$ and $J/\psi(1S)$ have different wave functions, so $|R(0)|^2$ of each follows from its own width: $\Gamma_{\gamma\gamma}(\eta_c)=12\alpha^2e_Q^4|R_\eta(0)|^2K_{\gamma\gamma}/M^2$ and $\Gamma_{ee}(J/\psi)=4\alpha^2e_Q^2|R_\psi(0)|^2K_{ee}/M^2$. Dividing, the PDG widths and masses with the QCD factors of the code ($K_{\gamma\gamma}=0.63$, $K_{ee}=0.43$) require $|R_\eta(0)|^2/|R_\psi(0)|^2\approx0.55$. All 19 physical models give $1.57$--$3.48$ (median $2.03$), and their NLO $\Gamma_{\gamma\gamma}(\eta_c)$ is $2.3$--$4.1$ times the PDG value. The factors $K$ are large, so $0.55$ carries their uncertainty, but the models are above it by more than any plausible shift. This is a prediction of the potential that the masses do not constrain, and it fails in every model; it is not an error of the code (the checks of \S\ref{sec:impl} close). Check: \code{validity.origin\_ratio\_rows}.
+
+\paragraph{Tests and CI.} (i) The $6j$ code has symmetry, triangle and sum-rule tests (\eqref{eq:Racah}, \eqref{eq:E1sumrule}). (ii) The PDG tests ran only with the full database, which cannot be redistributed, so the CI skipped them. A 725\,kB extract holding the rows of the fitted states (PDG data, CC BY 4.0) now lets them run: 107 of 107 tests pass without the full file. (iii) The ranking of the best compromise is covered by hand-computed cases (\code{test\_severity\_and\_best\_compromise}).
 
 \section*{References}
 \addcontentsline{toc}{section}{References}

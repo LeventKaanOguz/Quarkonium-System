@@ -23,8 +23,17 @@ results were seen (below). A model wins only if it
              (g) <v^2> < 0.5 for every fitted state;
 and, among the models passing both gates, has the lowest
   AIC = chi2_masses(declared error) + chi2_decays + 2 p   (p: free parameters
-  of both systems). If none passes, there is no winner; the best compromise is
-the model with the fewest failed checks (ties: AIC).
+  of both systems). If none passes, there is no winner. The best compromise
+is the model whose WORST failed check is the mildest (v1.1.0; v1.0.0 took
+the fewest failed checks, which ranks a model with one gross failure above a
+model with two marginal ones). Failures are graded in standard deviations of
+exceedance: a goodness-of-fit test by z = Phi^-1(1 - p/2) of its
+Holm-adjusted p; a window check (sqrt(b), m_b - m_c) by the distance of the
+central value beyond the window edge in parametric sigmas; cog - h by
+|difference| over half its 2-sigma tolerance; <v^2> by 2 <v^2> / 0.5 (the
+threshold is the 2-sigma boundary); a structural failure (degenerate fit,
+basis, nodes) is infinite. Ties: fewer failed checks, then the registered AIC.
+The count ranking is still reported (n_fail).
 
 Amendment (v1.0.0, after the final sweeps): the pre-registered decay test
 was linear in Gamma, with a theory error proportional to the prediction,
@@ -50,6 +59,12 @@ SQRT_SIGMA = (0.40, 0.48)  # GeV: lattice 0.44 GeV +- 10 % (scale setting)
 V2_MAX = 0.5
 COND_MAX = 1e10
 N_BASIS = 37
+
+
+def _fail(row, text, z):
+    """Record a failed check with its severity (standard deviations)."""
+    row["fails"].append(text)
+    row["sev"][text] = z
 
 
 def _cog_h(s, pooled_mev):
@@ -111,7 +126,7 @@ def select(main_runs, floor2_runs, nested_runs, tags, pooled_mev, decay_test="lo
     rows = []
     for t in tags:
         r, f2 = main_runs[t], floor2_runs.get(t)
-        row = {"tag": t, "label": plain(t), "fails": []}
+        row = {"tag": t, "label": plain(t), "fails": [], "sev": {}}
         # ---- gate 1: four goodness-of-fit tests, Holm within the model
         pv, chi2m, n_par = {}, 0.0, 0
         for sname in ("ccbar", "bbar"):
@@ -142,11 +157,11 @@ def select(main_runs, floor2_runs, nested_runs, tags, pooled_mev, decay_test="lo
             n_par += system(r, sname)["n_free"]
         row.update({f"p_{k}": v for k, v in pv.items()})
         if len(pv) < 4:
-            row["fails"].append("tests missing")
+            _fail(row, "tests missing", math.inf)
         adj = dict(zip(pv, ms.holm(list(pv.values())))) if pv else {}
         for k, v in adj.items():
             if v < ALPHA:
-                row["fails"].append(f"{k} (Holm p = {v:.2g})")
+                _fail(row, f"{k} (Holm p = {v:.2g})", ms.exceedance_z(v))
         row["aic"] = chi2m + 2 * n_par
         # ---- gate 2: physics
         for sname in ("ccbar", "bbar"):
@@ -154,50 +169,54 @@ def select(main_runs, floor2_runs, nested_runs, tags, pooled_mev, decay_test="lo
             an = s["analysis"]
             cond = an.get("condition") or math.inf
             if cond >= COND_MAX:
-                row["fails"].append(f"{sname} degenerate ({cond:.1e})")
+                _fail(row, f"{sname} degenerate ({cond:.1e})", math.inf)
             nj = (system(nested_runs[t], sname)["analysis"].get("nested")
                   if t in nested_runs else None)
             if nj and (not nj["chosen"] or nj["chosen"] > N_BASIS):
-                row["fails"].append(f"{sname} basis not converged at n = {N_BASIS}")
+                _fail(row, f"{sname} basis not converged at n = {N_BASIS}", math.inf)
             bad = [x["label"] for x in s["states"] if x.get("wavefunction")
                    and x["wavefunction"]["nodes"] != x["n"]]
             if bad:
-                row["fails"].append(f"{sname} nodes: {', '.join(bad)}")
+                _fail(row, f"{sname} nodes: {', '.join(bad)}", math.inf)
             v2 = max(x["v2"] for x in s["states"] if x["in_fit"])
             row[f"v2max_{sname}"] = v2
             if v2 >= V2_MAX:
-                row["fails"].append(f"{sname} <v^2> = {v2:.2f}")
+                _fail(row, f"{sname} <v^2> = {v2:.2f}", 2 * v2 / V2_MAX)
             if "b" in an["names"]:
                 i = an["names"].index("b")
                 sb = math.sqrt(an["value"][i])
                 esb = an["sigma"][i] / (2 * sb)
                 row[f"sqrtb_{sname}"], row[f"sqrtb_{sname}_err"] = sb, esb
                 if sb + 2 * esb < SQRT_SIGMA[0] or sb - 2 * esb > SQRT_SIGMA[1]:
-                    row["fails"].append(f"{sname} sqrt(b) = {sb:.3f} +- {esb:.3f} GeV")
+                    _fail(row, f"{sname} sqrt(b) = {sb:.3f} +- {esb:.3f} GeV",
+                          ms.window_z(sb, *SQRT_SIGMA, esb))
             d, tol = _cog_h(s, pooled_mev[sname])
             row[f"cogh_{sname}"], row[f"cogh_{sname}_tol"] = d, tol
             if abs(d) > tol:
-                row["fails"].append(f"{sname} cog - h off by {d:.1f} MeV (> {tol:.1f})")
+                _fail(row, f"{sname} cog - h off by {d:.1f} MeV (> {tol:.1f})",
+                      2 * abs(d) / tol)
         sc, sb_ = system(r, "ccbar"), system(r, "bbar")
         dm = sb_["theta"][0] - sc["theta"][0]
         edm = math.hypot(sb_["analysis"]["sigma"][0], sc["analysis"]["sigma"][0])
         row["dm"], row["dm_err"] = dm, edm
         if dm + 2 * edm < lo or dm - 2 * edm > hi:
-            row["fails"].append(f"m_b - m_c = {dm:.3f} +- {edm:.3f} GeV outside "
-                                f"[{lo:.3f}, {hi:.3f}]")
+            _fail(row, f"m_b - m_c = {dm:.3f} +- {edm:.3f} GeV outside "
+                       f"[{lo:.3f}, {hi:.3f}]", ms.window_z(dm, lo, hi, edm))
         row["n_fail"] = len(row["fails"])
+        row["severity"] = max(row["sev"].values(), default=0.0)
         row["verdict"] = "pass" if not row["fails"] else "fail"
         rows.append(row)
     rows.sort(key=lambda x: (x["n_fail"], x["aic"]))
     winners = [x for x in rows if x["verdict"] == "pass"]
-    return rows, (winners[0] if winners else None), rows[0] if rows else None
+    return rows, (winners[0] if winners else None), ms.best_compromise(rows)
 
 
 def select_both(main_runs, floor2_runs, nested_runs, tags, pooled_mev):
     """The amended rule: gate 1 in both decay forms. Rows carry the log-form
     p-values, the linear ones (p_lin_*), the three verdicts and the union of
     the failed checks; ranked by the number of failures, then the registered
-    (linear) AIC. Returns (rows, winner or None, best compromise)."""
+    (linear) AIC. Returns (rows, winner or None, best compromise); the best
+    compromise is the model with the mildest worst failure (best_compromise)."""
     rl, _, _ = select(main_runs, floor2_runs, nested_runs, tags, pooled_mev, "linear")
     rg, _, _ = select(main_runs, floor2_runs, nested_runs, tags, pooled_mev, "log")
     lin = {r["tag"]: r for r in rl}
@@ -212,10 +231,22 @@ def select_both(main_runs, floor2_runs, nested_runs, tags, pooled_mev):
             [f for f in r["fails"] if not f.startswith(("decay_", "mass_"))]))
         fails += [f for f in r["fails"] if f.startswith("mass_")
                   and not any(g.startswith(f.split(" (")[0]) for g in fails)]
-        rows.append({**r, "fails": fails, "n_fail": len(fails),
+        sev = {}
+        for f in fails:
+            src, key = (a, f[:-len(" [linear]")]) if f.endswith(" [linear]") else (
+                (r, f[:-len(" [log]")]) if f.endswith(" [log]") else (r, f))
+            sev[f] = src["sev"].get(key, r["sev"].get(key, a["sev"].get(key, math.inf)))
+        rows.append({**r, "fails": fails, "n_fail": len(fails), "sev": sev,
+                     "severity": max(sev.values(), default=0.0),
                      "verdict_log": r["verdict"], "verdict_linear": a["verdict"],
                      "verdict": "pass" if not fails else "fail",
                      "aic_log": r["aic"], "aic": a["aic"]})
     rows.sort(key=lambda x: (x["n_fail"], x["aic"]))
     winners = [x for x in rows if x["verdict"] == "pass"]
-    return rows, (winners[0] if winners else None), rows[0] if rows else None
+    return rows, (winners[0] if winners else None), ms.best_compromise(rows)
+
+
+def best_by_count(rows):
+    """The v1.0.0 best compromise (fewest failed checks, ties: AIC), for the
+    comparison with the severity rule."""
+    return min(rows, key=lambda r: (r["n_fail"], r["aic"])) if rows else None

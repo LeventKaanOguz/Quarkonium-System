@@ -82,6 +82,39 @@ def spin_structure_rows(main_runs, tags):
     return out
 
 
+# ------------------------------------------ eta_c / J/psi at the origin --
+ALPHA_EM = 1 / 137.036
+EQ2 = 4 / 9          # e_c^2
+
+
+def origin_ratio_rows(main_runs, tags):
+    """|R(0)|^2 of eta_c(1S) over J/psi(1S), from each model's own LO widths
+    (Gamma_gg = 12 a^2 e^4 R^2 / M^2, Gamma_ee = 4 a^2 e^2 R^2 / M^2), against
+    the ratio the PDG widths require once the same QCD factors K_gg, K_ee
+    (as the model rows use) and the PDG masses are applied. In spin mode
+    "first" the smeared contact term sits in H, so the two S-wave functions
+    differ; the ratio tests whether that difference is the size the widths
+    need. It is a check the masses alone do not give."""
+    m_e, m_j = pdg_mass(441), pdg_mass(443)
+    rows = []
+    for t in tags:
+        s = system(main_runs[t], "ccbar")
+        if s is None:
+            continue
+        w = {x["label"]: x for x in s["widths"]}
+        e, j = w.get("eta_c(1S)"), w.get("J/psi(1S)")
+        if not (e and j):
+            continue
+        r2e = e["lo_keV"] * 1e-6 * e["M_GeV"] ** 2 / (12 * ALPHA_EM ** 2 * EQ2 ** 2)
+        r2j = j["lo_keV"] * 1e-6 * j["M_GeV"] ** 2 / (4 * ALPHA_EM ** 2 * EQ2)
+        k_e, k_j = e["nlo_keV"] / e["lo_keV"], j["nlo_keV"] / j["lo_keV"]
+        req = (e["pdg_keV"] / k_e) / (j["pdg_keV"] / k_j) * (m_e / m_j) ** 2 / (3 * EQ2)
+        rows.append({"tag": t, "label": plain(t), "ratio_model": r2e / r2j,
+                     "ratio_pdg": req, "excess": r2e / r2j / req,
+                     "etac_gg_nlo_over_pdg": e["nlo_keV"] / e["pdg_keV"]})
+    return rows
+
+
 # ------------------------------------------------ heavy-quark masses --
 def pdg_mass(mcid):
     """Summary-table mass (GeV) of a PDG Monte Carlo id."""
@@ -249,7 +282,7 @@ def string_tension_rows(main_runs, joint_runs, tags):
     return out
 
 
-def summary(spin_rows, qrows, srows, wrows, mix, own):
+def summary(spin_rows, qrows, srows, wrows, mix, own, orows=()):
     """Pass/fail lines of the audit (failures are kept)."""
     lines = []
 
@@ -292,4 +325,14 @@ def summary(spin_rows, qrows, srows, wrows, mix, own):
                      f"model's own R_2S(0), R″_1D(0): "
                      f"{', '.join(f'{a:.1f}° ± {e:.1f}°' for a, e in mix) or 'none'}; the tensor force "
                      f"alone gives {own:.1f}°")
+    if orows:
+        v = [r["ratio_model"] for r in orows]
+        lines.append(f"|R(0)|² of η_c(1S) over J/ψ(1S), from each model's LO widths "
+                     f"({len(orows)} models): {min(v):.2f}–{max(v):.2f} (median "
+                     f"{float(np.median(v)):.2f}) against {orows[0]['ratio_pdg']:.2f} required "
+                     f"by the PDG widths with the same QCD factors: every model puts η_c "
+                     f"{min(r['excess'] for r in orows):.1f}–{max(r['excess'] for r in orows):.1f} "
+                     f"times too deep at the origin relative to J/ψ (the η_c γγ NLO width is "
+                     f"{min(r['etac_gg_nlo_over_pdg'] for r in orows):.1f}–"
+                     f"{max(r['etac_gg_nlo_over_pdg'] for r in orows):.1f} times the PDG value)")
     return lines

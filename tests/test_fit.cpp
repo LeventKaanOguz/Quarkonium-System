@@ -13,6 +13,7 @@
 #include "fit/least_squares.hpp"
 #include "fit/widths.hpp"
 #include "models/nr_model.hpp"
+#include "pdg_path.hpp"
 
 using namespace qgem;
 
@@ -35,9 +36,7 @@ class StraightLine final : public LeastSquaresProblem {
     return J;
   }
 };
-std::string data_path() {
-  return std::string(QGEM_SOURCE_DIR) + "/data/pdg-2026.0.sqlite";
-}
+std::string data_path() { return qgem_test::pdg_data_path(); }
 }  // namespace
 
 TEST(LevenbergMarquardt, StraightLineToyOfTheNotes) {
@@ -161,7 +160,8 @@ TEST(ParamSet, TransformsTiesAndChainRule) {
 
 TEST(Pdg, ReaderGivesTheNotesCharmoniumTable) {
   if (!std::filesystem::exists(data_path()))
-    GTEST_SKIP() << "PDG snapshot not present (data/ is git-ignored)";
+    GTEST_SKIP() << "no PDG data (neither data/pdg-2026.0.sqlite nor "
+                    "tests/data/pdg-subset.sqlite)";
   PdgDatabase pdg(data_path());
   auto eta = pdg.mass(441), jpsi = pdg.mass(443), chi0 = pdg.mass(10441),
        psi2s = pdg.mass(100443);
@@ -194,7 +194,8 @@ TEST(Pdg, ReaderGivesTheNotesCharmoniumTable) {
 
 TEST(Dataset, CommonSystematicsCorrelateTheGroup) {
   if (!std::filesystem::exists(data_path()))
-    GTEST_SKIP() << "PDG snapshot not present";
+    GTEST_SKIP() << "no PDG data (neither data/pdg-2026.0.sqlite nor "
+                    "tests/data/pdg-subset.sqlite)";
   PdgDatabase pdg(data_path());
   const std::string f =
       std::string(QGEM_SOURCE_DIR) + "/config/bbar_fit.states";
@@ -219,7 +220,8 @@ TEST(Dataset, CommonSystematicsCorrelateTheGroup) {
 // threshold (10.10) ---------------------
 TEST(Test6, CharmoniumWorkedExampleOfTheNotes) {
   if (!std::filesystem::exists(data_path()))
-    GTEST_SKIP() << "PDG snapshot not present (data/ is git-ignored)";
+    GTEST_SKIP() << "no PDG data (neither data/pdg-2026.0.sqlite nor "
+                    "tests/data/pdg-subset.sqlite)";
   PdgDatabase pdg(data_path());
   Dataset ds = load_dataset(
       std::string(QGEM_SOURCE_DIR) + "/config/ccbar_fit.states", pdg);
@@ -410,7 +412,8 @@ TEST(TheoryFloor, StateDependentWeightsSolveTheWeightedEquation) {
 
 TEST(Joint, SharedParametersJacobianAndSeparateLimit) {
   if (!std::filesystem::exists(data_path()))
-    GTEST_SKIP() << "PDG snapshot not present (data/ is git-ignored)";
+    GTEST_SKIP() << "no PDG data (neither data/pdg-2026.0.sqlite nor "
+                    "tests/data/pdg-subset.sqlite)";
   PdgDatabase pdg(data_path());
   Dataset ds = load_dataset(
       std::string(QGEM_SOURCE_DIR) + "/config/ccbar_fit.states", pdg);
@@ -487,7 +490,8 @@ struct CharmFit {
 
 TEST(Widths, ClosureOfTheCombinedFitAndTheoryCovariance) {
   if (!std::filesystem::exists(data_path()))
-    GTEST_SKIP() << "PDG snapshot not present (data/ is git-ignored)";
+    GTEST_SKIP() << "no PDG data (neither data/pdg-2026.0.sqlite nor "
+                    "tests/data/pdg-subset.sqlite)";
   CharmFit c;
   ASSERT_TRUE(c.ff.fit.converged);
   const double eQ = 2.0 / 3.0;
@@ -530,7 +534,8 @@ TEST(Widths, ClosureOfTheCombinedFitAndTheoryCovariance) {
 
 TEST(Bayes, FloorPosteriorAgreesWithTheQProfileInterval) {
   if (!std::filesystem::exists(data_path()))
-    GTEST_SKIP() << "PDG snapshot not present (data/ is git-ignored)";
+    GTEST_SKIP() << "no PDG data (neither data/pdg-2026.0.sqlite nor "
+                    "tests/data/pdg-subset.sqlite)";
   CharmFit c;
   ASSERT_TRUE(c.ff.fit.converged);
   // ln det V is the Gaussian normalisation of the covariance in use

@@ -25,8 +25,12 @@ Of the 19 models in the physical set, 7 fail exactly one check, spread over four
 | A frozen | string tension | √b (b b̄) = 0.383 ± 0.003 GeV |
 | A const | heavy-quark masses | m_b − m_c = 3.284 ± 0.022 GeV, below the window [3.342, 3.457] |
 
-The **best compromise** by the rule (fewest failures, then the lowest AIC) is C const (s free). Its AIC of 34.16
-is practically tied with that of B const (34.18).
+The **best compromise** (v1.1.0) is the model whose *worst* failed check is the mildest: B APT, whose only
+failure is the linear decay test of b b̄ at Holm p = 0.03 (2.2σ; AIC 48.2). The v1.0.0 rule counted failures
+(fewest, then the lowest AIC) and named C const (s free): one failure, but a log-form decay test at 4.1σ
+(Γ_γγ(χ_c0) ×13). B const, which ties C const on AIC, fails √b by 11σ in parametric errors. A count treats
+these three cases alike; the worst-failure rule does not. Sections 5–7 and the figures still show C const (s
+free), the featured model of the committed analysis run; re-run `python3 analysis/analyze.py` to feature B APT.
 
 1. **What the result means for the physics.** No configuration in the ensemble describes the masses, the
    annihilation widths and the physics constraints together.
@@ -146,8 +150,13 @@ parametric error from the model's own fit (the `main` sweep).
 | (g) | non-relativistic expansion | ⟨v²⟩ < 0.5 for every fitted state |
 
 **Ranking.** Among the models that pass both gates, the lowest AIC = χ²_masses + χ²_decays + 2p wins, where p
-counts the free parameters of both systems. If no model passes, there is no winner. The model with the fewest
-failed checks is then reported as the best compromise, with AIC breaking ties.
+counts the free parameters of both systems. If no model passes, there is no winner. The model whose worst
+failed check is the mildest is then reported as the best compromise (v1.1.0; ties: fewer failed checks, then
+AIC). A failure is graded in standard deviations of exceedance: a goodness-of-fit test by z = Φ⁻¹(1 − p/2) of
+its Holm-adjusted p; √b and m_b − m_c by the distance beyond the window edge in parametric σ; cog − h by
+|difference| over half its 2σ tolerance; ⟨v²⟩ by 2⟨v²⟩/0.5; a degenerate fit, an unconverged basis or wrong
+nodes by ∞. This grading was added after the results were seen and does not touch the winner rule: no model
+passes either way. The v1.0.0 count rule is kept as a sensitivity (`best_by_count`).
 
 The two gates measure different things:
 
@@ -309,7 +318,7 @@ models it is 0.02–0.05, against a frequentist p of 0.15–0.45. The two differ
 
 Smeared models have large parametric width errors (χ_c0: 1.8–4.8 keV), so their ppp is lower.
 
-**Fitting the widths instead.** Fitting the masses and widths together moves the best compromise by at most
+**Fitting the widths instead.** Fitting the masses and widths together moves C const (s free) by at most
 0.43σ (in s) and raises its c c̄ floor from 10.3 to 10.7 MeV; see
 [`tables.md`](tables.md#masses-and-widths-fitted-together-study). The selection keeps the widths out of the
 fit, so that the masses are not traded for the widths.
@@ -340,10 +349,12 @@ The posterior is computed for the parameters and σ_th together:
   The degenerate fitted-μ_s models, outside the physical set, do not converge either: their posterior drifts to
   the σ_th prior bound.
 
-## 5. The best compromise: C const (s free)
+## 5. Worked example: C const (s free), the v1.0.0 best compromise
 
-This section shows the best compromise in full. It is **not** a winner: its c c̄ two-photon widths fail the
-log-form test.
+This section shows one model in full: the best compromise of the v1.0.0 count rule, which the committed figures
+and tables feature. Under the worst-failure rule of v1.1.0 the best compromise is B APT (§3), and the
+figures and tables of §5–§7 should be regenerated for it (`python3 analysis/analyze.py`; ROOT is required for
+the figures). The model is **not** a winner: its c c̄ two-photon widths fail the log-form test.
 
 **Parameters** (own floor; ± parametric error):
 
@@ -409,17 +420,28 @@ Physics compared with references the fits never saw. Failures are kept.
 
 | check | reference | result | verdict |
 |---|---|---|---|
-| 1S hyperfine, c c̄ | PDG 112.8 MeV | 121–128 MeV (medians by spin treatment); best compromise 123.6 ± 7.2 | 1–2σ high |
-| 1S hyperfine, b b̄ | PDG 61.7 MeV | 61–64 MeV; best compromise 60.6 ± 1.8 | **pass** |
-| 2S hyperfine, c c̄ | PDG 48.3 MeV | best compromise 37.7 ± 3.5 (parametric error only); smeared running-coupling A/B 46–51 | best compromise low |
+| 1S hyperfine, c c̄ | PDG 112.8 MeV | 121–128 MeV (medians by spin treatment); C const (s free) 123.6 ± 7.2 | 1–2σ high |
+| 1S hyperfine, b b̄ | PDG 61.7 MeV | 61–64 MeV; C const (s free) 60.6 ± 1.8 | **pass** |
+| 2S hyperfine, c c̄ | PDG 48.3 MeV | C const (s free) 37.7 ± 3.5 (parametric error only); smeared running-coupling A/B 46–51 | C const (s free) low |
 | fine-structure ratio ρ, c c̄ | PDG 0.48 | 0.56 smeared, 0.66 GI, 0.76 first order (medians); 17 of 19 models above; A const smeared 0.41, B const smeared 0.32 | **fail** in most models |
 | fine-structure ratio ρ, b b̄ | PDG 0.58 | 0.69–0.82 (medians); B const smeared 0.54, A const smeared 0.59 | **fail** in most models |
-| cog − h, c c̄ | PDG 0.00 MeV | 0.2–16 MeV; 17 of 19 models above 5 MeV; best compromise 13.5 ± 3.4 | **fail** at PDG precision; pass at the declared error (gate 2f) |
+| cog − h, c c̄ | PDG 0.00 MeV | 0.2–16 MeV; 17 of 19 models above 5 MeV; C const (s free) 13.5 ± 3.4 | **fail** at PDG precision; pass at the declared error (gate 2f) |
 | m_b − m_c (heavy-quark symmetry) | [3.342, 3.457] GeV | separate fits: 6 of 19 inside, median 3.332 ± 0.042; joint fits: median 3.382 ± 0.017 | separate fits low; joint fits **pass** |
 | √b | lattice ≈ 0.44 GeV | medians 0.421 ± 0.018 (c c̄), 0.436 ± 0.004 (b b̄), 0.434 ± 0.004 (joint) | ensemble **pass**; A models low; B/D const high |
 | wave functions from the log | norm = 1, nodes = n | 1.1 × 10⁻¹⁰; 0 of 32 wrong | **pass** |
-| ψ(3770) S–D mixing | Γ_ee(ψ(3770))/Γ_ee(ψ(2S)) | best compromise: −37.8° ± 0.6° or 0.1° ± 0.6°; tensor force alone 1.6° | the tensor force is too weak |
+| ψ(3770) S–D mixing | Γ_ee(ψ(3770))/Γ_ee(ψ(2S)) | C const (s free): −37.8° ± 0.6° or 0.1° ± 0.6°; tensor force alone 1.6° | the tensor force is too weak |
 | Γ_γγ(χ_c2)/Γ_γγ(χ_c0) | PDG 0.230 ± 0.017 | first order: 4/15 exactly; spin terms in H: 0.03–0.10 | **fail** with the spin terms in H |
+| \|R(0)\|² of η_c(1S) over J/ψ(1S) | 0.55, from the PDG Γ_γγ(η_c) and Γ_ee(J/ψ) with the models' own K factors and the PDG masses | 1.57–3.48 (median 2.03) in all 19 models | **fail** in every model |
+
+**The η_c and J/ψ wave functions at the origin.** In spin mode `first` the smeared contact term is part of H, so
+η_c(1S) and J/ψ(1S) do not share a wave function, and |R(0)|² of η_c over J/ψ can be read from the two widths
+without any normalisation: Γ_γγ(η_c) ∝ 12e⁴|R_η(0)|²/M² and Γ_ee(J/ψ) ∝ 4e²|R_ψ(0)|²/M², both times their
+QCD factors. With the PDG widths and masses and the same K_γγ = 0.63 and K_ee = 0.43 as the model rows, the
+ratio must be about 0.55. All 19 physical models give 1.57–3.48 (median 2.03), 2.9–6.3 times too large, and
+their NLO Γ_γγ(η_c) is 2.3–4.1 times the PDG value. The two NLO factors are large and uncertain, so the
+required 0.55 carries that uncertainty; but the models are above it by a factor far larger than any plausible
+shift of K, and every model is on the same side. The audit is `validity.origin_ratio_rows`
+(`data/origin_ratio.csv`).
 
 **The P-wave spin structure fails in most models.** Two patterns are common in c c̄:
 
@@ -483,11 +505,11 @@ adds the absolute decay test and the physics constraints.
 ### 7.5 Cross-validation and overfitting
 
 - **Repeated 4-fold cross-validation**, test RMS:
-  - best compromise: 24 MeV (c c̄; median 16) and 5.7 MeV (b b̄);
+  - C const (s free): 24 MeV (c c̄; median 16) and 5.7 MeV (b b̄);
   - A APT smeared: 15 and 5.1 MeV.
-- **Overfitting.** The observed/expected LOO inflation of the best compromise is 1.12 (c c̄) and 1.08 (b b̄),
+- **Overfitting.** The observed/expected LOO inflation of C const (s free) is 1.12 (c c̄) and 1.08 (b b̄),
   against 1 for a correctly specified linearised model. There is no sign of overfitting.
-- **Multiplets.** Leaving out whole multiplets is harder for the best compromise: 38 MeV in c c̄, against 18
+- **Multiplets.** Leaving out whole multiplets is harder for C const (s free): 38 MeV in c c̄, against 18
   for A APT smeared.
 
 ### 7.6 Minimisers and basis

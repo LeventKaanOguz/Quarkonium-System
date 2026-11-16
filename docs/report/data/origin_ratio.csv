@@ -1,0 +1,20 @@
+tag,label,ratio_model,ratio_pdg,excess,etac_gg_nlo_over_pdg
+A-apt-coff-smeared,A APT smeared,2.07408,0.548768,3.77952,2.75996
+A-frozen-coff-smeared,A frozen smeared,2.11714,0.548915,3.85695,2.52298
+A-gi-coff-smeared,A GI run smeared,1.97644,0.54872,3.60191,2.50712
+B-apt-coff-smeared,B APT smeared,2.47899,0.549021,4.51529,2.61701
+B-gi-coff-smeared,B GI run smeared,2.36291,0.549008,4.30396,2.37762
+B-frozen-coff-smeared,B frozen smeared,2.60643,0.549209,4.74579,2.40658
+A-const-coff-first,A const,1.65141,0.547236,3.01773,2.69897
+C-const-coff-s,C const (s free),1.65587,0.548591,3.0184,3.06137
+D-const-coff-s,D const (s free),1.56964,0.54844,2.862,2.87014
+B-const-coff-first,B const,1.60469,0.546705,2.9352,2.41701
+A-gi-coff-first,A GI run,1.89364,0.548843,3.45023,2.49467
+A-const-coff-smeared,A const smeared,2.7024,0.549436,4.9185,3.03516
+C-gi-coff-s,C GI run (s free),2.46467,0.548082,4.4969,4.10344
+A-frozen-coff-first,A frozen,1.94354,0.548863,3.54103,2.48966
+D-gi-coff-s,D GI run (s free),2.13473,0.547621,3.89819,3.58838
+B-gi-coff-first,B GI run,1.98683,0.54882,3.62019,2.3527
+B-apt-coff-first,B APT,2.01153,0.548707,3.66594,2.55753
+B-const-coff-smeared,B const smeared,3.47701,0.549692,6.32536,2.87133
+B-frozen-coff-first,B frozen,2.0285,0.548809,3.69618,2.33845

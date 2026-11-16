@@ -106,6 +106,28 @@ def test_decay_log_test():
     close(z_over, -math.log(13) / math.hypot(f, 0.05), 1e-12)
 
 
+def test_severity_and_best_compromise():
+    # two-sided p -> standard deviations
+    close(ms.exceedance_z(0.3173105078629141), 1.0, 1e-9)
+    close(ms.exceedance_z(0.0455002638963584), 2.0, 1e-9)
+    close(ms.exceedance_z(1.0), 0.0)
+    assert ms.exceedance_z(0.0) == math.inf
+    # a window: inside -> 0; 0.04 above the edge with sigma 0.01 -> 4
+    close(ms.window_z(0.45, 0.40, 0.48, 0.01), 0.0)
+    close(ms.window_z(0.52, 0.40, 0.48, 0.01), 4.0)
+    close(ms.window_z(0.30, 0.40, 0.48, 0.05), 2.0)
+    # the worst failure decides, not the count: one gross failure loses to two
+    # marginal ones; ties go to fewer failures, then to the lower AIC
+    gross = {"tag": "gross", "severity": 4.1, "n_fail": 1, "aic": 30.0}
+    marginal = {"tag": "marginal", "severity": 2.6, "n_fail": 2, "aic": 50.0}
+    tie_a = {"tag": "tie_a", "severity": 3.0, "n_fail": 2, "aic": 40.0}
+    tie_b = {"tag": "tie_b", "severity": 3.0, "n_fail": 1, "aic": 60.0}
+    tie_c = {"tag": "tie_c", "severity": 3.0, "n_fail": 1, "aic": 55.0}
+    assert ms.best_compromise([gross, marginal])["tag"] == "marginal"
+    assert ms.best_compromise([tie_a, tie_b, tie_c])["tag"] == "tie_c"
+    assert ms.best_compromise([]) is None
+
+
 if __name__ == "__main__":
     for name, f in list(globals().items()):
         if name.startswith("test_"):

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <filesystem>
 
+#include "../pdg_path.hpp"
 #include "data/dataset.hpp"
 #include "fit/driver.hpp"
 #include "models/nr_model.hpp"
@@ -14,7 +15,7 @@ using namespace qgem;
 
 namespace {
 struct Charm {
-  PdgDatabase pdg{std::string(QGEM_SOURCE_DIR) + "/data/pdg-2026.0.sqlite"};
+  PdgDatabase pdg{qgem_test::pdg_data_path()};
   NRModel model{{.screened = false,
                  .spin = SpinMode::FirstOrder,
                  .contact_in_all_L = true}};
@@ -38,10 +39,7 @@ Charm& charm() {
   static Charm c;
   return c;
 }
-bool have_data() {
-  return std::filesystem::exists(std::string(QGEM_SOURCE_DIR) +
-                                 "/data/pdg-2026.0.sqlite");
-}
+bool have_data() { return qgem_test::have_pdg_data(); }
 }  // namespace
 
 TEST(Validation, LeverageAndLeaveOneOutAgainstTheNotesTable) {

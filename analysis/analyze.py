@@ -45,18 +45,10 @@ from tables import (SCALING_LAWS, averaged_predictions, bgrid_rows,
 R_STRING_BREAK_FM = 1.25
 
 
-def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
-                nested_runs, phys, featured):
-    """Model selection (pre-registered rule) and the goodness of fit: Pearson
-    chi^2 of the masses at the declared error, the decay benchmark, the
-    Bayesian posterior predictive checks; then the diagnostics."""
+def selection_text(rows, win, best):
+    """The model-selection section of tables.md (also used to patch it without
+    ROOT)."""
     out = ""
-    pf = pooled_floors()
-    rows, win, best = selection.select_both(main_runs, floor2_runs, nested_runs, phys, pf)
-    featured.append((win or best)["tag"])  # the model the report shows
-    featured.append("selected model" if win else "best compromise")
-    write_csv("selection.csv", [{**r, "fails": "; ".join(r["fails"])} for r in rows])
-    fig_selection(rows)
     n_lin = sum(r["verdict_linear"] == "pass" for r in rows)
     n_log = sum(r["verdict_log"] == "pass" for r in rows)
     out += ("## Model selection (pre-registered rule; decay test amended)\n\n"
@@ -73,24 +65,56 @@ def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
             "now requires both the registered linear test and the same test on "
             "ln(Γ_PDG/Γ_NLO) (log; symmetric, milder on underpredictions), each with Holm "
             "over its four tests: the amendment only adds rejections. Ranking and "
-            "tiebreak: the registered AIC (linear decays). Verdicts: linear = the rule as "
+            "tiebreak: the registered AIC (linear decays). The best compromise is the model "
+            "whose worst failed check is the mildest (standard deviations of exceedance, "
+            "`analysis/selection.py`). Verdicts: linear = the rule as "
             f"registered ({n_lin} pass), log = log form alone ({n_log} pass), both = the "
             "amended rule.\n\n" + md_table(
                 rows, ["label", "p_mass_ccbar", "p_mass_bbar", "p_lin_decay_ccbar",
                        "p_lin_decay_bbar", "p_decay_ccbar", "p_decay_bbar", "aic",
-                       "n_fail", "verdict_linear", "verdict_log", "verdict"],
+                       "n_fail", "severity", "verdict_linear", "verdict_log", "verdict"],
                 ["configuration", "p masses cc̄", "p masses bb̄", "p decays cc̄ linear",
                  "p decays bb̄ linear", "p decays cc̄ log", "p decays bb̄ log",
-                 "AIC", "failed checks", "linear", "log", "both"],
-                ["", ".3g", ".3g", ".3g", ".3g", ".3g", ".3g", ".1f", "d", "", "",
+                 "AIC", "failed checks", "worst failure (σ)", "linear", "log", "both"],
+                ["", ".3g", ".3g", ".3g", ".3g", ".3g", ".3g", ".1f", "d", ".1f", "", "",
                  ""]) + "\n")
+    by_count = selection.best_by_count(rows)
     out += ("**Winner: " + (f"{win['label']}** (AIC {win['aic']:.1f})." if win else
-            f"none.** No model passes both gates. Best compromise (fewest failed checks; "
-            f"ties: registered AIC): {best['label']} "
-            f"({best['n_fail']} failed check{'s' if best['n_fail'] != 1 else ''}: "
-            f"{'; '.join(best['fails'])}).") + "\n\nFailed checks per model:\n\n" +
-            "".join(f"- {r['label']}: {'; '.join(r['fails']) or 'none'}\n" for r in rows) +
-            "\n")
+            f"none.** No model passes both gates. Best compromise (mildest worst failure; "
+            f"ties: fewer failed checks, then registered AIC): {best['label']} "
+            f"(worst failure {best['severity']:.1f} σ; {best['n_fail']} failed "
+            f"check{'s' if best['n_fail'] != 1 else ''}: {'; '.join(best['fails'])}). "
+            f"The v1.0.0 count rule (fewest failed checks) would name {by_count['label']} "
+            f"(worst failure {by_count['severity']:.1f} σ).") +
+            "\n\nRanking by the worst failed check (σ = standard deviations of exceedance; "
+            "goodness-of-fit tests from their Holm-adjusted p, windows in parametric σ beyond "
+            "the edge, cog − h in half its tolerance, ⟨v²⟩ with its threshold as 2σ):\n\n" +
+            md_table(sorted(rows, key=lambda r: (r["severity"], r["n_fail"], r["aic"])),
+                     ["label", "severity", "n_fail", "aic"],
+                     ["configuration", "worst failure (σ)", "failed checks", "AIC"],
+                     ["", ".1f", "d", ".1f"]) +
+            "\nFailed checks per model (σ of each):\n\n" +
+            "".join(f"- {r['label']}: " + ("; ".join(f"{f} [{r['sev'][f]:.1f} σ]"
+                                                     for f in r['fails']) or "none") + "\n"
+                    for r in rows) + "\n")
+    return out
+
+
+def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
+                nested_runs, phys, featured):
+    """Model selection (pre-registered rule) and the goodness of fit: Pearson
+    chi^2 of the masses at the declared error, the decay benchmark, the
+    Bayesian posterior predictive checks; then the diagnostics."""
+    out = ""
+    pf = pooled_floors()
+    rows, win, best = selection.select_both(main_runs, floor2_runs, nested_runs, phys, pf)
+    featured.append((win or best)["tag"])  # the model the report shows
+    featured.append("selected model" if win else "best compromise")
+    write_csv("selection.csv", [{**r, "fails": "; ".join(r["fails"]),
+                                 "sev": "; ".join(f"{k}: {v:.2f}" for k, v in r["sev"].items())}
+                                for r in rows])
+    fig_selection(rows)
+    out += selection_text(rows, win, best)
     # gate 2 at the central values alone (no 2-sigma allowance): how much the
     # parametric errors carry the physics checks
     lo, hi = selection.quark_mass_window()
@@ -601,13 +625,15 @@ def main():
     wrows = validity.wavefunction_check(main_runs[ref_tag])
     write_csv("wavefunction_check.csv", wrows)
     mix, own = validity.mixing_angle(main_runs[ref_tag])
+    orows = validity.origin_ratio_rows(main_runs, phys)
+    write_csv("origin_ratio.csv", orows)
     fig_wavefunctions(main_runs[ref_tag], describe(ref_tag))
     tables += ("## Validity audit\n\n"
                "Physics against references the fits never saw, and the wave functions "
                f"rebuilt from their logged parameters alone ({sel_kind}, "
                f"{plain(ref_tag)}). Failures are kept.\n\n" +
                "".join(f"- {line}\n" for line in validity.summary(sp, qrows, srows, wrows,
-                                                                   mix, own)) +
+                                                                   mix, own, orows)) +
                "\nSpin structure per model (MeV; ρ = (M₂ − M₁)/(M₁ − M₀); cog − h: the 1P "
                "centre of gravity minus the ¹P₁ state, zero for a contact spin-spin force "
                "at first order):\n\n" + md_table(

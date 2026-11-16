@@ -21,7 +21,11 @@ are compared by a full statistical analysis.
   - the first-order models A const, B const and A frozen pass the decays but miss the lattice string tension
     or m_b − m_c.
 
-  Best compromise: the GI-relativized model with constant α_s (C const, s free).
+  Best compromise: B APT (running coupling), whose worst failed check, the b b̄ decays at Holm p = 0.03, is 2.2σ.
+  Models are ranked by their *worst* failure in standard deviations, not by how many checks they fail; the
+  v1.0.0 count rule named C const (s free), which fails the c c̄ decays at 4.1σ (Γ_γγ(χ_c0) ×13).
+- **η_c and J/ψ at the origin.** |R(0)|² of η_c over J/ψ, from the models' own widths, is 1.57–3.48 in all 19
+  models against about 0.55 required by the PDG widths and the same QCD factors.
 - **Masses at one declared error** (Paule–Mandel, pooled: c c̄ 13.3 MeV, b b̄ 3.9 MeV) pass in 17 of 19 models.
   Without a theory error every model is rejected; the decays and the physics checks decide.
 - **The decay test was amended after the results were seen.** The linear test cannot reject an overprediction:
@@ -62,7 +66,8 @@ cmake --preset asan    && cmake --build --preset asan    && ctest --preset asan 
 ```
 
 The PDG data are the PDG's SQLite file `pdg-2026.0.sqlite` (PDG API page, pdg.lbl.gov), placed in `data/`. It is
-not redistributed, so tests that need it are skipped without it; this includes the CI.
+not redistributed. Without it the tests use `tests/data/pdg-subset.sqlite`, the rows of the states this code fits
+(PDG data, CC BY 4.0; see `tests/data/README.md`), so the CI runs the fit tests too. The analysis scripts need the full file.
 
 ## Run
 

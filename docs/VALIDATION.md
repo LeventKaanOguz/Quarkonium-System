@@ -13,10 +13,10 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 | `Independent.*` | linear potential, Cornell and screened for l = 0–2 | **Airy zeros**; **own finite-difference solver** (Sturm bisection + Richardson) |
 | `Spin.*` (`test_spin`) | ⟨S₁·S₂⟩, ⟨L·S⟩, ⟨S₁₂⟩ diagonal and off-diagonal, centre-of-gravity sums | built explicitly from Clebsch–Gordan coefficients and spherical harmonics, sphere quadrature |
 | `Test2.*`, `NRModel.*`, `CoulombSmeared.*` (`test_model`) | ⟨δ_σ⟩, hyperfine, virial, a, t and 3P_J shifts; FH gradients for every parameter in every spin mode (incl. unequal masses, coupled channels, screened); smeared-Coulomb series | notes Test 2; central finite differences |
-| `Test5.*`, `SixJ.*`, `Observables.*` (`test_observables`) | R(0), f_V, Γ_ee, Γ_γγ, E1 (all J), M1, ⟨v²⟩, ⟨p⁴⟩; 6j symbols; R′(0), R″(0) | notes Test 5; 6j orthogonality; finite differences of the radial function |
+| `Test5.*`, `SixJ.*`, `Observables.*` (`test_observables`) | R(0), f_V, Γ_ee, Γ_γγ, E1 (all J), M1, ⟨v²⟩, ⟨p⁴⟩; 6j symbols (known values, orthogonality, column-swap and up/down symmetries, the triangle conditions); the E1 angular factor C_fi = max(L,L′)(2J′+1){L′ J′ S; J L 1}² for every multiplet of the notes and its sum rule Σ_J′ C_fi = max(L,L′)/(2L+1) for L ≤ 4; R′(0), R″(0) | notes Test 5; 6j orthogonality; finite differences of the radial function; the hand-computed factors 1, 1/3, 2/5, 3/10, 1/10, 2/5 |
 | `LevenbergMarquardt.*`, `TheoryFloor.*` | LM on the straight line, floor equation | notes Toy 2 (exact) |
 | `Test6.*` (`test_fit`) | the whole fit chain: σ_th, θ̂, errors, correlation matrix, Fisher eigenvalues, residuals; Jacobian vs finite differences; nested-doubling error | notes §10.10 |
-| `Pdg.*`, `Dataset.*` | PDG reader (summary-table values, the second error from the display text), common-systematic covariance | the PDG file itself; the notes' three gotchas |
+| `Pdg.*`, `Dataset.*` | PDG reader (summary-table values, the second error from the display text), common-systematic covariance | the PDG file itself; the notes' three gotchas. Without the full file they run on `tests/data/pdg-subset.sqlite` (see below) |
 | `Stats.*`, `Rng.*` (`test_stats`) | leverages and LOO, profile, bootstrap, MCMC with R̂ and τ_int, χ² survival function, Aitken, error budget | exact on the straight line; known distributions; AR(1) |
 | `qgem_validation` (label `slow`) | leverages, LOO with exact refits, profile of m_c, the m_c–c degeneracy (ρ = −0.987), AIC/BIC, bootstrap, posterior, priors | notes §10.10 |
 | `NelderMead.*`, `BasisOpt.*`, `Nested*` (`test_hyper`) | basis optimization stays an upper bound; σ_num monotone; wave-function observables converge more slowly than energies | Rosenbrock; a large reference basis |
@@ -25,7 +25,7 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 | `Analytic.*` (`test_analytic`) | every smeared matrix element used by the models is **exact**: erf/r, g'/r, tensor, r~, r~'/r, (e^{−μr})~ and its derivative (transfer lemmas with exact Taylor jets), J_s recursion | the pointwise functions integrated by quadrature (`local`, kept only as the reference) |
 | `Run.*` (`test_run`) | the default run prints every PDG state, reproduces σ_th = 8.344 MeV; model / running / c choices | notes §10.10; error handling |
 | `Smeared.*` (`test_smeared`) | r̃, (e^{−μr})~ and their derivatives in the stable erfcx form | the radial convolution formula (6.9) by quadrature |
-| `GI.*` (`test_gi`) | Hermiticity, closure vs two-step, D→C limit, FH, B_c, and the published spectra | **recalled from memory (notes §12.3)**: smoke test only |
+| `GI.*` (`test_gi`) | Hermiticity, closure vs two-step, D→C limit, FH, B_c, and the published spectra | **recalled from memory (notes §12.3)**, parameters cross-checked against arXiv:1811.10339 Table I except c: smoke test only |
 | `AlphaS.GaussianSumShapes*` (`test_alpha_s`) | frozen and APT shapes as non-negative Gaussian sums, Σw = 1, ≤ 5 % for 0.05 < Q < 50 GeV; a confining form is refused | the analytic couplings |
 | `Chi2Problem.CollapsedSpectrum*` (`test_fit`) | a point-like contact term (σ = 1000 GeV) collapses the 1S0 channel and the χ² refuses the point | physical requirement (H bounded below) |
 | `Run.SeedFromAnotherMinimiser*` (`test_run`) | a `--start` point (the Minuit2 minimum of A-APT-smeared b b̄, 2.27 MeV) is fitted and kept over the default start, where LM stalls at σ → 0 (107 MeV) | Minuit2 result |
@@ -51,6 +51,15 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 | `Minuit2.*` (`tests/root/`, ROOT build only) | Migrad, Hesse and Minos on the straight line; the §10.10 fit equals Levenberg–Marquardt | notes Toy 2 (exact); LM |
 | `ComplexRange.*` | complex-range matrix elements, nested enlargement, the table of notes §7.10.5 | quadrature of the real functions; own finite-difference solver |
 
+## The PDG subset in CI
+
+`tests/data/pdg-subset.sqlite` (725 kB) holds the rows of `pdg-2026.0.sqlite` for the particles of `config/*.states`
+only (PDG data, CC BY 4.0 from the 2024 edition; attribution and the regeneration command are in
+`tests/data/README.md`). The test helper `tests/pdg_path.hpp` uses the full file in `data/` when present and the
+subset otherwise, so the fit, run and validation tests run in CI instead of skipping: with the full file moved aside,
+107 of 107 tests pass and none is skipped. The subset is regenerated, not edited:
+`python3 tests/data/make_pdg_subset.py data/pdg-2026.0.sqlite tests/data/pdg-subset.sqlite`.
+
 ## Things that were found, not assumed
 
 * The notes' hydrogen list "−0.22, −0.05, −0.02469" rounds loosely; the exact values for m_r = 1, κ = 2/3 are −2/9, −1/18, −2/81.
@@ -66,9 +75,11 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 
 ## Not verified against an independent reference
 
-* The Godfrey–Isgur parameters themselves (the notes recall them "from memory — verify before use"). The model passes
-  Hermiticity, closure/two-step and derivative checks, and reproduces the recalled spectra to a few MeV, but the parameter
-  values should be checked against the paper before any physics claim.
+* The Godfrey–Isgur parameters against the original paper (Phys. Rev. D 32, 189 (1985), not on arXiv, so not
+  fetched). The model passes Hermiticity, closure/two-step and derivative checks, and reproduces the recalled
+  spectra to a few MeV. The defaults were cross-checked against Table I of arXiv:1811.10339, which tabulates the
+  same parameter set; the constant c = −0.253 GeV is the one value that table did not confirm. Check it against
+  the 1985 paper before any physics claim on the GI models (C and D).
 * Complex-range bases are supported for the non-relativistic Models A/B; the relativistic momentum matrices (Models C/D)
   need complex Gauss–Laguerre scaling and are not implemented (`momentum_diagonal` throws).
 * Running α_s inside the models is the Godfrey–Isgur Gaussian sum (exact erf forms). The other forms of `alpha_s.hpp`

@@ -5,17 +5,16 @@
 #include <filesystem>
 #include <sstream>
 
+#include "pdg_path.hpp"
 #include "report/run.hpp"
 
 using namespace qgem;
 
 namespace {
-bool have_data() {
-  return std::filesystem::exists(std::string(QGEM_SOURCE_DIR) +
-                                 "/data/pdg-2026.0.sqlite");
-}
+bool have_data() { return qgem_test::have_pdg_data(); }
 std::string output(RunOptions o) {
   o.root = QGEM_SOURCE_DIR;
+  o.pdg_file = qgem_test::pdg_data_path();
   std::ostringstream s;
   EXPECT_EQ(run(o, s), 0);
   return s.str();

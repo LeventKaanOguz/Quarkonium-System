@@ -89,53 +89,77 @@
 
 ## Model selection (pre-registered rule; decay test amended)
 
-A model wins only if it (1) reproduces the observables, masses and decays: no rejection at α = 0.05 after Holm's correction over its four Pearson χ² tests, and (2) is physically sound: non-degenerate, basis converged, radial nodes = radial quantum number, m_b − m_c in the heavy-quark window, √b in 0.44 ± 0.04 GeV (lattice), 1P centre of gravity − h at the PDG value, ⟨v²⟩ < 0.5; each within 2σ. Among those, the lowest AIC = χ²_masses + χ²_decays + 2p. The rule and its thresholds were fixed before the final sweeps (docs/EXPLANATION.md). Amendment, made after the results were seen: the registered decay test is linear in Γ with a theory error ∝ Γ_NLO, so its pull is bounded below by −1/f and it cannot reject an overprediction. Gate 1 now requires both the registered linear test and the same test on ln(Γ_PDG/Γ_NLO) (log; symmetric, milder on underpredictions), each with Holm over its four tests: the amendment only adds rejections. Ranking and tiebreak: the registered AIC (linear decays). Verdicts: linear = the rule as registered (2 pass), log = log form alone (2 pass), both = the amended rule.
+A model wins only if it (1) reproduces the observables, masses and decays: no rejection at α = 0.05 after Holm's correction over its four Pearson χ² tests, and (2) is physically sound: non-degenerate, basis converged, radial nodes = radial quantum number, m_b − m_c in the heavy-quark window, √b in 0.44 ± 0.04 GeV (lattice), 1P centre of gravity − h at the PDG value, ⟨v²⟩ < 0.5; each within 2σ. Among those, the lowest AIC = χ²_masses + χ²_decays + 2p. The rule and its thresholds were fixed before the final sweeps (docs/EXPLANATION.md). Amendment, made after the results were seen: the registered decay test is linear in Γ with a theory error ∝ Γ_NLO, so its pull is bounded below by −1/f and it cannot reject an overprediction. Gate 1 now requires both the registered linear test and the same test on ln(Γ_PDG/Γ_NLO) (log; symmetric, milder on underpredictions), each with Holm over its four tests: the amendment only adds rejections. Ranking and tiebreak: the registered AIC (linear decays). The best compromise is the model whose worst failed check is the mildest (standard deviations of exceedance, `analysis/selection.py`). Verdicts: linear = the rule as registered (2 pass), log = log form alone (2 pass), both = the amended rule.
 
-| configuration | p masses cc̄ | p masses bb̄ | p decays cc̄ linear | p decays bb̄ linear | p decays cc̄ log | p decays bb̄ log | AIC | failed checks | linear | log | both |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| C const (s free) | 0.662 | 0.595 | 0.311 | 0.742 | 8.58e-06 | 0.786 | 34.2 | 1 | pass | fail | fail |
-| B const | 0.385 | 0.722 | 0.364 | 0.731 | 0.0645 | 0.786 | 34.2 | 1 | fail | fail | fail |
-| A frozen | 0.219 | 0.812 | 0.445 | 0.0674 | 0.168 | 0.156 | 39.9 | 1 | fail | fail | fail |
-| A const | 0.813 | 0.0532 | 0.341 | 0.971 | 0.0588 | 0.972 | 41.3 | 1 | fail | fail | fail |
-| A const smeared | 0.294 | 0.0212 | 0.282 | 0.965 | 0.000144 | 0.973 | 48.2 | 1 | pass | fail | fail |
-| B APT | 0.14 | 0.598 | 0.436 | 0.00741 | 0.16 | 0.0464 | 48.2 | 1 | fail | pass | fail |
-| B frozen | 0.0849 | 0.433 | 0.404 | 0.00133 | 0.159 | 0.0183 | 55.1 | 1 | fail | pass | fail |
-| D GI run (s free) | 0.172 | 0.856 | 0.32 | 0.798 | 9.65e-07 | 0.801 | 33.2 | 2 | fail | fail | fail |
-| A GI run | 0.324 | 0.721 | 0.461 | 0.0343 | 0.187 | 0.105 | 41.2 | 2 | fail | fail | fail |
-| B const smeared | 0.0863 | 0.494 | 0.446 | 0.373 | 0.000928 | 0.472 | 41.5 | 2 | fail | fail | fail |
-| B APT smeared | 0.821 | 0.717 | 0.29 | 0.00301 | 0.00233 | 0.0291 | 45.0 | 2 | fail | fail | fail |
-| B GI run | 0.182 | 0.317 | 0.424 | 0.000541 | 0.18 | 0.0121 | 56.2 | 2 | fail | fail | fail |
-| D const (s free) | 0.546 | 0.972 | 0.329 | 0.68 | 1.57e-05 | 0.73 | 30.3 | 3 | fail | fail | fail |
-| A APT smeared | 0.877 | 0.941 | 0.146 | 0.111 | 0.000522 | 0.217 | 36.2 | 3 | fail | fail | fail |
-| A frozen smeared | 0.872 | 0.896 | 0.214 | 0.0448 | 0.000653 | 0.122 | 37.9 | 3 | fail | fail | fail |
-| A GI run smeared | 0.877 | 0.734 | 0.181 | 0.0231 | 0.000863 | 0.0843 | 41.7 | 3 | fail | fail | fail |
-| B frozen smeared | 0.751 | 0.527 | 0.35 | 0.00046 | 0.00277 | 0.0104 | 50.6 | 3 | fail | fail | fail |
-| B GI run smeared | 0.851 | 0.314 | 0.315 | 0.000209 | 0.00325 | 0.00781 | 54.4 | 3 | fail | fail | fail |
-| C GI run (s free) | 0.329 | 0.00119 | 0.299 | 0.432 | 2.53e-07 | 0.451 | 56.9 | 3 | fail | fail | fail |
+| configuration | p masses cc̄ | p masses bb̄ | p decays cc̄ linear | p decays bb̄ linear | p decays cc̄ log | p decays bb̄ log | AIC | failed checks | worst failure (σ) | linear | log | both |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| C const (s free) | 0.662 | 0.595 | 0.311 | 0.742 | 8.58e-06 | 0.786 | 34.2 | 1 | 4.1 | pass | fail | fail |
+| B const | 0.385 | 0.722 | 0.364 | 0.731 | 0.0645 | 0.786 | 34.2 | 1 | 11.3 | fail | fail | fail |
+| A frozen | 0.219 | 0.812 | 0.445 | 0.0674 | 0.168 | 0.156 | 39.9 | 1 | 5.3 | fail | fail | fail |
+| A const | 0.813 | 0.0532 | 0.341 | 0.971 | 0.0588 | 0.972 | 41.3 | 1 | 2.6 | fail | fail | fail |
+| A const smeared | 0.294 | 0.0212 | 0.282 | 0.965 | 0.000144 | 0.973 | 48.2 | 1 | 3.4 | pass | fail | fail |
+| B APT | 0.14 | 0.598 | 0.436 | 0.00741 | 0.16 | 0.0464 | 48.2 | 1 | 2.2 | fail | pass | fail |
+| B frozen | 0.0849 | 0.433 | 0.404 | 0.00133 | 0.159 | 0.0183 | 55.1 | 1 | 2.8 | fail | pass | fail |
+| D GI run (s free) | 0.172 | 0.856 | 0.32 | 0.798 | 9.65e-07 | 0.801 | 33.2 | 2 | 4.6 | fail | fail | fail |
+| A GI run | 0.324 | 0.721 | 0.461 | 0.0343 | 0.187 | 0.105 | 41.2 | 2 | 9.3 | fail | fail | fail |
+| B const smeared | 0.0863 | 0.494 | 0.446 | 0.373 | 0.000928 | 0.472 | 41.5 | 2 | 9.7 | fail | fail | fail |
+| B APT smeared | 0.821 | 0.717 | 0.29 | 0.00301 | 0.00233 | 0.0291 | 45.0 | 2 | 2.6 | fail | fail | fail |
+| B GI run | 0.182 | 0.317 | 0.424 | 0.000541 | 0.18 | 0.0121 | 56.2 | 2 | 3.1 | fail | fail | fail |
+| D const (s free) | 0.546 | 0.972 | 0.329 | 0.68 | 1.57e-05 | 0.73 | 30.3 | 3 | 6.5 | fail | fail | fail |
+| A APT smeared | 0.877 | 0.941 | 0.146 | 0.111 | 0.000522 | 0.217 | 36.2 | 3 | 10.5 | fail | fail | fail |
+| A frozen smeared | 0.872 | 0.896 | 0.214 | 0.0448 | 0.000653 | 0.122 | 37.9 | 3 | 6.7 | fail | fail | fail |
+| A GI run smeared | 0.877 | 0.734 | 0.181 | 0.0231 | 0.000863 | 0.0843 | 41.7 | 3 | 10.1 | fail | fail | fail |
+| B frozen smeared | 0.751 | 0.527 | 0.35 | 0.00046 | 0.00277 | 0.0104 | 50.6 | 3 | 3.1 | fail | fail | fail |
+| B GI run smeared | 0.851 | 0.314 | 0.315 | 0.000209 | 0.00325 | 0.00781 | 54.4 | 3 | 3.3 | fail | fail | fail |
+| C GI run (s free) | 0.329 | 0.00119 | 0.299 | 0.432 | 2.53e-07 | 0.451 | 56.9 | 3 | 4.9 | fail | fail | fail |
 
-**Winner: none.** No model passes both gates. Best compromise (fewest failed checks; ties: registered AIC): C const (s free) (1 failed check: decay_ccbar (Holm p = 3.4e-05) [log]).
+**Winner: none.** No model passes both gates. Best compromise (mildest worst failure; ties: fewer failed checks, then registered AIC): B APT (worst failure 2.2 σ; 1 failed check: decay_bbar (Holm p = 0.03) [linear]). The v1.0.0 count rule (fewest failed checks) would name C const (s free) (worst failure 4.1 σ).
 
-Failed checks per model:
+Ranking by the worst failed check (σ = standard deviations of exceedance; goodness-of-fit tests from their Holm-adjusted p, windows in parametric σ beyond the edge, cog − h in half its tolerance, ⟨v²⟩ with its threshold as 2σ):
 
-- C const (s free): decay_ccbar (Holm p = 3.4e-05) [log]
-- B const: bbar sqrt(b) = 0.512 +- 0.003 GeV
-- A frozen: bbar sqrt(b) = 0.383 +- 0.003 GeV
-- A const: m_b - m_c = 3.284 +- 0.022 GeV outside [3.342, 3.457]
-- A const smeared: decay_ccbar (Holm p = 0.00057) [log]
-- B APT: decay_bbar (Holm p = 0.03) [linear]
-- B frozen: decay_bbar (Holm p = 0.0053) [linear]
-- D GI run (s free): ccbar <v^2> = 0.51; decay_ccbar (Holm p = 3.9e-06) [log]
-- A GI run: ccbar sqrt(b) = 0.344 +- 0.025 GeV; bbar sqrt(b) = 0.365 +- 0.004 GeV
-- B const smeared: bbar sqrt(b) = 0.512 +- 0.003 GeV; decay_ccbar (Holm p = 0.0037) [log]
-- B APT smeared: decay_bbar (Holm p = 0.012) [linear]; decay_ccbar (Holm p = 0.0093) [log]
-- B GI run: decay_bbar (Holm p = 0.0022) [linear]; decay_bbar (Holm p = 0.048) [log]
-- D const (s free): ccbar <v^2> = 0.50; bbar sqrt(b) = 0.507 +- 0.004 GeV; decay_ccbar (Holm p = 6.3e-05) [log]
-- A APT smeared: ccbar sqrt(b) = 0.342 +- 0.013 GeV; bbar sqrt(b) = 0.372 +- 0.003 GeV; decay_ccbar (Holm p = 0.0021) [log]
-- A frozen smeared: ccbar sqrt(b) = 0.353 +- 0.011 GeV; bbar sqrt(b) = 0.382 +- 0.003 GeV; decay_ccbar (Holm p = 0.0026) [log]
-- A GI run smeared: ccbar sqrt(b) = 0.336 +- 0.013 GeV; bbar sqrt(b) = 0.363 +- 0.004 GeV; decay_ccbar (Holm p = 0.0035) [log]
-- B frozen smeared: decay_bbar (Holm p = 0.0018) [linear]; decay_ccbar (Holm p = 0.011) [log]; decay_bbar (Holm p = 0.031) [log]
-- B GI run smeared: decay_bbar (Holm p = 0.00084) [linear]; decay_ccbar (Holm p = 0.013) [log]; decay_bbar (Holm p = 0.023) [log]
-- C GI run (s free): mass_bbar (Holm p = 0.0047); ccbar <v^2> = 0.51; decay_ccbar (Holm p = 1e-06) [log]
+| configuration | worst failure (σ) | failed checks | AIC |
+|---|---|---|---|
+| B APT | 2.2 | 1 | 48.2 |
+| B APT smeared | 2.6 | 2 | 45.0 |
+| A const | 2.6 | 1 | 41.3 |
+| B frozen | 2.8 | 1 | 55.1 |
+| B GI run | 3.1 | 2 | 56.2 |
+| B frozen smeared | 3.1 | 3 | 50.6 |
+| B GI run smeared | 3.3 | 3 | 54.4 |
+| A const smeared | 3.4 | 1 | 48.2 |
+| C const (s free) | 4.1 | 1 | 34.2 |
+| D GI run (s free) | 4.6 | 2 | 33.2 |
+| C GI run (s free) | 4.9 | 3 | 56.9 |
+| A frozen | 5.3 | 1 | 39.9 |
+| D const (s free) | 6.5 | 3 | 30.3 |
+| A frozen smeared | 6.7 | 3 | 37.9 |
+| A GI run | 9.3 | 2 | 41.2 |
+| B const smeared | 9.7 | 2 | 41.5 |
+| A GI run smeared | 10.1 | 3 | 41.7 |
+| A APT smeared | 10.5 | 3 | 36.2 |
+| B const | 11.3 | 1 | 34.2 |
+
+Failed checks per model (σ of each):
+
+- C const (s free): decay_ccbar (Holm p = 3.4e-05) [log] [4.1 σ]
+- B const: bbar sqrt(b) = 0.512 +- 0.003 GeV [11.3 σ]
+- A frozen: bbar sqrt(b) = 0.383 +- 0.003 GeV [5.3 σ]
+- A const: m_b - m_c = 3.284 +- 0.022 GeV outside [3.342, 3.457] [2.6 σ]
+- A const smeared: decay_ccbar (Holm p = 0.00057) [log] [3.4 σ]
+- B APT: decay_bbar (Holm p = 0.03) [linear] [2.2 σ]
+- B frozen: decay_bbar (Holm p = 0.0053) [linear] [2.8 σ]
+- D GI run (s free): ccbar <v^2> = 0.51 [2.1 σ]; decay_ccbar (Holm p = 3.9e-06) [log] [4.6 σ]
+- A GI run: ccbar sqrt(b) = 0.344 +- 0.025 GeV [2.2 σ]; bbar sqrt(b) = 0.365 +- 0.004 GeV [9.3 σ]
+- B const smeared: bbar sqrt(b) = 0.512 +- 0.003 GeV [9.7 σ]; decay_ccbar (Holm p = 0.0037) [log] [2.9 σ]
+- B APT smeared: decay_bbar (Holm p = 0.012) [linear] [2.5 σ]; decay_ccbar (Holm p = 0.0093) [log] [2.6 σ]
+- B GI run: decay_bbar (Holm p = 0.0022) [linear] [3.1 σ]; decay_bbar (Holm p = 0.048) [log] [2.0 σ]
+- D const (s free): ccbar <v^2> = 0.50 [2.0 σ]; bbar sqrt(b) = 0.507 +- 0.004 GeV [6.5 σ]; decay_ccbar (Holm p = 6.3e-05) [log] [4.0 σ]
+- A APT smeared: ccbar sqrt(b) = 0.342 +- 0.013 GeV [4.6 σ]; bbar sqrt(b) = 0.372 +- 0.003 GeV [10.5 σ]; decay_ccbar (Holm p = 0.0021) [log] [3.1 σ]
+- A frozen smeared: ccbar sqrt(b) = 0.353 +- 0.011 GeV [4.1 σ]; bbar sqrt(b) = 0.382 +- 0.003 GeV [6.7 σ]; decay_ccbar (Holm p = 0.0026) [log] [3.0 σ]
+- A GI run smeared: ccbar sqrt(b) = 0.336 +- 0.013 GeV [5.0 σ]; bbar sqrt(b) = 0.363 +- 0.004 GeV [10.1 σ]; decay_ccbar (Holm p = 0.0035) [log] [2.9 σ]
+- B frozen smeared: decay_bbar (Holm p = 0.0018) [linear] [3.1 σ]; decay_ccbar (Holm p = 0.011) [log] [2.5 σ]; decay_bbar (Holm p = 0.031) [log] [2.2 σ]
+- B GI run smeared: decay_bbar (Holm p = 0.00084) [linear] [3.3 σ]; decay_ccbar (Holm p = 0.013) [log] [2.5 σ]; decay_bbar (Holm p = 0.023) [log] [2.3 σ]
+- C GI run (s free): mass_bbar (Holm p = 0.0047) [2.8 σ]; ccbar <v^2> = 0.51 [2.1 σ]; decay_ccbar (Holm p = 1e-06) [log] [4.9 σ]
 
 Sensitivity: with gate 2 at the central values (√b, m_b − m_c and ⟨v²⟩ without the 2σ allowance), 4 of 19 models pass it: B frozen, B GI run, B frozen smeared, B GI run smeared.
 
@@ -1519,6 +1543,7 @@ Physics against references the fits never saw, and the wave functions rebuilt fr
 - √b: median c c̄ 0.421 ± 0.018, b b̄ 0.436 ± 0.004, joint 0.434 ± 0.004 GeV (lattice √σ ≈ 0.44 GeV)
 - wave functions rebuilt from the JSON: max |norm − 1| = 1.1e-10; radial nodes ≠ radial quantum number in 0 of 32 states
 - ψ(3770): mixing angle reproducing Γee(ψ(3770))/Γee(ψ(2S)) with the model's own R_2S(0), R″_1D(0): -37.8° ± 0.6°, 0.1° ± 0.6°; the tensor force alone gives 1.6°
+- |R(0)|² of η_c(1S) over J/ψ(1S), from each model's LO widths (19 models): 1.57–3.48 (median 2.03) against 0.55 required by the PDG widths with the same QCD factors: every model puts η_c 2.9–6.3 times too deep at the origin relative to J/ψ (the η_c γγ NLO width is 2.3–4.1 times the PDG value)
 
 Spin structure per model (MeV; ρ = (M₂ − M₁)/(M₁ − M₀); cog − h: the 1P centre of gravity minus the ¹P₁ state, zero for a contact spin-spin force at first order):
 

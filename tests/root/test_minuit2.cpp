@@ -6,6 +6,7 @@
 #include <cmath>
 #include <filesystem>
 
+#include "../pdg_path.hpp"
 #include "data/dataset.hpp"
 #include "fit/driver.hpp"
 #include "models/nr_model.hpp"
@@ -49,8 +50,7 @@ TEST(Minuit2, StraightLineMatchesTheExactSolution) {
 }
 
 TEST(Minuit2, WorkedCharmoniumFitAgreesWithLevenbergMarquardt) {
-  const std::string db =
-      std::string(QGEM_SOURCE_DIR) + "/data/pdg-2026.0.sqlite";
+  const std::string db = qgem_test::pdg_data_path();
   if (!std::filesystem::exists(db)) GTEST_SKIP();
   PdgDatabase pdg(db);
   Dataset ds = load_dataset(

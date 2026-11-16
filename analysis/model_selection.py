@@ -206,3 +206,29 @@ def kendall_tau(a, b):
     if ok.sum() < 3:
         return math.nan
     return float(stats.kendalltau(a[ok], b[ok]).statistic)
+
+
+# ---- severity of a failed check and the best compromise ---------------------
+# A failed check is graded in standard deviations of exceedance, so that
+# checks with different units can be compared: the worst failure of a model
+# decides the best compromise, not the number of failures (v1.0.0 counted).
+
+def exceedance_z(p):
+    """Standard deviations equivalent to a two-sided p-value (Holm-adjusted for
+    the goodness-of-fit checks): z = Phi^-1(1 - p/2). p <= 0 gives inf."""
+    if not p > 0:
+        return math.inf
+    return float(stats.norm.isf(min(p, 1.0) / 2))
+
+
+def window_z(value, lo, hi, sigma):
+    """Distance of a central value beyond the nearest edge of [lo, hi], in
+    units of its parametric error sigma (0 inside the window)."""
+    return max(lo - value, value - hi, 0.0) / sigma
+
+
+def best_compromise(rows):
+    """The model whose worst failed check is the mildest. Each row carries
+    "severity" (the largest exceedance among its failed checks; 0 if none),
+    "n_fail" and "aic". Ties: fewer failed checks, then the lower AIC."""
+    return min(rows, key=lambda r: (r["severity"], r["n_fail"], r["aic"])) if rows else None

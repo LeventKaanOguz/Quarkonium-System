@@ -1,7 +1,9 @@
 // M3: observables against the notes' Test 5 (12.2) and exact identities.
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <numbers>
 
 #include "models/alpha_s.hpp"
@@ -51,6 +53,54 @@ TEST(Observables, E1AngularFactorsOfTheNotes) {
   EXPECT_NEAR(e1_angular_factor(2, 1, 1, 0, 1), 2.0 / 9.0, 1e-14);
   EXPECT_NEAR(e1_angular_factor(2, 1, 1, 1, 1), 1.0 / 6.0, 1e-14);
   EXPECT_NEAR(e1_angular_factor(2, 1, 1, 2, 1), 1.0 / 90.0, 1e-14);
+}
+
+TEST(SixJ, SymmetriesAndTriangleConditions) {
+  // invariant under column permutations and under exchanging the upper and
+  // lower entries of two columns; zero when a triad violates the triangle rule
+  for (int a = 0; a <= 3; ++a)
+    for (int b = 0; b <= 3; ++b)
+      for (int c = 0; c <= 3; ++c)
+        for (int d = 0; d <= 3; ++d)
+          for (int e = 0; e <= 3; ++e)
+            for (int f = 0; f <= 3; ++f) {
+              const double v = sixj(a, b, c, d, e, f);
+              EXPECT_NEAR(sixj(b, a, c, e, d, f), v,
+                          1e-13);  // swap columns 1, 2
+              EXPECT_NEAR(sixj(a, c, b, d, f, e), v,
+                          1e-13);  // swap columns 2, 3
+              EXPECT_NEAR(sixj(d, e, c, a, b, f), v,
+                          1e-13);  // swap up/down, cols 1, 2
+            }
+  EXPECT_EQ(sixj(0, 0, 2, 0, 0, 0), 0.0);  // (0, 0, 2) is not a triad
+}
+
+TEST(Observables, E1AngularFactorsEveryMultipletAndTheSumRule) {
+  // the paper's former table, now only a check of sixj: D -> P, singlets
+  EXPECT_NEAR(e1_angular_factor(0, 0, 1, 1, 0), 1.0, 1e-14);  // 1S0 -> 1P1
+  EXPECT_NEAR(e1_angular_factor(1, 1, 0, 0, 0), 1.0 / 3.0,
+              1e-14);  // 1P1 -> 1S0
+  EXPECT_NEAR(e1_angular_factor(2, 2, 1, 1, 0), 2.0 / 5.0,
+              1e-14);  // 1D2 -> 1P1
+  EXPECT_NEAR(e1_angular_factor(2, 2, 1, 1, 1), 3.0 / 10.0,
+              1e-14);  // 3D2 -> 3P1
+  EXPECT_NEAR(e1_angular_factor(2, 2, 1, 2, 1), 1.0 / 10.0,
+              1e-14);  // 3D2 -> 3P2
+  EXPECT_NEAR(e1_angular_factor(2, 3, 1, 2, 1), 2.0 / 5.0,
+              1e-14);  // 3D3 -> 3P2
+  // sum over the final J' of a given L': max(L, L')/(2L+1), for every J, S
+  for (int L = 0; L <= 4; ++L)
+    for (int Lp : {L - 1, L + 1}) {
+      if (Lp < 0) continue;
+      for (int S : {0, 1})
+        for (int J = std::abs(L - S); J <= L + S; ++J) {
+          double sum = 0;
+          for (int Jp = std::abs(Lp - S); Jp <= Lp + S; ++Jp)
+            sum += e1_angular_factor(L, J, Lp, Jp, S);
+          EXPECT_NEAR(sum, std::max(L, Lp) / (2.0 * L + 1), 1e-13)
+              << "L=" << L << " L'=" << Lp << " S=" << S << " J=" << J;
+        }
+    }
 }
 
 TEST(Test5, ObservablesOfTheSpinIndependentCornellModel) {
