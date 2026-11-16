@@ -8,6 +8,23 @@ line and its JSON output.
 
 ## [Unreleased]
 
+### Fixed
+
+- **obs**: the S–D mixed leptonic width had the D-wave amplitude with the wrong sign. In the Condon–Shortley
+  convention of the code (⟨³D₁|S₁₂|³S₁⟩ = +√8) the amplitude is A = R_S(0) − 5R″_D(0)/(2√2 m²); the code had a
+  plus sign, which is correct only for the opposite D-wave phase (⟨S|S₁₂|D⟩ = −√8). The sign was derived from the
+  Dirac current expansion and checked four independent ways (`analysis/test_sd_sign.py`, CTest
+  `analysis_sd_sign`; `tests/test_observables.cpp`). It changes Γ_ee of J/ψ, ψ(2S), ψ(3770), … and Υ(nS) in the
+  12 physical-set models with S–D mixing in H (smeared A/B, all C/D); first-order A/B and every mass are
+  unchanged. Example: Γ_ee(J/ψ), C const (s free), 5.57 → 6.34 keV; Γ_ee(ψ(3770)) 0.39 → 0.35 keV.
+- **analysis**: `refresh_widths.py` recomputes the stored `widths` and `decay_benchmark` blocks of those models
+  from a fixed-floor, fixed-start refit and writes them only if the refit reproduces the stored χ² and θ. All 48
+  system fits matched. Gate 1, the selection and the REPORT numbers were recomputed (no model passes; the best
+  compromise is still B APT). Decay posterior predictive p-values, the mass-and-width study, the joint-fit widths
+  and the figures are *not* recomputed; REPORT says so where it matters.
+- **analysis**: `validity.mixing_angle` uses the same sign (the two roots for ψ(3770) of C const (s free) are
+  −0.1° and +37.8°, previously +0.1° and −37.8°).
+
 ### Changed
 
 - **analysis**: the best compromise is the model whose worst failed check is the mildest, graded in standard
@@ -17,6 +34,9 @@ line and its JSON output.
   `severity` and `sev`, and `tables.md` the ranking by worst failure.
 - **docs**: REPORT §5–§7 and the figures still feature C const (s free); they are marked as the v1.0.0 best
   compromise until `analysis/analyze.py` is re-run with ROOT.
+- **docs**: the |R(0)|² audit of η_c over J/ψ is stated as an NLO statement (it is proportional to K_ee/K_γγ,
+  and both factors are large beyond one loop); the earlier wording that the discrepancy exceeds any plausible
+  shift of K was an overclaim.
 
 ### Added
 
@@ -24,8 +44,11 @@ line and its JSON output.
   and `tests/pdg_path.hpp`; the fit, run and validation tests now run in CI instead of skipping. 6j symmetry
   and triangle tests and a test of the E1 angular factor for every multiplet and its sum rule.
 - **analysis**: `validity.origin_ratio_rows`, the |R(0)|² ratio of η_c(1S) to J/ψ(1S) against what the PDG widths
-  require (`origin_ratio.csv`): 1.57–3.48 in all 19 models against 0.55.
+  require (`origin_ratio.csv`): 1.40–2.03 in all 19 models against 0.55 (1.57–3.48 before the sign fix).
 - **docs**: the Godfrey–Isgur parameter cross-check (VALIDATION.md).
+- **tests**: `GI.ReproducesTableIOfBarnesGodfreySwansonForCharmonium`, 31 levels of Table I of Barnes, Godfrey and
+  Swanson (hep-ph/0505002, GI column; the table was read from the paper): all within 3 MeV except the 1S doublet
+  (7–8 MeV below; basis converged to 0.01 MeV) and the 4S/1S tolerances noted in the test.
 
 ## [1.0.0] - 2026-11-12
 

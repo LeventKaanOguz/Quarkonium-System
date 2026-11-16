@@ -93,6 +93,9 @@ if(Python3_Interpreter_FOUND)
     add_test(NAME analysis_model_selection
              COMMAND ${Python3_EXECUTABLE}
                      ${CMAKE_SOURCE_DIR}/analysis/test_model_selection.py)
+    add_test(NAME analysis_sd_sign
+             COMMAND ${Python3_EXECUTABLE}
+                     ${CMAKE_SOURCE_DIR}/analysis/test_sd_sign.py)
   endif()
 endif()
 

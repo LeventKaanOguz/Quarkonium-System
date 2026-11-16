@@ -350,7 +350,8 @@ tie-break keep the registered (linear) decay χ². The report gives the linear, 
   The states above the D D̄ / B B̄ threshold are **out of sample**: the fit never saw them, and they are
   affected by coupled-channel (meson-loop) effects that no model here contains.
 - **Annihilation widths.** Leading order (Van Royen–Weisskopf): Γ(V → e⁺e⁻) = 4α²e_Q²A²/M² with
-  A = R_S(0) + 5R″_D(0)/(2√2 m²), so S–D mixed states (ψ(3770)) are included; Γ(¹S₀ → γγ) ∝ |R(0)|²;
+  A = R_S(0) − 5R″_D(0)/(2√2 m²) (Condon–Shortley phase, ⟨³D₁|S₁₂|³S₁⟩ = +√8; derived and tested in
+  `analysis/test_sd_sign.py`), so S–D mixed states (ψ(3770)) are included; Γ(¹S₀ → γγ) ∝ |R(0)|²;
   Γ(³P_J → γγ) ∝ |R′(0)|². NLO multiplies each by its one-loop QCD factor (e⁺e⁻ and ³P₂: 1 − 16α_s/3π;
   ¹S₀: 1 − (20 − π²)α_s/3π; ³P₀: 1 + (π²/3 − 28/9)α_s/π) with the MS-bar α_s (two-loop running from
   α_s(M_Z) = 0.1180) at μ = M/2, and a band μ = M/4 … M. The potential's α_s is an effective parameter

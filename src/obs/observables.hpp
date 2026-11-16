@@ -83,9 +83,16 @@ double width_gammagamma_P(int J, double Rp0sq, double mQ, double eQ);
 /// 3D1 -> e+e-:  25 e_Q^2 alpha^2 |R''(0)|^2 / (2 m^4 M^2).
 double width_ee_D(double Rpp0sq, double M, double mQ, double eQ);
 /// V -> e+e- of a 3S1, 3D1 or mixed 3S1-3D1 state:  4 alpha^2 e_Q^2 A^2 / M^2
-/// with the amplitude A = R_S(0) + 5 R''_D(0) / (2 sqrt2 m^2) (signed radial
-/// values; the tensor coupling <3D1|S12|3S1> = +sqrt8 fixes the relative sign).
-/// Pure 3S1: width_ee; pure 3D1: width_ee_D.
+/// with the amplitude A = R_S(0) - 5 R''_D(0) / (2 sqrt2 m^2). R_S and R''_D
+/// are the signed radial functions of the two components of ONE eigenvector, in
+/// the Condon-Shortley coupling (L then S), in which <3D1|S12|3S1> = +sqrt8
+/// (s12_offdiag) and the radial D function is positive near the origin. The
+/// sign follows from the Dirac current u-bar gamma^i v = sigma^i (1 + p^2/4m^2)
+/// - p^i (sigma.p)/2m^2 and D_CS = -sqrt(9/2) [r^_i r^_j - delta_ij/3]
+/// e_j/sqrt(4 pi); derivation in the paper, Appendix "S-D interference",
+/// checked by analysis/test_sd_sign.py. A convention with <S|S12|D> = -sqrt8
+/// has the opposite phase of the D function and a plus sign. Pure 3S1:
+/// width_ee; pure 3D1: width_ee_D.
 double width_ee_SD(double RS0, double RD2, double M, double mQ, double eQ);
 /// One-loop QCD correction factors of the annihilation widths (Barbieri et
 /// al.; Kwong et al., PRD 37, 3210 (1988)): 3S1 -> e+e- 1 - 16 a/(3 pi);

@@ -15,17 +15,21 @@ are compared by a full statistical analysis.
 **Results** ([report](docs/report/REPORT.md)):
 
 - **No model passes the selection rule as amended (see below)**: good masses *and* decays, *and* physically sound.
-  Of 19 physical models, 7 fail exactly one check, spread over four different checks:
+  Of 19 physical models, 9 fail exactly one check, spread over four different checks:
   - the spin terms in the Hamiltonian overpredict Γ_γγ(χ_c0) 5–17×;
-  - screened running-coupling models underpredict Γ_ee(Υ(3S)) by a third;
+  - screened running-coupling models underpredict Γ_ee(Υ(3S)) by 29–38 %;
   - the first-order models A const, B const and A frozen pass the decays but miss the lattice string tension
     or m_b − m_c.
 
   Best compromise: B APT (running coupling), whose worst failed check, the b b̄ decays at Holm p = 0.03, is 2.2σ.
   Models are ranked by their *worst* failure in standard deviations, not by how many checks they fail; the
   v1.0.0 count rule named C const (s free), which fails the c c̄ decays at 4.1σ (Γ_γγ(χ_c0) ×13).
-- **η_c and J/ψ at the origin.** |R(0)|² of η_c over J/ψ, from the models' own widths, is 1.57–3.48 in all 19
-  models against about 0.55 required by the PDG widths and the same QCD factors.
+- **A sign bug in the S–D leptonic width was fixed** (the D-wave amplitude is R_S − 5R″_D/(2√2 m²) in the
+  Condon–Shortley convention); it changed Γ_ee in the 12 models with S–D mixing in H, and the selection was
+  recomputed. The decay posterior predictive p-values, the mass-and-width study and the figures are not
+  refreshed (CHANGELOG, REPORT note).
+- **η_c and J/ψ at the origin.** |R(0)|² of η_c over J/ψ, from the models' own widths, is 1.40–2.03 in all 19
+  models against about 0.55 required by the PDG widths and the same NLO QCD factors (the η_c → γγ NNLO coefficient is large and negative, so this is an NLO statement).
 - **Masses at one declared error** (Paule–Mandel, pooled: c c̄ 13.3 MeV, b b̄ 3.9 MeV) pass in 17 of 19 models.
   Without a theory error every model is rejected; the decays and the physics checks decide.
 - **The decay test was amended after the results were seen.** The linear test cannot reject an overprediction:

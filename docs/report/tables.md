@@ -89,29 +89,29 @@
 
 ## Model selection (pre-registered rule; decay test amended)
 
-A model wins only if it (1) reproduces the observables, masses and decays: no rejection at α = 0.05 after Holm's correction over its four Pearson χ² tests, and (2) is physically sound: non-degenerate, basis converged, radial nodes = radial quantum number, m_b − m_c in the heavy-quark window, √b in 0.44 ± 0.04 GeV (lattice), 1P centre of gravity − h at the PDG value, ⟨v²⟩ < 0.5; each within 2σ. Among those, the lowest AIC = χ²_masses + χ²_decays + 2p. The rule and its thresholds were fixed before the final sweeps (docs/EXPLANATION.md). Amendment, made after the results were seen: the registered decay test is linear in Γ with a theory error ∝ Γ_NLO, so its pull is bounded below by −1/f and it cannot reject an overprediction. Gate 1 now requires both the registered linear test and the same test on ln(Γ_PDG/Γ_NLO) (log; symmetric, milder on underpredictions), each with Holm over its four tests: the amendment only adds rejections. Ranking and tiebreak: the registered AIC (linear decays). The best compromise is the model whose worst failed check is the mildest (standard deviations of exceedance, `analysis/selection.py`). Verdicts: linear = the rule as registered (2 pass), log = log form alone (2 pass), both = the amended rule.
+A model wins only if it (1) reproduces the observables, masses and decays: no rejection at α = 0.05 after Holm's correction over its four Pearson χ² tests, and (2) is physically sound: non-degenerate, basis converged, radial nodes = radial quantum number, m_b − m_c in the heavy-quark window, √b in 0.44 ± 0.04 GeV (lattice), 1P centre of gravity − h at the PDG value, ⟨v²⟩ < 0.5; each within 2σ. Among those, the lowest AIC = χ²_masses + χ²_decays + 2p. The rule and its thresholds were fixed before the final sweeps (docs/EXPLANATION.md). Amendment, made after the results were seen: the registered decay test is linear in Γ with a theory error ∝ Γ_NLO, so its pull is bounded below by −1/f and it cannot reject an overprediction. Gate 1 now requires both the registered linear test and the same test on ln(Γ_PDG/Γ_NLO) (log; symmetric, milder on underpredictions), each with Holm over its four tests: the amendment only adds rejections. Ranking and tiebreak: the registered AIC (linear decays). The best compromise is the model whose worst failed check is the mildest (standard deviations of exceedance, `analysis/selection.py`). Verdicts: linear = the rule as registered (4 pass), log = log form alone (2 pass), both = the amended rule.
 
 | configuration | p masses cc̄ | p masses bb̄ | p decays cc̄ linear | p decays bb̄ linear | p decays cc̄ log | p decays bb̄ log | AIC | failed checks | worst failure (σ) | linear | log | both |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| C const (s free) | 0.662 | 0.595 | 0.311 | 0.742 | 8.58e-06 | 0.786 | 34.2 | 1 | 4.1 | pass | fail | fail |
+| C const (s free) | 0.662 | 0.595 | 0.316 | 0.857 | 8.58e-06 | 0.88 | 33.6 | 1 | 4.1 | pass | fail | fail |
 | B const | 0.385 | 0.722 | 0.364 | 0.731 | 0.0645 | 0.786 | 34.2 | 1 | 11.3 | fail | fail | fail |
+| B APT smeared | 0.821 | 0.717 | 0.294 | 0.0388 | 0.00313 | 0.115 | 39.4 | 1 | 2.5 | pass | fail | fail |
 | A frozen | 0.219 | 0.812 | 0.445 | 0.0674 | 0.168 | 0.156 | 39.9 | 1 | 5.3 | fail | fail | fail |
 | A const | 0.813 | 0.0532 | 0.341 | 0.971 | 0.0588 | 0.972 | 41.3 | 1 | 2.6 | fail | fail | fail |
-| A const smeared | 0.294 | 0.0212 | 0.282 | 0.965 | 0.000144 | 0.973 | 48.2 | 1 | 3.4 | pass | fail | fail |
+| B frozen smeared | 0.751 | 0.527 | 0.385 | 0.013 | 0.0042 | 0.0612 | 43.1 | 1 | 2.4 | pass | fail | fail |
+| A const smeared | 0.294 | 0.0212 | 0.3 | 0.973 | 0.000168 | 0.972 | 47.9 | 1 | 3.4 | pass | fail | fail |
 | B APT | 0.14 | 0.598 | 0.436 | 0.00741 | 0.16 | 0.0464 | 48.2 | 1 | 2.2 | fail | pass | fail |
 | B frozen | 0.0849 | 0.433 | 0.404 | 0.00133 | 0.159 | 0.0183 | 55.1 | 1 | 2.8 | fail | pass | fail |
-| D GI run (s free) | 0.172 | 0.856 | 0.32 | 0.798 | 9.65e-07 | 0.801 | 33.2 | 2 | 4.6 | fail | fail | fail |
+| D GI run (s free) | 0.172 | 0.856 | 0.325 | 0.471 | 8.71e-07 | 0.345 | 34.7 | 2 | 4.6 | fail | fail | fail |
+| B const smeared | 0.0863 | 0.494 | 0.519 | 0.821 | 0.00161 | 0.85 | 38.7 | 2 | 9.7 | fail | fail | fail |
 | A GI run | 0.324 | 0.721 | 0.461 | 0.0343 | 0.187 | 0.105 | 41.2 | 2 | 9.3 | fail | fail | fail |
-| B const smeared | 0.0863 | 0.494 | 0.446 | 0.373 | 0.000928 | 0.472 | 41.5 | 2 | 9.7 | fail | fail | fail |
-| B APT smeared | 0.821 | 0.717 | 0.29 | 0.00301 | 0.00233 | 0.0291 | 45.0 | 2 | 2.6 | fail | fail | fail |
+| B GI run smeared | 0.851 | 0.314 | 0.329 | 0.00551 | 0.00448 | 0.0384 | 47.4 | 2 | 2.4 | fail | fail | fail |
 | B GI run | 0.182 | 0.317 | 0.424 | 0.000541 | 0.18 | 0.0121 | 56.2 | 2 | 3.1 | fail | fail | fail |
-| D const (s free) | 0.546 | 0.972 | 0.329 | 0.68 | 1.57e-05 | 0.73 | 30.3 | 3 | 6.5 | fail | fail | fail |
-| A APT smeared | 0.877 | 0.941 | 0.146 | 0.111 | 0.000522 | 0.217 | 36.2 | 3 | 10.5 | fail | fail | fail |
-| A frozen smeared | 0.872 | 0.896 | 0.214 | 0.0448 | 0.000653 | 0.122 | 37.9 | 3 | 6.7 | fail | fail | fail |
-| A GI run smeared | 0.877 | 0.734 | 0.181 | 0.0231 | 0.000863 | 0.0843 | 41.7 | 3 | 10.1 | fail | fail | fail |
-| B frozen smeared | 0.751 | 0.527 | 0.35 | 0.00046 | 0.00277 | 0.0104 | 50.6 | 3 | 3.1 | fail | fail | fail |
-| B GI run smeared | 0.851 | 0.314 | 0.315 | 0.000209 | 0.00325 | 0.00781 | 54.4 | 3 | 3.3 | fail | fail | fail |
-| C GI run (s free) | 0.329 | 0.00119 | 0.299 | 0.432 | 2.53e-07 | 0.451 | 56.9 | 3 | 4.9 | fail | fail | fail |
+| D const (s free) | 0.546 | 0.972 | 0.334 | 0.837 | 1.58e-05 | 0.858 | 29.6 | 3 | 6.5 | fail | fail | fail |
+| A APT smeared | 0.877 | 0.941 | 0.148 | 0.268 | 0.000572 | 0.38 | 34.1 | 3 | 10.5 | fail | fail | fail |
+| A frozen smeared | 0.872 | 0.896 | 0.222 | 0.144 | 0.000769 | 0.253 | 35.1 | 3 | 6.7 | fail | fail | fail |
+| A GI run smeared | 0.877 | 0.734 | 0.184 | 0.0802 | 0.000974 | 0.175 | 38.8 | 3 | 10.1 | fail | fail | fail |
+| C GI run (s free) | 0.329 | 0.00119 | 0.308 | 0.111 | 2.09e-07 | 0.0167 | 60.1 | 4 | 4.9 | fail | fail | fail |
 
 **Winner: none.** No model passes both gates. Best compromise (mildest worst failure; ties: fewer failed checks, then registered AIC): B APT (worst failure 2.2 σ; 1 failed check: decay_bbar (Holm p = 0.03) [linear]). The v1.0.0 count rule (fewest failed checks) would name C const (s free) (worst failure 4.1 σ).
 
@@ -120,48 +120,48 @@ Ranking by the worst failed check (σ = standard deviations of exceedance; goodn
 | configuration | worst failure (σ) | failed checks | AIC |
 |---|---|---|---|
 | B APT | 2.2 | 1 | 48.2 |
-| B APT smeared | 2.6 | 2 | 45.0 |
+| B GI run smeared | 2.4 | 2 | 47.4 |
+| B frozen smeared | 2.4 | 1 | 43.1 |
+| B APT smeared | 2.5 | 1 | 39.4 |
 | A const | 2.6 | 1 | 41.3 |
 | B frozen | 2.8 | 1 | 55.1 |
 | B GI run | 3.1 | 2 | 56.2 |
-| B frozen smeared | 3.1 | 3 | 50.6 |
-| B GI run smeared | 3.3 | 3 | 54.4 |
-| A const smeared | 3.4 | 1 | 48.2 |
-| C const (s free) | 4.1 | 1 | 34.2 |
-| D GI run (s free) | 4.6 | 2 | 33.2 |
-| C GI run (s free) | 4.9 | 3 | 56.9 |
+| A const smeared | 3.4 | 1 | 47.9 |
+| C const (s free) | 4.1 | 1 | 33.6 |
+| D GI run (s free) | 4.6 | 2 | 34.7 |
+| C GI run (s free) | 4.9 | 4 | 60.1 |
 | A frozen | 5.3 | 1 | 39.9 |
-| D const (s free) | 6.5 | 3 | 30.3 |
-| A frozen smeared | 6.7 | 3 | 37.9 |
+| D const (s free) | 6.5 | 3 | 29.6 |
+| A frozen smeared | 6.7 | 3 | 35.1 |
 | A GI run | 9.3 | 2 | 41.2 |
-| B const smeared | 9.7 | 2 | 41.5 |
-| A GI run smeared | 10.1 | 3 | 41.7 |
-| A APT smeared | 10.5 | 3 | 36.2 |
+| B const smeared | 9.7 | 2 | 38.7 |
+| A GI run smeared | 10.1 | 3 | 38.8 |
+| A APT smeared | 10.5 | 3 | 34.1 |
 | B const | 11.3 | 1 | 34.2 |
 
 Failed checks per model (σ of each):
 
 - C const (s free): decay_ccbar (Holm p = 3.4e-05) [log] [4.1 σ]
 - B const: bbar sqrt(b) = 0.512 +- 0.003 GeV [11.3 σ]
+- B APT smeared: decay_ccbar (Holm p = 0.013) [log] [2.5 σ]
 - A frozen: bbar sqrt(b) = 0.383 +- 0.003 GeV [5.3 σ]
 - A const: m_b - m_c = 3.284 +- 0.022 GeV outside [3.342, 3.457] [2.6 σ]
-- A const smeared: decay_ccbar (Holm p = 0.00057) [log] [3.4 σ]
+- B frozen smeared: decay_ccbar (Holm p = 0.017) [log] [2.4 σ]
+- A const smeared: decay_ccbar (Holm p = 0.00067) [log] [3.4 σ]
 - B APT: decay_bbar (Holm p = 0.03) [linear] [2.2 σ]
 - B frozen: decay_bbar (Holm p = 0.0053) [linear] [2.8 σ]
-- D GI run (s free): ccbar <v^2> = 0.51 [2.1 σ]; decay_ccbar (Holm p = 3.9e-06) [log] [4.6 σ]
+- D GI run (s free): ccbar <v^2> = 0.51 [2.1 σ]; decay_ccbar (Holm p = 3.5e-06) [log] [4.6 σ]
+- B const smeared: bbar sqrt(b) = 0.512 +- 0.003 GeV [9.7 σ]; decay_ccbar (Holm p = 0.0064) [log] [2.7 σ]
 - A GI run: ccbar sqrt(b) = 0.344 +- 0.025 GeV [2.2 σ]; bbar sqrt(b) = 0.365 +- 0.004 GeV [9.3 σ]
-- B const smeared: bbar sqrt(b) = 0.512 +- 0.003 GeV [9.7 σ]; decay_ccbar (Holm p = 0.0037) [log] [2.9 σ]
-- B APT smeared: decay_bbar (Holm p = 0.012) [linear] [2.5 σ]; decay_ccbar (Holm p = 0.0093) [log] [2.6 σ]
+- B GI run smeared: decay_bbar (Holm p = 0.022) [linear] [2.3 σ]; decay_ccbar (Holm p = 0.018) [log] [2.4 σ]
 - B GI run: decay_bbar (Holm p = 0.0022) [linear] [3.1 σ]; decay_bbar (Holm p = 0.048) [log] [2.0 σ]
 - D const (s free): ccbar <v^2> = 0.50 [2.0 σ]; bbar sqrt(b) = 0.507 +- 0.004 GeV [6.5 σ]; decay_ccbar (Holm p = 6.3e-05) [log] [4.0 σ]
-- A APT smeared: ccbar sqrt(b) = 0.342 +- 0.013 GeV [4.6 σ]; bbar sqrt(b) = 0.372 +- 0.003 GeV [10.5 σ]; decay_ccbar (Holm p = 0.0021) [log] [3.1 σ]
-- A frozen smeared: ccbar sqrt(b) = 0.353 +- 0.011 GeV [4.1 σ]; bbar sqrt(b) = 0.382 +- 0.003 GeV [6.7 σ]; decay_ccbar (Holm p = 0.0026) [log] [3.0 σ]
-- A GI run smeared: ccbar sqrt(b) = 0.336 +- 0.013 GeV [5.0 σ]; bbar sqrt(b) = 0.363 +- 0.004 GeV [10.1 σ]; decay_ccbar (Holm p = 0.0035) [log] [2.9 σ]
-- B frozen smeared: decay_bbar (Holm p = 0.0018) [linear] [3.1 σ]; decay_ccbar (Holm p = 0.011) [log] [2.5 σ]; decay_bbar (Holm p = 0.031) [log] [2.2 σ]
-- B GI run smeared: decay_bbar (Holm p = 0.00084) [linear] [3.3 σ]; decay_ccbar (Holm p = 0.013) [log] [2.5 σ]; decay_bbar (Holm p = 0.023) [log] [2.3 σ]
-- C GI run (s free): mass_bbar (Holm p = 0.0047) [2.8 σ]; ccbar <v^2> = 0.51 [2.1 σ]; decay_ccbar (Holm p = 1e-06) [log] [4.9 σ]
+- A APT smeared: ccbar sqrt(b) = 0.342 +- 0.013 GeV [4.6 σ]; bbar sqrt(b) = 0.372 +- 0.003 GeV [10.5 σ]; decay_ccbar (Holm p = 0.0023) [log] [3.1 σ]
+- A frozen smeared: ccbar sqrt(b) = 0.353 +- 0.011 GeV [4.1 σ]; bbar sqrt(b) = 0.382 +- 0.003 GeV [6.7 σ]; decay_ccbar (Holm p = 0.0031) [log] [3.0 σ]
+- A GI run smeared: ccbar sqrt(b) = 0.336 +- 0.013 GeV [5.0 σ]; bbar sqrt(b) = 0.363 +- 0.004 GeV [10.1 σ]; decay_ccbar (Holm p = 0.0039) [log] [2.9 σ]
+- C GI run (s free): mass_bbar (Holm p = 0.0047) [2.8 σ]; ccbar <v^2> = 0.51 [2.1 σ]; decay_ccbar (Holm p = 8.4e-07) [log] [4.9 σ]; decay_bbar (Holm p = 0.033) [log] [2.1 σ]
 
-Sensitivity: with gate 2 at the central values (√b, m_b − m_c and ⟨v²⟩ without the 2σ allowance), 4 of 19 models pass it: B frozen, B GI run, B frozen smeared, B GI run smeared.
+Sensitivity: with gate 2 at the central values (√b, m_b − m_c and ⟨v²⟩ without the 2σ allowance), 4 of 19 models pass it: B frozen smeared, B frozen, B GI run smeared, B GI run.
 
 ## Goodness of fit: masses (Pearson χ² at the declared error)
 
@@ -197,44 +197,44 @@ The measured annihilation widths of the fitted states, predicted by the mass-onl
 
 | configuration | system | widths | χ²/N linear | p | ppp | largest pull | pull | χ²/N log | p | worst | z |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| A APT smeared | ccbar | 6 | 1.59 | 0.146 | 0.0186 | chi_c0(1P) | -1.97 | 4.00 | 0.000522 | chi_c0(1P) | -3.94 |
-| A APT smeared | bbar | 3 | 2.01 | 0.111 | 0.0976 | Upsilon(3S) | 2.26 | 1.48 | 0.217 | Upsilon(3S) | +1.96 |
-| A frozen smeared | ccbar | 6 | 1.39 | 0.214 | 0.0375 | chi_c0(1P) | -1.96 | 3.91 | 0.000653 | chi_c0(1P) | -4.06 |
-| A frozen smeared | bbar | 3 | 2.69 | 0.0448 | 0.0353 | Upsilon(3S) | 2.63 | 1.93 | 0.122 | Upsilon(3S) | +2.23 |
-| A GI run smeared | ccbar | 6 | 1.48 | 0.181 | 0.0285 | chi_c0(1P) | -2.00 | 3.80 | 0.000863 | chi_c0(1P) | -3.96 |
-| A GI run smeared | bbar | 3 | 3.17 | 0.0231 | 0.0184 | Upsilon(3S) | 2.91 | 2.21 | 0.0843 | Upsilon(3S) | +2.44 |
-| B APT smeared | ccbar | 6 | 1.22 | 0.29 | 0.0175 | chi_c2(1P) | 1.81 | 3.40 | 0.00233 | chi_c0(1P) | -3.56 |
-| B APT smeared | bbar | 3 | 4.64 | 0.00301 | 0.00206 | Upsilon(3S) | 3.62 | 3.01 | 0.0291 | Upsilon(3S) | +2.90 |
-| B GI run smeared | ccbar | 6 | 1.18 | 0.315 | 0.0206 | chi_c0(1P) | -1.66 | 3.27 | 0.00325 | chi_c0(1P) | -3.59 |
-| B GI run smeared | bbar | 3 | 6.52 | 0.000209 | 0.000149 | Upsilon(3S) | 4.31 | 3.96 | 0.00781 | Upsilon(3S) | +3.34 |
-| B frozen smeared | ccbar | 6 | 1.12 | 0.35 | 0.0188 | chi_c0(1P) | -1.60 | 3.33 | 0.00277 | chi_c0(1P) | -3.64 |
-| B frozen smeared | bbar | 3 | 5.97 | 0.00046 | 0.000231 | Upsilon(3S) | 4.12 | 3.75 | 0.0104 | Upsilon(3S) | +3.21 |
-| A const | ccbar | 6 | 1.13 | 0.341 | 0.318 | chi_c0(1P) | -1.89 | 2.02 | 0.0588 | chi_c0(1P) | -2.57 |
-| A const | bbar | 3 | 0.08 | 0.971 | 0.951 | Upsilon(1S) | -0.37 | 0.08 | 0.972 | Upsilon(1S) | -0.38 |
-| C const (s free) | ccbar | 6 | 1.18 | 0.311 | 0.259 | chi_c0(1P) | -1.80 | 5.58 | 8.58e-06 | chi_c0(1P) | -4.99 |
-| C const (s free) | bbar | 3 | 0.42 | 0.742 | 0.731 | Upsilon(1S) | 1.03 | 0.35 | 0.786 | Upsilon(1S) | +0.95 |
-| D const (s free) | ccbar | 6 | 1.15 | 0.329 | 0.288 | chi_c0(1P) | -1.78 | 5.35 | 1.57e-05 | chi_c0(1P) | -4.91 |
-| D const (s free) | bbar | 3 | 0.50 | 0.68 | 0.659 | Upsilon(1S) | 1.21 | 0.43 | 0.73 | Upsilon(1S) | +1.10 |
-| B const | ccbar | 6 | 1.09 | 0.364 | 0.316 | chi_c0(1P) | -1.97 | 1.98 | 0.0645 | chi_c0(1P) | -2.78 |
-| B const | bbar | 3 | 0.43 | 0.731 | 0.696 | Upsilon(3S) | 1.04 | 0.35 | 0.786 | Upsilon(3S) | +0.96 |
-| A GI run | ccbar | 6 | 0.94 | 0.461 | 0.358 | chi_c0(1P) | -1.50 | 1.46 | 0.187 | eta_c(1S) | -2.05 |
-| A GI run | bbar | 3 | 2.88 | 0.0343 | 0.0292 | Upsilon(3S) | 2.78 | 2.05 | 0.105 | Upsilon(3S) | +2.35 |
-| A const smeared | ccbar | 6 | 1.24 | 0.282 | 0.0388 | chi_c0(1P) | -1.85 | 4.50 | 0.000144 | chi_c0(1P) | -4.37 |
-| A const smeared | bbar | 3 | 0.09 | 0.965 | 0.881 | Upsilon(2S) | 0.40 | 0.08 | 0.973 | Upsilon(2S) | +0.39 |
-| C GI run (s free) | ccbar | 6 | 1.21 | 0.299 | 0.205 | chi_c0(1P) | -1.83 | 6.88 | 2.53e-07 | chi_c0(1P) | -5.49 |
-| C GI run (s free) | bbar | 3 | 0.92 | 0.432 | 0.361 | Upsilon(1S) | 0.72 | 0.88 | 0.451 | Upsilon(3S) | -0.75 |
-| A frozen | ccbar | 6 | 0.97 | 0.445 | 0.323 | chi_c0(1P) | -1.58 | 1.52 | 0.168 | eta_c(1S) | -2.00 |
-| A frozen | bbar | 3 | 2.38 | 0.0674 | 0.0567 | Upsilon(3S) | 2.48 | 1.74 | 0.156 | Upsilon(3S) | +2.13 |
-| D GI run (s free) | ccbar | 6 | 1.17 | 0.32 | 0.244 | chi_c0(1P) | -1.80 | 6.39 | 9.65e-07 | chi_c0(1P) | -5.33 |
-| D GI run (s free) | bbar | 3 | 0.34 | 0.798 | 0.799 | Upsilon(1S) | 0.41 | 0.33 | 0.801 | Upsilon(1S) | +0.40 |
-| B GI run | ccbar | 6 | 1.00 | 0.424 | 0.272 | chi_c0(1P) | -1.60 | 1.48 | 0.18 | chi_c0(1P) | -2.03 |
-| B GI run | bbar | 3 | 5.85 | 0.000541 | 0.000414 | Upsilon(3S) | 4.10 | 3.65 | 0.0121 | Upsilon(3S) | +3.24 |
-| B APT | ccbar | 6 | 0.98 | 0.436 | 0.296 | chi_c0(1P) | -1.56 | 1.54 | 0.16 | eta_c(1S) | -2.05 |
-| B APT | bbar | 3 | 4.00 | 0.00741 | 0.00512 | Upsilon(3S) | 3.37 | 2.66 | 0.0464 | Upsilon(3S) | +2.76 |
-| B const smeared | ccbar | 6 | 0.97 | 0.446 | 0.0483 | psi(2S) | 1.57 | 3.77 | 0.000928 | chi_c0(1P) | -3.89 |
-| B const smeared | bbar | 3 | 1.04 | 0.373 | 0.289 | Upsilon(3S) | 1.71 | 0.84 | 0.472 | Upsilon(3S) | +1.52 |
-| B frozen | ccbar | 6 | 1.03 | 0.404 | 0.259 | chi_c0(1P) | -1.68 | 1.55 | 0.159 | chi_c0(1P) | -2.17 |
-| B frozen | bbar | 3 | 5.22 | 0.00133 | 0.00101 | Upsilon(3S) | 3.87 | 3.35 | 0.0183 | Upsilon(3S) | +3.09 |
+| A APT smeared | ccbar | 6 | 1.58 | 0.148 | – | chi_c0(1P) | -1.97 | 3.96 | 0.000572 | chi_c0(1P) | -3.94 |
+| A APT smeared | bbar | 3 | 1.31 | 0.268 | – | Upsilon(3S) | 1.79 | 1.03 | 0.38 | Upsilon(3S) | +1.60 |
+| A frozen smeared | ccbar | 6 | 1.37 | 0.222 | – | chi_c0(1P) | -1.96 | 3.85 | 0.000769 | chi_c0(1P) | -4.06 |
+| A frozen smeared | bbar | 3 | 1.80 | 0.144 | – | Upsilon(3S) | 2.13 | 1.36 | 0.253 | Upsilon(3S) | +1.86 |
+| A GI run smeared | ccbar | 6 | 1.47 | 0.184 | – | chi_c0(1P) | -2.00 | 3.75 | 0.000974 | chi_c0(1P) | -3.96 |
+| A GI run smeared | bbar | 3 | 2.25 | 0.0802 | – | Upsilon(3S) | 2.43 | 1.65 | 0.175 | Upsilon(3S) | +2.10 |
+| B APT smeared | ccbar | 6 | 1.22 | 0.294 | – | chi_c2(1P) | 1.81 | 3.28 | 0.00313 | chi_c0(1P) | -3.56 |
+| B APT smeared | bbar | 3 | 2.79 | 0.0388 | – | Upsilon(3S) | 2.78 | 1.98 | 0.115 | Upsilon(3S) | +2.36 |
+| B GI run smeared | ccbar | 6 | 1.15 | 0.329 | – | chi_c0(1P) | -1.66 | 3.14 | 0.00448 | chi_c0(1P) | -3.59 |
+| B GI run smeared | bbar | 3 | 4.21 | 0.00551 | – | Upsilon(3S) | 3.45 | 2.80 | 0.0384 | Upsilon(3S) | +2.83 |
+| B frozen smeared | ccbar | 6 | 1.06 | 0.385 | – | chi_c0(1P) | -1.60 | 3.16 | 0.0042 | chi_c0(1P) | -3.64 |
+| B frozen smeared | bbar | 3 | 3.59 | 0.013 | – | Upsilon(3S) | 3.18 | 2.45 | 0.0612 | Upsilon(3S) | +2.64 |
+| A const | ccbar | 6 | 1.13 | 0.341 | – | chi_c0(1P) | -1.89 | 2.02 | 0.0588 | chi_c0(1P) | -2.57 |
+| A const | bbar | 3 | 0.08 | 0.971 | – | Upsilon(1S) | -0.37 | 0.08 | 0.972 | Upsilon(1S) | -0.38 |
+| C const (s free) | ccbar | 6 | 1.17 | 0.316 | – | chi_c0(1P) | -1.80 | 5.58 | 8.58e-06 | chi_c0(1P) | -4.99 |
+| C const (s free) | bbar | 3 | 0.26 | 0.857 | – | Upsilon(1S) | 0.78 | 0.22 | 0.88 | Upsilon(1S) | +0.74 |
+| D const (s free) | ccbar | 6 | 1.14 | 0.334 | – | chi_c0(1P) | -1.78 | 5.35 | 1.58e-05 | chi_c0(1P) | -4.91 |
+| D const (s free) | bbar | 3 | 0.28 | 0.837 | – | Upsilon(1S) | 0.91 | 0.25 | 0.858 | Upsilon(1S) | +0.85 |
+| B const | ccbar | 6 | 1.09 | 0.364 | – | chi_c0(1P) | -1.97 | 1.98 | 0.0645 | chi_c0(1P) | -2.78 |
+| B const | bbar | 3 | 0.43 | 0.731 | – | Upsilon(3S) | 1.04 | 0.35 | 0.786 | Upsilon(3S) | +0.96 |
+| A GI run | ccbar | 6 | 0.94 | 0.461 | – | chi_c0(1P) | -1.50 | 1.46 | 0.187 | eta_c(1S) | -2.05 |
+| A GI run | bbar | 3 | 2.88 | 0.0343 | – | Upsilon(3S) | 2.78 | 2.05 | 0.105 | Upsilon(3S) | +2.35 |
+| A const smeared | ccbar | 6 | 1.21 | 0.3 | – | chi_c0(1P) | -1.85 | 4.44 | 0.000168 | chi_c0(1P) | -4.37 |
+| A const smeared | bbar | 3 | 0.08 | 0.973 | – | Upsilon(1S) | -0.38 | 0.08 | 0.972 | Upsilon(1S) | -0.39 |
+| C GI run (s free) | ccbar | 6 | 1.19 | 0.308 | – | chi_c0(1P) | -1.83 | 6.95 | 2.09e-07 | chi_c0(1P) | -5.49 |
+| C GI run (s free) | bbar | 3 | 2.00 | 0.111 | – | Upsilon(3S) | -2.25 | 3.41 | 0.0167 | Upsilon(3S) | -2.85 |
+| A frozen | ccbar | 6 | 0.97 | 0.445 | – | chi_c0(1P) | -1.58 | 1.52 | 0.168 | eta_c(1S) | -2.00 |
+| A frozen | bbar | 3 | 2.38 | 0.0674 | – | Upsilon(3S) | 2.48 | 1.74 | 0.156 | Upsilon(3S) | +2.13 |
+| D GI run (s free) | ccbar | 6 | 1.16 | 0.325 | – | chi_c0(1P) | -1.80 | 6.43 | 8.71e-07 | chi_c0(1P) | -5.33 |
+| D GI run (s free) | bbar | 3 | 0.84 | 0.471 | – | Upsilon(2S) | -1.43 | 1.11 | 0.345 | Upsilon(2S) | -1.62 |
+| B GI run | ccbar | 6 | 1.00 | 0.424 | – | chi_c0(1P) | -1.60 | 1.48 | 0.18 | chi_c0(1P) | -2.03 |
+| B GI run | bbar | 3 | 5.85 | 0.000541 | – | Upsilon(3S) | 4.10 | 3.65 | 0.0121 | Upsilon(3S) | +3.24 |
+| B APT | ccbar | 6 | 0.98 | 0.436 | – | chi_c0(1P) | -1.56 | 1.54 | 0.16 | eta_c(1S) | -2.05 |
+| B APT | bbar | 3 | 4.00 | 0.00741 | – | Upsilon(3S) | 3.37 | 2.66 | 0.0464 | Upsilon(3S) | +2.76 |
+| B const smeared | ccbar | 6 | 0.87 | 0.519 | – | chi_c0(1P) | -1.52 | 3.55 | 0.00161 | chi_c0(1P) | -3.89 |
+| B const smeared | bbar | 3 | 0.31 | 0.821 | – | Upsilon(3S) | 0.87 | 0.27 | 0.85 | Upsilon(3S) | +0.82 |
+| B frozen | ccbar | 6 | 1.03 | 0.404 | – | chi_c0(1P) | -1.68 | 1.55 | 0.159 | chi_c0(1P) | -2.17 |
+| B frozen | bbar | 3 | 5.22 | 0.00133 | – | Upsilon(3S) | 3.87 | 3.35 | 0.0183 | Upsilon(3S) | +3.09 |
 
 ## Bayesian inference: the theory floor marginalised
 
@@ -1439,95 +1439,95 @@ LO: Van Royen–Weisskopf (vector states: |R_S(0) + 5R″_D(0)/(2√2 m²)|², s
 
 | configuration | state | process | LO | NLO | ± par | ± th | band lo | band hi | PDG | ± | * | pull |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| C const (s free) | eta_c(1S) | gamma gamma | 30.944 | 19.552 | 1.631 | 10.717 | 11.452 | 22.568 | 6.387 | 0.458 |  | -1.21 |
-| C const (s free) | J/psi(1S) | e+ e- | 12.921 | 5.567 | 0.399 | 3.964 | 0.622 | 7.480 | 5.528 | 0.099 |  | -0.01 |
-| C const (s free) | chi_c0(1P) | gamma gamma | 31.044 | 31.607 | 3.228 | 15.647 | 31.467 | 31.941 | 2.433 | 0.112 | * | -1.83 |
-| C const (s free) | chi_c2(1P) | gamma gamma | 2.922 | 1.370 | 0.086 | 0.785 | 0.491 | 1.751 | 0.559 | 0.033 | * | -1.02 |
-| C const (s free) | eta_c(2S) | gamma gamma | 10.659 | 7.111 | 0.375 | 3.393 | 5.154 | 7.975 | 2.038 | 1.263 | * | -1.39 |
-| C const (s free) | psi(2S) | e+ e- | 6.773 | 3.230 | 0.091 | 1.953 | 1.297 | 4.090 | 2.327 | 0.039 |  | -0.46 |
-| C const (s free) | psi(3770) | e+ e- | 0.800 | 0.388 | 0.030 | 0.233 | 0.172 | 0.487 | 0.262 | 0.018 |  | -0.54 |
-| C const (s free) | psi(4040) | e+ e- | 5.112 | 2.560 | 0.065 | 1.594 | 1.313 | 3.156 | 0.860 | 0.070 |  | -1.06 |
-| C const (s free) | psi(4160) | e+ e- | 1.301 | 0.657 | 0.079 | 0.416 | 0.349 | 0.806 | 0.480 | 0.220 |  | -0.37 |
-| C const (s free) | psi(4415) | e+ e- | 4.294 | 2.222 | 0.061 | 1.500 | 1.284 | 2.689 | 0.350 | 0.120 |  | -1.24 |
-| C const (s free) | Upsilon(1S) | e+ e- | 1.808 | 1.146 | 0.028 | 0.185 | 0.962 | 1.255 | 1.340 | 0.018 |  | 1.03 |
-| C const (s free) | Upsilon(2S) | e+ e- | 0.840 | 0.538 | 0.014 | 0.082 | 0.456 | 0.587 | 0.612 | 0.011 |  | 0.88 |
-| C const (s free) | Upsilon(3S) | e+ e- | 0.641 | 0.413 | 0.012 | 0.066 | 0.352 | 0.449 | 0.443 | 0.008 |  | 0.45 |
-| C const (s free) | Upsilon(4S) | e+ e- | 0.552 | 0.356 | 0.010 | 0.060 | 0.305 | 0.387 | 0.272 | 0.029 |  | -1.25 |
-| C const (s free) | Upsilon(10860) | e+ e- | 0.498 | 0.322 | 0.009 | 0.057 | 0.277 | 0.350 | 0.307 | 0.071 |  | -0.17 |
-| C const (s free) | Upsilon(11020) | e+ e- | 0.461 | 0.300 | 0.008 | 0.056 | 0.258 | 0.325 | 0.130 | 0.030 |  | -2.63 |
+| B APT | eta_c(1S) | gamma gamma | 25.863 | 16.334 | 2.979 | 7.043 | 9.545 | 18.858 | 6.387 | 0.458 |  | -1.30 |
+| B APT | J/psi(1S) | e+ e- | 8.870 | 3.820 | 1.135 | 2.508 | 0.424 | 5.134 | 5.528 | 0.099 |  | 0.62 |
+| B APT | chi_c0(1P) | gamma gamma | 3.873 | 3.943 | 0.399 | 0.913 | 3.925 | 3.984 | 2.433 | 0.112 | * | -1.51 |
+| B APT | chi_c2(1P) | gamma gamma | 1.033 | 0.483 | 0.049 | 0.250 | 0.172 | 0.619 | 0.559 | 0.033 | * | 0.30 |
+| B APT | eta_c(2S) | gamma gamma | 7.333 | 4.890 | 0.740 | 1.642 | 3.538 | 5.486 | 2.038 | 1.263 | * | -1.30 |
+| B APT | psi(2S) | e+ e- | 3.482 | 1.661 | 0.343 | 0.822 | 0.669 | 2.103 | 2.327 | 0.039 |  | 0.75 |
+| B APT | psi(3770) | e+ e- | 0.049 | 0.023 | 0.004 | 0.011 | 0.010 | 0.029 | 0.262 | 0.018 |  | 11.15 |
+| B APT | psi(4040) | e+ e- | 2.081 | 1.036 | 0.180 | 0.462 | 0.519 | 1.281 | 0.860 | 0.070 |  | -0.35 |
+| B APT | psi(4160) | e+ e- | 0.064 | 0.032 | 0.006 | 0.014 | 0.016 | 0.039 | 0.480 | 0.220 |  | 2.03 |
+| B APT | psi(4415) | e+ e- | 1.415 | 0.723 | 0.112 | 0.301 | 0.400 | 0.881 | 0.350 | 0.120 |  | -1.09 |
+| B APT | Upsilon(1S) | e+ e- | 1.599 | 1.013 | 0.043 | 0.152 | 0.850 | 1.110 | 1.340 | 0.018 |  | 2.06 |
+| B APT | Upsilon(2S) | e+ e- | 0.689 | 0.441 | 0.015 | 0.063 | 0.374 | 0.481 | 0.612 | 0.011 |  | 2.62 |
+| B APT | Upsilon(3S) | e+ e- | 0.460 | 0.296 | 0.009 | 0.042 | 0.252 | 0.322 | 0.443 | 0.008 |  | 3.38 |
+| B APT | Upsilon(4S) | e+ e- | 0.349 | 0.225 | 0.006 | 0.032 | 0.193 | 0.245 | 0.272 | 0.029 |  | 1.09 |
+| B APT | Upsilon(10860) | e+ e- | 0.280 | 0.181 | 0.005 | 0.026 | 0.156 | 0.197 | 0.307 | 0.071 |  | 1.67 |
+| B APT | Upsilon(11020) | e+ e- | 0.232 | 0.150 | 0.004 | 0.021 | 0.129 | 0.163 | 0.130 | 0.030 |  | -0.55 |
 | A APT smeared | eta_c(1S) | gamma gamma | 27.896 | 17.627 | 1.126 | 7.335 | 10.328 | 20.345 | 6.387 | 0.458 |  | -1.51 |
-| A APT smeared | J/psi(1S) | e+ e- | 9.293 | 4.005 | 0.493 | 2.612 | 0.453 | 5.380 | 5.528 | 0.099 |  | 0.57 |
+| A APT smeared | J/psi(1S) | e+ e- | 11.537 | 4.972 | 0.327 | 3.243 | 0.562 | 6.679 | 5.528 | 0.099 |  | 0.17 |
 | A APT smeared | chi_c0(1P) | gamma gamma | 11.955 | 12.173 | 1.800 | 3.695 | 12.118 | 12.301 | 2.433 | 0.112 | * | -2.37 |
 | A APT smeared | chi_c2(1P) | gamma gamma | 0.584 | 0.274 | 0.020 | 0.137 | 0.098 | 0.350 | 0.559 | 0.033 | * | 2.01 |
 | A APT smeared | eta_c(2S) | gamma gamma | 8.104 | 5.405 | 0.201 | 1.778 | 3.914 | 6.063 | 2.038 | 1.263 | * | -1.54 |
-| A APT smeared | psi(2S) | e+ e- | 3.835 | 1.830 | 0.167 | 0.903 | 0.740 | 2.316 | 2.327 | 0.039 |  | 0.54 |
-| A APT smeared | psi(3770) | e+ e- | 0.207 | 0.100 | 0.015 | 0.049 | 0.043 | 0.125 | 0.262 | 0.018 |  | 2.97 |
-| A APT smeared | psi(4040) | e+ e- | 2.577 | 1.289 | 0.106 | 0.591 | 0.658 | 1.590 | 0.860 | 0.070 |  | -0.71 |
-| A APT smeared | psi(4160) | e+ e- | 0.285 | 0.143 | 0.026 | 0.067 | 0.075 | 0.176 | 0.480 | 0.220 |  | 1.46 |
-| A APT smeared | psi(4415) | e+ e- | 2.004 | 1.034 | 0.081 | 0.472 | 0.592 | 1.253 | 0.350 | 0.120 |  | -1.39 |
-| A APT smeared | Upsilon(1S) | e+ e- | 1.741 | 1.103 | 0.028 | 0.166 | 0.926 | 1.208 | 1.340 | 0.018 |  | 1.40 |
-| A APT smeared | Upsilon(2S) | e+ e- | 0.734 | 0.470 | 0.009 | 0.067 | 0.399 | 0.513 | 0.612 | 0.011 |  | 2.08 |
-| A APT smeared | Upsilon(3S) | e+ e- | 0.517 | 0.332 | 0.006 | 0.048 | 0.283 | 0.362 | 0.443 | 0.008 |  | 2.27 |
-| A APT smeared | Upsilon(4S) | e+ e- | 0.420 | 0.271 | 0.005 | 0.040 | 0.232 | 0.295 | 0.272 | 0.029 |  | 0.03 |
-| A APT smeared | Upsilon(10860) | e+ e- | 0.363 | 0.235 | 0.004 | 0.036 | 0.202 | 0.256 | 0.307 | 0.071 |  | 0.90 |
-| A APT smeared | Upsilon(11020) | e+ e- | 0.325 | 0.211 | 0.004 | 0.033 | 0.182 | 0.229 | 0.130 | 0.030 |  | -1.81 |
+| A APT smeared | psi(2S) | e+ e- | 4.671 | 2.229 | 0.060 | 1.100 | 0.901 | 2.821 | 2.327 | 0.039 |  | 0.09 |
+| A APT smeared | psi(3770) | e+ e- | 0.143 | 0.069 | 0.005 | 0.034 | 0.030 | 0.087 | 0.262 | 0.018 |  | 4.95 |
+| A APT smeared | psi(4040) | e+ e- | 3.087 | 1.544 | 0.026 | 0.708 | 0.788 | 1.905 | 0.860 | 0.070 |  | -0.96 |
+| A APT smeared | psi(4160) | e+ e- | 0.222 | 0.111 | 0.009 | 0.052 | 0.058 | 0.137 | 0.480 | 0.220 |  | 1.63 |
+| A APT smeared | psi(4415) | e+ e- | 2.352 | 1.213 | 0.019 | 0.553 | 0.695 | 1.471 | 0.350 | 0.120 |  | -1.52 |
+| A APT smeared | Upsilon(1S) | e+ e- | 1.846 | 1.170 | 0.017 | 0.176 | 0.982 | 1.281 | 1.340 | 0.018 |  | 0.95 |
+| A APT smeared | Upsilon(2S) | e+ e- | 0.777 | 0.497 | 0.004 | 0.071 | 0.422 | 0.543 | 0.612 | 0.011 |  | 1.60 |
+| A APT smeared | Upsilon(3S) | e+ e- | 0.546 | 0.351 | 0.002 | 0.050 | 0.300 | 0.383 | 0.443 | 0.008 |  | 1.79 |
+| A APT smeared | Upsilon(4S) | e+ e- | 0.444 | 0.286 | 0.001 | 0.042 | 0.245 | 0.311 | 0.272 | 0.029 |  | -0.28 |
+| A APT smeared | Upsilon(10860) | e+ e- | 0.384 | 0.248 | 0.001 | 0.038 | 0.214 | 0.270 | 0.307 | 0.071 |  | 0.73 |
+| A APT smeared | Upsilon(11020) | e+ e- | 0.343 | 0.223 | 0.001 | 0.035 | 0.192 | 0.242 | 0.130 | 0.030 |  | -2.01 |
 | A frozen smeared | eta_c(1S) | gamma gamma | 25.503 | 16.114 | 0.988 | 6.940 | 9.435 | 18.599 | 6.387 | 0.458 |  | -1.38 |
-| A frozen smeared | J/psi(1S) | e+ e- | 8.313 | 3.583 | 0.442 | 2.350 | 0.407 | 4.813 | 5.528 | 0.099 |  | 0.81 |
+| A frozen smeared | J/psi(1S) | e+ e- | 10.477 | 4.516 | 0.281 | 2.962 | 0.513 | 6.066 | 5.528 | 0.099 |  | 0.34 |
 | A frozen smeared | chi_c0(1P) | gamma gamma | 13.173 | 13.412 | 1.963 | 4.347 | 13.353 | 13.554 | 2.433 | 0.112 | * | -2.30 |
 | A frozen smeared | chi_c2(1P) | gamma gamma | 0.628 | 0.294 | 0.021 | 0.149 | 0.105 | 0.376 | 0.559 | 0.033 | * | 1.72 |
 | A frozen smeared | eta_c(2S) | gamma gamma | 7.331 | 4.889 | 0.179 | 1.667 | 3.540 | 5.485 | 2.038 | 1.263 | * | -1.36 |
-| A frozen smeared | psi(2S) | e+ e- | 3.443 | 1.644 | 0.150 | 0.823 | 0.664 | 2.080 | 2.327 | 0.039 |  | 0.82 |
-| A frozen smeared | psi(3770) | e+ e- | 0.218 | 0.105 | 0.015 | 0.053 | 0.046 | 0.133 | 0.262 | 0.018 |  | 2.70 |
-| A frozen smeared | psi(4040) | e+ e- | 2.339 | 1.170 | 0.097 | 0.551 | 0.598 | 1.443 | 0.860 | 0.070 |  | -0.55 |
-| A frozen smeared | psi(4160) | e+ e- | 0.305 | 0.153 | 0.027 | 0.074 | 0.080 | 0.189 | 0.480 | 0.220 |  | 1.40 |
-| A frozen smeared | psi(4415) | e+ e- | 1.833 | 0.947 | 0.076 | 0.449 | 0.543 | 1.147 | 0.350 | 0.120 |  | -1.27 |
-| A frozen smeared | Upsilon(1S) | e+ e- | 1.668 | 1.057 | 0.030 | 0.160 | 0.887 | 1.158 | 1.340 | 0.018 |  | 1.73 |
-| A frozen smeared | Upsilon(2S) | e+ e- | 0.703 | 0.450 | 0.010 | 0.064 | 0.382 | 0.491 | 0.612 | 0.011 |  | 2.46 |
-| A frozen smeared | Upsilon(3S) | e+ e- | 0.495 | 0.319 | 0.007 | 0.046 | 0.272 | 0.347 | 0.443 | 0.008 |  | 2.64 |
-| A frozen smeared | Upsilon(4S) | e+ e- | 0.404 | 0.261 | 0.005 | 0.039 | 0.224 | 0.284 | 0.272 | 0.029 |  | 0.24 |
-| A frozen smeared | Upsilon(10860) | e+ e- | 0.351 | 0.227 | 0.004 | 0.035 | 0.196 | 0.247 | 0.307 | 0.071 |  | 1.01 |
-| A frozen smeared | Upsilon(11020) | e+ e- | 0.316 | 0.205 | 0.004 | 0.033 | 0.177 | 0.223 | 0.130 | 0.030 |  | -1.68 |
+| A frozen smeared | psi(2S) | e+ e- | 4.257 | 2.032 | 0.048 | 1.017 | 0.821 | 2.572 | 2.327 | 0.039 |  | 0.29 |
+| A frozen smeared | psi(3770) | e+ e- | 0.145 | 0.070 | 0.006 | 0.035 | 0.030 | 0.088 | 0.262 | 0.018 |  | 4.79 |
+| A frozen smeared | psi(4040) | e+ e- | 2.846 | 1.424 | 0.022 | 0.671 | 0.728 | 1.756 | 0.860 | 0.070 |  | -0.84 |
+| A frozen smeared | psi(4160) | e+ e- | 0.228 | 0.115 | 0.010 | 0.056 | 0.060 | 0.141 | 0.480 | 0.220 |  | 1.61 |
+| A frozen smeared | psi(4415) | e+ e- | 2.186 | 1.129 | 0.018 | 0.536 | 0.647 | 1.368 | 0.350 | 0.120 |  | -1.42 |
+| A frozen smeared | Upsilon(1S) | e+ e- | 1.774 | 1.125 | 0.017 | 0.170 | 0.943 | 1.231 | 1.340 | 0.018 |  | 1.25 |
+| A frozen smeared | Upsilon(2S) | e+ e- | 0.747 | 0.478 | 0.004 | 0.068 | 0.405 | 0.521 | 0.612 | 0.011 |  | 1.94 |
+| A frozen smeared | Upsilon(3S) | e+ e- | 0.525 | 0.338 | 0.002 | 0.049 | 0.288 | 0.368 | 0.443 | 0.008 |  | 2.13 |
+| A frozen smeared | Upsilon(4S) | e+ e- | 0.428 | 0.276 | 0.001 | 0.041 | 0.237 | 0.301 | 0.272 | 0.029 |  | -0.08 |
+| A frozen smeared | Upsilon(10860) | e+ e- | 0.372 | 0.241 | 0.001 | 0.037 | 0.207 | 0.262 | 0.307 | 0.071 |  | 0.83 |
+| A frozen smeared | Upsilon(11020) | e+ e- | 0.334 | 0.217 | 0.001 | 0.035 | 0.187 | 0.235 | 0.130 | 0.030 |  | -1.90 |
 | A GI run smeared | eta_c(1S) | gamma gamma | 25.338 | 16.012 | 0.979 | 6.699 | 9.385 | 18.480 | 6.387 | 0.458 |  | -1.42 |
-| A GI run smeared | J/psi(1S) | e+ e- | 8.862 | 3.819 | 0.437 | 2.498 | 0.431 | 5.131 | 5.528 | 0.099 |  | 0.67 |
+| A GI run smeared | J/psi(1S) | e+ e- | 10.767 | 4.640 | 0.301 | 3.035 | 0.524 | 6.234 | 5.528 | 0.099 |  | 0.29 |
 | A GI run smeared | chi_c0(1P) | gamma gamma | 11.646 | 11.858 | 1.622 | 3.673 | 11.805 | 11.983 | 2.433 | 0.112 | * | -2.35 |
 | A GI run smeared | chi_c2(1P) | gamma gamma | 0.612 | 0.287 | 0.020 | 0.144 | 0.103 | 0.367 | 0.559 | 0.033 | * | 1.83 |
 | A GI run smeared | eta_c(2S) | gamma gamma | 7.287 | 4.861 | 0.165 | 1.602 | 3.521 | 5.452 | 2.038 | 1.263 | * | -1.38 |
-| A GI run smeared | psi(2S) | e+ e- | 3.599 | 1.718 | 0.139 | 0.849 | 0.694 | 2.174 | 2.327 | 0.039 |  | 0.71 |
-| A GI run smeared | psi(3770) | e+ e- | 0.195 | 0.094 | 0.014 | 0.047 | 0.041 | 0.118 | 0.262 | 0.018 |  | 3.21 |
-| A GI run smeared | psi(4040) | e+ e- | 2.397 | 1.198 | 0.084 | 0.550 | 0.608 | 1.478 | 0.860 | 0.070 |  | -0.60 |
-| A GI run smeared | psi(4160) | e+ e- | 0.259 | 0.130 | 0.023 | 0.061 | 0.068 | 0.160 | 0.480 | 0.220 |  | 1.52 |
-| A GI run smeared | psi(4415) | e+ e- | 1.867 | 0.962 | 0.063 | 0.439 | 0.547 | 1.167 | 0.350 | 0.120 |  | -1.33 |
-| A GI run smeared | Upsilon(1S) | e+ e- | 1.646 | 1.043 | 0.035 | 0.157 | 0.875 | 1.142 | 1.340 | 0.018 |  | 1.83 |
-| A GI run smeared | Upsilon(2S) | e+ e- | 0.695 | 0.445 | 0.012 | 0.063 | 0.377 | 0.485 | 0.612 | 0.011 |  | 2.56 |
-| A GI run smeared | Upsilon(3S) | e+ e- | 0.482 | 0.310 | 0.008 | 0.044 | 0.264 | 0.338 | 0.443 | 0.008 |  | 2.92 |
-| A GI run smeared | Upsilon(4S) | e+ e- | 0.388 | 0.251 | 0.006 | 0.037 | 0.215 | 0.272 | 0.272 | 0.029 |  | 0.47 |
-| A GI run smeared | Upsilon(10860) | e+ e- | 0.335 | 0.217 | 0.005 | 0.033 | 0.186 | 0.236 | 0.307 | 0.071 |  | 1.16 |
-| A GI run smeared | Upsilon(11020) | e+ e- | 0.300 | 0.194 | 0.004 | 0.030 | 0.168 | 0.211 | 0.130 | 0.030 |  | -1.51 |
+| A GI run smeared | psi(2S) | e+ e- | 4.266 | 2.036 | 0.051 | 1.007 | 0.822 | 2.577 | 2.327 | 0.039 |  | 0.29 |
+| A GI run smeared | psi(3770) | e+ e- | 0.146 | 0.071 | 0.005 | 0.035 | 0.030 | 0.089 | 0.262 | 0.018 |  | 4.80 |
+| A GI run smeared | psi(4040) | e+ e- | 2.792 | 1.395 | 0.020 | 0.640 | 0.709 | 1.721 | 0.860 | 0.070 |  | -0.83 |
+| A GI run smeared | psi(4160) | e+ e- | 0.214 | 0.108 | 0.009 | 0.051 | 0.056 | 0.132 | 0.480 | 0.220 |  | 1.65 |
+| A GI run smeared | psi(4415) | e+ e- | 2.127 | 1.095 | 0.015 | 0.500 | 0.623 | 1.329 | 0.350 | 0.120 |  | -1.45 |
+| A GI run smeared | Upsilon(1S) | e+ e- | 1.745 | 1.106 | 0.020 | 0.167 | 0.928 | 1.211 | 1.340 | 0.018 |  | 1.38 |
+| A GI run smeared | Upsilon(2S) | e+ e- | 0.736 | 0.471 | 0.004 | 0.067 | 0.399 | 0.514 | 0.612 | 0.011 |  | 2.08 |
+| A GI run smeared | Upsilon(3S) | e+ e- | 0.509 | 0.328 | 0.002 | 0.047 | 0.279 | 0.357 | 0.443 | 0.008 |  | 2.43 |
+| A GI run smeared | Upsilon(4S) | e+ e- | 0.410 | 0.265 | 0.001 | 0.039 | 0.227 | 0.288 | 0.272 | 0.029 |  | 0.16 |
+| A GI run smeared | Upsilon(10860) | e+ e- | 0.353 | 0.229 | 0.001 | 0.034 | 0.197 | 0.248 | 0.307 | 0.071 |  | 1.00 |
+| A GI run smeared | Upsilon(11020) | e+ e- | 0.316 | 0.205 | 0.001 | 0.032 | 0.177 | 0.223 | 0.130 | 0.030 |  | -1.71 |
 
 ### Width ratios: the wave functions without normalisation
 
 | configuration | ratio | model LO | model NLO | PDG | ± |
 |---|---|---|---|---|---|
-| A APT smeared | psi(2S) / J/psi(1S) | 0.413 | 0.457 | 0.421 | 0.010 |
-| A APT smeared | Upsilon(2S) / Upsilon(1S) | 0.422 | 0.426 | 0.457 | 0.010 |
-| A APT smeared | Upsilon(3S) / Upsilon(1S) | 0.297 | 0.301 | 0.331 | 0.007 |
-| A APT smeared | Upsilon(4S) / Upsilon(1S) | 0.241 | 0.246 | 0.203 | 0.021 |
+| A APT smeared | psi(2S) / J/psi(1S) | 0.405 | 0.448 | 0.421 | 0.010 |
+| A APT smeared | Upsilon(2S) / Upsilon(1S) | 0.421 | 0.425 | 0.457 | 0.010 |
+| A APT smeared | Upsilon(3S) / Upsilon(1S) | 0.296 | 0.300 | 0.331 | 0.007 |
+| A APT smeared | Upsilon(4S) / Upsilon(1S) | 0.240 | 0.245 | 0.203 | 0.021 |
 | A APT smeared | chi_c2(1P) / chi_c0(1P) | 0.049 | 0.022 | 0.230 | 0.017 |
-| A frozen smeared | psi(2S) / J/psi(1S) | 0.414 | 0.459 | 0.421 | 0.010 |
-| A frozen smeared | Upsilon(2S) / Upsilon(1S) | 0.422 | 0.426 | 0.457 | 0.010 |
-| A frozen smeared | Upsilon(3S) / Upsilon(1S) | 0.297 | 0.301 | 0.331 | 0.007 |
-| A frozen smeared | Upsilon(4S) / Upsilon(1S) | 0.242 | 0.247 | 0.203 | 0.021 |
+| A frozen smeared | psi(2S) / J/psi(1S) | 0.406 | 0.450 | 0.421 | 0.010 |
+| A frozen smeared | Upsilon(2S) / Upsilon(1S) | 0.421 | 0.425 | 0.457 | 0.010 |
+| A frozen smeared | Upsilon(3S) / Upsilon(1S) | 0.296 | 0.300 | 0.331 | 0.007 |
+| A frozen smeared | Upsilon(4S) / Upsilon(1S) | 0.241 | 0.246 | 0.203 | 0.021 |
 | A frozen smeared | chi_c2(1P) / chi_c0(1P) | 0.048 | 0.022 | 0.230 | 0.017 |
-| A GI run smeared | psi(2S) / J/psi(1S) | 0.406 | 0.450 | 0.421 | 0.010 |
+| A GI run smeared | psi(2S) / J/psi(1S) | 0.396 | 0.439 | 0.421 | 0.010 |
 | A GI run smeared | Upsilon(2S) / Upsilon(1S) | 0.422 | 0.426 | 0.457 | 0.010 |
-| A GI run smeared | Upsilon(3S) / Upsilon(1S) | 0.293 | 0.297 | 0.331 | 0.007 |
-| A GI run smeared | Upsilon(4S) / Upsilon(1S) | 0.236 | 0.240 | 0.203 | 0.021 |
+| A GI run smeared | Upsilon(3S) / Upsilon(1S) | 0.292 | 0.296 | 0.331 | 0.007 |
+| A GI run smeared | Upsilon(4S) / Upsilon(1S) | 0.235 | 0.239 | 0.203 | 0.021 |
 | A GI run smeared | chi_c2(1P) / chi_c0(1P) | 0.053 | 0.024 | 0.230 | 0.017 |
-| C const (s free) | psi(2S) / J/psi(1S) | 0.524 | 0.580 | 0.421 | 0.010 |
-| C const (s free) | Upsilon(2S) / Upsilon(1S) | 0.465 | 0.469 | 0.457 | 0.010 |
-| C const (s free) | Upsilon(3S) / Upsilon(1S) | 0.355 | 0.360 | 0.331 | 0.007 |
-| C const (s free) | Upsilon(4S) / Upsilon(1S) | 0.305 | 0.311 | 0.203 | 0.021 |
-| C const (s free) | chi_c2(1P) / chi_c0(1P) | 0.094 | 0.043 | 0.230 | 0.017 |
+| B APT | psi(2S) / J/psi(1S) | 0.393 | 0.435 | 0.421 | 0.010 |
+| B APT | Upsilon(2S) / Upsilon(1S) | 0.431 | 0.435 | 0.457 | 0.010 |
+| B APT | Upsilon(3S) / Upsilon(1S) | 0.288 | 0.292 | 0.331 | 0.007 |
+| B APT | Upsilon(4S) / Upsilon(1S) | 0.218 | 0.222 | 0.203 | 0.021 |
+| B APT | chi_c2(1P) / chi_c0(1P) | 0.267 | 0.123 | 0.230 | 0.017 |
 
 ## Validity audit
 
@@ -1542,8 +1542,8 @@ Physics against references the fits never saw, and the wave functions rebuilt fr
 - m_b − m_c within the heavy-quark window [3.342, 3.457] GeV: 6 of 19 separate fits (median 3.332 ± 0.042); joint fits median 3.382 ± 0.017 GeV
 - √b: median c c̄ 0.421 ± 0.018, b b̄ 0.436 ± 0.004, joint 0.434 ± 0.004 GeV (lattice √σ ≈ 0.44 GeV)
 - wave functions rebuilt from the JSON: max |norm − 1| = 1.1e-10; radial nodes ≠ radial quantum number in 0 of 32 states
-- ψ(3770): mixing angle reproducing Γee(ψ(3770))/Γee(ψ(2S)) with the model's own R_2S(0), R″_1D(0): -37.8° ± 0.6°, 0.1° ± 0.6°; the tensor force alone gives 1.6°
-- |R(0)|² of η_c(1S) over J/ψ(1S), from each model's LO widths (19 models): 1.57–3.48 (median 2.03) against 0.55 required by the PDG widths with the same QCD factors: every model puts η_c 2.9–6.3 times too deep at the origin relative to J/ψ (the η_c γγ NLO width is 2.3–4.1 times the PDG value)
+- ψ(3770): mixing angle reproducing Γee(ψ(3770))/Γee(ψ(2S)) with the model's own R_2S(0), R″_1D(0): -25.8° ± 0.6°, 12.0° ± 0.6°; the tensor force alone gives 0.0°
+- |R(0)|² of η_c(1S) over J/ψ(1S), from each model's LO widths (19 models): 1.40–2.03 (median 1.71) against 0.55 required by the PDG widths with the same (NLO) QCD factors: every model puts η_c 2.6–3.7 times too deep at the origin relative to J/ψ at NLO (the η_c γγ NLO width is 2.3–4.1 times the PDG value)
 
 Spin structure per model (MeV; ρ = (M₂ − M₁)/(M₁ − M₀); cog − h: the 1P centre of gravity minus the ¹P₁ state, zero for a contact spin-spin force at first order):
 

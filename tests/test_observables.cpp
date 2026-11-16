@@ -233,6 +233,11 @@ TEST(Widths, QcdCouplingFactorsAndMixedLeptonicWidth) {
   EXPECT_NEAR(width_ee_SD(R0, 0, M, m, e), width_ee(R0 * R0, M, e), 1e-18);
   EXPECT_NEAR(width_ee_SD(0, Rpp, M, m, e), width_ee_D(Rpp * Rpp, M, m, e),
               1e-18);
+  // the D-wave term enters with a minus sign for the Condon-Shortley coupling
+  // (<3D1|S12|3S1> = +sqrt8); analysis/test_sd_sign.py derives it independently
+  const double A = R0 - 5 * Rpp / (2 * std::numbers::sqrt2 * m * m);
+  EXPECT_NEAR(width_ee_SD(R0, Rpp, M, m, e), width_ee(A * A, M, e), 1e-18);
+  EXPECT_LT(width_ee_SD(R0, Rpp, M, m, e), width_ee_SD(R0, -Rpp, M, m, e));
 }
 
 TEST(Observables, WaveFunctionNormNodesAndOriginValue) {

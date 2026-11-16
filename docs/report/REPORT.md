@@ -1,9 +1,20 @@
 # Heavy-quarkonium spectroscopy across 80 model configurations
 
-*qgem v1.0.0 analysis report. Every number comes from `analysis/sweep.py` and `analysis/analyze.py` (PyROOT,
+*qgem v1.0.0 analysis report (v1.1.0 selection, S–D sign fix; see the note below). Every number comes from `analysis/sweep.py` and `analysis/analyze.py` (PyROOT,
 ROOT 6.40.04). Each table has a CSV in [`data/`](data/), each figure a PDF in [`figures/`](figures/), and all
 generated tables are in [`tables.md`](tables.md). Data: PDG 2026 (`pdg-2026.0.sqlite`). Methods:
 [`../EXPLANATION.md`](../EXPLANATION.md).*
+
+**Note on this revision.** The leptonic width of an S–D mixed ³S₁ state had the D-wave amplitude with the wrong
+sign (`width_ee_SD`, now fixed; derived and tested in `analysis/test_sd_sign.py`, CHANGELOG). It touches Γ_ee of
+J/ψ, ψ(2S), ψ(3770), … and Υ(nS) in the 12 physical-set models whose Hamiltonian contains S–D mixing (smeared
+A/B, all of C/D); first-order A/B and masses are not affected. The stored `widths` and `decay_benchmark` blocks of
+those 12 models were recomputed from a fixed-floor, fixed-start refit that reproduces the stored χ² and θ
+(`analysis/refresh_widths.py`; every refit matched, none was left out). Gate 1, the selection, the best compromise
+and every width number below are recomputed. **Not recomputed:** the decay posterior predictive p-values
+(`stats` sweep), the mass-and-width fit study (`widths` sweep), the joint-fit widths, and the figures
+(`python3 analysis/analyze.py`, which needs ROOT, regenerates them). Where a table below depends on one of
+them it says so.
 
 ## Summary
 
@@ -13,12 +24,14 @@ gates:
 - **Gate 1, observables.** No rejection of the masses or of the measured decays.
 - **Gate 2, physics.** Seven checks on the physical soundness of the fit.
 
-Of the 19 models in the physical set, 7 fail exactly one check, spread over four different checks:
+Of the 19 models in the physical set, 9 fail exactly one check, spread over four different checks:
 
 | model | the one failed check | what it gets wrong |
 |---|---|---|
 | C const (s free), GI relativized | decays c c̄ (log form) | Γ_γγ(χ_c0) is 13 × the PDG value |
 | A const smeared | decays c c̄ (log form) | Γ_γγ(χ_c0) is 8 × the PDG value |
+| B frozen smeared | decays c c̄ (log form) | Γ_γγ(χ_c0) is 7 × the PDG value |
+| B APT smeared | decays c c̄ (log form) | Γ_γγ(χ_c0) is 6 × the PDG value |
 | B APT, screened, first-order spin | decays b b̄ (linear form) | Γ_ee(Υ(3S)) is 33 % low |
 | B frozen | decays b b̄ (linear form) | Γ_ee(Υ(3S)) is 37 % low |
 | B const | string tension | √b (b b̄) = 0.512 ± 0.003 GeV; lattice gives about 0.44 |
@@ -28,7 +41,7 @@ Of the 19 models in the physical set, 7 fail exactly one check, spread over four
 The **best compromise** (v1.1.0) is the model whose *worst* failed check is the mildest: B APT, whose only
 failure is the linear decay test of b b̄ at Holm p = 0.03 (2.2σ; AIC 48.2). The v1.0.0 rule counted failures
 (fewest, then the lowest AIC) and named C const (s free): one failure, but a log-form decay test at 4.1σ
-(Γ_γγ(χ_c0) ×13). B const, which ties C const on AIC, fails √b by 11σ in parametric errors. A count treats
+(Γ_γγ(χ_c0) ×13). B const, whose AIC is 0.6 higher, fails √b by 11σ in parametric errors. A count treats
 these three cases alike; the worst-failure rule does not. Sections 5–7 and the figures still show C const (s
 free), the featured model of the committed analysis run; re-run `python3 analysis/analyze.py` to feature B APT.
 
@@ -36,8 +49,9 @@ free), the featured model of the committed analysis run; re-run `python3 analysi
    annihilation widths and the physics constraints together.
    - Models with the spin terms in the Hamiltonian (smeared A/B, all of C/D) overpredict the χ_c0 two-photon
      width by a factor of 5–17. Their ³P₀ wave function is pulled in too far at short distance (§4.2).
-   - The screened models with running couplings and first-order spin terms describe the P waves but
-     underpredict the Υ(3S) leptonic width by about a third. Their |R_3S(0)|² is too small.
+   - The screened models with running couplings describe the P waves but underpredict the Υ(3S) leptonic width:
+     by 33–38 % with first-order spin terms (B APT, frozen, GI run), by 29–33 % with smeared ones. The
+     unscreened running-coupling A models are 21–29 % low. Their |R_3S(0)|² is too small.
    - The first-order models A const, B const and A frozen pass the decays but fail the string tension or the
      quark masses.
 2. **Masses alone do not discriminate.** At one declared mass error for all models, 17 of 19 models pass the
@@ -46,7 +60,8 @@ free), the featured model of the committed analysis run; re-run `python3 analysi
 3. **The decay test was amended after the results were seen (§2.3).**
    - The registered test was linear in Γ, with a theory error proportional to the prediction. A pull in that
      test cannot fall below −1/f, about −2, so the test cannot reject any overprediction.
-   - Under it, C const (s free) would have won, despite its ×13 Γ_γγ(χ_c0).
+   - Under it, four models pass both gates (C const (s free), B APT smeared, B frozen smeared, A const smeared)
+     and C const (s free) wins on AIC, despite its ×13 Γ_γγ(χ_c0).
    - Gate 1 now also requires the same test on ln Γ, which is symmetric in over- and underprediction. A model
      must pass both forms, so the amendment can only add rejections.
    - All three verdicts are reported: linear, log, and both.
@@ -188,11 +203,13 @@ underpredictions, since ln(1 + x) < x. That is why the amendment requires both f
 with the other: it can only add rejections, never pass a model the registered rule rejected. AIC and the
 tiebreak keep the registered linear decay χ².
 
-**What changes.** The verdict changes for two models, and the log form alone would change it for two more:
+**What changes.** The registered rule passes four models, all of which the log form rejects on the c c̄
+two-photon widths. The log form alone would pass two others, which the linear form rejects on the b b̄ leptonic
+widths:
 
 | verdict under | passing models |
 |---|---|
-| linear (as registered) | C const (s free), A const smeared |
+| linear (as registered) | C const (s free), B APT smeared, B frozen smeared, A const smeared |
 | log form alone | B APT, B frozen |
 | both (amended rule) | none |
 
@@ -209,25 +226,25 @@ Dashed: α = 0.05 before Holm.*
 
 | configuration | p masses c c̄ | p masses b b̄ | p decays c c̄ (lin / log) | p decays b b̄ (lin / log) | AIC | failed checks |
 |---|---|---|---|---|---|---|
-| C const (s free) | 0.662 | 0.595 | 0.311 / **8.6e-6** | 0.742 / 0.786 | 34.2 | decays c c̄ [log] |
-| B const | 0.385 | 0.722 | 0.364 / 0.065 | 0.731 / 0.786 | 34.2 | **√b b b̄ = 0.512 ± 0.003** |
-| A frozen | 0.219 | 0.812 | 0.445 / 0.168 | 0.067 / 0.156 | 39.9 | **√b b b̄ = 0.383 ± 0.003** |
-| A const | 0.813 | 0.053 | 0.341 / 0.059 | 0.971 / 0.972 | 41.3 | **m_b − m_c = 3.284 ± 0.022** |
-| A const smeared | 0.294 | 0.021 | 0.282 / **1.4e-4** | 0.965 / 0.973 | 48.2 | decays c c̄ [log] |
-| B APT | 0.140 | 0.598 | 0.436 / 0.160 | **0.0074** / 0.046 | 48.2 | decays b b̄ [linear] |
-| B frozen | 0.085 | 0.433 | 0.404 / 0.159 | **0.0013** / 0.018 | 55.1 | decays b b̄ [linear] |
-| D GI run (s free) | 0.172 | 0.856 | 0.320 / 9.7e-7 | 0.798 / 0.801 | 33.2 | ⟨v²⟩ c c̄ = 0.51; decays c c̄ [log] |
-| A GI run | 0.324 | 0.721 | 0.461 / 0.187 | 0.034 / 0.105 | 41.2 | √b c c̄, b b̄ |
-| B const smeared | 0.086 | 0.494 | 0.446 / 9.3e-4 | 0.373 / 0.472 | 41.5 | √b b b̄; decays c c̄ [log] |
-| B APT smeared | 0.821 | 0.717 | 0.290 / 0.0023 | 0.0030 / 0.029 | 45.0 | decays b b̄ [linear]; c c̄ [log] |
-| B GI run | 0.182 | 0.317 | 0.424 / 0.180 | 5.4e-4 / 0.012 | 56.2 | decays b b̄ [linear, log] |
-| D const (s free) | 0.546 | 0.972 | 0.329 / 1.6e-5 | 0.680 / 0.730 | 30.3 | ⟨v²⟩ c c̄; √b b b̄; decays c c̄ [log] |
-| A APT smeared | 0.877 | 0.941 | 0.146 / 5.2e-4 | 0.111 / 0.217 | 36.2 | √b c c̄, b b̄; decays c c̄ [log] |
-| A frozen smeared | 0.872 | 0.896 | 0.214 / 6.5e-4 | 0.045 / 0.122 | 37.9 | √b c c̄, b b̄; decays c c̄ [log] |
-| A GI run smeared | 0.877 | 0.734 | 0.181 / 8.6e-4 | 0.023 / 0.084 | 41.7 | √b c c̄, b b̄; decays c c̄ [log] |
-| B frozen smeared | 0.751 | 0.527 | 0.350 / 0.0028 | 4.6e-4 / 0.010 | 50.6 | decays b b̄ [linear, log]; c c̄ [log] |
-| B GI run smeared | 0.851 | 0.314 | 0.315 / 0.0033 | 2.1e-4 / 0.0078 | 54.4 | decays b b̄ [linear, log]; c c̄ [log] |
-| C GI run (s free) | 0.329 | 0.0012 | 0.299 / 2.5e-7 | 0.432 / 0.451 | 56.9 | masses b b̄; ⟨v²⟩ c c̄; decays c c̄ [log] |
+| C const (s free) | 0.662 | 0.595 | 0.316 / **8.6e-6** | 0.857 / 0.880 | 33.6 | decays c c̄ [log] |
+| B const | 0.385 | 0.722 | 0.364 / 0.065 | 0.731 / 0.786 | 34.2 | **√b b b̄ = 0.512 ± 0.003 GeV** |
+| B APT smeared | 0.821 | 0.717 | 0.294 / **3.1e-3** | 0.039 / 0.115 | 39.4 | decays c c̄ [log] |
+| A frozen | 0.219 | 0.812 | 0.445 / 0.168 | 0.067 / 0.156 | 39.9 | **√b b b̄ = 0.383 ± 0.003 GeV** |
+| A const | 0.813 | 0.053 | 0.341 / 0.059 | 0.971 / 0.972 | 41.3 | **m_b − m_c = 3.284 ± 0.022 GeV outside [3.342, 3.457]** |
+| B frozen smeared | 0.751 | 0.527 | 0.385 / **4.2e-3** | 0.013 / 0.061 | 43.1 | decays c c̄ [log] |
+| A const smeared | 0.294 | 0.021 | 0.300 / **1.7e-4** | 0.973 / 0.972 | 47.9 | decays c c̄ [log] |
+| B APT | 0.140 | 0.598 | 0.436 / 0.160 | **7.4e-3** / 0.046 | 48.2 | decays b b̄ [linear] |
+| B frozen | 0.085 | 0.433 | 0.404 / 0.159 | **1.3e-3** / 0.018 | 55.1 | decays b b̄ [linear] |
+| D GI run (s free) | 0.172 | 0.856 | 0.325 / **8.7e-7** | 0.471 / 0.345 | 34.7 | c c̄ ⟨v²⟩ = 0.51; decays c c̄ [log] |
+| B const smeared | 0.086 | 0.494 | 0.519 / **1.6e-3** | 0.821 / 0.850 | 38.7 | **√b b b̄ = 0.512 ± 0.003 GeV**; decays c c̄ [log] |
+| A GI run | 0.324 | 0.721 | 0.461 / 0.187 | 0.034 / 0.105 | 41.2 | **√b c c̄ = 0.344 ± 0.025 GeV**; **√b b b̄ = 0.365 ± 0.004 GeV** |
+| B GI run smeared | 0.851 | 0.314 | 0.329 / **4.5e-3** | **5.5e-3** / 0.038 | 47.4 | decays b b̄ [linear]; decays c c̄ [log] |
+| B GI run | 0.182 | 0.317 | 0.424 / 0.180 | **5.4e-4** / **0.012** | 56.2 | decays b b̄ [linear]; decays b b̄ [log] |
+| D const (s free) | 0.546 | 0.972 | 0.334 / **1.6e-5** | 0.837 / 0.858 | 29.6 | c c̄ ⟨v²⟩ = 0.50; **√b b b̄ = 0.507 ± 0.004 GeV**; decays c c̄ [log] |
+| A APT smeared | 0.877 | 0.941 | 0.148 / **5.7e-4** | 0.268 / 0.380 | 34.1 | **√b c c̄ = 0.342 ± 0.013 GeV**; **√b b b̄ = 0.372 ± 0.003 GeV**; decays c c̄ [log] |
+| A frozen smeared | 0.872 | 0.896 | 0.222 / **7.7e-4** | 0.144 / 0.253 | 35.1 | **√b c c̄ = 0.353 ± 0.011 GeV**; **√b b b̄ = 0.382 ± 0.003 GeV**; decays c c̄ [log] |
+| A GI run smeared | 0.877 | 0.734 | 0.184 / **9.7e-4** | 0.080 / 0.175 | 38.8 | **√b c c̄ = 0.336 ± 0.013 GeV**; **√b b b̄ = 0.363 ± 0.004 GeV**; decays c c̄ [log] |
+| C GI run (s free) | 0.329 | **1.2e-3** | 0.308 / **2.1e-7** | 0.111 / **0.017** | 60.1 | masses b b̄; c c̄ ⟨v²⟩ = 0.51; decays c c̄ [log]; decays b b̄ [log] |
 
 (Raw p-values. Rejections are after Holm within each form; √b and m_b − m_c are in GeV. The full table, with
 every check value and its tolerance, is [`data/selection.csv`](data/selection.csv).)
@@ -235,7 +252,7 @@ every check value and its tolerance, is [`data/selection.csv`](data/selection.cs
 ### 3.1 Robustness
 
 - **Gate 2 at the central values only**, without the 2σ allowance, is passed by 4 of 19 models: B frozen,
-  B GI run, B frozen smeared and B GI run smeared. All four fail the b b̄ decays.
+  B GI run, B frozen smeared and B GI run smeared. All four fail a decay test of gate 1.
 - **Gate 2(f) has little power.** At the declared error, the c c̄ tolerance on cog − h is about ±33 MeV. The
   models give 0.2–16 MeV, against a PDG value of 0.00 MeV, and all pass. At the PDG precision, 17 of 19 would
   fail (§6).
@@ -302,14 +319,22 @@ on the normalisation of the wave function.
   13–17 × with C/D (13.0 × in C const (s free)).
 
 **The leptonic widths of b b̄ separate the potentials.** The theory error is small here (⟨v²⟩ ≈ 0.1), so the
-widths measure |R_nS(0)|² state by state. The screened running-coupling models (B APT, frozen, GI run)
-underpredict Γ_ee(Υ(3S)) by 33–40 % at NLO. The constant-coupling models and the C/D models reproduce every
-b b̄ leptonic width within 1.7σ.
+widths measure |R_nS(0)|² state by state. The screened running-coupling models (B APT, frozen, GI run, smeared
+or not) underpredict Γ_ee(Υ(3S)) by 29–38 % at NLO, and the unscreened running-coupling A models by 21–29 %.
+The constant-coupling models reproduce every b b̄ leptonic width within 1.1σ, and the C/D models within 1.9σ
+(the worst is C GI run (s free), which overpredicts Υ(3S) by 61 %).
+
+**The S–D mixed state ψ(3770).** Its leptonic width is a test of the sign fix. With the spin terms in H, the
+tensor force mixes ³D₁ into the ³S₁ levels, and the width follows from the interference of Appendix "S–D
+interference" of the paper. C const (s free) gives Γ_ee(ψ(3770)) = 0.35 keV and D GI run (s free) 0.35 keV,
+against 0.262 ± 0.018 keV (PDG), 1.3 ×. The first-order A/B models, with no S–D mixing, give 0.02–0.03 keV.
 
 **The c c̄ widths have large theory errors.** At μ = M/4, the one-loop factor for J/ψ → ee nearly vanishes, so
 the c c̄ band reaches the edge of perturbative control.
 
-**Posterior predictive p-values.** The decay ppp is still computed in the linear form. In the smeared c c̄
+**Posterior predictive p-values.** *Not recomputed after the sign fix: the numbers in this paragraph are from
+the `stats` sweep with the old S–D sign, so they are stale for the smeared models.* The decay ppp is still
+computed in the linear form. In the smeared c c̄
 models it is 0.02–0.05, against a frequentist p of 0.15–0.45. The two differ for a definite reason:
 
 - The frequentist test puts the parametric error into the covariance V.
@@ -318,7 +343,8 @@ models it is 0.02–0.05, against a frequentist p of 0.15–0.45. The two differ
 
 Smeared models have large parametric width errors (χ_c0: 1.8–4.8 keV), so their ppp is lower.
 
-**Fitting the widths instead.** Fitting the masses and widths together moves C const (s free) by at most
+**Fitting the widths instead.** (Computed before the sign fix; the `widths` sweep was not refreshed.) Fitting
+the masses and widths together moves C const (s free) by at most
 0.43σ (in s) and raises its c c̄ floor from 10.3 to 10.7 MeV; see
 [`tables.md`](tables.md#masses-and-widths-fitted-together-study). The selection keeps the widths out of the
 fit, so that the masses are not traded for the widths.
@@ -394,19 +420,21 @@ pulls for the predicted states; the end bins collect |pull| > 4.*
 The B_c errors are the 16–84 % half-spread of 100 parameter draws. They do not include the systematic of
 interpolating between the two systems.
 
-**Annihilation widths** (keV; NLO at μ = M/2, ± parametric ± theory; * = BR × total width):
+**Annihilation widths** (keV; NLO at μ = M/2, ± parametric ± theory; * = BR × total width; recomputed after the
+S–D sign fix):
 
 | state | process | LO | NLO | PDG | NLO/PDG |
 |---|---|---|---|---|---|
-| η_c(1S) | γγ | 30.9 | 19.6 ± 1.6 ± 10.7 | 6.39 ± 0.46 | 3.1 |
-| J/ψ | ee | 12.9 | 5.57 ± 0.40 ± 3.96 | 5.53 ± 0.10 | 1.01 |
-| χ_c0(1P) | γγ | 31.0 | 31.6 ± 3.2 ± 15.6 | 2.43 ± 0.11 * | **13.0** |
-| χ_c2(1P) | γγ | 2.92 | 1.37 ± 0.09 ± 0.79 | 0.559 ± 0.033 * | 2.5 |
-| η_c(2S) | γγ | 10.7 | 7.1 ± 0.4 ± 3.4 | 2.0 ± 1.3 * | 3.5 |
-| ψ(2S) | ee | 6.77 | 3.23 ± 0.09 ± 1.95 | 2.327 ± 0.039 | 1.39 |
-| Υ(1S) | ee | 1.81 | 1.146 ± 0.028 ± 0.185 | 1.340 ± 0.018 | 0.86 |
-| Υ(2S) | ee | 0.840 | 0.538 ± 0.014 ± 0.082 | 0.612 ± 0.011 | 0.88 |
-| Υ(3S) | ee | 0.641 | 0.413 ± 0.012 ± 0.066 | 0.443 ± 0.008 | 0.93 |
+| η_c(1S) | γγ | 30.9 | 19.6 ± 1.6 ± 11 | 6.39 ± 0.46 | 3.06 |
+| J/ψ | ee | 14.7 | 6.34 ± 0.42 ± 4.5 | 5.53 ± 0.099 | 1.15 |
+| χ_c0(1P) | γγ | 31 | 31.6 ± 3.2 ± 16 | 2.43 ± 0.11 * | 12.99 |
+| χ_c2(1P) | γγ | 2.92 | 1.37 ± 0.086 ± 0.79 | 0.559 ± 0.033 * | 2.45 |
+| η_c(2S) | γγ | 10.7 | 7.11 ± 0.38 ± 3.4 | 2.04 ± 1.3 * | 3.49 |
+| ψ(2S) | ee | 7.16 | 3.42 ± 0.14 ± 2.1 | 2.33 ± 0.039 | 1.47 |
+| ψ(3770) (not fitted) | ee | 0.72 | 0.35 ± 0.028 ± 0.21 | 0.262 ± 0.018 | 1.34 |
+| Υ(1S) | ee | 1.87 | 1.19 ± 0.034 ± 0.19 | 1.34 ± 0.018 | 0.89 |
+| Υ(2S) | ee | 0.865 | 0.553 ± 0.017 ± 0.085 | 0.612 ± 0.011 | 0.90 |
+| Υ(3S) | ee | 0.658 | 0.423 ± 0.014 ± 0.067 | 0.443 ± 0.008 | 0.96 |
 
 **Wave functions.** Each wave function is rebuilt from its logged Gaussian coefficients alone. The norm is 1 to
 within 1.1 × 10⁻¹⁰, and the radial nodes equal n in all 32 states. The 68 % parametric band, from 40 draws, is
@@ -429,19 +457,15 @@ Physics compared with references the fits never saw. Failures are kept.
 | m_b − m_c (heavy-quark symmetry) | [3.342, 3.457] GeV | separate fits: 6 of 19 inside, median 3.332 ± 0.042; joint fits: median 3.382 ± 0.017 | separate fits low; joint fits **pass** |
 | √b | lattice ≈ 0.44 GeV | medians 0.421 ± 0.018 (c c̄), 0.436 ± 0.004 (b b̄), 0.434 ± 0.004 (joint) | ensemble **pass**; A models low; B/D const high |
 | wave functions from the log | norm = 1, nodes = n | 1.1 × 10⁻¹⁰; 0 of 32 wrong | **pass** |
-| ψ(3770) S–D mixing | Γ_ee(ψ(3770))/Γ_ee(ψ(2S)) | C const (s free): −37.8° ± 0.6° or 0.1° ± 0.6°; tensor force alone 1.6° | the tensor force is too weak |
+| ψ(3770) S–D mixing | Γ_ee(ψ(3770))/Γ_ee(ψ(2S)) | C const (s free): −0.1° ± 0.6° or +37.8° ± 0.6° (the two roots); tensor force alone 1.6° | the width is carried by the D-wave amplitude, not by a large mixing angle |
 | Γ_γγ(χ_c2)/Γ_γγ(χ_c0) | PDG 0.230 ± 0.017 | first order: 4/15 exactly; spin terms in H: 0.03–0.10 | **fail** with the spin terms in H |
-| \|R(0)\|² of η_c(1S) over J/ψ(1S) | 0.55, from the PDG Γ_γγ(η_c) and Γ_ee(J/ψ) with the models' own K factors and the PDG masses | 1.57–3.48 (median 2.03) in all 19 models | **fail** in every model |
+| \|R(0)\|² of η_c(1S) over J/ψ(1S) | 0.55, from the PDG Γ_γγ(η_c) and Γ_ee(J/ψ) with the models' own K factors and the PDG masses | 1.40–2.03 (median 1.71) in all 19 models | **fail** in every model |
 
 **The η_c and J/ψ wave functions at the origin.** In spin mode `first` the smeared contact term is part of H, so
 η_c(1S) and J/ψ(1S) do not share a wave function, and |R(0)|² of η_c over J/ψ can be read from the two widths
 without any normalisation: Γ_γγ(η_c) ∝ 12e⁴|R_η(0)|²/M² and Γ_ee(J/ψ) ∝ 4e²|R_ψ(0)|²/M², both times their
 QCD factors. With the PDG widths and masses and the same K_γγ = 0.63 and K_ee = 0.43 as the model rows, the
-ratio must be about 0.55. All 19 physical models give 1.57–3.48 (median 2.03), 2.9–6.3 times too large, and
-their NLO Γ_γγ(η_c) is 2.3–4.1 times the PDG value. The two NLO factors are large and uncertain, so the
-required 0.55 carries that uncertainty; but the models are above it by a factor far larger than any plausible
-shift of K, and every model is on the same side. The audit is `validity.origin_ratio_rows`
-(`data/origin_ratio.csv`).
+ratio must be about 0.55. All 19 physical models give 1.40–2.03 (median 1.71), 2.6–3.7 times too large, and their NLO Γ_γγ(η_c) is 2.3–4.1 times the PDG value. The required ratio is proportional to K_ee/K_γγ = 0.43/0.63 = 0.68, so it is an NLO statement. Both factors are known to be large beyond one loop: the order-α_s² coefficient of η_c → γγ is substantial and negative (Feng, Jia and Sang 2015; Czarnecki and Melnikov 2001), and that of J/ψ → ee is also sizeable (Beneke, Signer and Smirnov 1998; Czarnecki and Melnikov 1998). To reach the model values K_ee/K_γγ would have to rise to 1.7–2.5. Nothing we know points there, and every model is on the same side, but we did not compute the NNLO factors, so the audit measures the tension at NLO only. The audit is `validity.origin_ratio_rows` (`data/origin_ratio.csv`).
 
 **The P-wave spin structure fails in most models.** Two patterns are common in c c̄:
 
@@ -558,6 +582,11 @@ floor proportional to ⟨p⁴⟩ improves LOO but worsens LMO.
   rejections, and all three verdicts are reported.
 - **Width theory.** NLO only, with a scale band that reaches α_s ≈ 0.5 in c c̄. Relativistic corrections enter
   only through the ⟨v²⟩Γ error term.
+- **Stale parts after the S–D sign fix.** The decay posterior predictive p-values, the mass-and-width fit study,
+  the joint-fit widths and the figures were not recomputed (see the note at the top). Configurations outside the
+  physical set were not refreshed either, so their stored Γ_ee of S–D mixed states still carry the old sign; the
+  one tried, B frozen smeared with fitted μ_s (b b̄), failed the reproduction check of the refresh (the fixed-floor
+  refit did not return the stored χ² and θ) and was left unwritten.
 - **Global minimum.** Two minimisers and nested seeding give the best minima found, not provably global ones.
 - **B_c.** The parameters are interpolated between the systems, or taken from the joint fit. The
   interpolation systematic is not included.

@@ -234,7 +234,10 @@ def mixing_angle(run):
         return [], math.nan
     R2S, _, m = ov["psi(2S)"]
     _, R1D, _ = ov["psi(3770)"]
-    D = 5 * R1D / (2 * math.sqrt(2) * m * m)
+    # Condon-Shortley phase of the D wave (<3D1|S12|3S1> = +sqrt(8)): the D-wave
+    # amplitude of the current enters with the sign opposite to R_S, see
+    # observables.hpp and analysis/test_sd_sign.py
+    D = -5 * R1D / (2 * math.sqrt(2) * m * m)
     M2, M3 = st["psi(2S)"]["pdg_GeV"], st["psi(3770)"]["pdg_GeV"]
     a, b = w["psi(3770)"], w["psi(2S)"]
     ratio = a["pdg_keV"] / b["pdg_keV"]
@@ -330,9 +333,9 @@ def summary(spin_rows, qrows, srows, wrows, mix, own, orows=()):
         lines.append(f"|R(0)|² of η_c(1S) over J/ψ(1S), from each model's LO widths "
                      f"({len(orows)} models): {min(v):.2f}–{max(v):.2f} (median "
                      f"{float(np.median(v)):.2f}) against {orows[0]['ratio_pdg']:.2f} required "
-                     f"by the PDG widths with the same QCD factors: every model puts η_c "
+                     f"by the PDG widths with the same (NLO) QCD factors: every model puts η_c "
                      f"{min(r['excess'] for r in orows):.1f}–{max(r['excess'] for r in orows):.1f} "
-                     f"times too deep at the origin relative to J/ψ (the η_c γγ NLO width is "
+                     f"times too deep at the origin relative to J/ψ at NLO (the η_c γγ NLO width is "
                      f"{min(r['etac_gg_nlo_over_pdg'] for r in orows):.1f}–"
                      f"{max(r['etac_gg_nlo_over_pdg'] for r in orows):.1f} times the PDG value)")
     return lines

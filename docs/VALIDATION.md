@@ -25,7 +25,7 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 | `Analytic.*` (`test_analytic`) | every smeared matrix element used by the models is **exact**: erf/r, g'/r, tensor, r~, r~'/r, (e^{−μr})~ and its derivative (transfer lemmas with exact Taylor jets), J_s recursion | the pointwise functions integrated by quadrature (`local`, kept only as the reference) |
 | `Run.*` (`test_run`) | the default run prints every PDG state, reproduces σ_th = 8.344 MeV; model / running / c choices | notes §10.10; error handling |
 | `Smeared.*` (`test_smeared`) | r̃, (e^{−μr})~ and their derivatives in the stable erfcx form | the radial convolution formula (6.9) by quadrature |
-| `GI.*` (`test_gi`) | Hermiticity, closure vs two-step, D→C limit, FH, B_c, and the published spectra | **recalled from memory (notes §12.3)**, parameters cross-checked against arXiv:1811.10339 Table I except c: smoke test only |
+| `GI.*` (`test_gi`) | Hermiticity, closure vs two-step, D→C limit, FH, B_c; **31 charmonium levels of Table I of Barnes–Godfrey–Swanson** (hep-ph/0505002, GI column, read from the paper): S, P, D, F and S–D mixed levels within 3 MeV, the 1S doublet 7–8 MeV low (hyperfine splitting agrees; basis converged to 0.01 MeV) | the paper's Table I; the bottomonium numbers are still recalled (notes §12.3), a smoke test |
 | `AlphaS.GaussianSumShapes*` (`test_alpha_s`) | frozen and APT shapes as non-negative Gaussian sums, Σw = 1, ≤ 5 % for 0.05 < Q < 50 GeV; a confining form is refused | the analytic couplings |
 | `Chi2Problem.CollapsedSpectrum*` (`test_fit`) | a point-like contact term (σ = 1000 GeV) collapses the 1S0 channel and the χ² refuses the point | physical requirement (H bounded below) |
 | `Run.SeedFromAnotherMinimiser*` (`test_run`) | a `--start` point (the Minuit2 minimum of A-APT-smeared b b̄, 2.27 MeV) is fitted and kept over the default start, where LM stalls at σ → 0 (107 MeV) | Minuit2 result |
@@ -42,7 +42,8 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 | `Observables.VirialTheoremOfTheCornellEigenstates` (`test_observables`) | 2⟨T⟩ = (4α/3)⟨1/r⟩ + b⟨r⟩ for S, P, D, n ≤ 2: 10⁻⁶ for ground states, 10⁻⁴ up to the third D level (first order in the wave-function error) | virial theorem |
 | `Widths.ClosureOfTheCombinedFitAndTheoryCovariance` (`test_fit`) | six widths of the charmonium fit; theory error = scale half-band ⊕ ⟨v²⟩Γ; the scale part correlated only within a process; the model's own widths as data are fitted with χ²_w = 0 and unchanged parameters | closure |
 | `Bayes.FloorPosteriorAgreesWithTheQProfileInterval` (`test_fit`) | ln det V equals the determinant; the posterior median of σ_th lies inside the Q-profile 95 % interval; posterior predictive p-values in (0, 1) | Q-profile interval |
-| `Widths.QcdCouplingFactorsAndMixedLeptonicWidth` (`test_observables`) | α_s(M_Z) = 0.1180 and two-loop values at m_b, m_c; the one-loop factors; the S–D leptonic width reduces to the pure S and pure D forms | PDG; closed form |
+| `Widths.QcdCouplingFactorsAndMixedLeptonicWidth` (`test_observables`) | α_s(M_Z) = 0.1180 and two-loop values at m_b, m_c; the one-loop factors; the S–D leptonic width reduces to the pure S and pure D forms; **the sign of the D-wave amplitude, A = R_S − 5R″_D/(2√2 m²)** | PDG; closed form; `analysis_sd_sign` |
+| `analysis_sd_sign` (CTest, Python) | the sign of the S–D interference in the Condon–Shortley convention, four independent ways: the Clebsch–Gordan function, ⟨³D₁\|S₁₂\|³S₁⟩ = +2√2, the Dirac current expansion against explicit spinors, the D-wave amplitude ratio −5R″/(2√2 m² R_S) | numerical construction; shares no code with the C++ |
 | `Pdg.ReaderGivesTheNotesCharmoniumTable` (derived widths) | χ_c0 → γγ = BR × Γ = 2.43 keV (derived); J/ψ → e⁺e⁻ listed; η_b → γγ "not seen" gives none | PDG summary tables |
 | `Test6.CharmoniumWorkedExampleOfTheNotes` (held-out part) | a refit without χ_c0 re-solves its floor (χ²/ν = 1 on the kept data, below the full floor) and gives a parametric error; ν = 0 left gives no floor | definition |
 | `SemiRelativistic.MassDerivativeFirstOrderLimitAndHerbstBound` (`test_relativistic`) | √(p²+m²) − m: ∂H/∂m equals finite differences; at small v the shift equals ⟨p⁴⟩/4m³ (5 %); point Coulomb refused | first-order perturbation theory; Herbst bound |
@@ -76,10 +77,11 @@ subset otherwise, so the fit, run and validation tests run in CI instead of skip
 ## Not verified against an independent reference
 
 * The Godfrey–Isgur parameters against the original paper (Phys. Rev. D 32, 189 (1985), not on arXiv, so not
-  fetched). The model passes Hermiticity, closure/two-step and derivative checks, and reproduces the recalled
-  spectra to a few MeV. The defaults were cross-checked against Table I of arXiv:1811.10339, which tabulates the
-  same parameter set; the constant c = −0.253 GeV is the one value that table did not confirm. Check it against
-  the 1985 paper before any physics claim on the GI models (C and D).
+  fetched). Barnes, Godfrey and Swanson's Table I (hep-ph/0505002) lists the GI spectrum of charmonium for these
+  parameters, and the solver reproduces it level by level (see the `GI.*` row above), which fixes c = −0.253 GeV
+  indirectly; the original paper itself remains unchecked. The bottomonium reference numbers in `test_gi` are
+  recalled values, not read from a source. The 1S doublet is 7–8 MeV below the published numbers; we do not know
+  why (the published values come from the authors' own numerics).
 * Complex-range bases are supported for the non-relativistic Models A/B; the relativistic momentum matrices (Models C/D)
   need complex Gauss–Laguerre scaling and are not implemented (`momentum_diagonal` throws).
 * Running α_s inside the models is the Godfrey–Isgur Gaussian sum (exact erf forms). The other forms of `alpha_s.hpp`

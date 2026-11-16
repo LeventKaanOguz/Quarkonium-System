@@ -184,7 +184,7 @@ double width_ee_D(double Rpp0sq, double M, double mQ, double eQ) {
          (2 * std::pow(mQ, 4) * M * M);
 }
 double width_ee_SD(double RS0, double RD2, double M, double mQ, double eQ) {
-  const double A = RS0 + 5 * RD2 / (2 * std::numbers::sqrt2 * mQ * mQ);
+  const double A = RS0 - 5 * RD2 / (2 * std::numbers::sqrt2 * mQ * mQ);
   return 4 * kAlphaEM * kAlphaEM * eQ * eQ * A * A / (M * M);
 }
 double qcd_factor(const std::string& process, double a) {
