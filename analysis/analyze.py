@@ -592,7 +592,7 @@ def main():
         write_csv("widths.csv", width_rows(main_runs, phys))
         tables += (f"## Annihilation widths ({sel_kind}, then the three lowest floors of "
                    "the physical set; keV)\n\n"
-                   "LO: Van Royen–Weisskopf (vector states: |R_S(0) + 5R″_D(0)/(2√2 m²)|², "
+                   "LO: Van Royen–Weisskopf (vector states: |R_S(0) − 5R″_D(0)/(2√2 m²)|², "
                    "so the S–D mixed ψ(3770) is included). NLO: × one-loop QCD factor with "
                    "the MS-bar α_s at μ = M/2 (band μ = M/4 … M); the series converges "
                    "poorly in charmonium. PDG values marked * are summary-table branching "

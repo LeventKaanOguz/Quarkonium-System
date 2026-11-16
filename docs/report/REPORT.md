@@ -11,8 +11,8 @@ J/ψ, ψ(2S), ψ(3770), … and Υ(nS) in the 12 physical-set models whose Hamil
 A/B, all of C/D); first-order A/B and masses are not affected. The stored `widths` and `decay_benchmark` blocks of
 those 12 models were recomputed from a fixed-floor, fixed-start refit that reproduces the stored χ² and θ
 (`analysis/refresh_widths.py`; every refit matched, none was left out). Gate 1, the selection, the best compromise
-and every width number below are recomputed. **Not recomputed:** the decay posterior predictive p-values
-(`stats` sweep), the mass-and-width fit study (`widths` sweep), the joint-fit widths, and the figures
+and every width number below are recomputed. The mass-and-width fit study (`widths` sweep, 12 refit models) was recomputed in v1.1.0.
+**Not recomputed:** the decay posterior predictive p-values (`stats` sweep), the joint-fit widths, and the figures
 (`python3 analysis/analyze.py`, which needs ROOT, regenerates them). Where a table below depends on one of
 them it says so.
 
@@ -343,9 +343,9 @@ models it is 0.02–0.05, against a frequentist p of 0.15–0.45. The two differ
 
 Smeared models have large parametric width errors (χ_c0: 1.8–4.8 keV), so their ppp is lower.
 
-**Fitting the widths instead.** (Computed before the sign fix; the `widths` sweep was not refreshed.) Fitting
+**Fitting the widths instead.** (Recomputed after the sign fix.) Fitting
 the masses and widths together moves C const (s free) by at most
-0.43σ (in s) and raises its c c̄ floor from 10.3 to 10.7 MeV; see
+0.44σ (in s) and raises its c c̄ floor from 10.3 to 10.7 MeV; see
 [`tables.md`](tables.md#masses-and-widths-fitted-together-study). The selection keeps the widths out of the
 fit, so that the masses are not traded for the widths.
 
@@ -582,8 +582,8 @@ floor proportional to ⟨p⁴⟩ improves LOO but worsens LMO.
   rejections, and all three verdicts are reported.
 - **Width theory.** NLO only, with a scale band that reaches α_s ≈ 0.5 in c c̄. Relativistic corrections enter
   only through the ⟨v²⟩Γ error term.
-- **Stale parts after the S–D sign fix.** The decay posterior predictive p-values, the mass-and-width fit study,
-  the joint-fit widths and the figures were not recomputed (see the note at the top). Configurations outside the
+- **Stale parts after the S–D sign fix.** The decay posterior predictive p-values,
+  the joint-fit widths and the figures were not recomputed (see the note at the top; the mass-and-width study was). Configurations outside the
   physical set were not refreshed either, so their stored Γ_ee of S–D mixed states still carry the old sign; the
   one tried, B frozen smeared with fitted μ_s (b b̄), failed the reproduction check of the refresh (the fixed-floor
   refit did not return the stored χ² and θ) and was left unwritten.

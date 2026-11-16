@@ -8,6 +8,8 @@ line and its JSON output.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-17
+
 ### Fixed
 
 - **obs**: the S–D mixed leptonic width had the D-wave amplitude with the wrong sign. In the Condon–Shortley
@@ -27,6 +29,10 @@ line and its JSON output.
 
 ### Changed
 
+- **analysis**: the mass-and-width study (`widths` sweep) was recomputed for the 12 models with S–D mixing in H
+  after the sign fix; the parameters move by at most 1.2σ, and `mass_width_fit.csv` and `tables.md` are updated.
+- **docs**: the description of the leptonic amplitude in `analysis/analyze.py` and `tables.md` had the old sign
+  (`R_S + 5R″_D/…`); it now reads `R_S − 5R″_D/…`.
 - **analysis**: the best compromise is the model whose worst failed check is the mildest, graded in standard
   deviations (`selection.py`, `model_selection.best_compromise`), not the model with the fewest failures. The
   physical set now names B APT (2.2σ) in place of C const (s free) (4.1σ). The count rule stays as
@@ -40,6 +46,9 @@ line and its JSON output.
 
 ### Added
 
+- **release**: `.zenodo.json` and an updated `CITATION.cff` for the archive at Zenodo; the fit results of the
+  paper (`results/main`, `floor2`, `nested`, `widths`, `joint2`, `cv`, `stats`) as `results-archive/results-v1.1.0.tar.gz`
+  with its SHA-256, and the instructions to unpack them (`results-archive/README.md`).
 - **tests**: `tests/data/pdg-subset.sqlite`, a 725 kB extract of the PDG file for the fitted states (CC BY 4.0),
   and `tests/pdg_path.hpp`; the fit, run and validation tests now run in CI instead of skipping. 6j symmetry
   and triangle tests and a test of the E1 angular factor for every multiplet and its sum rule.

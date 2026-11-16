@@ -1394,48 +1394,49 @@ The measured widths of the fitted states added to the χ² with their experiment
 
 | configuration | system | σ_th masses only (MeV) | with widths | χ²/N widths | p | largest shift | (σ) |
 |---|---|---|---|---|---|---|---|
-| A APT smeared | ccbar | 7.31 | 9.00 | 1.79 | 0.0966 | sigma | -1.28 |
-| A APT smeared | bbar | 2.27 | 2.28 | 2.00 | 0.112 | sigma | -0.28 |
-| A frozen smeared | ccbar | 7.39 | 8.78 | 1.59 | 0.145 | sigma | -1.17 |
-| A frozen smeared | bbar | 2.51 | 2.52 | 2.67 | 0.046 | sigma | -0.37 |
-| A GI run smeared | ccbar | 7.30 | 8.67 | 1.68 | 0.122 | sigma | -1.18 |
-| A GI run smeared | bbar | 3.07 | 3.10 | 3.11 | 0.0251 | sigma | -0.45 |
-| B APT smeared | ccbar | 8.24 | 10.69 | 1.45 | 0.191 | sigma | -1.29 |
-| B APT smeared | bbar | 3.11 | 3.25 | 4.58 | 0.00329 | sigma | -0.79 |
-| B GI run smeared | ccbar | 7.76 | 9.76 | 1.47 | 0.186 | sigma | -1.24 |
-| B GI run smeared | bbar | 4.23 | 4.61 | 6.26 | 0.000305 | sigma | -1.04 |
-| B frozen smeared | ccbar | 9.21 | 11.94 | 1.30 | 0.254 | sigma | -1.25 |
-| B frozen smeared | bbar | 3.63 | 3.93 | 5.85 | 0.000546 | sigma | -1.01 |
+| A APT smeared | ccbar | 7.31 | 8.89 | 1.79 | 0.0976 | sigma | -1.23 |
+| A APT smeared | bbar | 2.27 | 2.27 | 1.32 | 0.267 | b | 0.03 |
+| A frozen smeared | ccbar | 7.39 | 8.58 | 1.56 | 0.154 | sigma | -1.07 |
+| A frozen smeared | bbar | 2.51 | 2.50 | 1.80 | 0.144 | sigma | -0.03 |
+| A GI run smeared | ccbar | 7.30 | 8.53 | 1.66 | 0.127 | sigma | -1.10 |
+| A GI run smeared | bbar | 3.07 | 3.07 | 2.25 | 0.0806 | b | 0.06 |
+| B APT smeared | ccbar | 8.24 | 10.08 | 1.41 | 0.204 | sigma | -1.11 |
+| B APT smeared | bbar | 3.11 | 3.11 | 2.80 | 0.0387 | sigma | 0.09 |
+| B GI run smeared | ccbar | 7.76 | 9.11 | 1.38 | 0.219 | sigma | -1.03 |
+| B GI run smeared | bbar | 4.23 | 4.26 | 4.13 | 0.00613 | sigma | 0.43 |
+| B frozen smeared | ccbar | 9.21 | 10.87 | 1.19 | 0.308 | sigma | -0.99 |
+| B frozen smeared | bbar | 3.63 | 3.64 | 3.56 | 0.0136 | sigma | 0.32 |
 | A const | ccbar | 8.34 | 8.36 | 1.14 | 0.336 | b | -0.09 |
 | A const | bbar | 5.47 | 5.44 | 0.08 | 0.971 | alpha_s | -0.12 |
-| C const (s free) | ccbar | 10.31 | 10.66 | 1.17 | 0.319 | s | -0.43 |
-| C const (s free) | bbar | 3.50 | 3.49 | 0.41 | 0.748 | s | 0.13 |
-| D const (s free) | ccbar | 11.66 | 12.02 | 1.12 | 0.35 | s | -0.39 |
-| D const (s free) | bbar | 2.07 | 2.07 | 0.53 | 0.66 | s | 0.14 |
+| C const (s free) | ccbar | 10.31 | 10.68 | 1.16 | 0.324 | s | -0.44 |
+| C const (s free) | bbar | 3.50 | 3.49 | 0.25 | 0.861 | s | 0.12 |
+| D const (s free) | ccbar | 11.66 | 12.03 | 1.11 | 0.356 | s | -0.39 |
+| D const (s free) | bbar | 2.07 | 2.07 | 0.31 | 0.82 | s | 0.14 |
 | B const | ccbar | 13.57 | 13.61 | 1.05 | 0.39 | b | -0.20 |
 | B const | bbar | 3.16 | 3.15 | 0.43 | 0.729 | sigma | -0.09 |
 | A GI run | ccbar | 14.36 | 14.28 | 0.91 | 0.488 | sigma | -0.24 |
 | A GI run | bbar | 3.14 | 3.16 | 2.85 | 0.0359 | sigma | -0.33 |
-| A const smeared | ccbar | 14.78 | 18.00 | 0.97 | 0.443 | sigma | -1.17 |
-| A const smeared | bbar | 6.03 | 5.97 | 0.08 | 0.97 | sigma | -0.03 |
-| C GI run (s free) | ccbar | 14.30 | 15.28 | 1.07 | 0.38 | s | -0.76 |
-| C GI run (s free) | bbar | 7.20 | 7.19 | 0.90 | 0.438 | b | -0.06 |
+| A const smeared | ccbar | 14.78 | 17.98 | 0.95 | 0.46 | sigma | -1.10 |
+| A const smeared | bbar | 6.03 | 6.00 | 0.07 | 0.975 | alpha_s | -0.11 |
+| C GI run (s free) | ccbar | 14.30 | 15.41 | 1.03 | 0.4 | s | -0.82 |
+| C GI run (s free) | bbar | 7.20 | 7.49 | 1.28 | 0.279 | s | -0.84 |
 | A frozen | ccbar | 15.95 | 15.87 | 0.91 | 0.485 | b | -0.28 |
 | A frozen | bbar | 2.89 | 2.90 | 2.37 | 0.0687 | sigma | -0.28 |
-| D GI run (s free) | ccbar | 16.53 | 17.63 | 0.99 | 0.433 | s | -0.74 |
-| D GI run (s free) | bbar | 2.67 | 2.67 | 0.34 | 0.799 | b | -0.02 |
+| D GI run (s free) | ccbar | 16.53 | 17.73 | 0.96 | 0.45 | s | -0.78 |
+| D GI run (s free) | bbar | 2.67 | 2.68 | 0.87 | 0.456 | s | -0.35 |
 | B GI run | ccbar | 16.61 | 16.51 | 0.94 | 0.462 | b | -0.34 |
 | B GI run | bbar | 4.20 | 4.36 | 5.66 | 0.000711 | sigma | -0.69 |
 | B APT | ccbar | 17.49 | 17.32 | 0.91 | 0.483 | b | -0.30 |
 | B APT | bbar | 3.47 | 3.52 | 3.93 | 0.00818 | sigma | -0.50 |
-| B const smeared | ccbar | 18.99 | 22.94 | 0.69 | 0.66 | sigma | -0.99 |
-| B const smeared | bbar | 3.72 | 3.74 | 1.00 | 0.393 | sigma | -0.42 |
+| B const smeared | ccbar | 18.99 | 21.75 | 0.64 | 0.702 | sigma | -0.80 |
+| B const smeared | bbar | 3.72 | 3.71 | 0.31 | 0.821 | b | 0.03 |
 | B frozen | ccbar | 19.04 | 18.92 | 0.94 | 0.463 | b | -0.38 |
 | B frozen | bbar | 3.88 | 4.00 | 5.08 | 0.00162 | sigma | -0.64 |
 
+
 ## Annihilation widths (best compromise, then the three lowest floors of the physical set; keV)
 
-LO: Van Royen–Weisskopf (vector states: |R_S(0) + 5R″_D(0)/(2√2 m²)|², so the S–D mixed ψ(3770) is included). NLO: × one-loop QCD factor with the MS-bar α_s at μ = M/2 (band μ = M/4 … M); the series converges poorly in charmonium. PDG values marked * are summary-table branching fraction × total width.
+LO: Van Royen–Weisskopf (vector states: |R_S(0) − 5R″_D(0)/(2√2 m²)|², so the S–D mixed ψ(3770) is included). NLO: × one-loop QCD factor with the MS-bar α_s at μ = M/2 (band μ = M/4 … M); the series converges poorly in charmonium. PDG values marked * are summary-table branching fraction × total width.
 
 | configuration | state | process | LO | NLO | ± par | ± th | band lo | band hi | PDG | ± | * | pull |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
