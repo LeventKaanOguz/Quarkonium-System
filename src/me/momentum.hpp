@@ -35,4 +35,22 @@ Mat sandwich_two_step(const Basis& bra, const Basis& ket,
                       const std::function<double(double)>& W,
                       double rmax = 40.0);
 
+/// Radial quadrature of the two-step method: nodes r_q and weights w_q
+/// (without the r^2 of the measure), geometric panels toward the origin and
+/// 16-point Gauss-Legendre in each.
+struct RadialGrid {
+  Vec r, w;
+};
+RadialGrid radial_grid(double rmax);
+
+/// chi_n(r_q) = [f(p) R_n](r_q) for all n (rows: nodes, columns: basis
+/// functions). One table serves every W(r) sandwiched between the same f.
+Mat hankel_chi(const Basis& B, const std::function<double(double)>& f,
+               const RadialGrid& grid);
+
+/// <f W g>_{n'n} = Int r^2 chi_bra,n' W chi_ket,n dr from two tables.
+Mat sandwich_from_chi(const Mat& chi_bra, const Mat& chi_ket,
+                      const RadialGrid& grid,
+                      const std::function<double(double)>& W);
+
 }  // namespace qgem

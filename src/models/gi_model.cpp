@@ -198,6 +198,76 @@ ChannelMatrices GIModel::assemble(const Channel& ch, const Vec& th,
   auto phi = [&](const Basis& B, double ma, double mb, double e) -> const Mat& {
     return momentum(kPhi, B, ma, mb, e);
   };
+
+  // ---- closure-free sandwiches (opt_.exact_sandwich) ----------------------
+  // the radial functions that sit between the momentum factors
+  auto erf_r = [](double t, double r) {
+    const double z = t * r;
+    return z < 1e-4 ? 2.0 * t / std::sqrt(kPi) * (1.0 - z * z / 3.0)
+                    : std::erf(z) / r;
+  };
+  const double Kc_w = 2.0 / (3.0 * m1 * m2) * 16.0 * kPi / 3.0;
+  const std::function<double(double)> Wfun_G = [&](double r) {
+    double v = 0;
+    for (int k = 0; k < 3; ++k) v += -4.0 / 3.0 * alpha[k] * erf_r(tau[k], r);
+    return v;
+  };
+  const std::function<double(double)> Wfun_contact = [&](double r) {
+    double v = 0;
+    for (int k = 0; k < 3; ++k)
+      v += Kc_w * alpha[k] * std::pow(tau[k], 3) / std::pow(kPi, 1.5) *
+           std::exp(-tau[k] * tau[k] * r * r);
+    return v;
+  };
+  const std::function<double(double)> Wfun_T = [&](double r) {
+    double v = 0;
+    for (int k = 0; k < 3; ++k)
+      v += -4.0 / 3.0 * alpha[k] * coulomb_tensor(tau[k], r);
+    return v;
+  };
+  const std::function<double(double)> Wfun_Gp = [&](double r) {
+    double v = 0;
+    for (int k = 0; k < 3; ++k)
+      v += -4.0 / 3.0 * alpha[k] * coulomb_gp_over_r(tau[k], r);
+    return v;
+  };
+  const std::function<double(double)> Wfun_Sp = [&](double r) {
+    if (!opt_.screened) return b * smeared_r_prime_over_r(sig, r);
+    return -b / mu * smeared_exp_prime(sig, mu, r) / r;
+  };
+  RadialGrid grid;
+  if (opt_.exact_sandwich) grid = radial_grid(opt_.exact_rmax);
+  std::map<std::tuple<int, int, double, double, double>, Mat> chimemo;
+  auto fun_of = [&](Kind kind, double ma, double mb, double e) {
+    return std::function<double(double)>([=](double p) {
+      switch (kind) {
+        case kPhi:
+          return std::pow(ma * mb / (Ea(ma, p) * Ea(mb, p)), 0.5 + e);
+        case kKinetic:
+          return Ea(ma, p) + Ea(mb, p);
+        case kFG:
+          break;
+      }
+      return std::sqrt(1.0 + p * p / (Ea(ma, p) * Ea(mb, p)));
+    });
+  };
+  auto chi_of = [&](Kind kind, const Basis& B, double ma, double mb,
+                    double e) -> const Mat& {
+    const auto key = std::make_tuple(static_cast<int>(kind), B.L,
+                                     std::min(ma, mb), std::max(ma, mb), e);
+    auto it = chimemo.find(key);
+    if (it != chimemo.end()) return it->second;
+    return chimemo
+        .emplace(key, hankel_chi(B, fun_of(kind, ma, mb, e), grid))
+        .first->second;
+  };
+  // <f W f> in the original basis, bra basis Bb and ket basis Bk
+  auto sand = [&](Kind kind, double ma, double mb, double e, const Basis& Bb,
+                  const Basis& Bk,
+                  const std::function<double(double)>& W) -> Mat {
+    return sandwich_from_chi(chi_of(kind, Bb, ma, mb, e),
+                             chi_of(kind, Bk, ma, mb, e), grid, W);
+  };
   std::vector<Prim> P(ch.comps.size());
   for (std::size_t i = 0; i < ch.comps.size(); ++i) {
     const int L = ch.comps[i].L;
@@ -228,8 +298,12 @@ ChannelMatrices GIModel::assemble(const Channel& ch, const Vec& th,
       P[i].Gp = pr(Gp_matrix(B, B));
       P[i].Sp = pr(Sp_matrix(B));
     }
-    Hp.block(offp[i], offp[i], X.cols(), X.cols()) +=
-        P[i].K + P[i].FG * P[i].G * P[i].FG + P[i].Sconf;
+    if (opt_.exact_sandwich)
+      Hp.block(offp[i], offp[i], X.cols(), X.cols()) +=
+          P[i].K + pr(sand(kFG, m1, m2, 0.0, B, B, Wfun_G)) + P[i].Sconf;
+    else
+      Hp.block(offp[i], offp[i], X.cols(), X.cols()) +=
+          P[i].K + P[i].FG * P[i].G * P[i].FG + P[i].Sconf;
   }
 
   // spin-orbit coefficient matrices A (coefficient of L.S) and B (coefficient
@@ -238,12 +312,26 @@ ChannelMatrices GIModel::assemble(const Channel& ch, const Vec& th,
     const Prim& q = P[i];
     // a_k = Phi_kk^{sov} Gp/(2 m_k^2) Phi_kk^{sov} + Phi_12^{sov} Gp/(m1 m2)
     // Phi_12^{sov} - Phi_kk^{sos} Sp/(2 m_k^2) Phi_kk^{sos}
-    const Mat a1 = q.Phi_v11 * q.Gp * q.Phi_v11 / (2 * m1 * m1) +
-                   q.Phi_v12 * q.Gp * q.Phi_v12 / (m1 * m2) -
-                   q.Phi_s11 * q.Sp * q.Phi_s11 / (2 * m1 * m1);
-    const Mat a2 = q.Phi_v22 * q.Gp * q.Phi_v22 / (2 * m2 * m2) +
-                   q.Phi_v12 * q.Gp * q.Phi_v12 / (m1 * m2) -
-                   q.Phi_s22 * q.Sp * q.Phi_s22 / (2 * m2 * m2);
+    Mat a1, a2;
+    if (opt_.exact_sandwich) {
+      const Basis& B = cache.basis(ch.comps[i].L);
+      const Mat& X = Xs[i];
+      auto pr = [&](const Mat& M) { return Mat(X.transpose() * M * X); };
+      const Mat v12 = pr(sand(kPhi, m1, m2, eps[2], B, B, Wfun_Gp));
+      a1 = pr(sand(kPhi, m1, m1, eps[2], B, B, Wfun_Gp)) / (2 * m1 * m1) +
+           v12 / (m1 * m2) -
+           pr(sand(kPhi, m1, m1, eps[3], B, B, Wfun_Sp)) / (2 * m1 * m1);
+      a2 = pr(sand(kPhi, m2, m2, eps[2], B, B, Wfun_Gp)) / (2 * m2 * m2) +
+           v12 / (m1 * m2) -
+           pr(sand(kPhi, m2, m2, eps[3], B, B, Wfun_Sp)) / (2 * m2 * m2);
+    } else {
+      a1 = q.Phi_v11 * q.Gp * q.Phi_v11 / (2 * m1 * m1) +
+           q.Phi_v12 * q.Gp * q.Phi_v12 / (m1 * m2) -
+           q.Phi_s11 * q.Sp * q.Phi_s11 / (2 * m1 * m1);
+      a2 = q.Phi_v22 * q.Gp * q.Phi_v22 / (2 * m2 * m2) +
+           q.Phi_v12 * q.Gp * q.Phi_v12 / (m1 * m2) -
+           q.Phi_s22 * q.Sp * q.Phi_s22 / (2 * m2 * m2);
+    }
     A = 0.5 * (a1 + a2);
     Bm = 0.5 * (a1 - a2);
   };
@@ -260,13 +348,23 @@ ChannelMatrices GIModel::assemble(const Channel& ch, const Vec& th,
     for (int k = 0; k < 3; ++k)
       Wc += Kc * alpha[k] * std::pow(tau[k], 3) / std::pow(kPi, 1.5) *
             gaussian(B, B, tau[k] * tau[k]);
-    Hp.block(o, o, nk, nk) +=
-        s1s2(S) * P[i].Phi_c * (X.transpose() * Wc * X) * P[i].Phi_c;
+    if (opt_.exact_sandwich)
+      Hp.block(o, o, nk, nk) +=
+          s1s2(S) * Mat(X.transpose() *
+                        sand(kPhi, m1, m2, eps[0], B, B, Wfun_contact) * X);
+    else
+      Hp.block(o, o, nk, nk) +=
+          s1s2(S) * P[i].Phi_c * (X.transpose() * Wc * X) * P[i].Phi_c;
     if (L >= 1 && S == 1) {
       Mat Wt = T_matrix(B, B);
-      Hp.block(o, o, nk, nk) += s12_diag(L, J) * (1.0 / (12 * m1 * m2)) *
-                                P[i].Phi_t * (X.transpose() * Wt * X) *
-                                P[i].Phi_t;
+      if (opt_.exact_sandwich)
+        Hp.block(o, o, nk, nk) +=
+            s12_diag(L, J) * (1.0 / (12 * m1 * m2)) *
+            Mat(X.transpose() * sand(kPhi, m1, m2, eps[1], B, B, Wfun_T) * X);
+      else
+        Hp.block(o, o, nk, nk) += s12_diag(L, J) * (1.0 / (12 * m1 * m2)) *
+                                  P[i].Phi_t * (X.transpose() * Wt * X) *
+                                  P[i].Phi_t;
       Mat A, Bm;
       so_AB(i, A, Bm);
       Hp.block(o, o, nk, nk) += ls(L, S, J) * A;
@@ -278,8 +376,13 @@ ChannelMatrices GIModel::assemble(const Channel& ch, const Vec& th,
     Mat off12 = Mat::Zero(Xs[0].cols(), Xs[1].cols());
     if (c1.S == 1 && c2.S == 1 && c1.L != c2.L) {
       const Mat Wt12 = T_matrix(B1, B2);
-      off12 = s12_offdiag(ch.J) * (1.0 / (12 * m1 * m2)) * P[0].Phi_t *
-              (Xs[0].transpose() * Wt12 * Xs[1]) * P[1].Phi_t;
+      if (opt_.exact_sandwich)
+        off12 = s12_offdiag(ch.J) * (1.0 / (12 * m1 * m2)) *
+                Mat(Xs[0].transpose() *
+                    sand(kPhi, m1, m2, eps[1], B1, B2, Wfun_T) * Xs[1]);
+      else
+        off12 = s12_offdiag(ch.J) * (1.0 / (12 * m1 * m2)) * P[0].Phi_t *
+                (Xs[0].transpose() * Wt12 * Xs[1]) * P[1].Phi_t;
     } else if (c1.L == c2.L && c1.S == 0 && c2.S == 1 && c1.L >= 1) {
       Mat A, Bm;
       so_AB(0, A, Bm);

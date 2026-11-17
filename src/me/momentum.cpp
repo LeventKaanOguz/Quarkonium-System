@@ -82,9 +82,7 @@ Mat hankel_table(const Basis& B, const std::function<double(double)>& f,
 
 }  // namespace
 
-Mat sandwich_two_step(const Basis& bra, const Basis& ket,
-                      const std::function<double(double)>& f,
-                      const std::function<double(double)>& W, double rmax) {
+RadialGrid radial_grid(double rmax) {
   // radial nodes: geometric panels toward the origin (narrow functions) up to
   // rmax, 16-point Gauss-Legendre each
   const QuadRule& g = gauss_legendre01(16);
@@ -97,16 +95,36 @@ Mat sandwich_two_step(const Basis& bra, const Basis& ket,
       r.push_back(edges[a] + g.x(k) * (edges[a + 1] - edges[a]));
       wr.push_back(g.w(k) * (edges[a + 1] - edges[a]));
     }
-  Vec rv = Eigen::Map<Vec>(r.data(), r.size());
-  const Mat chib = hankel_table(bra, f, rv),
+  RadialGrid out;
+  out.r = Eigen::Map<Vec>(r.data(), r.size());
+  out.w = Eigen::Map<Vec>(wr.data(), wr.size());
+  return out;
+}
+
+Mat hankel_chi(const Basis& B, const std::function<double(double)>& f,
+               const RadialGrid& grid) {
+  return hankel_table(B, f, grid.r);
+}
+
+Mat sandwich_from_chi(const Mat& chi_bra, const Mat& chi_ket,
+                      const RadialGrid& grid,
+                      const std::function<double(double)>& W) {
+  Vec wq(grid.r.size());
+  for (int q = 0; q < grid.r.size(); ++q)
+    wq(q) = grid.w(q) * grid.r(q) * grid.r(q) * W(grid.r(q));
+  return chi_bra.transpose() * wq.asDiagonal() * chi_ket;
+}
+
+Mat sandwich_two_step(const Basis& bra, const Basis& ket,
+                      const std::function<double(double)>& f,
+                      const std::function<double(double)>& W, double rmax) {
+  const RadialGrid grid = radial_grid(rmax);
+  const Mat chib = hankel_chi(bra, f, grid),
             chik = (ket.L == bra.L && ket.nu.size() == bra.nu.size() &&
                     (ket.nu - bra.nu).norm() == 0)
                        ? chib
-                       : hankel_table(ket, f, rv);
-  Vec wq(r.size());
-  for (std::size_t q = 0; q < r.size(); ++q)
-    wq(q) = wr[q] * r[q] * r[q] * W(r[q]);
-  return chib.transpose() * wq.asDiagonal() * chik;
+                       : hankel_chi(ket, f, grid);
+  return sandwich_from_chi(chib, chik, grid, W);
 }
 
 }  // namespace qgem

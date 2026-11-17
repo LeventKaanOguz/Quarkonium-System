@@ -8,6 +8,33 @@ line and its JSON output.
 
 ## [Unreleased]
 
+### Added
+
+- **me/models**: closure-free evaluation of the Godfrey–Isgur f(p) W(r) f(p) sandwiches, `qgem --gi-sandwich
+  exact` (`GIModelOptions::exact_sandwich`). Every basis function is Hankel-transformed once, χₙ(r) =
+  √(2/π) ∫ p² j_l(pr) f(p) R̃ₙ(p) dp, and ⟨fWf⟩ = ∫ r² χₘ W χₙ dr is integrated on a Gauss–Legendre grid, so the
+  matrix is exact for the basis (a rigorous variational bound, no closure in the orthonormal basis). It applies to
+  the Coulomb, contact, tensor and spin–orbit sandwiches. Slow (≈ 100 s against 0.2 s for the table below).
+  Result at the published BGS (m_c = 1.628) and GM (m_b = 4.977) parameters (`qgem_study gi-levels`): the four
+  lowest levels of every channel up to L = 3 move by ≤ 0.03 MeV, the median level by 0.01 MeV; the closure is not
+  the origin of the difference to the published S waves (Sec. 7 of the paper). Test
+  `GI.ExactSandwichesAgreeWithClosureForTheLowLyingLevels`.
+- **apps**: `qgem_study`, small reproducible studies that evaluate a model without a fit: `gi-levels` (GI spectrum at
+  given parameters, closure or exact), `contact-r0` (|R(0)|² of the 1S and 2S states with the contact term outside
+  and inside H, as a function of the smearing σ).
+- **models**: the one-loop short-distance static potential for Models A/B with constant coupling,
+  `qgem --one-loop [--mu-ref GeV]` (`NRModelOptions::one_loop_nf`, `one_loop_mu`):
+  V = −(C_F α_s/r)[1 + (α_s/4π)(a₁ + 2β₀γ_E + 2β₀ ln μr)], a₁ = 31/3 − 10 n_f/9, β₀ = 11 − 2n_f/3, n_f = 3 for
+  c c̄ (and the B_c) and 4 for b b̄. The spin–orbit and tensor terms follow from the same potential (first order,
+  `--spin first`): V′/r → κ[(1 + c₀ − c₁) + c₁ ln r]/r³, V′/r − V″ → κ[3(1 + c₀) − 4c₁ + 3c₁ ln r]/r³. The new
+  matrix elements ⟨rᵏ ln r⟩ are analytic (digamma). Tests: levels against the independent finite-difference
+  solver, the W matrix of ³P₂ against quadrature with numerical derivatives, Feynman–Hellmann gradients. The
+  one-loop spin–spin (contact) correction is not included. α_s is the coupling at μ_ref (default 1 GeV); the fits
+  depend on it (see the paper, Sec. 6), 2–3 GeV is the sensible range.
+- **report**: the B_c prediction carries an interpolation systematic, the largest shift of the mass under three
+  alternative interpolation rules (linear in the reduced mass, in its logarithm, in its inverse) of the parameters
+  between the c c̄ and b b̄ fits; the JSON has `sigma_interp_GeV`, and the pull of the B_c includes it.
+
 ## [1.1.0] - 2026-11-17
 
 ### Fixed

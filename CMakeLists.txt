@@ -68,6 +68,10 @@ else()
 endif()
 target_compile_definitions(qgem_cli PRIVATE QGEM_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 
+# Reproducible studies that evaluate a model at given parameters (no fit).
+add_executable(qgem_study src/apps/study.cpp)
+target_link_libraries(qgem_study PRIVATE qgem)
+
 enable_testing()
 file(GLOB TEST_SOURCES CONFIGURE_DEPENDS tests/test_*.cpp)
 add_executable(qgem_tests ${TEST_SOURCES})

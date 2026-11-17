@@ -21,6 +21,10 @@ Mat kinetic_nr(const Basis& b, double mr);
 /// (l+l')/2. Requires l + l' + 3 + k > 0.
 Mat r_power(const Basis& bra, const Basis& ket, double k);
 
+/// <r^k ln r> = d/dk <r^k>: N' N Gamma(s) (psi(s) - ln a) / (4 a^s), s = l_bar +
+/// (k+3)/2 (real bases only). The log of the one-loop static potential.
+Mat r_power_log(const Basis& bra, const Basis& ket, double k);
+
 /// <r^k exp(-beta r^2)> (default k = 0), beta >= 0, l + l' + 3 + k > 0.
 Mat gaussian(const Basis& bra, const Basis& ket, double beta, double k = 0.0);
 

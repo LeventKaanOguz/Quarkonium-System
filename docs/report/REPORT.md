@@ -593,14 +593,20 @@ floor proportional to ⟨p⁴⟩ improves LOO but worsens LMO.
   `joint2`, `widths`, `stats`) carries the corrected sign. The other sweeps (`cv`, `nested`, `bgrid`, `shape`,
   `rel`, …) store widths too, but the analysis reads none of them, and they were not refit.
 - **Global minimum.** Two minimisers and nested seeding give the best minima found, not provably global ones.
-- **B_c.** The parameters are interpolated between the systems, or taken from the joint fit. The
-  interpolation systematic is not included.
+- **B_c.** The parameters are interpolated between the systems, or taken from the joint fit. Since v1.2.0 the
+  largest shift of the mass under three alternative interpolation rules (linear in r, in ln r, in 1/r, r the reduced
+  mass) is reported as `sigma_interp_GeV`: 50, 22, 77 and 2 MeV for the representatives A–D, against parametric errors
+  of 9, 33, 14 and 6 MeV and misses of −39, −30, −26 and +2 MeV.
 
 Planned for v2.0.0 ([`../../ROADMAP.md`](../../ROADMAP.md)):
 
 - the log-form decay test and its posterior predictive check in the C++ output;
-- a momentum-space solver;
+- the one-loop hyperfine term and the one-loop potential for the running-coupling models;
 - coupled channels above threshold.
+
+Done in v1.2.0: a closure-free (momentum-space) evaluation of the Godfrey–Isgur sandwiches, `--gi-sandwich exact`: at
+the published parameters it moves the four lowest levels of every channel by ≤ 0.03 MeV, so the closure is not a source
+of error at the level of the model; and the one-loop short-distance potential for A/B (`--one-loop`).
 
 ## 9. Reproducing
 

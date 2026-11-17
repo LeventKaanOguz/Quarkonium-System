@@ -58,6 +58,13 @@ fit
                          n = 10, 19, 37, 73, 145; smallest n below MeV
   --eta X                overlap-eigenvalue cut of the orthogonalisation
   --gi-nq N              quadrature nodes of the GI momentum integrals (64)
+  --gi-sandwich closure|exact   how C/D evaluate f(p) W(r) f(p): closure in the
+                         orthonormal basis (default), or exactly by a Hankel
+                         table (momentum space; slow, for validation)
+  --one-loop             A/B with --running const: one-loop short-distance
+                         static potential (Fischler/Billoire), nf = 3 (c c-bar,
+                         and the B_c) or 4 (b b-bar); alpha_s is then defined at
+  --mu-ref GeV           this scale (default 1)
   --optimize-basis       variational (r1, rmax) per system, alternated with
                          the fit (minimises the sum of the levels used)
   --bootstrap B          parametric bootstrap replicas
@@ -256,6 +263,16 @@ int main(int argc, char** argv) {
         o.basis.eta = std::stod(val());
       else if (k == "--gi-nq")
         o.gi_nq = std::stoi(val());
+      else if (k == "--gi-sandwich") {
+        const std::string v = val();
+        if (v != "closure" && v != "exact")
+          throw std::runtime_error("--gi-sandwich: closure or exact");
+        o.gi_exact = v == "exact";
+      }
+      else if (k == "--one-loop")
+        o.one_loop = true;
+      else if (k == "--mu-ref")
+        o.mu_ref = std::stod(val());
       else if (k == "--optimize-basis")
         o.optimize_basis = true;
       else if (k == "--kfold")

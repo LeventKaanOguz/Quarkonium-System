@@ -41,6 +41,15 @@ struct NRModelOptions {
   /// Coulomb -kappa/r the operator is bounded below only for kappa <= 2/pi
   /// (Herbst).
   bool relativistic_kinetic = false;
+  /// One-loop short-distance static potential (Fischler; Billoire), constant
+  /// coupling only, spin None or FirstOrder: V(r) = -(C_F alpha_s/r) [1 +
+  /// (alpha_s/4pi)(a1 + 2 beta0 gamma_E + 2 beta0 ln(mu r))], a1 = 31/3 -
+  /// 10 nf/9, beta0 = 11 - 2 nf/3. The spin-orbit and tensor terms follow from
+  /// the same potential (first order). one_loop_nf < 0: off. alpha_s is the
+  /// coupling at the scale one_loop_mu (GeV); the fit trades that scale
+  /// against alpha_s at this order.
+  double one_loop_nf = -1.0;
+  double one_loop_mu = 1.0;
 };
 
 enum NRParam { kM1 = 0, kM2, kAlphaS, kB, kC, kSigma, kMuS, kNRParams };

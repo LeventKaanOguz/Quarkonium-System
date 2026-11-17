@@ -25,7 +25,7 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 | `Analytic.*` (`test_analytic`) | every smeared matrix element used by the models is **exact**: erf/r, g'/r, tensor, r~, r~'/r, (e^{−μr})~ and its derivative (transfer lemmas with exact Taylor jets), J_s recursion | the pointwise functions integrated by quadrature (`local`, kept only as the reference) |
 | `Run.*` (`test_run`) | the default run prints every PDG state, reproduces σ_th = 8.344 MeV; model / running / c choices | notes §10.10; error handling |
 | `Smeared.*` (`test_smeared`) | r̃, (e^{−μr})~ and their derivatives in the stable erfcx form | the radial convolution formula (6.9) by quadrature |
-| `GI.*` (`test_gi`) | Hermiticity, closure vs two-step, D→C limit, FH, B_c; **31 charmonium levels of Table I of Barnes–Godfrey–Swanson** (hep-ph/0505002, GI column, read from the paper): S, P, D, F and S–D mixed levels within 3 MeV, the 1S doublet 7–8 MeV low (hyperfine splitting agrees; basis converged to 0.01 MeV) | the paper's Table I; bottomonium: the solver with the Godfrey–Moats parameters agrees with Table I of Godfrey and Moats (PRD 92, 054034) for 39 S and P levels, 32 within 3 MeV, largest 11.8 MeV (ours lower; `gi_compare.py` in the paper repository); the notes' recalled bottomonium numbers are kept only as a smoke test |
+| `GI.*` (`test_gi`) | Hermiticity, closure vs two-step, **closure vs exact (Hankel) sandwiches ≤ 5×10⁻⁵ GeV for the three lowest levels**, D→C limit, FH, B_c; **31 charmonium levels of Table I of Barnes–Godfrey–Swanson** (hep-ph/0505002, GI column, read from the paper): S, P, D, F and S–D mixed levels within 3 MeV, the 1S doublet 7–8 MeV low (hyperfine splitting agrees; basis converged to 0.01 MeV) | the paper's Table I; bottomonium: the solver with the Godfrey–Moats parameters agrees with Table I of Godfrey and Moats (PRD 92, 054034) for 39 S and P levels, 32 within 3 MeV, largest 11.8 MeV (ours lower; `gi_compare.py` in the paper repository); the notes' recalled bottomonium numbers are kept only as a smoke test |
 | `AlphaS.GaussianSumShapes*` (`test_alpha_s`) | frozen and APT shapes as non-negative Gaussian sums, Σw = 1, ≤ 5 % for 0.05 < Q < 50 GeV; a confining form is refused | the analytic couplings |
 | `Chi2Problem.CollapsedSpectrum*` (`test_fit`) | a point-like contact term (σ = 1000 GeV) collapses the 1S0 channel and the χ² refuses the point | physical requirement (H bounded below) |
 | `Run.SeedFromAnotherMinimiser*` (`test_run`) | a `--start` point (the Minuit2 minimum of A-APT-smeared b b̄, 2.27 MeV) is fitted and kept over the default start, where LM stalls at σ → 0 (107 MeV) | Minuit2 result |
@@ -58,7 +58,7 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 only (PDG data, CC BY 4.0 from the 2024 edition; attribution and the regeneration command are in
 `tests/data/README.md`). The test helper `tests/pdg_path.hpp` uses the full file in `data/` when present and the
 subset otherwise, so the fit, run and validation tests run in CI instead of skipping: with the full file moved aside,
-107 of 107 tests pass and none is skipped. The subset is regenerated, not edited:
+112 of 112 tests pass and none is skipped. The subset is regenerated, not edited:
 `python3 tests/data/make_pdg_subset.py data/pdg-2026.0.sqlite tests/data/pdg-subset.sqlite`.
 
 ## Things that were found, not assumed
@@ -89,4 +89,8 @@ subset otherwise, so the fit, run and validation tests run in CI instead of skip
   (`static_potential`, `SmearedCoulombTable`) and are not wired into the models.
 * The momentum-space kernels of Models C/D (E₁+E₂, the Φ and (1+p²/E₁E₂)^{1/2} factors) are one-dimensional
   generalized Gauss–Laguerre integrals, spectrally accurate (Test 3 to 3×10⁻⁷) but not closed forms.
-* The Bc prediction interpolates the cc̄ and bb̄ parameters in ln(reduced mass); that is an assumption, not a derivation.
+* The Bc prediction interpolates the cc̄ and bb̄ parameters as a power law of the reduced mass; that is an assumption,
+  not a derivation. Three other rules give the interpolation systematic (`sigma_interp_GeV`, since v1.2.0).
+* One-loop potential (`NRModel.OneLoop*`, `test_model`): the spin-independent levels against the independent
+  finite-difference solver (2×10⁻⁶ GeV), the first-order spin operator of ³P₂ against quadrature with numerical
+  derivatives of the potential, Feynman–Hellmann gradients against finite differences.

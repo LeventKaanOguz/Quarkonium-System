@@ -54,7 +54,7 @@ are compared by a full statistical analysis.
 | **C** | √(p²+m²) | Godfrey–Isgur relativized (smeared, momentum-dependent) | `const` `gi` `free` |
 | **D** | √(p²+m²) | C with screened confinement | `const` `gi` `free` |
 
-Options: an additive constant c (`--c on`), the spin treatment of A/B (`--spin none|first|smeared`), a fitted
+Options: an additive constant c (`--c on`), the one-loop short-distance potential of A/B with constant coupling (`--one-loop --mu-ref GeV`), the closure-free GI sandwiches (`--gi-sandwich exact`), the spin treatment of A/B (`--spin none|first|smeared`), a fitted
 screening mass (`--fit-mu-s`), and for C/D the smearing slope s in place of σ₀ (`--fix sigma0=0.1 --free s`).
 That gives 80 configurations, all fitted and compared.
 

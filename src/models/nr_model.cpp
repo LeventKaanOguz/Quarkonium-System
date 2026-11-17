@@ -155,6 +155,25 @@ ChannelMatrices NRModel::build(const Channel& ch, const Vec& th,
   const Dual Bco = Dual(0.25) * (Dual(1.0) / (m1 * m1) -
                                  Dual(1.0) / (m2 * m2));  // antisymmetric LS
 
+  // one-loop static potential: V = -kappa [(1 + c0)/r + c1 ln r / r],
+  // c1 = 2 beta0 alpha_s/(4 pi), c0 = (alpha_s/4 pi)(a1 + 2 beta0 gamma_E +
+  // 2 beta0 ln mu)
+  const bool one_loop = opt_.one_loop_nf >= 0.0;
+  if (one_loop && (opt_.running != Running::Constant ||
+                   opt_.spin == SpinMode::Smeared || opt_.relativistic_kinetic))
+    throw std::invalid_argument(
+        "NRModel::build: the one-loop potential needs a constant coupling, "
+        "spin none|first and the non-relativistic kinetic energy");
+  Dual c0(0.0), c1(0.0);
+  if (one_loop) {
+    const double nf = opt_.one_loop_nf, beta0 = 11.0 - 2.0 * nf / 3.0,
+                 a1 = 31.0 / 3.0 - 10.0 * nf / 9.0,
+                 gE = 0.57721566490153286061;
+    const Dual eps = als / Dual(4.0 * M_PI);
+    c0 = eps * Dual(a1 + 2.0 * beta0 * gE + 2.0 * beta0 * std::log(opt_.one_loop_mu));
+    c1 = eps * Dual(2.0 * beta0);
+  }
+
   // coupling terms and the spin-term widths tau_k(sigma) with dtau/dsigma
   std::vector<Term> terms;
   if (opt_.running == Running::Gaussian && !opt_.shape_w.empty()) {
@@ -283,7 +302,12 @@ ChannelMatrices NRModel::build(const Channel& ch, const Vec& th,
     }
     hb.add(c, cache.overlap(L));
     if (opt_.running == Running::Constant) {
-      hb.add(-kappa, cache.r_power(L, L, -1));
+      if (!one_loop) {
+        hb.add(-kappa, cache.r_power(L, L, -1));  // tree level: unchanged
+      } else {
+        hb.add(-kappa * (Dual(1.0) + c0), cache.r_power(L, L, -1));
+        hb.add(-kappa * c1, r_power_log(B, B, -1.0));
+      }
     } else {
       for (const Term& t : terms)
         hb.add(-kappa * Dual(t.w), erf_over_r(B, B, t.gamma));
@@ -315,10 +339,24 @@ ChannelMatrices NRModel::build(const Channel& ch, const Vec& th,
       // point-like 1/r^3 (finite for L >= 1): a = cV kappa <r^-3> - cS
       // <V_S'/r>;  t = kappa/(4 m1 m2) <r^-3>
       const Block wb = WB(static_cast<int>(i), static_cast<int>(i));
-      wb.add(Dual(o_ls) * cV * kappa, cache.r_power(L, L, -3));
-      vsp(L, L, -Dual(o_ls) * cS, wb);
-      wb.add(Dual(o_t) * kappa / (Dual(4.0) * m1 * m2),
-             cache.r_power(L, L, -3));
+      if (!one_loop) {  // tree level: unchanged
+        wb.add(Dual(o_ls) * cV * kappa, cache.r_power(L, L, -3));
+        vsp(L, L, -Dual(o_ls) * cS, wb);
+        wb.add(Dual(o_t) * kappa / (Dual(4.0) * m1 * m2),
+               cache.r_power(L, L, -3));
+      } else {
+        // one loop: V'/r -> kappa[(1 + c0 - c1) + c1 ln r]/r^3 and
+        // V'/r - V'' -> kappa[3(1 + c0) - 4 c1 + 3 c1 ln r]/r^3
+        wb.add(Dual(o_ls) * cV * kappa * (Dual(1.0) + c0 - c1),
+               cache.r_power(L, L, -3));
+        wb.add(Dual(o_ls) * cV * kappa * c1, r_power_log(B, B, -3.0));
+        vsp(L, L, -Dual(o_ls) * cS, wb);
+        wb.add(Dual(o_t) * kappa / (Dual(12.0) * m1 * m2) *
+                   (Dual(3.0) * (Dual(1.0) + c0) - Dual(4.0) * c1),
+               cache.r_power(L, L, -3));
+        wb.add(Dual(o_t) * kappa / (Dual(12.0) * m1 * m2) * Dual(3.0) * c1,
+               r_power_log(B, B, -3.0));
+      }
     }
     if (smeared_spin && L >= 1 && S == 1) {
       const Block target =

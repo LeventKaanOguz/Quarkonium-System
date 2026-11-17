@@ -15,3 +15,9 @@ recomputed in the `main`, `floor2`, `joint`, `joint2`, `widths` and `stats` swee
 reads (`stats_mcmc/` holds the chains rerun for the `stats` sweep). The sweeps that the analysis does not read for
 widths (`cv`, `nested`, `bgrid`, `shape`, `rel`, `lm`, `minuit`, `bopt`, `floor`, `floor0`) store widths from before
 it (see CHANGELOG).
+
+## Added in v1.2.0
+
+`results-v1.2.0.tar.gz` holds the runs that are not part of the v1.1.0 sweeps: the exact (closure-free) GI levels
+(`qgem_study gi-levels`), the B_c interpolation systematic, the one-loop short-distance potential fits of Models A and
+B at three reference scales, and the contact-term study. Its `README.md` lists the commands.
