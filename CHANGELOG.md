@@ -25,16 +25,22 @@ line and its JSON output.
   compromise is still B APT). Then the same refresh was run on every other configuration with S–D mixing in the
   `main` and `floor2` sweeps (26 and 64 more system fits, all matched), and the `joint` and `joint2` fits of
   the 12 models were refit from their seeds (χ² and θ reproduced to 10⁻⁶, widths updated). The released archive of
-  the first v1.1.0 commit held the `main` and `floor2` JSON *before* this refresh; it is replaced. Only the decay
-  posterior predictive p-values (`stats` sweep) are not recomputed.
+  the first v1.1.0 commit held the `main` and `floor2` JSON *before* this refresh; it is replaced.
+- **analysis**: `rerun_mcmc.py` reruns only the Markov chain of a `stats` run (same seed and steps, no bootstrap
+  or LOO) and writes its widths and decay benchmark into the stored run only if the chain is the stored one
+  (χ², θ, R̂, n_eff, ppp of χ² and posterior summary, to 10⁻⁶). Run on the 14 `stats` runs with S–D mixing in H:
+  the 12 chains of the physical set were reproduced, so their decay posterior predictive p-values are now
+  recomputed. The two contrast models, D GI run and D free run, have chains that do not converge (R̂ up to 2.5,
+  and ≈ 10¹² in c c̄ for D free); their reruns are different chains, which replace the stored ones
+  (`--replace-chain`, marked `"rerun": true`).
 - **analysis**: `validity.mixing_angle` uses the same sign (the two roots for ψ(3770) of C const (s free) are
   −0.1° and +37.8°, previously +0.1° and −37.8°).
 
 ### Changed
 
 - **analysis**: the decay posterior predictive p-value is reported only where the `stats` run carries the
-  same widths as the main run (`tables.widths_agree`, tested in `test_model_selection.py`), so the stale values of
-  the 12 models with S–D mixing in H are shown as “–” instead of being mixed with refreshed widths.
+  same widths as the main run (`tables.widths_agree`, tested in `test_model_selection.py`), so a `stats` run made
+  with an older width code is shown as “–” instead of being mixed with refreshed widths.
 - **docs**: every figure of the report is regenerated with ROOT 6.40.04 from the refreshed JSON, and
   `tables.md` and `data/*.csv` by `analysis/analyze.py`.
 - **analysis**: the mass-and-width study (`widths` sweep) was recomputed for the 12 models with S–D mixing in H

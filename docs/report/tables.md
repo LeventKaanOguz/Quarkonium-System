@@ -197,42 +197,42 @@ The measured annihilation widths of the fitted states, predicted by the mass-onl
 
 | configuration | system | widths | χ²/N linear | p | ppp | largest pull | pull | χ²/N log | p | worst | z |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| A APT smeared | ccbar | 6 | 1.58 | 0.148 | – | chi_c0(1P) | -1.97 | 3.96 | 0.000572 | chi_c0(1P) | -3.94 |
-| A APT smeared | bbar | 3 | 1.31 | 0.268 | – | Upsilon(3S) | 1.79 | 1.03 | 0.38 | Upsilon(3S) | +1.60 |
-| A frozen smeared | ccbar | 6 | 1.37 | 0.222 | – | chi_c0(1P) | -1.96 | 3.85 | 0.000769 | chi_c0(1P) | -4.06 |
-| A frozen smeared | bbar | 3 | 1.80 | 0.144 | – | Upsilon(3S) | 2.13 | 1.36 | 0.253 | Upsilon(3S) | +1.86 |
-| A GI run smeared | ccbar | 6 | 1.47 | 0.184 | – | chi_c0(1P) | -2.00 | 3.75 | 0.000974 | chi_c0(1P) | -3.96 |
-| A GI run smeared | bbar | 3 | 2.25 | 0.0802 | – | Upsilon(3S) | 2.43 | 1.65 | 0.175 | Upsilon(3S) | +2.10 |
-| B APT smeared | ccbar | 6 | 1.22 | 0.294 | – | chi_c2(1P) | 1.81 | 3.28 | 0.00313 | chi_c0(1P) | -3.56 |
-| B APT smeared | bbar | 3 | 2.79 | 0.0388 | – | Upsilon(3S) | 2.78 | 1.98 | 0.115 | Upsilon(3S) | +2.36 |
-| B GI run smeared | ccbar | 6 | 1.15 | 0.329 | – | chi_c0(1P) | -1.66 | 3.14 | 0.00448 | chi_c0(1P) | -3.59 |
-| B GI run smeared | bbar | 3 | 4.21 | 0.00551 | – | Upsilon(3S) | 3.45 | 2.80 | 0.0384 | Upsilon(3S) | +2.83 |
-| B frozen smeared | ccbar | 6 | 1.06 | 0.385 | – | chi_c0(1P) | -1.60 | 3.16 | 0.0042 | chi_c0(1P) | -3.64 |
-| B frozen smeared | bbar | 3 | 3.59 | 0.013 | – | Upsilon(3S) | 3.18 | 2.45 | 0.0612 | Upsilon(3S) | +2.64 |
+| A APT smeared | ccbar | 6 | 1.58 | 0.148 | 0.0224 | chi_c0(1P) | -1.97 | 3.96 | 0.000572 | chi_c0(1P) | -3.94 |
+| A APT smeared | bbar | 3 | 1.31 | 0.268 | 0.267 | Upsilon(3S) | 1.79 | 1.03 | 0.38 | Upsilon(3S) | +1.60 |
+| A frozen smeared | ccbar | 6 | 1.37 | 0.222 | 0.051 | chi_c0(1P) | -1.96 | 3.85 | 0.000769 | chi_c0(1P) | -4.06 |
+| A frozen smeared | bbar | 3 | 1.80 | 0.144 | 0.144 | Upsilon(3S) | 2.13 | 1.36 | 0.253 | Upsilon(3S) | +1.86 |
+| A GI run smeared | ccbar | 6 | 1.47 | 0.184 | 0.0359 | chi_c0(1P) | -2.00 | 3.75 | 0.000974 | chi_c0(1P) | -3.96 |
+| A GI run smeared | bbar | 3 | 2.25 | 0.0802 | 0.0845 | Upsilon(3S) | 2.43 | 1.65 | 0.175 | Upsilon(3S) | +2.10 |
+| B APT smeared | ccbar | 6 | 1.22 | 0.294 | 0.0342 | chi_c2(1P) | 1.81 | 3.28 | 0.00313 | chi_c0(1P) | -3.56 |
+| B APT smeared | bbar | 3 | 2.79 | 0.0388 | 0.0546 | Upsilon(3S) | 2.78 | 1.98 | 0.115 | Upsilon(3S) | +2.36 |
+| B GI run smeared | ccbar | 6 | 1.15 | 0.329 | 0.0504 | chi_c0(1P) | -1.66 | 3.14 | 0.00448 | chi_c0(1P) | -3.59 |
+| B GI run smeared | bbar | 3 | 4.21 | 0.00551 | 0.0506 | Upsilon(3S) | 3.45 | 2.80 | 0.0384 | Upsilon(3S) | +2.83 |
+| B frozen smeared | ccbar | 6 | 1.06 | 0.385 | 0.0623 | chi_c0(1P) | -1.60 | 3.16 | 0.0042 | chi_c0(1P) | -3.64 |
+| B frozen smeared | bbar | 3 | 3.59 | 0.013 | 0.0312 | Upsilon(3S) | 3.18 | 2.45 | 0.0612 | Upsilon(3S) | +2.64 |
 | A const | ccbar | 6 | 1.13 | 0.341 | 0.318 | chi_c0(1P) | -1.89 | 2.02 | 0.0588 | chi_c0(1P) | -2.57 |
 | A const | bbar | 3 | 0.08 | 0.971 | 0.951 | Upsilon(1S) | -0.37 | 0.08 | 0.972 | Upsilon(1S) | -0.38 |
-| C const (s free) | ccbar | 6 | 1.17 | 0.316 | – | chi_c0(1P) | -1.80 | 5.58 | 8.58e-06 | chi_c0(1P) | -4.99 |
-| C const (s free) | bbar | 3 | 0.26 | 0.857 | – | Upsilon(1S) | 0.78 | 0.22 | 0.88 | Upsilon(1S) | +0.74 |
-| D const (s free) | ccbar | 6 | 1.14 | 0.334 | – | chi_c0(1P) | -1.78 | 5.35 | 1.58e-05 | chi_c0(1P) | -4.91 |
-| D const (s free) | bbar | 3 | 0.28 | 0.837 | – | Upsilon(1S) | 0.91 | 0.25 | 0.858 | Upsilon(1S) | +0.85 |
+| C const (s free) | ccbar | 6 | 1.17 | 0.316 | 0.263 | chi_c0(1P) | -1.80 | 5.58 | 8.58e-06 | chi_c0(1P) | -4.99 |
+| C const (s free) | bbar | 3 | 0.26 | 0.857 | 0.839 | Upsilon(1S) | 0.78 | 0.22 | 0.88 | Upsilon(1S) | +0.74 |
+| D const (s free) | ccbar | 6 | 1.14 | 0.334 | 0.291 | chi_c0(1P) | -1.78 | 5.35 | 1.58e-05 | chi_c0(1P) | -4.91 |
+| D const (s free) | bbar | 3 | 0.28 | 0.837 | 0.813 | Upsilon(1S) | 0.91 | 0.25 | 0.858 | Upsilon(1S) | +0.85 |
 | B const | ccbar | 6 | 1.09 | 0.364 | 0.316 | chi_c0(1P) | -1.97 | 1.98 | 0.0645 | chi_c0(1P) | -2.78 |
 | B const | bbar | 3 | 0.43 | 0.731 | 0.696 | Upsilon(3S) | 1.04 | 0.35 | 0.786 | Upsilon(3S) | +0.96 |
 | A GI run | ccbar | 6 | 0.94 | 0.461 | 0.358 | chi_c0(1P) | -1.50 | 1.46 | 0.187 | eta_c(1S) | -2.05 |
 | A GI run | bbar | 3 | 2.88 | 0.0343 | 0.0292 | Upsilon(3S) | 2.78 | 2.05 | 0.105 | Upsilon(3S) | +2.35 |
-| A const smeared | ccbar | 6 | 1.21 | 0.3 | – | chi_c0(1P) | -1.85 | 4.44 | 0.000168 | chi_c0(1P) | -4.37 |
-| A const smeared | bbar | 3 | 0.08 | 0.973 | – | Upsilon(1S) | -0.38 | 0.08 | 0.972 | Upsilon(1S) | -0.39 |
-| C GI run (s free) | ccbar | 6 | 1.19 | 0.308 | – | chi_c0(1P) | -1.83 | 6.95 | 2.09e-07 | chi_c0(1P) | -5.49 |
-| C GI run (s free) | bbar | 3 | 2.00 | 0.111 | – | Upsilon(3S) | -2.25 | 3.41 | 0.0167 | Upsilon(3S) | -2.85 |
+| A const smeared | ccbar | 6 | 1.21 | 0.3 | 0.0657 | chi_c0(1P) | -1.85 | 4.44 | 0.000168 | chi_c0(1P) | -4.37 |
+| A const smeared | bbar | 3 | 0.08 | 0.973 | 0.959 | Upsilon(1S) | -0.38 | 0.08 | 0.972 | Upsilon(1S) | -0.39 |
+| C GI run (s free) | ccbar | 6 | 1.19 | 0.308 | 0.203 | chi_c0(1P) | -1.83 | 6.95 | 2.09e-07 | chi_c0(1P) | -5.49 |
+| C GI run (s free) | bbar | 3 | 2.00 | 0.111 | 0.0753 | Upsilon(3S) | -2.25 | 3.41 | 0.0167 | Upsilon(3S) | -2.85 |
 | A frozen | ccbar | 6 | 0.97 | 0.445 | 0.323 | chi_c0(1P) | -1.58 | 1.52 | 0.168 | eta_c(1S) | -2.00 |
 | A frozen | bbar | 3 | 2.38 | 0.0674 | 0.0567 | Upsilon(3S) | 2.48 | 1.74 | 0.156 | Upsilon(3S) | +2.13 |
-| D GI run (s free) | ccbar | 6 | 1.16 | 0.325 | – | chi_c0(1P) | -1.80 | 6.43 | 8.71e-07 | chi_c0(1P) | -5.33 |
-| D GI run (s free) | bbar | 3 | 0.84 | 0.471 | – | Upsilon(2S) | -1.43 | 1.11 | 0.345 | Upsilon(2S) | -1.62 |
+| D GI run (s free) | ccbar | 6 | 1.16 | 0.325 | 0.237 | chi_c0(1P) | -1.80 | 6.43 | 8.71e-07 | chi_c0(1P) | -5.33 |
+| D GI run (s free) | bbar | 3 | 0.84 | 0.471 | 0.386 | Upsilon(2S) | -1.43 | 1.11 | 0.345 | Upsilon(2S) | -1.62 |
 | B GI run | ccbar | 6 | 1.00 | 0.424 | 0.272 | chi_c0(1P) | -1.60 | 1.48 | 0.18 | chi_c0(1P) | -2.03 |
 | B GI run | bbar | 3 | 5.85 | 0.000541 | 0.000414 | Upsilon(3S) | 4.10 | 3.65 | 0.0121 | Upsilon(3S) | +3.24 |
 | B APT | ccbar | 6 | 0.98 | 0.436 | 0.296 | chi_c0(1P) | -1.56 | 1.54 | 0.16 | eta_c(1S) | -2.05 |
 | B APT | bbar | 3 | 4.00 | 0.00741 | 0.00512 | Upsilon(3S) | 3.37 | 2.66 | 0.0464 | Upsilon(3S) | +2.76 |
-| B const smeared | ccbar | 6 | 0.87 | 0.519 | – | chi_c0(1P) | -1.52 | 3.55 | 0.00161 | chi_c0(1P) | -3.89 |
-| B const smeared | bbar | 3 | 0.31 | 0.821 | – | Upsilon(3S) | 0.87 | 0.27 | 0.85 | Upsilon(3S) | +0.82 |
+| B const smeared | ccbar | 6 | 0.87 | 0.519 | 0.106 | chi_c0(1P) | -1.52 | 3.55 | 0.00161 | chi_c0(1P) | -3.89 |
+| B const smeared | bbar | 3 | 0.31 | 0.821 | 0.822 | Upsilon(3S) | 0.87 | 0.27 | 0.85 | Upsilon(3S) | +0.82 |
 | B frozen | ccbar | 6 | 1.03 | 0.404 | 0.259 | chi_c0(1P) | -1.68 | 1.55 | 0.159 | chi_c0(1P) | -2.17 |
 | B frozen | bbar | 3 | 5.22 | 0.00133 | 0.00101 | Upsilon(3S) | 3.87 | 3.35 | 0.0183 | Upsilon(3S) | +3.09 |
 
@@ -908,18 +908,18 @@ Of 160 system fits, LM with 9 starts ends > 5 % above the final floor in 40; Min
 | D const (s free) | bbar | b | 0.2573 | 0.0043 | -0.0044 | 0.0043 | 0.0044 | 0.0053 | 0.0065 | 1.009 |
 | D const (s free) | bbar | s | 0.6031 | 0.0300 | -0.0295 | 0.0330 | 0.0337 | 0.0429 | 0.0532 | 1.018 |
 | D const (s free) | bbar | alpha1 | 0.3668 | 0.0115 | -0.0117 | 0.0121 | 0.0125 | 0.0147 | 0.0193 | 1.012 |
-| D free run | ccbar | m1 | 1.6227 | 0.4624 | – | – | 0.0314 | 0.0021 | 0.0059 | 749136695361.000 |
-| D free run | ccbar | b | 0.1833 | 0.1506 | – | – | 0.0118 | 0.0004 | 0.0054 | 292112760511.000 |
-| D free run | ccbar | sigma0 | 0.1000 | 583.9330 | – | – | 5.4057 | 3.5162 | 0.0000 | 492263434692000.000 |
-| D free run | ccbar | alpha1 | 0.5148 | 1.2210 | – | – | 0.0911 | 0.0098 | 0.0130 | 11221650137800.000 |
-| D free run | ccbar | alpha2 | 0.2523 | 2.1745 | – | – | 0.0512 | 0.0077 | 0.0341 | 7779806453480.000 |
-| D free run | ccbar | alpha3 | 0.1269 | 2.5015 | – | – | 0.0266 | 0.0040 | 0.0372 | 7225651254590.000 |
-| D free run | bbar | m1 | 4.8080 | 0.0327 | -0.0327 | 0.0329 | 0.0094 | 0.0145 | 0.0002 | 1.144 |
-| D free run | bbar | b | 0.2295 | 0.0110 | -0.0111 | 0.0109 | 0.0036 | 0.0059 | 0.0002 | 1.114 |
-| D free run | bbar | sigma0 | 0.1000 | 0.0000 | 0.0000 | 0.0000 | 3.7801 | 0.0000 | 0.0000 | 1.593 |
-| D free run | bbar | alpha1 | 0.1176 | 0.0783 | -0.0783 | 0.0205 | 0.0192 | 0.0197 | 0.0005 | 1.349 |
-| D free run | bbar | alpha2 | 0.2186 | 0.0212 | -0.0209 | 0.0212 | 0.0114 | 0.0178 | 0.0007 | 1.181 |
-| D free run | bbar | alpha3 | 0.1761 | 0.0085 | -0.0085 | 0.0121 | 0.0071 | 0.0073 | 0.0011 | 1.181 |
+| D free run | ccbar | m1 | 1.6227 | 0.4624 | – | – | 0.0314 | 0.0021 | 0.0059 | 1165114901430.000 |
+| D free run | ccbar | b | 0.1833 | 0.1506 | – | – | 0.0118 | 0.0004 | 0.0054 | 287542611850.000 |
+| D free run | ccbar | sigma0 | 0.1000 | 583.9330 | – | – | 5.4057 | 3.5207 | 0.0000 | 244627145393000.000 |
+| D free run | ccbar | alpha1 | 0.5148 | 1.2210 | – | – | 0.0911 | 0.0098 | 0.0130 | 7602566340500.000 |
+| D free run | ccbar | alpha2 | 0.2523 | 2.1745 | – | – | 0.0512 | 0.0076 | 0.0341 | 6748856065590.000 |
+| D free run | ccbar | alpha3 | 0.1269 | 2.5015 | – | – | 0.0266 | 0.0040 | 0.0372 | 5127343419470.000 |
+| D free run | bbar | m1 | 4.8080 | 0.0327 | -0.0327 | 0.0329 | 0.0094 | 0.0160 | 0.0002 | 1.192 |
+| D free run | bbar | b | 0.2295 | 0.0110 | -0.0111 | 0.0109 | 0.0036 | 0.0065 | 0.0002 | 1.168 |
+| D free run | bbar | sigma0 | 0.1000 | 0.0000 | 0.0000 | 0.0000 | 3.7801 | 0.0000 | 0.0000 | 1.031 |
+| D free run | bbar | alpha1 | 0.1176 | 0.0783 | -0.0783 | 0.0205 | 0.0192 | 0.0190 | 0.0005 | 1.159 |
+| D free run | bbar | alpha2 | 0.2186 | 0.0212 | -0.0209 | 0.0212 | 0.0114 | 0.0162 | 0.0007 | 1.128 |
+| D free run | bbar | alpha3 | 0.1761 | 0.0085 | -0.0085 | 0.0121 | 0.0071 | 0.0060 | 0.0011 | 1.093 |
 | D GI run (s free) | ccbar | m1 | 1.4498 | 0.0230 | -0.0229 | 0.0218 | 0.0233 | 0.0275 | 0.0104 | 1.006 |
 | D GI run (s free) | ccbar | b | 0.2371 | 0.0153 | -0.0148 | 0.0152 | 0.0155 | 0.0178 | 0.0072 | 1.006 |
 | D GI run (s free) | ccbar | s | 1.5455 | 0.2344 | -0.2034 | 0.2577 | 0.2426 | 0.3826 | 0.1971 | 1.026 |
@@ -931,7 +931,7 @@ Of 160 system fits, LM with 9 starts ends > 5 % above the final floor in 40; Min
 | D GI run | ccbar | sigma0 | 0.1000 | 7.6687 | 0.0000 | 0.0000 | 0.6076 | 0.2898 | 0.9243 | 1.084 |
 | D GI run | bbar | m1 | 4.8332 | 0.0020 | -0.0014 | 0.0014 | 0.0009 | 0.0011 | 0.0003 | 1.734 |
 | D GI run | bbar | b | 0.2253 | 0.0017 | -0.0014 | 0.0014 | 0.0008 | 0.0013 | 0.0002 | 2.497 |
-| D GI run | bbar | sigma0 | 0.1000 | 36.4695 | 0.0000 | 0.0000 | 1.1566 | 0.5231 | 1.7568 | 1.307 |
+| D GI run | bbar | sigma0 | 0.1000 | 36.4695 | 0.0000 | 0.0000 | 1.1566 | 0.5286 | 1.7568 | 1.314 |
 
 
 Ratio to the linear error, median [min, max] over the parameters of both systems:
@@ -956,7 +956,7 @@ Ratio to the linear error, median [min, max] over the parameters of both systems
 | C const (s free) | 1.02 [0.98, 1.06] | 1.08 [1.04, 1.15] | 1.26 [1.19, 1.64] | 1.76 [1.62, 2.45] | 1.05 |
 | C GI run (s free) | 0.98 [0.97, 0.99] | 1.00 [0.91, 1.02] | 1.31 [1.13, 1.92] | 1.07 [0.48, 1.33] | 1.07 |
 | D const (s free) | 1.01 [0.99, 1.04] | 1.08 [1.04, 1.13] | 1.26 [0.93, 1.46] | 1.78 [1.53, 2.49] | 1.04 |
-| D free run | 1.00 [0.00, 1.22] | 0.16 [0.01, 763397.02] | 0.10 [0.00, 0.86] | 0.01 [0.00, 0.13] | 492263434692000.00 |
+| D free run | 1.00 [0.00, 1.22] | 0.16 [0.01, 763397.02] | 0.07 [0.00, 0.76] | 0.01 [0.00, 0.13] | 244627145393000.00 |
 | D GI run (s free) | 0.98 [0.97, 0.99] | 0.99 [0.90, 1.04] | 1.17 [1.06, 1.63] | 0.80 [0.45, 1.07] | 1.03 |
 | D GI run | 0.68 [0.00, 0.88] | 0.48 [0.03, 0.59] | 0.48 [0.01, 0.76] | 0.14 [0.05, 0.29] | 2.50 |
 

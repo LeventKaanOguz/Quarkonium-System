@@ -13,10 +13,11 @@ every configuration with S–D mixing were recomputed from a fixed-floor, fixed-
 stored χ² and θ (`analysis/refresh_widths.py`; every refit matched, none was left out): all 44 such configurations
 of the `main` sweep (26 system fits in the last pass), all of the `floor2` sweep (64 in the last pass), and the
 `joint` and `joint2` fits (refit from their seeds; χ² and θ reproduced to 10⁻⁶). The mass-and-width fit study
-(`widths` sweep) was refit. Gate 1, the selection, the best compromise, every width number and every figure below
-are recomputed (`python3 analysis/analyze.py`, PyROOT 6.40.04). **Not recomputed:** the decay posterior
-predictive p-values of the `stats` sweep, which need a new Markov chain per model (the 14 affected runs took about 5 h of
-wall time, 4–8 threads each, in the original sweep); the table that shows them says so.
+(`widths` sweep) was refit. The Markov chains of the 14 affected `stats` runs were run again with the same
+seeds (`analysis/rerun_mcmc.py`); the 12 chains of the physical set came out the same as the stored ones (to 10⁻⁶),
+so only the widths and the decay posterior predictive p-values in them changed. The chains of the two contrast
+models (D GI run, D free run) do not converge and are not reproducible; their rerun chains replace the stored ones. Gate 1, the selection, the best compromise, every width
+number, every p-value and every figure below are recomputed (`python3 analysis/analyze.py`, PyROOT 6.40.04).
 
 ## Summary
 
@@ -333,18 +334,18 @@ against 0.262 ± 0.018 keV (PDG), 1.3 ×. The first-order A/B models, with no S�
 **The c c̄ widths have large theory errors.** At μ = M/4, the one-loop factor for J/ψ → ee nearly vanishes, so
 the c c̄ band reaches the edge of perturbative control.
 
-**Posterior predictive p-values.** The decay ppp (linear form, `stats` sweep) is shown only for the seven
-first-order models, whose widths the S–D sign fix did not change. The `stats` runs of the 12 models with S–D
-mixing in H predate the fix and were not rerun, so `tables.md` shows “–” for them (`tables.widths_agree`). Where
-it is shown, the ppp is a little below the frequentist p: 0.26–0.36 against 0.34–0.46 in c c̄, and in b b̄ it
-follows the frequentist p closely (0.0004–0.95 against 0.0005–0.97). The two differ for a definite reason:
+**Posterior predictive p-values.** The decay ppp is computed in the linear form (`stats` sweep; the 14 runs with
+S–D mixing in H recomputed after the sign fix). It is below the frequentist p in c c̄, most in the smeared
+models: 0.02–0.11 against 0.15–0.52 (smeared A/B), 0.20–0.29 against 0.31–0.33 (C/D) and 0.26–0.36 against
+0.34–0.46 (first order). In b b̄ it follows the frequentist p (0.0004–0.96 against 0.0005–0.97). The two differ for a
+definite reason:
 
 - The frequentist test puts the parametric error into the covariance V.
 - The ppp scores each posterior draw against V_exp + V_theory alone. The parametric spread therefore counts
   as discrepancy.
 
-Before the sign fix the smeared c c̄ models had ppp 0.02–0.05 against p 0.15–0.45, because their parametric
-width errors are large (χ_c0: 1.8–4.8 keV); those values are not quoted any more.
+Smeared models have large parametric width errors (χ_c0: 1.8–4.8 keV), so their ppp is lower. A `stats` run made
+with an older width code would be shown as “–” (`tables.widths_agree`).
 
 **Fitting the widths instead.** (Recomputed after the sign fix.) Fitting
 the masses and widths together moves C const (s free) by at most
@@ -588,10 +589,9 @@ floor proportional to ⟨p⁴⟩ improves LOO but worsens LMO.
   rejections, and all three verdicts are reported.
 - **Width theory.** NLO only, with a scale band that reaches α_s ≈ 0.5 in c c̄. Relativistic corrections enter
   only through the ⟨v²⟩Γ error term.
-- **Stale part after the S–D sign fix.** Only the decay posterior predictive p-values of the `stats` sweep
-  were not recomputed (see the note at the top). Every stored width of the `main`, `floor2`, `joint`, `joint2`
-  and `widths` sweeps carries the corrected sign. The other sweeps (`cv`, `nested`, `bgrid`, `shape`, `rel`, …)
-  store widths too, but the analysis reads none of them.
+- **Widths after the S–D sign fix.** Every stored width that the analysis reads (`main`, `floor2`, `joint`,
+  `joint2`, `widths`, `stats`) carries the corrected sign. The other sweeps (`cv`, `nested`, `bgrid`, `shape`,
+  `rel`, …) store widths too, but the analysis reads none of them, and they were not refit.
 - **Global minimum.** Two minimisers and nested seeding give the best minima found, not provably global ones.
 - **B_c.** The parameters are interpolated between the systems, or taken from the joint fit. The
   interpolation systematic is not included.
