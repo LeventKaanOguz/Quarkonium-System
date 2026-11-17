@@ -10,6 +10,13 @@ line and its JSON output.
 
 ### Added
 
+- **examples**: `medium_dissociation.py`, an application of the stored wave functions (JSON of `results/`): the screening
+  mass μ* at which each S and P state of a Model A (constant coupling) fit dissolves in the Debye-screened potential
+  V_T = −C_F α_s e^{−μr}/r + (b/μ)(1 − e^{−μr}), at first order in the vacuum wave function (a variational lower bound
+  of μ*) and from a new Gaussian diagonalization. `test_medium_dissociation.py` checks the Coulomb levels, the Yukawa
+  critical screening (1.1906, converged from below: 1.1778/1.1856/1.1888 for r_max = 120/300/800 GeV⁻¹) and the
+  variational bound. Result for the paper's representative: μ* = 0.82 GeV (J/ψ), 0.37 (ψ(2S)), 0.35 (χ_c1), and 1.56
+  (Υ(1S)), 0.65 (Υ(2S)), 0.59 (χ_b1(1P)), 0.43 (Υ(3S)); `results/medium`, archived in `results-v1.2.0.tar.gz`.
 - **me**: complex-range Gaussians (`--complex n,rho1,rhomax,omega`, pairs of real functions Re/Im of
   r^l exp(−η(1+iω)r²)) now also work for the smeared and screened potentials of Models A and B: the
   analytic matrix elements fall back to numerical quadrature of the same radial integrals when a basis function
