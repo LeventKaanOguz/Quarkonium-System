@@ -50,7 +50,7 @@ in `analysis/selection.py` from the logged widths, with the parametric error dia
 
 Open items, deliberately left: coupled-channel (meson-loop) effects for the states near and above threshold (a separate model, not a fix); the §10.9 optimization of the running coupling (the machinery — priors, FH/finite-difference
 Jacobians, profile/bootstrap/MCMC — is in place; the parametrization with label-switching constraints is not written);
-a Model C/D variant driven by an arbitrary running α_s form; complex-range matrices for the relativistic kinetic energy; fitting the frozen/APT shape (M_g, Λ) — the report finds
+a Model C/D variant driven by an arbitrary running α_s form; complex-range matrices for the relativistic kinetic energy and for the one-loop logarithm (A/B with smeared or screened potentials use quadrature, v1.2); fitting the frozen/APT shape (M_g, Λ) — the report finds
 the fitted α(0) normalisation far from the shape's own value; m/E relativistic factors on the A/B spin terms for an O(v²)-consistent charmonium.
 
 Added after the milestones: exact analytic forms for every model matrix element; a running coupling in all four models

@@ -18,6 +18,10 @@ it (see CHANGELOG).
 
 ## Added in v1.2.0
 
-`results-v1.2.0.tar.gz` holds the runs that are not part of the v1.1.0 sweeps: the exact (closure-free) GI levels
-(`qgem_study gi-levels`), the B_c interpolation systematic, the one-loop short-distance potential fits of Models A and
-B at three reference scales, and the contact-term study. Its `README.md` lists the commands.
+`results-v1.2.0.tar.gz` (`results-v1.2.0/`) holds the runs that are not part of the v1.1.0 sweeps: `rep` (the four
+representatives again, with the B_c interpolation systematic), `oneloop` (the one-loop short-distance potential of
+Models A and B at three reference scales), `cx` (fits with a mixed real + complex-range basis), `screen` (the screening
+mass fitted, shared and profiled) and `studies` (`qgem_study`: exact GI sandwiches, the contact term, complex-range
+convergence). `python3 analysis/sweep.py rep oneloop cx screen studies` regenerates them from the v1.1.0 minima (they
+are the seeds), `python3 analysis/summarize_v12.py` writes `v1.2-summary.md`. Every run has a `.log` with its command
+line (`qgem --log`).

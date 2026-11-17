@@ -10,6 +10,25 @@ line and its JSON output.
 
 ### Added
 
+- **me**: complex-range Gaussians (`--complex n,rho1,rhomax,omega`, pairs of real functions Re/Im of
+  r^l exp(−η(1+iω)r²)) now also work for the smeared and screened potentials of Models A and B: the
+  analytic matrix elements fall back to numerical quadrature of the same radial integrals when a basis function
+  has a complex range (`analytic.cpp`). The relativistic matrices of Models C/D and the one-loop logarithm are
+  real-range only. Test `ComplexRange.SmearedAndScreenedModelsAgreeWithTheRealRangeBasis`.
+  `qgem_study complex-levels`: Model A levels of the ³S₁ and ³P₂ channels against a variational reference for real
+  and mixed bases at equal numbers of real functions. At 48 real functions the 9th and 10th ³S₁ levels are off by
+  9.6 and 35 MeV with the real basis and by 0.03 and 0.27 MeV with 24 real + 12 complex. Fits with 25 real + 6
+  complex Gaussians reproduce the real-basis fits (floors identical, levels ≤ 0.0095 MeV).
+- **apps**: `qgem --mu-s GeV|fit` and `--log FILE`. `--mu-s fit` fits the screening mass of Models B/D (as
+  `--fit-mu-s`); `--shared mu_s` shares it between c c̄ and b b̄; `--log` copies everything printed to a file, after
+  a `# qgem <args>` line.
+- **analysis**: `sweep.py rep oneloop cx screen studies` (v1.2 runs, seeded from the v1.1.0 minima, a `.log` per run)
+  and `summarize_v12.py` (writes `results/v1.2-summary.md`). Result of `screen`: Model B prefers μ_s → 0 in both
+  systems (profile rises monotonically; shared 0.000 ± 0.049 GeV); Model D gives μ_s(b b̄) = 0.144 ± 0.016 GeV and
+  μ_s(c c̄) → 0 (± 0.19), compatible with a shared 0.142 ± 0.016 GeV (Δχ² = 2.17, P = 0.14). Floors of fits with
+  μ_s free are not comparable with fixed-μ_s ones (ν is smaller by one).
+  The four representatives rerun with this version reproduce v1.1.0 to 5·10⁻⁸ (relative, parameters) and
+  1.3·10⁻⁵ MeV (masses); the 80 configurations of the v1.1.0 sweep were not rerun. 113 tests pass.
 - **me/models**: closure-free evaluation of the Godfrey–Isgur f(p) W(r) f(p) sandwiches, `qgem --gi-sandwich
   exact` (`GIModelOptions::exact_sandwich`). Every basis function is Hankel-transformed once, χₙ(r) =
   √(2/π) ∫ p² j_l(pr) f(p) R̃ₙ(p) dp, and ⟨fWf⟩ = ∫ r² χₘ W χₙ dr is integrated on a Gauss–Legendre grid, so the

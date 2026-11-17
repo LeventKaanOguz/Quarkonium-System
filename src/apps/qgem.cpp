@@ -2,6 +2,7 @@
 // configuration (model A, constant alpha_s, c = 0) and prints every PDG state.
 // See `qgem --help` and README.md.
 #include <cstdio>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -16,6 +17,25 @@
 
 namespace {
 
+// Writes everything to two streams (stdout and the --log file).
+class TeeBuf : public std::streambuf {
+ public:
+  TeeBuf(std::streambuf* a, std::streambuf* b) : a_(a), b_(b) {}
+
+ protected:
+  int overflow(int c) override {
+    if (c == EOF) return !EOF;
+    return (a_->sputc(static_cast<char>(c)) == EOF ||
+            b_->sputc(static_cast<char>(c)) == EOF)
+               ? EOF
+               : c;
+  }
+  int sync() override { return (a_->pubsync() == 0 && b_->pubsync() == 0) ? 0 : -1; }
+
+ private:
+  std::streambuf *a_, *b_;
+};
+
 constexpr const char* kUsage = R"(usage: qgem [options]
 
 model
@@ -24,7 +44,8 @@ model
   --running FORM         alpha_s: A/B const|gi|frozen|apt, C/D const|gi|free
   --c on|off             additive constant c free (default off: c = 0)
   --spin none|first|smeared   spin terms of A/B (default first)
-  --mu-s GeV             screening mass of B/D (default 0.1)
+  --mu-s GeV|fit         screening mass of B/D (default 0.1); `fit` = --fit-mu-s
+  --log FILE             also write everything printed to FILE
   --fit-mu-s             fit mu_s instead of fixing it
   --kinetic nr|rel       A/B kinetic energy: p^2/2m_r, or sqrt(p^2+m^2) - m
                          (needs a running, i.e. smeared, coupling)
@@ -71,6 +92,11 @@ fit
   --mcmc STEPS           Metropolis steps per chain (4 chains)
 numerics / io
   --basis n,r1,rmax      Gaussian basis (default 36,0.02,60)
+  --complex nc,rho1,rhomax,omega   add a complex-range Gaussian set to the
+                         basis (nc ranges rho_n, cos and sin of the phase
+                         omega eta r^2: 2 nc real functions per partial wave);
+                         one variational space with the real set. Models A/B
+                         (not the one-loop potential, not C/D)
   --threads T  --seed S  --out result.json  --pdg FILE  --root DIR
 )";
 
@@ -158,6 +184,7 @@ void set_fitter(qgem::RunOptions& o, const std::string& name) {
 int main(int argc, char** argv) {
   try {
     qgem::RunOptions o;
+    std::string log_path;
 #ifdef QGEM_SOURCE_DIR
     o.root = QGEM_SOURCE_DIR;
 #endif
@@ -183,8 +210,14 @@ int main(int argc, char** argv) {
         o.with_c = v == "on";
       } else if (k == "--spin")
         o.spin = val();
-      else if (k == "--mu-s")
-        o.mu_s = std::stod(val());
+      else if (k == "--mu-s") {
+        const std::string v = val();
+        if (v == "fit")
+          o.fit_mu_s = true;
+        else
+          o.mu_s = std::stod(v);
+      } else if (k == "--log")
+        log_path = val();
       else if (k == "--fit-mu-s")
         o.fit_mu_s = true;
       else if (k == "--fix") {
@@ -259,7 +292,15 @@ int main(int argc, char** argv) {
         o.freed.push_back(val());
       else if (k == "--nested-check")
         o.nested_target = 1e-3 * std::stod(val());
-      else if (k == "--eta")
+      else if (k == "--complex") {
+        const auto v = split(val(), ',');
+        if (v.size() != 4)
+          throw std::runtime_error("--complex nc,rho1,rhomax,omega");
+        o.basis.nc = std::stoi(v[0]);
+        o.basis.rho1 = std::stod(v[1]);
+        o.basis.rhomax = std::stod(v[2]);
+        o.basis.omega = std::stod(v[3]);
+      } else if (k == "--eta")
         o.basis.eta = std::stod(val());
       else if (k == "--gi-nq")
         o.gi_nq = std::stoi(val());
@@ -304,7 +345,15 @@ int main(int argc, char** argv) {
         throw std::runtime_error("unknown option '" + k + "' (try --help)");
       }
     }
-    return qgem::run(o, std::cout);
+    if (log_path.empty()) return qgem::run(o, std::cout);
+    std::ofstream log(log_path);
+    if (!log) throw std::runtime_error("cannot open --log file " + log_path);
+    log << "# qgem";
+    for (int i = 1; i < argc; ++i) log << ' ' << argv[i];
+    log << "\n";
+    TeeBuf tee(std::cout.rdbuf(), log.rdbuf());
+    std::ostream both(&tee);
+    return qgem::run(o, both);
   } catch (const std::exception& e) {
     std::fprintf(stderr, "error: %s\n", e.what());
     return 1;

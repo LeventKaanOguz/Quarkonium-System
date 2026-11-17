@@ -7,6 +7,9 @@
 #include <vector>
 
 #include "math/special.hpp"
+#include "me/coulomb.hpp"
+#include "me/radial.hpp"
+#include "me/smeared.hpp"
 
 namespace qgem {
 namespace {
@@ -117,6 +120,8 @@ double inverse_quadratic_integral(int two_s, double a, double tau) {
 }
 
 Mat gprime_over_r_matrix(const Basis& bra, const Basis& ket, double tau) {
+  if (!bra.is_real() || !ket.is_real())  // complex range: quadrature
+    return local(bra, ket, [&](double r) { return coulomb_gp_over_r(tau, r); });
   const double lb = lbar(bra, ket);
   // N'N [ (tau/sqrt(pi)) Gamma(l+1/2)/(a+tau^2)^{l+1/2} -
   // (Gamma(l+1/2)/sqrt(pi)) J_{l+1/2} ]
@@ -129,6 +134,8 @@ Mat gprime_over_r_matrix(const Basis& bra, const Basis& ket, double tau) {
 }
 
 Mat tensor_matrix(const Basis& bra, const Basis& ket, double tau) {
+  if (!bra.is_real() || !ket.is_real())
+    return local(bra, ket, [&](double r) { return coulomb_tensor(tau, r); });
   const double lb = lbar(bra, ket);
   const Mat g = gprime_over_r_matrix(bra, ket, tau);
   Mat G = Mat(bra.size(), ket.size());
@@ -141,6 +148,8 @@ Mat tensor_matrix(const Basis& bra, const Basis& ket, double tau) {
 }
 
 Mat smeared_r_matrix(const Basis& bra, const Basis& ket, double s) {
+  if (!bra.is_real() || !ket.is_real())
+    return local(bra, ket, [&](double r) { return smeared_r(s, r); });
   const double lb = lbar(bra, ket);
   return fill(bra, ket, [&](double a) {
     return gauss_moment(lb + 1.0, a + s * s) / (kSqrtPi * s) +
@@ -151,6 +160,8 @@ Mat smeared_r_matrix(const Basis& bra, const Basis& ket, double s) {
 
 Mat smeared_r_prime_over_r_matrix(const Basis& bra, const Basis& ket,
                                   double s) {
+  if (!bra.is_real() || !ket.is_real())
+    return local(bra, ket, [&](double r) { return smeared_r_prime_over_r(s, r); });
   const double lb = lbar(bra, ket);
   return fill(bra, ket, [&](double a) {
     return erf_moment(lb + 1.0, a, s) - erf_moment(lb, a, s) / (2 * s * s) +
@@ -159,6 +170,8 @@ Mat smeared_r_prime_over_r_matrix(const Basis& bra, const Basis& ket,
 }
 
 Mat smeared_exp_matrix(const Basis& b, double s, double mu) {
+  if (!b.is_real())
+    return local(b, b, [&](double r) { return smeared_exp(s, mu, r); });
   const double s2 = s * s;
   const int l = b.L;
   Mat M(b.size(), b.size());
@@ -176,6 +189,10 @@ Mat smeared_exp_matrix(const Basis& b, double s, double mu) {
 }
 
 Mat smeared_exp_prime_over_r_matrix(const Basis& b, double s, double mu) {
+  if (!b.is_real())
+    return local(b, b, [&](double r) {
+      return r > 0 ? smeared_exp_prime(s, mu, r) / r : 0.0;
+    });
   const double s2 = s * s;
   const int l = b.L;
   if (l < 1)

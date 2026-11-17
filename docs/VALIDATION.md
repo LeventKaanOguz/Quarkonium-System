@@ -58,7 +58,7 @@ construction, radial convolution by quadrature, Airy zeros), or the reference nu
 only (PDG data, CC BY 4.0 from the 2024 edition; attribution and the regeneration command are in
 `tests/data/README.md`). The test helper `tests/pdg_path.hpp` uses the full file in `data/` when present and the
 subset otherwise, so the fit, run and validation tests run in CI instead of skipping: with the full file moved aside,
-112 of 112 tests pass and none is skipped. The subset is regenerated, not edited:
+113 of 113 tests pass and none is skipped. The subset is regenerated, not edited:
 `python3 tests/data/make_pdg_subset.py data/pdg-2026.0.sqlite tests/data/pdg-subset.sqlite`.
 
 ## Things that were found, not assumed

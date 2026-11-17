@@ -166,3 +166,29 @@ TEST(ComplexRange, MixedBasisResolvesHighlyExcitedSWavesAsInThe710Table) {
   EXPECT_GT(real(7) - ref(7), 100 * (mixed(7) - ref(7)));
   EXPECT_GT(real(6) - ref(6), 20 * std::max(mixed(6) - ref(6), 1e-7));
 }
+
+#include "models/nr_model.hpp"
+#include "solve/spectrum.hpp"
+
+TEST(ComplexRange, SmearedAndScreenedModelsAgreeWithTheRealRangeBasis) {
+  // the smeared-Coulomb, smeared-linear and screened matrix elements have no
+  // closed form for complex ranges and fall back to quadrature; the levels of
+  // the coupled 3S1-3D1 and 3P2-3F2 channels must agree with a real-range basis
+  const BasisSpec real{.n = 40, .r1 = 0.03, .rmax = 30.0, .eta = 1e-13};
+  const BasisSpec mixed{.n = 24, .r1 = 0.03, .rmax = 30.0, .eta = 1e-13,
+                        .nc = 8, .rho1 = 0.8, .rhomax = 30.0, .omega = 0.5};
+  Vec th(kNRParams);
+  th << 1.48, 1.48, 0.52, 0.15, 0.0, 1.2, 0.3;
+  for (bool screened : {false, true}) {
+    NRModel model({.screened = screened, .spin = SpinMode::Smeared});
+    MatrixCache cr(real), cm(mixed);
+    for (const Channel& ch : model.channels(3, true)) {
+      if (ch.comps.size() != 2 && !(ch.comps[0].L == 1 && ch.J == 2)) continue;
+      const SolvedChannel a = solve_channel(model, ch, th, cr);
+      const SolvedChannel b = solve_channel(model, ch, th, cm);
+      for (int k = 0; k < 3; ++k)
+        EXPECT_NEAR(a.level(k).M, b.level(k).M, 2e-4)
+            << ch.label() << " k=" << k << " screened=" << screened;
+    }
+  }
+}
