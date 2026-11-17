@@ -193,7 +193,7 @@ Every model refitted with the declared theory error of the masses, c c̄ 13.30 M
 
 ## Goodness of fit: decays (held-out benchmark)
 
-The measured annihilation widths of the fitted states, predicted by the mass-only fit at the declared error (the fit graded above), which never saw them: Pearson χ² with V = V_exp + V_theory + V_par. Theory error: the truncation of the α_s series by scale variation (μ = M/4 … M, half the band, correlated within a process) in quadrature with the O(v²) relativistic correction of NRQCD power counting, ⟨v²⟩Γ. ppp: the Bayesian posterior predictive p-value of the same widths (stats sweep), linear form. log: the amended form (the selection requires both), on ln(Γ_PDG/Γ_NLO) with the same errors taken relative (scale band correlated within a one-loop-factor class; parametric error diagonal), symmetric in over- and underprediction; z: the standardised log ratio of the worst width (z > 0: the model is too small).
+The measured annihilation widths of the fitted states, predicted by the mass-only fit at the declared error (the fit graded above), which never saw them: Pearson χ² with V = V_exp + V_theory + V_par. Theory error: the truncation of the α_s series by scale variation (μ = M/4 … M, half the band, correlated within a process) in quadrature with the O(v²) relativistic correction of NRQCD power counting, ⟨v²⟩Γ. ppp: the Bayesian posterior predictive p-value of the same widths (stats sweep), linear form; – where the stats run predates the v1.1.0 S–D sign fix of the widths (its widths differ from the main run), since the stats sweep was not rerun. log: the amended form (the selection requires both), on ln(Γ_PDG/Γ_NLO) with the same errors taken relative (scale band correlated within a one-loop-factor class; parametric error diagonal), symmetric in over- and underprediction; z: the standardised log ratio of the worst width (z > 0: the model is too small).
 
 | configuration | system | widths | χ²/N linear | p | ppp | largest pull | pull | χ²/N log | p | worst | z |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -209,32 +209,32 @@ The measured annihilation widths of the fitted states, predicted by the mass-onl
 | B GI run smeared | bbar | 3 | 4.21 | 0.00551 | – | Upsilon(3S) | 3.45 | 2.80 | 0.0384 | Upsilon(3S) | +2.83 |
 | B frozen smeared | ccbar | 6 | 1.06 | 0.385 | – | chi_c0(1P) | -1.60 | 3.16 | 0.0042 | chi_c0(1P) | -3.64 |
 | B frozen smeared | bbar | 3 | 3.59 | 0.013 | – | Upsilon(3S) | 3.18 | 2.45 | 0.0612 | Upsilon(3S) | +2.64 |
-| A const | ccbar | 6 | 1.13 | 0.341 | – | chi_c0(1P) | -1.89 | 2.02 | 0.0588 | chi_c0(1P) | -2.57 |
-| A const | bbar | 3 | 0.08 | 0.971 | – | Upsilon(1S) | -0.37 | 0.08 | 0.972 | Upsilon(1S) | -0.38 |
+| A const | ccbar | 6 | 1.13 | 0.341 | 0.318 | chi_c0(1P) | -1.89 | 2.02 | 0.0588 | chi_c0(1P) | -2.57 |
+| A const | bbar | 3 | 0.08 | 0.971 | 0.951 | Upsilon(1S) | -0.37 | 0.08 | 0.972 | Upsilon(1S) | -0.38 |
 | C const (s free) | ccbar | 6 | 1.17 | 0.316 | – | chi_c0(1P) | -1.80 | 5.58 | 8.58e-06 | chi_c0(1P) | -4.99 |
 | C const (s free) | bbar | 3 | 0.26 | 0.857 | – | Upsilon(1S) | 0.78 | 0.22 | 0.88 | Upsilon(1S) | +0.74 |
 | D const (s free) | ccbar | 6 | 1.14 | 0.334 | – | chi_c0(1P) | -1.78 | 5.35 | 1.58e-05 | chi_c0(1P) | -4.91 |
 | D const (s free) | bbar | 3 | 0.28 | 0.837 | – | Upsilon(1S) | 0.91 | 0.25 | 0.858 | Upsilon(1S) | +0.85 |
-| B const | ccbar | 6 | 1.09 | 0.364 | – | chi_c0(1P) | -1.97 | 1.98 | 0.0645 | chi_c0(1P) | -2.78 |
-| B const | bbar | 3 | 0.43 | 0.731 | – | Upsilon(3S) | 1.04 | 0.35 | 0.786 | Upsilon(3S) | +0.96 |
-| A GI run | ccbar | 6 | 0.94 | 0.461 | – | chi_c0(1P) | -1.50 | 1.46 | 0.187 | eta_c(1S) | -2.05 |
-| A GI run | bbar | 3 | 2.88 | 0.0343 | – | Upsilon(3S) | 2.78 | 2.05 | 0.105 | Upsilon(3S) | +2.35 |
+| B const | ccbar | 6 | 1.09 | 0.364 | 0.316 | chi_c0(1P) | -1.97 | 1.98 | 0.0645 | chi_c0(1P) | -2.78 |
+| B const | bbar | 3 | 0.43 | 0.731 | 0.696 | Upsilon(3S) | 1.04 | 0.35 | 0.786 | Upsilon(3S) | +0.96 |
+| A GI run | ccbar | 6 | 0.94 | 0.461 | 0.358 | chi_c0(1P) | -1.50 | 1.46 | 0.187 | eta_c(1S) | -2.05 |
+| A GI run | bbar | 3 | 2.88 | 0.0343 | 0.0292 | Upsilon(3S) | 2.78 | 2.05 | 0.105 | Upsilon(3S) | +2.35 |
 | A const smeared | ccbar | 6 | 1.21 | 0.3 | – | chi_c0(1P) | -1.85 | 4.44 | 0.000168 | chi_c0(1P) | -4.37 |
 | A const smeared | bbar | 3 | 0.08 | 0.973 | – | Upsilon(1S) | -0.38 | 0.08 | 0.972 | Upsilon(1S) | -0.39 |
 | C GI run (s free) | ccbar | 6 | 1.19 | 0.308 | – | chi_c0(1P) | -1.83 | 6.95 | 2.09e-07 | chi_c0(1P) | -5.49 |
 | C GI run (s free) | bbar | 3 | 2.00 | 0.111 | – | Upsilon(3S) | -2.25 | 3.41 | 0.0167 | Upsilon(3S) | -2.85 |
-| A frozen | ccbar | 6 | 0.97 | 0.445 | – | chi_c0(1P) | -1.58 | 1.52 | 0.168 | eta_c(1S) | -2.00 |
-| A frozen | bbar | 3 | 2.38 | 0.0674 | – | Upsilon(3S) | 2.48 | 1.74 | 0.156 | Upsilon(3S) | +2.13 |
+| A frozen | ccbar | 6 | 0.97 | 0.445 | 0.323 | chi_c0(1P) | -1.58 | 1.52 | 0.168 | eta_c(1S) | -2.00 |
+| A frozen | bbar | 3 | 2.38 | 0.0674 | 0.0567 | Upsilon(3S) | 2.48 | 1.74 | 0.156 | Upsilon(3S) | +2.13 |
 | D GI run (s free) | ccbar | 6 | 1.16 | 0.325 | – | chi_c0(1P) | -1.80 | 6.43 | 8.71e-07 | chi_c0(1P) | -5.33 |
 | D GI run (s free) | bbar | 3 | 0.84 | 0.471 | – | Upsilon(2S) | -1.43 | 1.11 | 0.345 | Upsilon(2S) | -1.62 |
-| B GI run | ccbar | 6 | 1.00 | 0.424 | – | chi_c0(1P) | -1.60 | 1.48 | 0.18 | chi_c0(1P) | -2.03 |
-| B GI run | bbar | 3 | 5.85 | 0.000541 | – | Upsilon(3S) | 4.10 | 3.65 | 0.0121 | Upsilon(3S) | +3.24 |
-| B APT | ccbar | 6 | 0.98 | 0.436 | – | chi_c0(1P) | -1.56 | 1.54 | 0.16 | eta_c(1S) | -2.05 |
-| B APT | bbar | 3 | 4.00 | 0.00741 | – | Upsilon(3S) | 3.37 | 2.66 | 0.0464 | Upsilon(3S) | +2.76 |
+| B GI run | ccbar | 6 | 1.00 | 0.424 | 0.272 | chi_c0(1P) | -1.60 | 1.48 | 0.18 | chi_c0(1P) | -2.03 |
+| B GI run | bbar | 3 | 5.85 | 0.000541 | 0.000414 | Upsilon(3S) | 4.10 | 3.65 | 0.0121 | Upsilon(3S) | +3.24 |
+| B APT | ccbar | 6 | 0.98 | 0.436 | 0.296 | chi_c0(1P) | -1.56 | 1.54 | 0.16 | eta_c(1S) | -2.05 |
+| B APT | bbar | 3 | 4.00 | 0.00741 | 0.00512 | Upsilon(3S) | 3.37 | 2.66 | 0.0464 | Upsilon(3S) | +2.76 |
 | B const smeared | ccbar | 6 | 0.87 | 0.519 | – | chi_c0(1P) | -1.52 | 3.55 | 0.00161 | chi_c0(1P) | -3.89 |
 | B const smeared | bbar | 3 | 0.31 | 0.821 | – | Upsilon(3S) | 0.87 | 0.27 | 0.85 | Upsilon(3S) | +0.82 |
-| B frozen | ccbar | 6 | 1.03 | 0.404 | – | chi_c0(1P) | -1.68 | 1.55 | 0.159 | chi_c0(1P) | -2.17 |
-| B frozen | bbar | 3 | 5.22 | 0.00133 | – | Upsilon(3S) | 3.87 | 3.35 | 0.0183 | Upsilon(3S) | +3.09 |
+| B frozen | ccbar | 6 | 1.03 | 0.404 | 0.259 | chi_c0(1P) | -1.68 | 1.55 | 0.159 | chi_c0(1P) | -2.17 |
+| B frozen | bbar | 3 | 5.22 | 0.00133 | 0.00101 | Upsilon(3S) | 3.87 | 3.35 | 0.0183 | Upsilon(3S) | +3.09 |
 
 ## Bayesian inference: the theory floor marginalised
 
@@ -1433,7 +1433,6 @@ The measured widths of the fitted states added to the χ² with their experiment
 | B frozen | ccbar | 19.04 | 18.92 | 0.94 | 0.463 | b | -0.38 |
 | B frozen | bbar | 3.88 | 4.00 | 5.08 | 0.00162 | sigma | -0.64 |
 
-
 ## Annihilation widths (best compromise, then the three lowest floors of the physical set; keV)
 
 LO: Van Royen–Weisskopf (vector states: |R_S(0) − 5R″_D(0)/(2√2 m²)|², so the S–D mixed ψ(3770) is included). NLO: × one-loop QCD factor with the MS-bar α_s at μ = M/2 (band μ = M/4 … M); the series converges poorly in charmonium. PDG values marked * are summary-table branching fraction × total width.
@@ -1532,7 +1531,7 @@ LO: Van Royen–Weisskopf (vector states: |R_S(0) − 5R″_D(0)/(2√2 m²)|²,
 
 ## Validity audit
 
-Physics against references the fits never saw, and the wave functions rebuilt from their logged parameters alone (best compromise, C const (s free)). Failures are kept.
+Physics against references the fits never saw, and the wave functions rebuilt from their logged parameters alone (best compromise, B APT). Failures are kept.
 
 - ccbar, spin GI, in H (4 models, medians ± median parametric error): 1S hyperfine 120.7 ± 9.4 MeV (PDG 112.8); fine-structure ratio 0.66 ± 0.04 (PDG 0.48); cog − h 12.0 ± 2.4 MeV (PDG 0.00)
 - ccbar, spin first (7 models, medians ± median parametric error): 1S hyperfine 126.9 ± 18.2 MeV (PDG 112.8); fine-structure ratio 0.76 ± 0.07 (PDG 0.48); cog − h 11.9 ± 2.8 MeV (PDG 0.00)
@@ -1542,7 +1541,7 @@ Physics against references the fits never saw, and the wave functions rebuilt fr
 - bbar, spin smeared (8 models, medians ± median parametric error): 1S hyperfine 61.2 ± 3.8 MeV (PDG 61.7); fine-structure ratio 0.70 ± 0.02 (PDG 0.58); cog − h 2.9 ± 0.3 MeV (PDG 0.59)
 - m_b − m_c within the heavy-quark window [3.342, 3.457] GeV: 6 of 19 separate fits (median 3.332 ± 0.042); joint fits median 3.382 ± 0.017 GeV
 - √b: median c c̄ 0.421 ± 0.018, b b̄ 0.436 ± 0.004, joint 0.434 ± 0.004 GeV (lattice √σ ≈ 0.44 GeV)
-- wave functions rebuilt from the JSON: max |norm − 1| = 1.1e-10; radial nodes ≠ radial quantum number in 0 of 32 states
+- wave functions rebuilt from the JSON: max |norm − 1| = 6.4e-11; radial nodes ≠ radial quantum number in 0 of 32 states
 - ψ(3770): mixing angle reproducing Γee(ψ(3770))/Γee(ψ(2S)) with the model's own R_2S(0), R″_1D(0): -25.8° ± 0.6°, 12.0° ± 0.6°; the tensor force alone gives 0.0°
 - |R(0)|² of η_c(1S) over J/ψ(1S), from each model's LO widths (19 models): 1.40–2.03 (median 1.71) against 0.55 required by the PDG widths with the same (NLO) QCD factors: every model puts η_c 2.6–3.7 times too deep at the origin relative to J/ψ at NLO (the η_c γγ NLO width is 2.3–4.1 times the PDG value)
 

@@ -141,7 +141,7 @@ def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
                     ["", ".2f", ".3g", ".2f", ".3g", ".2f", ".3g"]) +
                 f"\n{sum(r['p'] >= 0.05 for r in crows0)} of {len(crows0)} models pass at "
                 "5 % (combined).\n\n")
-    drows = decay_rows(floor2_runs, stats_runs, phys)
+    drows = decay_rows(floor2_runs, stats_runs, phys, ref_runs=main_runs)
     if drows:
         write_csv("decay_benchmark.csv", drows)
         out += ("## Goodness of fit: decays (held-out benchmark)\n\n"
@@ -152,7 +152,9 @@ def gof_section(main_runs, floor0_runs, floor2_runs, cv_runs, stats_runs,
                 "(μ = M/4 … M, half the band, correlated within a process) in quadrature "
                 "with the O(v²) relativistic correction of NRQCD power counting, ⟨v²⟩Γ. "
                 "ppp: the Bayesian posterior predictive p-value of the same widths (stats "
-                "sweep), linear form. log: the amended form (the selection requires both), "
+                "sweep), linear form; – where the stats run predates the v1.1.0 S–D sign "
+                "fix of the widths (its widths differ from the main run), since the "
+                "stats sweep was not rerun. log: the amended form (the selection requires both), "
                 "on ln(Γ_PDG/Γ_NLO) with the same errors taken relative (scale band "
                 "correlated within a one-loop-factor class; parametric error diagonal), "
                 "symmetric in over- and underprediction; z: the standardised log ratio of "

@@ -1079,9 +1079,22 @@ def common_floor_rows(floor2_runs, tags):
     return out
 
 
-def decay_rows(main_runs, stats_runs, tags):
+def widths_agree(s_main, s_other, rtol=1e-4):
+    """True if two stored fits of the same model carry the same widths. A stats
+    run made before a change of the width code (the v1.1.0 S-D sign) has other
+    widths than the refreshed main run, and its decay ppp is not reported."""
+    if not s_main or not s_other:
+        return False
+    wm = {(w["label"], w["process"]): w["lo_keV"] for w in s_main.get("widths", [])}
+    wo = {(w["label"], w["process"]): w["lo_keV"] for w in s_other.get("widths", [])}
+    keys = wm.keys() & wo.keys()
+    return bool(keys) and all(abs(wm[k] - wo[k]) <= rtol * max(abs(wm[k]), 1e-12) for k in keys)
+
+
+def decay_rows(main_runs, stats_runs, tags, ref_runs=None):
     """The decay benchmark per model and system: chi2/N, p, the Bayesian
-    posterior predictive p (stats sweep) and the largest pull."""
+    posterior predictive p (stats sweep; NaN when the stats run predates the
+    width code of the main run, see widths_agree) and the largest pull."""
     out = []
     for t in tags:
         if t not in main_runs:
@@ -1093,7 +1106,11 @@ def decay_rows(main_runs, stats_runs, tags):
                 continue
             i = int(np.argmax(np.abs(db["pulls"])))
             st = stats_runs.get(t)
-            sdb = system(st, sname)["analysis"].get("decay_benchmark", {}) if st else {}
+            # the stats run is a fit at the model's own floor, like the main sweep:
+            # compare it with that run, not with the declared-floor fit graded here
+            ref = system((ref_runs or main_runs).get(t), sname) if (ref_runs or main_runs).get(t) else None
+            sst = system(st, sname) if st else None
+            sdb = sst["analysis"].get("decay_benchmark", {}) if widths_agree(ref, sst) else {}
             from selection import decay_log_chi2  # the amended (log-normal) test
             lg = decay_log_chi2(s)
             out.append({"tag": t, "label": plain(t), "system": sname, "n": db["n"],

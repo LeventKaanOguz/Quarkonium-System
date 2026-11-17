@@ -22,13 +22,21 @@ line and its JSON output.
 - **analysis**: `refresh_widths.py` recomputes the stored `widths` and `decay_benchmark` blocks of those models
   from a fixed-floor, fixed-start refit and writes them only if the refit reproduces the stored χ² and θ. All 48
   system fits matched. Gate 1, the selection and the REPORT numbers were recomputed (no model passes; the best
-  compromise is still B APT). Decay posterior predictive p-values, the mass-and-width study, the joint-fit widths
-  and the figures are *not* recomputed; REPORT says so where it matters.
+  compromise is still B APT). Then the same refresh was run on every other configuration with S–D mixing in the
+  `main` and `floor2` sweeps (26 and 64 more system fits, all matched), and the `joint` and `joint2` fits of
+  the 12 models were refit from their seeds (χ² and θ reproduced to 10⁻⁶, widths updated). The released archive of
+  the first v1.1.0 commit held the `main` and `floor2` JSON *before* this refresh; it is replaced. Only the decay
+  posterior predictive p-values (`stats` sweep) are not recomputed.
 - **analysis**: `validity.mixing_angle` uses the same sign (the two roots for ψ(3770) of C const (s free) are
   −0.1° and +37.8°, previously +0.1° and −37.8°).
 
 ### Changed
 
+- **analysis**: the decay posterior predictive p-value is reported only where the `stats` run carries the
+  same widths as the main run (`tables.widths_agree`, tested in `test_model_selection.py`), so the stale values of
+  the 12 models with S–D mixing in H are shown as “–” instead of being mixed with refreshed widths.
+- **docs**: every figure of the report is regenerated with ROOT 6.40.04 from the refreshed JSON, and
+  `tables.md` and `data/*.csv` by `analysis/analyze.py`.
 - **analysis**: the mass-and-width study (`widths` sweep) was recomputed for the 12 models with S–D mixing in H
   after the sign fix; the parameters move by at most 1.2σ, and `mass_width_fit.csv` and `tables.md` are updated.
 - **docs**: the description of the leptonic amplitude in `analysis/analyze.py` and `tables.md` had the old sign
@@ -38,8 +46,8 @@ line and its JSON output.
   physical set now names B APT (2.2σ) in place of C const (s free) (4.1σ). The count rule stays as
   `best_by_count`. The winner rule is unchanged: no model passes. `selection.csv` has the new columns
   `severity` and `sev`, and `tables.md` the ranking by worst failure.
-- **docs**: REPORT §5–§7 and the figures still feature C const (s free); they are marked as the v1.0.0 best
-  compromise until `analysis/analyze.py` is re-run with ROOT.
+- **docs**: REPORT §5 (the worked example) and the figures of §5–§7 feature B APT, the best compromise of the
+  worst-failure rule; up to v1.0.0 they featured C const (s free).
 - **docs**: the |R(0)|² audit of η_c over J/ψ is stated as an NLO statement (it is proportional to K_ee/K_γγ,
   and both factors are large beyond one loop); the earlier wording that the discrepancy exceeds any plausible
   shift of K was an overclaim.

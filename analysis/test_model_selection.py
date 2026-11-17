@@ -128,6 +128,16 @@ def test_severity_and_best_compromise():
     assert ms.best_compromise([]) is None
 
 
+
+def test_stale_ppp_guard():
+    # a stats run made before a change of the width code is recognized by its widths
+    from tables import widths_agree
+    w = lambda x: {"widths": [{"label": "J/psi(1S)", "process": "e+ e-", "lo_keV": x}]}
+    assert widths_agree(w(11.517), w(11.517 * (1 + 1e-7)))
+    assert not widths_agree(w(14.727), w(13.0))        # the S-D sign changed this width
+    assert not widths_agree(w(1.0), None)
+    assert not widths_agree(w(1.0), {"widths": []})
+
 if __name__ == "__main__":
     for name, f in list(globals().items()):
         if name.startswith("test_"):

@@ -1,6 +1,6 @@
 # Heavy-quarkonium spectroscopy across 80 model configurations
 
-*qgem v1.0.0 analysis report (v1.1.0 selection, S–D sign fix; see the note below). Every number comes from `analysis/sweep.py` and `analysis/analyze.py` (PyROOT,
+*qgem v1.1.0 analysis report (S–D sign fix; see the note below). Every number comes from `analysis/sweep.py` and `analysis/analyze.py` (PyROOT,
 ROOT 6.40.04). Each table has a CSV in [`data/`](data/), each figure a PDF in [`figures/`](figures/), and all
 generated tables are in [`tables.md`](tables.md). Data: PDG 2026 (`pdg-2026.0.sqlite`). Methods:
 [`../EXPLANATION.md`](../EXPLANATION.md).*
@@ -9,12 +9,14 @@ generated tables are in [`tables.md`](tables.md). Data: PDG 2026 (`pdg-2026.0.sq
 sign (`width_ee_SD`, now fixed; derived and tested in `analysis/test_sd_sign.py`, CHANGELOG). It touches Γ_ee of
 J/ψ, ψ(2S), ψ(3770), … and Υ(nS) in the 12 physical-set models whose Hamiltonian contains S–D mixing (smeared
 A/B, all of C/D); first-order A/B and masses are not affected. The stored `widths` and `decay_benchmark` blocks of
-those 12 models were recomputed from a fixed-floor, fixed-start refit that reproduces the stored χ² and θ
-(`analysis/refresh_widths.py`; every refit matched, none was left out). Gate 1, the selection, the best compromise
-and every width number below are recomputed. The mass-and-width fit study (`widths` sweep, 12 refit models) was recomputed in v1.1.0.
-**Not recomputed:** the decay posterior predictive p-values (`stats` sweep), the joint-fit widths, and the figures
-(`python3 analysis/analyze.py`, which needs ROOT, regenerates them). Where a table below depends on one of
-them it says so.
+every configuration with S–D mixing were recomputed from a fixed-floor, fixed-start refit that reproduces the
+stored χ² and θ (`analysis/refresh_widths.py`; every refit matched, none was left out): all 44 such configurations
+of the `main` sweep (26 system fits in the last pass), all of the `floor2` sweep (64 in the last pass), and the
+`joint` and `joint2` fits (refit from their seeds; χ² and θ reproduced to 10⁻⁶). The mass-and-width fit study
+(`widths` sweep) was refit. Gate 1, the selection, the best compromise, every width number and every figure below
+are recomputed (`python3 analysis/analyze.py`, PyROOT 6.40.04). **Not recomputed:** the decay posterior
+predictive p-values of the `stats` sweep, which need a new Markov chain per model (the 14 affected runs took about 5 h of
+wall time, 4–8 threads each, in the original sweep); the table that shows them says so.
 
 ## Summary
 
@@ -42,8 +44,7 @@ The **best compromise** (v1.1.0) is the model whose *worst* failed check is the 
 failure is the linear decay test of b b̄ at Holm p = 0.03 (2.2σ; AIC 48.2). The v1.0.0 rule counted failures
 (fewest, then the lowest AIC) and named C const (s free): one failure, but a log-form decay test at 4.1σ
 (Γ_γγ(χ_c0) ×13). B const, whose AIC is 0.6 higher, fails √b by 11σ in parametric errors. A count treats
-these three cases alike; the worst-failure rule does not. Sections 5–7 and the figures still show C const (s
-free), the featured model of the committed analysis run; re-run `python3 analysis/analyze.py` to feature B APT.
+these three cases alike; the worst-failure rule does not. Sections 5–7 and the figures feature B APT.
 
 1. **What the result means for the physics.** No configuration in the ensemble describes the masses, the
    annihilation widths and the physics constraints together.
@@ -332,16 +333,18 @@ against 0.262 ± 0.018 keV (PDG), 1.3 ×. The first-order A/B models, with no S�
 **The c c̄ widths have large theory errors.** At μ = M/4, the one-loop factor for J/ψ → ee nearly vanishes, so
 the c c̄ band reaches the edge of perturbative control.
 
-**Posterior predictive p-values.** *Not recomputed after the sign fix: the numbers in this paragraph are from
-the `stats` sweep with the old S–D sign, so they are stale for the smeared models.* The decay ppp is still
-computed in the linear form. In the smeared c c̄
-models it is 0.02–0.05, against a frequentist p of 0.15–0.45. The two differ for a definite reason:
+**Posterior predictive p-values.** The decay ppp (linear form, `stats` sweep) is shown only for the seven
+first-order models, whose widths the S–D sign fix did not change. The `stats` runs of the 12 models with S–D
+mixing in H predate the fix and were not rerun, so `tables.md` shows “–” for them (`tables.widths_agree`). Where
+it is shown, the ppp is a little below the frequentist p: 0.26–0.36 against 0.34–0.46 in c c̄, and in b b̄ it
+follows the frequentist p closely (0.0004–0.95 against 0.0005–0.97). The two differ for a definite reason:
 
 - The frequentist test puts the parametric error into the covariance V.
 - The ppp scores each posterior draw against V_exp + V_theory alone. The parametric spread therefore counts
   as discrepancy.
 
-Smeared models have large parametric width errors (χ_c0: 1.8–4.8 keV), so their ppp is lower.
+Before the sign fix the smeared c c̄ models had ppp 0.02–0.05 against p 0.15–0.45, because their parametric
+width errors are large (χ_c0: 1.8–4.8 keV); those values are not quoted any more.
 
 **Fitting the widths instead.** (Recomputed after the sign fix.) Fitting
 the masses and widths together moves C const (s free) by at most
@@ -375,24 +378,24 @@ The posterior is computed for the parameters and σ_th together:
   The degenerate fitted-μ_s models, outside the physical set, do not converge either: their posterior drifts to
   the σ_th prior bound.
 
-## 5. Worked example: C const (s free), the v1.0.0 best compromise
+## 5. Worked example: B APT, the best compromise
 
-This section shows one model in full: the best compromise of the v1.0.0 count rule, which the committed figures
-and tables feature. Under the worst-failure rule of v1.1.0 the best compromise is B APT (§3), and the
-figures and tables of §5–§7 should be regenerated for it (`python3 analysis/analyze.py`; ROOT is required for
-the figures). The model is **not** a winner: its c c̄ two-photon widths fail the log-form test.
+This section shows one model in full: B APT (screened Cornell potential, analytic running coupling, first-order
+spin terms), the best compromise of the worst-failure rule (§3), which the figures and tables of §5–§7 feature.
+(Up to v1.0.0 this section showed C const (s free), the best compromise of the count rule; its numbers are in
+`tables.md` and `data/`.) The model is **not** a winner: its b b̄ decays fail the linear test (Holm p = 0.03),
+mainly through Γ_ee(Υ(3S)).
 
-**Parameters** (own floor; ± parametric error):
+**Parameters** (own floor; ± parametric error; α is the APT amplitude, σ the smearing width in GeV):
 
-| | m_Q (GeV) | b (GeV²) | s | α_s | σ_th (MeV), Q-profile 68 % |
+| | m_Q (GeV) | α | b (GeV²) | σ (GeV) | σ_th (MeV), Q-profile 68 % |
 |---|---|---|---|---|---|
-| c c̄ | 1.527 ± 0.049 | 0.157 ± 0.016 | 0.81 ± 0.09 | 0.590 ± 0.068 | 10.3 [8.0, 17.3] |
-| b b̄ | 4.797 ± 0.012 | 0.185 ± 0.005 | 0.553 ± 0.034 | 0.409 ± 0.017 | 3.5 [2.9, 4.8] |
-| joint (b shared) | – | 0.182 ± 0.005 | – | – | 12.3 / 3.5 |
+| c c̄ | 1.575 ± 0.094 | 1.78 ± 0.28 | 0.181 ± 0.033 | 1.70 ± 0.65 | 17.5 [13.6, 29.4] |
+| b b̄ | 4.906 ± 0.009 | 1.520 ± 0.024 | 0.1977 ± 0.0041 | 4.8 ± 0.9 | 3.47 [2.8, 4.8] |
+| joint (b shared) | – | – | 0.1973 ± 0.0041 | – | 16.3 / 3.46 |
 
-- Sharing b between the systems is accepted: Δχ² = 3.22 for one parameter, p = 0.073.
-- Sharing b and s is rejected (p = 5 × 10⁻⁹).
-- The fitted s is below the GI value of 1.55 in both systems.
+- Sharing b between the systems is accepted: Δχ² = 0.36 for one parameter, p = 0.55.
+- Sharing b and the APT amplitude is accepted too: Δχ² = 2.21 for two parameters, p = 0.33.
 
 | | |
 |---|---|
@@ -409,36 +412,39 @@ pulls for the predicted states; the end bins collect |pull| > 4.*
 
 | c c̄ | | b b̄ | |
 |---|---|---|---|
-| ψ(3770) | +35 ± 11 | Υ₂(1D) | +4 ± 2 |
-| χ_c2(3930) | +38 ± 15 | χ_b1(3P) | +25 ± 4 |
-| ψ(4040) | +38 ± 22 | χ_b2(3P) | +27 ± 4 |
-| ψ(4160) | −34 ± 27 | Υ(4S) | +58 ± 5 |
-| ψ(4415) | −10 ± 40 | Υ(10860) | −6 ± 8 |
-| | | Υ(11020) | +97 ± 11 |
-| **B_c⁺**, separate fits | −25.6 ± 13.7 | **B_c⁺**, joint b | −2.8 ± 10.4 |
+| ψ(3770) | +1 ± 15 | Υ₂(1D) | −8 ± 2 |
+| χ_c2(3930) | +10 ± 23 | χ_b1(3P) | −3 ± 3 |
+| ψ(4040) | −13 ± 38 | χ_b2(3P) | −2 ± 3 |
+| ψ(4160) | −113 ± 39 | Υ(4S) | +14 ± 4 |
+| ψ(4415) | −146 ± 61 | Υ(10860) | −103 ± 6 |
+| | | Υ(11020) | −63 ± 8 |
+| **B_c⁺**, separate fits | −30 ± 33 | **B_c⁺**, joint b | −14 ± 15 |
 
-The B_c errors are the 16–84 % half-spread of 100 parameter draws. They do not include the systematic of
-interpolating between the two systems.
+The screening shows in the highest states: ψ(4160), ψ(4415), Υ(10860) and Υ(11020) come out 60–150 MeV low,
+while Υ(4S) is within 14 MeV. The B_c errors are the 16–84 % half-spread of 100 parameter draws. They do not
+include the systematic of interpolating between the two systems.
 
-**Annihilation widths** (keV; NLO at μ = M/2, ± parametric ± theory; * = BR × total width; recomputed after the
-S–D sign fix):
+**Annihilation widths** (keV; NLO at μ = M/2, ± parametric ± theory; * = BR × total width):
 
 | state | process | LO | NLO | PDG | NLO/PDG |
 |---|---|---|---|---|---|
-| η_c(1S) | γγ | 30.9 | 19.6 ± 1.6 ± 11 | 6.39 ± 0.46 | 3.06 |
-| J/ψ | ee | 14.7 | 6.34 ± 0.42 ± 4.5 | 5.53 ± 0.099 | 1.15 |
-| χ_c0(1P) | γγ | 31 | 31.6 ± 3.2 ± 16 | 2.43 ± 0.11 * | 12.99 |
-| χ_c2(1P) | γγ | 2.92 | 1.37 ± 0.086 ± 0.79 | 0.559 ± 0.033 * | 2.45 |
-| η_c(2S) | γγ | 10.7 | 7.11 ± 0.38 ± 3.4 | 2.04 ± 1.3 * | 3.49 |
-| ψ(2S) | ee | 7.16 | 3.42 ± 0.14 ± 2.1 | 2.33 ± 0.039 | 1.47 |
-| ψ(3770) (not fitted) | ee | 0.72 | 0.35 ± 0.028 ± 0.21 | 0.262 ± 0.018 | 1.34 |
-| Υ(1S) | ee | 1.87 | 1.19 ± 0.034 ± 0.19 | 1.34 ± 0.018 | 0.89 |
-| Υ(2S) | ee | 0.865 | 0.553 ± 0.017 ± 0.085 | 0.612 ± 0.011 | 0.90 |
-| Υ(3S) | ee | 0.658 | 0.423 ± 0.014 ± 0.067 | 0.443 ± 0.008 | 0.96 |
+| η_c(1S) | γγ | 25.9 | 16.3 ± 3.0 ± 7.0 | 6.39 ± 0.46 | 2.56 |
+| J/ψ | ee | 8.87 | 3.82 ± 1.1 ± 2.5 | 5.53 ± 0.099 | 0.69 |
+| χ_c0(1P) | γγ | 3.87 | 3.94 ± 0.40 ± 0.91 | 2.43 ± 0.11 * | 1.62 |
+| χ_c2(1P) | γγ | 1.03 | 0.483 ± 0.049 ± 0.25 | 0.559 ± 0.033 * | 0.86 |
+| η_c(2S) | γγ | 7.33 | 4.89 ± 0.74 ± 1.6 | 2.04 ± 1.3 * | 2.40 |
+| ψ(2S) | ee | 3.48 | 1.66 ± 0.34 ± 0.82 | 2.33 ± 0.039 | 0.71 |
+| ψ(3770) (not fitted) | ee | 0.049 | 0.023 ± 0.004 ± 0.011 | 0.262 ± 0.018 | 0.09 |
+| Υ(1S) | ee | 1.60 | 1.01 ± 0.043 ± 0.15 | 1.34 ± 0.018 | 0.76 |
+| Υ(2S) | ee | 0.689 | 0.441 ± 0.015 ± 0.063 | 0.612 ± 0.011 | 0.72 |
+| Υ(3S) | ee | 0.460 | 0.296 ± 0.009 ± 0.042 | 0.443 ± 0.008 | 0.67 |
+
+With first-order spin terms the ψ(3770) is a pure D wave, so its leptonic width is a tenth of the measured one;
+χ_c0 and χ_c2 share one radial function, and their width ratio is 4/15 exactly.
 
 **Wave functions.** Each wave function is rebuilt from its logged Gaussian coefficients alone. The norm is 1 to
-within 1.1 × 10⁻¹⁰, and the radial nodes equal n in all 32 states. The 68 % parametric band, from 40 draws, is
-at most 9 % of max|u| in c c̄ (ψ(2S)) and at most 3 % in b b̄.
+within 6.4 × 10⁻¹¹, and the radial nodes equal n in all 32 states of the audit. The figure shows the 68 %
+parametric band from 40 parameter draws.
 
 ![wave functions](figures/wavefunctions.png)
 
@@ -448,15 +454,15 @@ Physics compared with references the fits never saw. Failures are kept.
 
 | check | reference | result | verdict |
 |---|---|---|---|
-| 1S hyperfine, c c̄ | PDG 112.8 MeV | 121–128 MeV (medians by spin treatment); C const (s free) 123.6 ± 7.2 | 1–2σ high |
-| 1S hyperfine, b b̄ | PDG 61.7 MeV | 61–64 MeV; C const (s free) 60.6 ± 1.8 | **pass** |
+| 1S hyperfine, c c̄ | PDG 112.8 MeV | 121–128 MeV (medians by spin treatment); B APT 126.9 ± 20.4; C const (s free) 123.6 ± 7.2 | 1–2σ high |
+| 1S hyperfine, b b̄ | PDG 61.7 MeV | 61–64 MeV; B APT 63.9 ± 4.5; C const (s free) 60.6 ± 1.8 | **pass** |
 | 2S hyperfine, c c̄ | PDG 48.3 MeV | C const (s free) 37.7 ± 3.5 (parametric error only); smeared running-coupling A/B 46–51 | C const (s free) low |
 | fine-structure ratio ρ, c c̄ | PDG 0.48 | 0.56 smeared, 0.66 GI, 0.76 first order (medians); 17 of 19 models above; A const smeared 0.41, B const smeared 0.32 | **fail** in most models |
 | fine-structure ratio ρ, b b̄ | PDG 0.58 | 0.69–0.82 (medians); B const smeared 0.54, A const smeared 0.59 | **fail** in most models |
 | cog − h, c c̄ | PDG 0.00 MeV | 0.2–16 MeV; 17 of 19 models above 5 MeV; C const (s free) 13.5 ± 3.4 | **fail** at PDG precision; pass at the declared error (gate 2f) |
 | m_b − m_c (heavy-quark symmetry) | [3.342, 3.457] GeV | separate fits: 6 of 19 inside, median 3.332 ± 0.042; joint fits: median 3.382 ± 0.017 | separate fits low; joint fits **pass** |
 | √b | lattice ≈ 0.44 GeV | medians 0.421 ± 0.018 (c c̄), 0.436 ± 0.004 (b b̄), 0.434 ± 0.004 (joint) | ensemble **pass**; A models low; B/D const high |
-| wave functions from the log | norm = 1, nodes = n | 1.1 × 10⁻¹⁰; 0 of 32 wrong | **pass** |
+| wave functions from the log | norm = 1, nodes = n | 6.4 × 10⁻¹¹; 0 of 32 wrong | **pass** |
 | ψ(3770) S–D mixing | Γ_ee(ψ(3770))/Γ_ee(ψ(2S)) | C const (s free): −0.1° ± 0.6° or +37.8° ± 0.6° (the two roots); tensor force alone 1.6° | the width is carried by the D-wave amplitude, not by a large mixing angle |
 | Γ_γγ(χ_c2)/Γ_γγ(χ_c0) | PDG 0.230 ± 0.017 | first order: 4/15 exactly; spin terms in H: 0.03–0.10 | **fail** with the spin terms in H |
 | \|R(0)\|² of η_c(1S) over J/ψ(1S) | 0.55, from the PDG Γ_γγ(η_c) and Γ_ee(J/ψ) with the models' own K factors and the PDG masses | 1.40–2.03 (median 1.71) in all 19 models | **fail** in every model |
@@ -582,11 +588,10 @@ floor proportional to ⟨p⁴⟩ improves LOO but worsens LMO.
   rejections, and all three verdicts are reported.
 - **Width theory.** NLO only, with a scale band that reaches α_s ≈ 0.5 in c c̄. Relativistic corrections enter
   only through the ⟨v²⟩Γ error term.
-- **Stale parts after the S–D sign fix.** The decay posterior predictive p-values,
-  the joint-fit widths and the figures were not recomputed (see the note at the top; the mass-and-width study was). Configurations outside the
-  physical set were not refreshed either, so their stored Γ_ee of S–D mixed states still carry the old sign; the
-  one tried, B frozen smeared with fitted μ_s (b b̄), failed the reproduction check of the refresh (the fixed-floor
-  refit did not return the stored χ² and θ) and was left unwritten.
+- **Stale part after the S–D sign fix.** Only the decay posterior predictive p-values of the `stats` sweep
+  were not recomputed (see the note at the top). Every stored width of the `main`, `floor2`, `joint`, `joint2`
+  and `widths` sweeps carries the corrected sign. The other sweeps (`cv`, `nested`, `bgrid`, `shape`, `rel`, …)
+  store widths too, but the analysis reads none of them.
 - **Global minimum.** Two minimisers and nested seeding give the best minima found, not provably global ones.
 - **B_c.** The parameters are interpolated between the systems, or taken from the joint fit. The
   interpolation systematic is not included.

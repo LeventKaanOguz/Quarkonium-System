@@ -26,8 +26,8 @@ are compared by a full statistical analysis.
   v1.0.0 count rule named C const (s free), which fails the c c̄ decays at 4.1σ (Γ_γγ(χ_c0) ×13).
 - **A sign bug in the S–D leptonic width was fixed** (the D-wave amplitude is R_S − 5R″_D/(2√2 m²) in the
   Condon–Shortley convention); it changed Γ_ee in the 12 models with S–D mixing in H, and the selection was
-  recomputed, and so was the mass-and-width study. The decay posterior predictive p-values, the joint-fit widths
-  and the ROOT figures are not refreshed (CHANGELOG, REPORT note).
+  recomputed, with every stored width of the analysed sweeps and every figure. Only the decay posterior
+  predictive p-values are not refreshed (CHANGELOG, REPORT note).
 - **η_c and J/ψ at the origin.** |R(0)|² of η_c over J/ψ, from the models' own widths, is 1.40–2.03 in all 19
   models against about 0.55 required by the PDG widths and the same NLO QCD factors (the η_c → γγ NNLO coefficient is large and negative, so this is an NLO statement).
 - **Masses at one declared error** (Paule–Mandel, pooled: c c̄ 13.3 MeV, b b̄ 3.9 MeV) pass in 17 of 19 models.
