@@ -55,7 +55,7 @@ are compared by a full statistical analysis.
 | **D** | √(p²+m²) | C with screened confinement | `const` `gi` `free` |
 
 Options: an additive constant c (`--c on`), the one-loop short-distance potential of A/B with constant coupling (`--one-loop --mu-ref GeV`), the closure-free GI sandwiches (`--gi-sandwich exact`), the spin treatment of A/B (`--spin none|first|smeared`), a fitted
-screening mass (`--fit-mu-s`, or `--mu-s fit`; `--shared mu_s` shares it between c c̄ and b b̄), complex-range Gaussians in the basis of A/B (`--complex n,rho1,rhomax,omega`), a log of everything printed (`--log FILE`), and for C/D the smearing slope s in place of σ₀ (`--fix sigma0=0.1 --free s`).
+screening mass (`--fit-mu-s`, or `--mu-s fit`; `--shared mu_s` shares it between c c̄ and b b̄), complex-range Gaussians in the basis of A/B (`--complex n,rho1,rhomax,omega`; refits of all 56 variants reproduce the real-basis levels, see CHANGELOG), a log of everything printed (`--log FILE`), and for C/D the smearing slope s in place of σ₀ (`--fix sigma0=0.1 --free s`).
 That gives 80 configurations, all fitted and compared.
 
 ## Build and test

@@ -25,3 +25,12 @@ mass fitted, shared and profiled) and `studies` (`qgem_study`: exact GI sandwich
 convergence). `python3 analysis/sweep.py rep oneloop cx screen studies` regenerates them from the v1.1.0 minima (they
 are the seeds), `python3 analysis/summarize_v12.py` writes `v1.2-summary.md`. Every run has a `.log` with its command
 line (`qgem --log`).
+
+## Added after v1.2.0: complex-range fits of all 56 variants of A and B
+
+`results-v1.2.0-cx56.tar.gz` (`results-v1.2.0-cx56/`) holds the `cx` sweep for every configuration of Models A and B
+(24 + 32 fits, each of the two systems with 25 real + 6 complex Gaussians, `--basis 25,0.05,15 --complex 6,0.8,15,0.5`,
+started from the main-sweep minimum) and the sweep log `sweep-cx.log` (the times of the fits; the first four runs,
+made with the v1.2.0 release, have no time in the log). `python3 analysis/sweep.py cx -j 2` regenerates them (about 5 h
+on 2 cores, the c-free and fitted-mu_s variants being the slowest). The comparison with the real-basis fits of the
+`main` sweep is made by `gen_cx_all.py` of the paper repository.

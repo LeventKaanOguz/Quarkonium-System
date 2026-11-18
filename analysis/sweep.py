@@ -375,8 +375,13 @@ SWEEPS = {
                      seeds(t, ["main"])) for t, a in rel_configurations()],
 }
 REP4 = ["A-const-coff-first", "B-apt-coff-first", "C-const-coff-s", "D-gi-coff-s"]
-CX_SET = ["A-const-coff-first", "B-apt-coff-first", "A-apt-coff-smeared",
-          "B-const-coff-smeared"]
+CX_SET0 = ["A-const-coff-first", "B-apt-coff-first", "A-apt-coff-smeared",
+           "B-const-coff-smeared"]      # the first four, run in v1.2.0
+# every configuration of Models A and B (C/D have real-range relativistic matrices only)
+_all = [t for t, a in configurations() if t[0] in "AB" and t not in CX_SET0]
+# physical-set-like variants first (c fixed at zero, spin terms present, mu_s fixed), then the degenerate ones (c free, no spin, mu_s fitted)
+_phys = lambda t: "-coff-" in t and not t.endswith("fitmu") and not t.endswith("-none")
+CX_SET = CX_SET0 + [t for t in _all if _phys(t)] + [t for t in _all if not _phys(t)]
 CX_ARGS = ["--basis", "25,0.05,15", "--complex", "6,0.8,15,0.5"]
 SCREEN_SET = ["B-apt-coff-first", "D-gi-coff-s"]
 MU_GRID = (0.02, 0.05, 0.1, 0.2, 0.3, 0.5)

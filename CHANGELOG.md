@@ -26,6 +26,14 @@ line and its JSON output.
   and mixed bases at equal numbers of real functions. At 48 real functions the 9th and 10th ³S₁ levels are off by
   9.6 and 35 MeV with the real basis and by 0.03 and 0.27 MeV with 24 real + 12 complex. Fits with 25 real + 6
   complex Gaussians reproduce the real-basis fits (floors identical, levels ≤ 0.0095 MeV).
+  The `cx` sweep now covers every configuration of Models A and B (56 fits; `analysis/sweep.py cx`, physical-set-like
+  variants first). All 112 fits converged. For the 15 A/B configurations of the physical set the floors change by at
+  most 89 eV and the levels by at most 9.7 keV (median 0.19 keV). Over all 56 the median is 0.09 keV; outside the physical
+  set (degenerate Fisher matrix) the maximum is 4.3 MeV (A, APT coupling, c free, first-order spin terms,
+  b b̄: only η_b(1S) and η_b(2S) move, by 4.3 and 1.9 MeV, with the parameters unchanged and the smearing width run to
+  infinity, i.e. a pure contact term; next largest 0.16 MeV). c free with no spin terms moves along the exactly flat
+  m₁+m₂+c direction. Not tested: which of the two bases is closer to the exact |ψ(0)|² there. Archive:
+  `results-archive/results-v1.2.0-cx56.tar.gz`.
 - **apps**: `qgem --mu-s GeV|fit` and `--log FILE`. `--mu-s fit` fits the screening mass of Models B/D (as
   `--fit-mu-s`); `--shared mu_s` shares it between c c̄ and b b̄; `--log` copies everything printed to a file, after
   a `# qgem <args>` line.
