@@ -134,6 +134,37 @@ Mat p2(const Basis& b) {
 
 Mat kinetic_nr(const Basis& b, double mr) { return p2(b) / (2.0 * mr); }
 
+namespace {
+// psi(x) for x > 0: upward recurrence to x >= 8, then the asymptotic series
+double digamma_pos(double x) {
+  double acc = 0.0;
+  while (x < 8.0) {
+    acc -= 1.0 / x;
+    x += 1.0;
+  }
+  const double i2 = 1.0 / (x * x);
+  return acc + std::log(x) - 0.5 / x -
+         i2 *
+             (1.0 / 12 - i2 * (1.0 / 120 -
+                               i2 * (1.0 / 252 - i2 * (1.0 / 240 - i2 / 132))));
+}
+}  // namespace
+
+Mat r_power_log(const Basis& bra, const Basis& ket, double k) {
+  if (!(bra.L + ket.L + 3 + k > 0.0))
+    throw std::invalid_argument("r_power_log: divergent moment");
+  if (!bra.is_real() || !ket.is_real())
+    throw std::invalid_argument("r_power_log: real-range bases only");
+  const double lb = lbar(bra, ket), s = lb + 0.5 * (k + 3.0);
+  const double g = std::lgamma(s) - std::log(2.0), psi = digamma_pos(s);
+  return fill(bra, ket, [&](int i, int j) {
+    const double a = bra.nu(i) + ket.nu(j);
+    return 0.5 * (psi - std::log(a)) *
+           std::exp(0.5 * (bra.lognorm2(i) + ket.lognorm2(j)) + g -
+                    s * std::log(a));
+  });
+}
+
 Mat r_power(const Basis& bra, const Basis& ket, double k) {
   if (!(bra.L + ket.L + 3 + k > 0.0))
     throw std::invalid_argument("r_power: divergent moment");

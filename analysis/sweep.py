@@ -30,6 +30,21 @@ sweep resumes where it stopped.
             <v^2>, <p^4>/8m^3, r_rms) on the physical set
     rel     study: semi-relativistic kinetic energy for A/B (running couplings)
 
+    v1.2 sweeps (seeded with `main`, run after it):
+    rep     the four representative models A-D again, with the B_c interpolation
+            systematic (reproduces `main` to the last digit at tree level)
+    oneloop Models A and B with constant coupling: tree level and the one-loop
+            short-distance potential at mu_ref = 1, 2, 3 GeV (exact LOO)
+    cx      the models A/B variants with a mixed real + complex-range basis
+            (25 real + 6 complex ranges), against the real-range fits of `main`
+    screen  screening mass as an optimization parameter: fitted per system,
+            shared by c c-bar and b b-bar, and the profile over fixed values
+    studies qgem_study runs (GI levels closure/exact, contact term, complex-range
+            convergence), written to results/studies/
+
+Set QGEM_PDG=path to read the PDG data from another SQLite file (the cut in
+tests/data is enough for every state used).
+
 lm and minuit come first, main reads them, and the rest read main. The qgem
 binary is copied once per invocation (or taken from $QGEM_BIN), so rebuilding
 during a sweep cannot affect it.
@@ -359,8 +374,60 @@ SWEEPS = {
                      ["--loo", "--lmo", "--nested-check", "0.1"] +
                      seeds(t, ["main"])) for t, a in rel_configurations()],
 }
+REP4 = ["A-const-coff-first", "B-apt-coff-first", "C-const-coff-s", "D-gi-coff-s"]
+CX_SET0 = ["A-const-coff-first", "B-apt-coff-first", "A-apt-coff-smeared",
+           "B-const-coff-smeared"]      # the first four, run in v1.2.0
+# every configuration of Models A and B (C/D have real-range relativistic matrices only)
+_all = [t for t, a in configurations() if t[0] in "AB" and t not in CX_SET0]
+# physical-set-like variants first (c fixed at zero, spin terms present, mu_s fixed), then the degenerate ones (c free, no spin, mu_s fitted)
+_phys = lambda t: "-coff-" in t and not t.endswith("fitmu") and not t.endswith("-none")
+CX_SET = CX_SET0 + [t for t in _all if _phys(t)] + [t for t in _all if not _phys(t)]
+CX_ARGS = ["--basis", "25,0.05,15", "--complex", "6,0.8,15,0.5"]
+SCREEN_SET = ["B-apt-coff-first", "D-gi-coff-s"]
+MU_GRID = (0.02, 0.05, 0.1, 0.2, 0.3, 0.5)
+
+
+def _args_of(tag):
+    return dict(configurations())[tag]
+
+
+def oneloop_jobs():
+    out = []
+    for t in ("A-const-coff-first", "B-const-coff-first"):
+        a = _args_of(t)
+        sd = seeds(t, ["main"])
+        out.append((f"{t}-tree", a + ["--multistart", "20", "--loo"] + sd))
+        for mu in (1.0, 2.0, 3.0):
+            out.append((f"{t}-ol{mu:g}", a + ["--one-loop", "--mu-ref", f"{mu:g}",
+                                              "--multistart", "20", "--loo"] + sd))
+    return out
+
+
+def screen_jobs():
+    out = []
+    for t in SCREEN_SET:
+        a = _args_of(t)
+        sd = seeds(t, ["main"])
+        out.append((f"{t}-fit", a + ["--fit-mu-s"] + sd + restarts(t, 8, 3)))
+        out.append((f"{t}-shared", a + ["--fit-mu-s", "--shared", "mu_s"] + sd +
+                    restarts(t, 8, 3)))
+        for mu in MU_GRID:
+            out.append((f"{t}-mu{mu:g}", a + ["--mu-s", f"{mu:g}"] + sd +
+                        restarts(t, 4, 2)))
+    return out
+
+
+SWEEPS.update({
+    "rep": lambda: [(t, _args_of(t) + restarts(t, 8, 3) + ["--loo"] +
+                     seeds(t, ["main"])) for t in REP4],
+    "oneloop": oneloop_jobs,
+    "cx": lambda: [(f"{t}-cx", _args_of(t) + CX_ARGS + seeds(t, ["main"]))
+                   for t in CX_SET],
+    "screen": screen_jobs,
+})
 ORDER = ["lm", "minuit", "main", "floor0", "floor", "floor2", "joint", "joint2",
-         "widths", "cv", "stats", "nested", "bopt", "bgrid", "shape", "rel"]
+         "widths", "cv", "stats", "nested", "bopt", "bgrid", "shape", "rel",
+         "rep", "oneloop", "cx", "screen", "studies"]
 
 
 def run_one(qgem, sweep, tag, args):
@@ -369,7 +436,9 @@ def run_one(qgem, sweep, tag, args):
     if js.exists():
         return tag, "cached", 0.0
     t0 = time.time()
-    p = subprocess.run([str(qgem), *args, "--out", str(js)],
+    extra = ["--pdg", os.environ["QGEM_PDG"]] if os.environ.get("QGEM_PDG") else []
+    p = subprocess.run([str(qgem), *args, *extra, "--out", str(js),
+                        "--log", str(txt.with_suffix(".log"))],
                        capture_output=True, text=True)
     txt.write_text(p.stdout + ("\n# stderr:\n" + p.stderr if p.stderr else ""))
     return tag, "ok" if p.returncode == 0 else f"FAILED ({p.returncode})", \
@@ -385,7 +454,35 @@ def jobs_of(sweep, only):
     return sorted(jobs, key=lambda j: j[0][0] not in "CD")  # slow ones first
 
 
+STUDIES = [
+    ("gi-levels-closure", ["gi-levels"]),
+    ("gi-levels-exact", ["gi-levels", "--sandwich", "exact"]),
+    ("complex-levels", ["complex-levels"]),
+] + [(f"contact-r0-sigma{sg}", ["contact-r0", "--sigma", sg])
+     for sg in ("0.8", "1.13", "2.0", "3.0")]
+
+
+def run_studies(n_jobs):
+    """qgem_study runs: results/studies/<name>.txt (everything printed)."""
+    study = Path(os.environ.get("QGEM_STUDY", BUILT.with_name("qgem_study")))
+    d = RES / "studies"
+    d.mkdir(parents=True, exist_ok=True)
+    for name, args in STUDIES:
+        out = d / f"{name}.txt"
+        if out.exists():
+            print(f"studies {name:30s} cached", flush=True)
+            continue
+        t0 = time.time()
+        p = subprocess.run([str(study), *args], capture_output=True, text=True)
+        out.write_text("# qgem_study " + " ".join(args) + "\n" + p.stdout +
+                       ("\n# stderr:\n" + p.stderr if p.stderr else ""))
+        print(f"studies {name:30s} {'ok' if p.returncode == 0 else 'FAILED'} "
+              f"{time.time() - t0:7.1f}s", flush=True)
+
+
 def run_sweep(qgem, sweep, n_jobs, only=""):
+    if sweep == "studies":
+        return run_studies(n_jobs)
     (RES / sweep).mkdir(parents=True, exist_ok=True)
     jobs = jobs_of(sweep, only)
     if sweep == "floor2":

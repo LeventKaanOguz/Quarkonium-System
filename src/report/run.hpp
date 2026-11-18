@@ -86,6 +86,11 @@ struct RunOptions {
   /// 10, 19, 37, 73, 145, with this target (GeV) for the choice of n
   double nested_target = 0;
   int gi_nq = 64;  ///< Gauss-Laguerre nodes of the GI momentum integrals
+  bool gi_exact = false;
+  bool one_loop = false;  ///< A/B const: one-loop short-distance potential
+  double mu_ref =
+      1.0;  ///< GeV, scale at which alpha_s is defined (--one-loop)  ///<
+            ///< closure-free (exact) sandwiches f(p) W(r) f(p) in C/D
   std::string fitter = "lm";  ///< label of the minimiser in `fit.engine`
   FitOptions fit;             ///< fit.engine empty: Levenberg-Marquardt
   /// Optional cross-check at the best fit (the ROOT/Minuit2 Hesse + Minos

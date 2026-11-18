@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(QuarkoniumGEM VERSION 1.1.0 LANGUAGES CXX)
+project(QuarkoniumGEM VERSION 1.2.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -67,6 +67,10 @@ else()
   message(STATUS "CERN ROOT not used (QGEM_WITH_ROOT=${QGEM_WITH_ROOT})")
 endif()
 target_compile_definitions(qgem_cli PRIVATE QGEM_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
+
+# Reproducible studies that evaluate a model at given parameters (no fit).
+add_executable(qgem_study src/apps/study.cpp)
+target_link_libraries(qgem_study PRIVATE qgem)
 
 enable_testing()
 file(GLOB TEST_SOURCES CONFIGURE_DEPENDS tests/test_*.cpp)

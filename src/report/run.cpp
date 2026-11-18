@@ -88,8 +88,8 @@ Built build_model(const RunOptions& o, const System& sys) {
   const bool scr = (o.model == "B" || o.model == "D");
   if (o.model == "C" || o.model == "D") {
     b.gi = true;
-    auto m = std::make_unique<GIModel>(
-        GIModelOptions{.screened = scr, .nq = o.gi_nq});
+    auto m = std::make_unique<GIModel>(GIModelOptions{
+        .screened = scr, .nq = o.gi_nq, .exact_sandwich = o.gi_exact});
     const GiRunning r = o.running == "const"  ? GiRunning::Constant
                         : o.running == "free" ? GiRunning::Free
                                               : GiRunning::Fixed;
@@ -132,6 +132,13 @@ Built build_model(const RunOptions& o, const System& sys) {
     if (o.kinetic != "nr" && o.kinetic != "rel")
       throw std::runtime_error("--kinetic nr|rel");
     no.relativistic_kinetic = o.kinetic == "rel";
+    if (o.one_loop) {
+      if (o.running != "const")
+        throw std::runtime_error("--one-loop needs --running const (A/B)");
+      no.one_loop_nf =
+          sys.name == "ccbar" ? 3.0 : 4.0;  // B_c: of its c c-bar model
+      no.one_loop_mu = o.mu_ref;
+    }
     no.spin = o.spin == "none"      ? SpinMode::None
               : o.spin == "smeared" ? SpinMode::Smeared
                                     : SpinMode::FirstOrder;
@@ -240,21 +247,40 @@ std::string fmt(double v, int w, int p) {
   return s.str();
 }
 
-// B_c parameters from the two fits: log-interpolation in the reduced mass (as
-// for the running coupling), linear if a parameter is not positive; masses are
-// the fitted quark masses.
-Vec interpolate_bc(const Vec& cc, const Vec& bb) {
+// B_c parameters from the two fits. The parameters other than the masses
+// depend on the quark masses through the reduced mass r (r_cc = m_c/2, r_bb =
+// m_b/2, r_bc = m_c m_b/(m_c+m_b)); the rule of the interpolation is not given
+// by the model, so four are implemented and the spread of their predictions is
+// the interpolation systematic (it is not a statistical error):
+//   0  power law, p ~ r^a (log-linear in r; linear if a parameter is not
+//      positive)                                   [the central prediction]
+//   1  linear in r
+//   2  linear in ln r
+//   3  linear in 1/r
+// Masses are the fitted quark masses in every rule.
+constexpr int kInterpRules = 4;
+Vec interpolate_bc(const Vec& cc, const Vec& bb, int rule = 0) {
   Vec th = cc;
   const double mc = cc(0), mb = bb(0);
   th(0) = mc;
   th(1) = mb;
   const double rc = mc / 2, rb = mb / 2, rbc = mc * mb / (mc + mb);
-  const double t =
-      (std::log(rbc) - std::log(rc)) / (std::log(rb) - std::log(rc));
+  double t = 0;
+  switch (rule) {
+    case 0:
+    case 2:
+      t = (std::log(rbc) - std::log(rc)) / (std::log(rb) - std::log(rc));
+      break;
+    case 1:
+      t = (rbc - rc) / (rb - rc);
+      break;
+    default:
+      t = (1 / rbc - 1 / rc) / (1 / rb - 1 / rc);
+  }
   for (int i = 2; i < th.size(); ++i) {
     if (cc(i) == bb(i))
       th(i) = cc(i);
-    else if (cc(i) > 0 && bb(i) > 0)
+    else if (rule == 0 && cc(i) > 0 && bb(i) > 0)
       th(i) = std::exp((1 - t) * std::log(cc(i)) + t * std::log(bb(i)));
     else
       th(i) = (1 - t) * cc(i) + t * bb(i);
@@ -977,6 +1003,9 @@ int run(const RunOptions& opt, std::ostream& out) {
     MatrixCache cache(basis);
     Vec snum = Vec::Zero(ds.d.size());
     Vec mu(ds.d.size()), spar = Vec::Zero(ds.d.size());
+    // B_c only: interpolation systematic = largest |M_rule - M_central| over
+    // the alternative interpolation rules (see interpolate_bc)
+    Vec sint = Vec::Zero(ds.d.size());
     Mat gr, pred_cov;
     if (!is_bc) {
       Chi2Problem full(*built->model, ds, ps, MatrixCache(basis), sigma_th);
@@ -1004,6 +1033,20 @@ int run(const RunOptions& opt, std::ostream& out) {
                  "parameters (no prediction)\n";
         mu(i) = collapsed ? std::numeric_limits<double>::quiet_NaN()
                           : s.sc.level(s.level).M;
+        if (!collapsed)
+          for (int rule = 1; rule < kInterpRules; ++rule) {
+            try {
+              const Solved sr =
+                  solve_state(*built->model,
+                              interpolate_bc(fitted["ccbar"].first,
+                                             fitted["bbar"].first, rule),
+                              cache, ds.d[i]);
+              if (sr.sc.level(0).M > 0)
+                sint(i) = std::max(sint(i),
+                                   std::abs(sr.sc.level(sr.level).M - mu(i)));
+            } catch (const std::exception&) {
+            }
+          }
         // parametric error: the 16-84 % half-spread over parameter draws
         std::vector<double> mk;
         for (const auto& [tc, tb] : bc_draws) {
@@ -1021,7 +1064,9 @@ int run(const RunOptions& opt, std::ostream& out) {
         out << "B_c parametric error: 16-84 % half-spread over "
             << bc_draws.size() << " parameter draws ("
             << (joint_done ? "joint fit, correlated" : "separate fits")
-            << "); the interpolation systematic is not included\n";
+            << "); interpolation systematic (largest shift under linear in r, "
+               "linear in ln r, linear in 1/r) in the JSON as "
+               "sigma_interp_GeV and in the pulls\n";
     }
 
     // per-state diagnostics at the fitted parameters (not for the B_c):
@@ -1139,8 +1184,8 @@ int run(const RunOptions& opt, std::ostream& out) {
       const double diff = 1e3 * (mu(i) - x.y);
       double pull = 0, h = 0;
       const double floor_i = sigma_th * x.floor_w;
-      const double sig =
-          std::sqrt(spar(i) * spar(i) + x.err * x.err + floor_i * floor_i);
+      const double sig = std::sqrt(spar(i) * spar(i) + sint(i) * sint(i) +
+                                   x.err * x.err + floor_i * floor_i);
       pull = sig > 0 ? (x.y - mu(i)) / sig : 0;
       const bool show_pull = !is_bc;
       if (x.in_fit && !is_bc) {
@@ -1164,6 +1209,7 @@ int run(const RunOptions& opt, std::ostream& out) {
           .number("pdg_GeV", x.y)
           .number("model_GeV", mu(i))
           .number("sigma_par_GeV", spar(i))
+          .number("sigma_interp_GeV", sint(i))
           .number("sigma_num_GeV", snum(i))
           .number("sigma_exp_GeV", std::hypot(x.err, x.sys_common))
           .number("floor_w", x.floor_w)

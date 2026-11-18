@@ -54,8 +54,8 @@ are compared by a full statistical analysis.
 | **C** | √(p²+m²) | Godfrey–Isgur relativized (smeared, momentum-dependent) | `const` `gi` `free` |
 | **D** | √(p²+m²) | C with screened confinement | `const` `gi` `free` |
 
-Options: an additive constant c (`--c on`), the spin treatment of A/B (`--spin none|first|smeared`), a fitted
-screening mass (`--fit-mu-s`), and for C/D the smearing slope s in place of σ₀ (`--fix sigma0=0.1 --free s`).
+Options: an additive constant c (`--c on`), the one-loop short-distance potential of A/B with constant coupling (`--one-loop --mu-ref GeV`), the closure-free GI sandwiches (`--gi-sandwich exact`), the spin treatment of A/B (`--spin none|first|smeared`), a fitted
+screening mass (`--fit-mu-s`, or `--mu-s fit`; `--shared mu_s` shares it between c c̄ and b b̄), complex-range Gaussians in the basis of A/B (`--complex n,rho1,rhomax,omega`; refits of all 56 variants reproduce the real-basis levels, see CHANGELOG), a log of everything printed (`--log FILE`), and for C/D the smearing slope s in place of σ₀ (`--fix sigma0=0.1 --free s`).
 That gives 80 configurations, all fitted and compared.
 
 ## Build and test
@@ -148,6 +148,17 @@ flowchart TD
 Detailed chart: [docs/figures/algorithm.svg](docs/figures/algorithm.svg); walk-through:
 [docs/EXPLANATION.md](docs/EXPLANATION.md).
 
+## Example: the stored wave functions in a hot medium
+
+`python3 examples/medium_dissociation.py results/main/A-const-coff-first.json --out results/medium` rebuilds the radial
+function of every S and P state from the coefficients in the JSON and puts it into the Debye-screened potential
+V_T = −C_F α_s e^{−μr}/r + (b/μ)(1 − e^{−μr}). It prints (and writes as JSON, text and a figure) the screening mass μ*
+at which the state is no longer bound, at first order in the vacuum wave function (a lower bound of μ*, no
+diagonalization) and from a new Gaussian diagonalization. It needs numpy, scipy and matplotlib and runs in about two
+minutes; `python3 examples/test_medium_dissociation.py` checks it against the Coulomb levels and the Yukawa critical
+screening. The spin terms of the fit are not carried into the medium, and the conversion of μ to a temperature (`--g`,
+`--nf`) is indicative only. Section XI of the paper describes the result.
+
 ## Layout
 
 | path | contents |
@@ -162,6 +173,7 @@ Detailed chart: [docs/figures/algorithm.svg](docs/figures/algorithm.svg); walk-t
 | `src/report`, `src/apps` | the end-to-end run and the `qgem` CLI |
 | `config/` | which PDG state is which model level |
 | `tests/` | GoogleTest (`root/`: ROOT build; `validation/`: slow statistics suite) |
+| `examples/` | an application of the stored wave functions: quarkonium in a Debye-screened medium (`medium_dissociation.py`, test `test_medium_dissociation.py`) |
 | `analysis/` | sweep driver; statistics (`model_selection.py`), tables, figures, report driver |
 | `docs/` | report, method, verification map, algorithm chart, lecture notes |
 

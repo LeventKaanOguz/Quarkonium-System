@@ -40,14 +40,17 @@ this code) or from an independent method; see [`docs/VALIDATION.md`](docs/VALIDA
 | M31 | Bayesian inference: the theory floor marginalised, posterior predictive checks of masses and decays | posterior σ_th inside the Q-profile interval | [x] |
 | M32 | Standard goodness of fit (Pearson χ² at a pooled Paule–Mandel error, Holm) and a pre-registered selection rule | rule fixed before the final sweeps | [x] |
 | M33 | Decay test in ln Γ as well as in Γ (the linear test cannot reject an overprediction); both required | amendment after the sweeps, adds rejections only; three verdicts reported | [x] |
+| M34 | Closure-free GI sandwiches (momentum space): Hankel table of the basis, exact f(p) W(r) f(p) | ≤ 0.03 MeV from the closure for the four lowest levels of every channel at the BGS/GM parameters | [x] |
+| M35 | One-loop short-distance potential for A/B (constant coupling): analytic ⟨rᵏ ln r⟩, one-loop L·S and tensor | independent FD solver; W against quadrature; FH gradients | [x] (no one-loop contact term) |
+| M36 | B_c interpolation systematic: three alternative interpolation rules | largest shift in the JSON and in the pull | [x] |
 
-Planned for v2.0.0: a momentum-space solver (an independent method for the relativized models C/D); the
+Planned for v2.0.0: the one-loop hyperfine (contact) term and a one-loop treatment for the running-coupling models; the
 log-form decay test and its posterior predictive check in the `qgem` output (v1.0.0 computes the log form
 in `analysis/selection.py` from the logged widths, with the parametric error diagonal).
 
 Open items, deliberately left: coupled-channel (meson-loop) effects for the states near and above threshold (a separate model, not a fix); the §10.9 optimization of the running coupling (the machinery — priors, FH/finite-difference
 Jacobians, profile/bootstrap/MCMC — is in place; the parametrization with label-switching constraints is not written);
-a Model C/D variant driven by an arbitrary running α_s form; complex-range matrices for the relativistic kinetic energy; fitting the frozen/APT shape (M_g, Λ) — the report finds
+a Model C/D variant driven by an arbitrary running α_s form; complex-range matrices for the relativistic kinetic energy and for the one-loop logarithm (A/B with smeared or screened potentials use quadrature, v1.2); fitting the frozen/APT shape (M_g, Λ) — the report finds
 the fitted α(0) normalisation far from the shape's own value; m/E relativistic factors on the A/B spin terms for an O(v²)-consistent charmonium.
 
 Added after the milestones: exact analytic forms for every model matrix element; a running coupling in all four models

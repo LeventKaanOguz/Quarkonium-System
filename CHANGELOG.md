@@ -8,6 +8,69 @@ line and its JSON output.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-18
+
+### Added
+
+- **examples**: `medium_dissociation.py`, an application of the stored wave functions (JSON of `results/`): the screening
+  mass μ* at which each S and P state of a Model A (constant coupling) fit dissolves in the Debye-screened potential
+  V_T = −C_F α_s e^{−μr}/r + (b/μ)(1 − e^{−μr}), at first order in the vacuum wave function (a variational lower bound
+  of μ*) and from a new Gaussian diagonalization. `test_medium_dissociation.py` checks the Coulomb levels, the Yukawa
+  critical screening (1.1906, converged from below: 1.1778/1.1856/1.1888 for r_max = 120/300/800 GeV⁻¹) and the
+  variational bound. Result for the paper's representative: μ* = 0.82 GeV (J/ψ), 0.37 (ψ(2S)), 0.35 (χ_c1), and 1.56
+  (Υ(1S)), 0.65 (Υ(2S)), 0.59 (χ_b1(1P)), 0.43 (Υ(3S)); `results/medium`, archived in `results-v1.2.0.tar.gz`.
+- **me**: complex-range Gaussians (`--complex n,rho1,rhomax,omega`, pairs of real functions Re/Im of
+  r^l exp(−η(1+iω)r²)) now also work for the smeared and screened potentials of Models A and B: the
+  analytic matrix elements fall back to numerical quadrature of the same radial integrals when a basis function
+  has a complex range (`analytic.cpp`). The relativistic matrices of Models C/D and the one-loop logarithm are
+  real-range only. Test `ComplexRange.SmearedAndScreenedModelsAgreeWithTheRealRangeBasis`.
+  `qgem_study complex-levels`: Model A levels of the ³S₁ and ³P₂ channels against a variational reference for real
+  and mixed bases at equal numbers of real functions. At 48 real functions the 9th and 10th ³S₁ levels are off by
+  9.6 and 35 MeV with the real basis and by 0.03 and 0.27 MeV with 24 real + 12 complex. Fits with 25 real + 6
+  complex Gaussians reproduce the real-basis fits (floors identical, levels ≤ 0.0095 MeV).
+  The `cx` sweep now covers every configuration of Models A and B (56 fits; `analysis/sweep.py cx`, physical-set-like
+  variants first). All 112 fits converged. For the 15 A/B configurations of the physical set the floors change by at
+  most 89 eV and the levels by at most 9.7 keV (median 0.19 keV). Over all 56 the median is 0.09 keV; outside the physical
+  set (degenerate Fisher matrix) the maximum is 4.3 MeV (A, APT coupling, c free, first-order spin terms,
+  b b̄: only η_b(1S) and η_b(2S) move, by 4.3 and 1.9 MeV, with the parameters unchanged and the smearing width run to
+  infinity, i.e. a pure contact term; next largest 0.16 MeV). c free with no spin terms moves along the exactly flat
+  m₁+m₂+c direction. Not tested: which of the two bases is closer to the exact |ψ(0)|² there. Archive:
+  `results-archive/results-v1.2.0-cx56.tar.gz`.
+- **apps**: `qgem --mu-s GeV|fit` and `--log FILE`. `--mu-s fit` fits the screening mass of Models B/D (as
+  `--fit-mu-s`); `--shared mu_s` shares it between c c̄ and b b̄; `--log` copies everything printed to a file, after
+  a `# qgem <args>` line.
+- **analysis**: `sweep.py rep oneloop cx screen studies` (v1.2 runs, seeded from the v1.1.0 minima, a `.log` per run)
+  and `summarize_v12.py` (writes `results/v1.2-summary.md`). Result of `screen`: Model B prefers μ_s → 0 in both
+  systems (profile rises monotonically; shared 0.000 ± 0.049 GeV); Model D gives μ_s(b b̄) = 0.144 ± 0.016 GeV and
+  μ_s(c c̄) → 0 (± 0.19), compatible with a shared 0.142 ± 0.016 GeV (Δχ² = 2.17, P = 0.14). Floors of fits with
+  μ_s free are not comparable with fixed-μ_s ones (ν is smaller by one).
+  The four representatives rerun with this version reproduce v1.1.0 to 5·10⁻⁸ (relative, parameters) and
+  1.3·10⁻⁵ MeV (masses); the 80 configurations of the v1.1.0 sweep were not rerun. 113 tests pass.
+- **me/models**: closure-free evaluation of the Godfrey–Isgur f(p) W(r) f(p) sandwiches, `qgem --gi-sandwich
+  exact` (`GIModelOptions::exact_sandwich`). Every basis function is Hankel-transformed once, χₙ(r) =
+  √(2/π) ∫ p² j_l(pr) f(p) R̃ₙ(p) dp, and ⟨fWf⟩ = ∫ r² χₘ W χₙ dr is integrated on a Gauss–Legendre grid, so the
+  matrix is exact for the basis (a rigorous variational bound, no closure in the orthonormal basis). It applies to
+  the Coulomb, contact, tensor and spin–orbit sandwiches. Slow (≈ 100 s against 0.2 s for the table below).
+  Result at the published BGS (m_c = 1.628) and GM (m_b = 4.977) parameters (`qgem_study gi-levels`): the four
+  lowest levels of every channel up to L = 3 move by ≤ 0.03 MeV, the median level by 0.01 MeV; the closure is not
+  the origin of the difference to the published S waves (Sec. 7 of the paper). Test
+  `GI.ExactSandwichesAgreeWithClosureForTheLowLyingLevels`.
+- **apps**: `qgem_study`, small reproducible studies that evaluate a model without a fit: `gi-levels` (GI spectrum at
+  given parameters, closure or exact), `contact-r0` (|R(0)|² of the 1S and 2S states with the contact term outside
+  and inside H, as a function of the smearing σ).
+- **models**: the one-loop short-distance static potential for Models A/B with constant coupling,
+  `qgem --one-loop [--mu-ref GeV]` (`NRModelOptions::one_loop_nf`, `one_loop_mu`):
+  V = −(C_F α_s/r)[1 + (α_s/4π)(a₁ + 2β₀γ_E + 2β₀ ln μr)], a₁ = 31/3 − 10 n_f/9, β₀ = 11 − 2n_f/3, n_f = 3 for
+  c c̄ (and the B_c) and 4 for b b̄. The spin–orbit and tensor terms follow from the same potential (first order,
+  `--spin first`): V′/r → κ[(1 + c₀ − c₁) + c₁ ln r]/r³, V′/r − V″ → κ[3(1 + c₀) − 4c₁ + 3c₁ ln r]/r³. The new
+  matrix elements ⟨rᵏ ln r⟩ are analytic (digamma). Tests: levels against the independent finite-difference
+  solver, the W matrix of ³P₂ against quadrature with numerical derivatives, Feynman–Hellmann gradients. The
+  one-loop spin–spin (contact) correction is not included. α_s is the coupling at μ_ref (default 1 GeV); the fits
+  depend on it (see the paper, Sec. 6), 2–3 GeV is the sensible range.
+- **report**: the B_c prediction carries an interpolation systematic, the largest shift of the mass under three
+  alternative interpolation rules (linear in the reduced mass, in its logarithm, in its inverse) of the parameters
+  between the c c̄ and b b̄ fits; the JSON has `sigma_interp_GeV`, and the pull of the B_c includes it.
+
 ## [1.1.0] - 2026-11-17
 
 ### Fixed

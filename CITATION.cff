@@ -14,8 +14,8 @@ authors:
   - family-names: "Oğuz"
     given-names: "Levent Kaan"
 license: MIT
-version: "1.1.0"
-date-released: "2026-11-17"
+version: "1.2.0"
+date-released: "2026-11-18"
 repository-code: "https://github.com/LeventKaanOguz/Quarkonium-System"
 keywords:
   - quarkonium

@@ -260,3 +260,22 @@ TEST(GI, UnequalMassesGiveTheBcFamily) {
   EXPECT_GT(m_3S1, m_1S0);
   EXPECT_LT(m_3S1 - m_1S0, 0.1);  // hyperfine splitting of a few tens of MeV
 }
+
+TEST(GI, ExactSandwichesAgreeWithClosureForTheLowLyingLevels) {
+  // Closure-free evaluation of the f(p) W(r) f(p) sandwiches (Hankel transform
+  // of every basis function, exact quadrature in r) must move the low-lying
+  // levels by far less than the model's own accuracy. Measured on the full
+  // charmonium table at the BGS parameters: <= 0.03 MeV for the four lowest
+  // levels of every channel up to L = 3.
+  GIModel closure, exact({.exact_sandwich = true, .exact_rmax = 35.0});
+  const Vec th = gi_theta(closure, 1.628, 1.628);
+  MatrixCache c1(kSpec), c2(kSpec);
+  for (const char* lab : {"1S0", "3S1-3D1", "3P0", "1P1", "3P2-3F2", "1D2"}) {
+    const SolvedChannel a =
+        solve_channel(closure, find(closure, lab, true, 3), th, c1);
+    const SolvedChannel b =
+        solve_channel(exact, find(exact, lab, true, 3), th, c2);
+    for (int k = 0; k < 3; ++k)
+      EXPECT_NEAR(a.level(k).M, b.level(k).M, 5e-5) << lab << " n=" << k + 1;
+  }
+}

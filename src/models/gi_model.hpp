@@ -38,6 +38,14 @@ struct GIModelOptions {
   bool screened =
       false;    ///< Model D: S~ -> S~_scr with the smeared exponential
   int nq = 64;  ///< Gauss-Laguerre nodes of the momentum integrals
+  /// Evaluate every sandwich f(p) W(r) f(p) exactly (closure-free): the
+  /// function f(p) R_n is carried to position space by a Hankel transform on a
+  /// quadrature grid and <f W f> = Int r^2 chi_n' W chi_n dr. Slow (a Hankel
+  /// table per basis function and per f); meant for validation and for the
+  /// final numbers, not for fits. Default: closure in the orthonormalized
+  /// basis (notes 7.7(ii)).
+  bool exact_sandwich = false;
+  double exact_rmax = 40.0;  ///< outer radius of the position-space grid
 };
 
 /// How alpha_s runs inside the GI Hamiltonian: the three fixed Godfrey-Isgur
