@@ -2,7 +2,7 @@
   "title": "Quarkonium-System: heavy-quarkonium spectroscopy with the Gaussian Expansion Method",
   "upload_type": "software",
   "description": "Charmonium, bottomonium and B_c spectra from non-relativistic and relativized (Godfrey-Isgur) potential models, with and without a screened confining potential, solved with the Gaussian Expansion Method in C++ and fitted to the PDG 2026 masses, with a statistical analysis of the models. The release includes the logged output of every fit used in the accompanying paper.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "access_right": "open",
   "creators": [

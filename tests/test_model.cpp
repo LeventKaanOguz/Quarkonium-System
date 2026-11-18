@@ -269,14 +269,16 @@ TEST(NRModel, OneLoopPotentialMatchesAnIndependentFiniteDifferenceSolver) {
   // 2 beta0 gamma_E + 2 beta0 ln(mu r))] + b r + c solved on a grid with no GEM
   // code; also the <r^k ln r> matrix element against Gauss-Legendre.
   const double nf = 3, mu_ref = 1.3, als = 0.38, b = 0.17, m = 1.5;
-  NRModel model({.spin = SpinMode::None, .one_loop_nf = nf, .one_loop_mu = mu_ref});
+  NRModel model(
+      {.spin = SpinMode::None, .one_loop_nf = nf, .one_loop_mu = mu_ref});
   const Vec th = theta_of(m, m, als, b, 0.0, 1.2);
   const double beta0 = 11 - 2 * nf / 3, a1 = 31.0 / 3 - 10 * nf / 9,
                gE = 0.5772156649015329, eps = als / (4 * std::numbers::pi),
                kappa = 4 * als / 3;
   auto V = [&](double r) {
     return -kappa / r *
-               (1 + eps * (a1 + 2 * beta0 * gE + 2 * beta0 * std::log(mu_ref * r))) +
+               (1 + eps * (a1 + 2 * beta0 * gE +
+                           2 * beta0 * std::log(mu_ref * r))) +
            b * r;
   };
   MatrixCache cache(kSpec40);
@@ -288,7 +290,8 @@ TEST(NRModel, OneLoopPotentialMatchesAnIndependentFiniteDifferenceSolver) {
     }
   }
   // gradients, first order (log terms in W, alpha-dependent coefficients)
-  NRModel fo({.spin = SpinMode::FirstOrder, .one_loop_nf = 4, .one_loop_mu = 1.0});
+  NRModel fo(
+      {.spin = SpinMode::FirstOrder, .one_loop_nf = 4, .one_loop_mu = 1.0});
   const std::vector<int> all = {kM1, kM2, kAlphaS, kB, kC, kSigma};
   const Vec t2 = theta_of(4.8, 4.8, 0.36, 0.19, 0.01, 1.4);
   for (int k : {0, 1}) {
@@ -302,9 +305,11 @@ TEST(NRModel, OneLoopRequiresAConstantCouplingAndFirstOrderSpin) {
   const Vec th = theta_of(1.5, 1.5, 0.4, 0.17, 0.0, 1.2);
   MatrixCache cache(kSpec40);
   NRModel bad({.running = Running::Gaussian, .one_loop_nf = 3});
-  EXPECT_THROW(bad.build(single(0, 0, 0), th, cache, false), std::invalid_argument);
+  EXPECT_THROW(bad.build(single(0, 0, 0), th, cache, false),
+               std::invalid_argument);
   NRModel bad2({.spin = SpinMode::Smeared, .one_loop_nf = 3});
-  EXPECT_THROW(bad2.build(single(0, 0, 0), th, cache, false), std::invalid_argument);
+  EXPECT_THROW(bad2.build(single(0, 0, 0), th, cache, false),
+               std::invalid_argument);
 }
 
 TEST(NRModel, OneLoopSpinOrbitAndTensorFollowFromTheDerivativesOfThePotential) {
@@ -313,7 +318,8 @@ TEST(NRModel, OneLoopSpinOrbitAndTensorFollowFromTheDerivativesOfThePotential) {
   // with V_V' and V_V'' by central differences of the one-loop vector potential
   // (independent of the analytic derivation in nr_model.cpp).
   const double nf = 3, mu_ref = 1.0, als = 0.40, b = 0.17, m = 1.5;
-  NRModel model({.spin = SpinMode::FirstOrder, .one_loop_nf = nf, .one_loop_mu = mu_ref});
+  NRModel model(
+      {.spin = SpinMode::FirstOrder, .one_loop_nf = nf, .one_loop_mu = mu_ref});
   const Vec th = theta_of(m, m, als, b, 0.0, 1.2);
   const double beta0 = 11 - 2 * nf / 3, a1 = 31.0 / 3 - 10 * nf / 9,
                gE = 0.5772156649015329, eps = als / (4 * std::numbers::pi),

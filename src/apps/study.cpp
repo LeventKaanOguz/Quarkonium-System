@@ -64,12 +64,11 @@ int gi_levels(const std::vector<std::string>& args) {
   return 0;
 }
 
-
 // qgem_study contact-r0 --m M --alpha A --b B --sigma S
-//   Model A (constant alpha_s): |R(0)|^2 of the 1S and 2S vector states with the
-//   smeared contact hyperfine term (a) absent from H (SpinMode::None: the
-//   Radford-Repko "H0") and (b) present in H (SpinMode::FirstOrder), at the same
-//   parameters. Answers whether our nearly spin-independent |R(0)|^2 is a
+//   Model A (constant alpha_s): |R(0)|^2 of the 1S and 2S vector states with
+//   the smeared contact hyperfine term (a) absent from H (SpinMode::None: the
+//   Radford-Repko "H0") and (b) present in H (SpinMode::FirstOrder), at the
+//   same parameters. Answers whether our nearly spin-independent |R(0)|^2 is a
 //   consequence of keeping the contact term in H at all orders.
 int contact_r0(const std::vector<std::string>& args) {
   double m = 1.467, a = 0.534, b = 0.1485, c = 0.0, sg = 1.130;
@@ -77,29 +76,41 @@ int contact_r0(const std::vector<std::string>& args) {
   for (std::size_t i = 0; i + 1 < args.size(); i += 2) {
     const std::string& k = args[i];
     const double v = std::stod(args[i + 1]);
-    if (k == "--m") m = v; else if (k == "--alpha") a = v;
-    else if (k == "--b") b = v; else if (k == "--sigma") sg = v;
-    else if (k == "--c") c = v; else throw std::runtime_error("unknown option " + k);
+    if (k == "--m")
+      m = v;
+    else if (k == "--alpha")
+      a = v;
+    else if (k == "--b")
+      b = v;
+    else if (k == "--sigma")
+      sg = v;
+    else if (k == "--c")
+      c = v;
+    else
+      throw std::runtime_error("unknown option " + k);
   }
   std::cout << std::fixed << std::setprecision(4);
   for (SpinMode sm : {SpinMode::None, SpinMode::FirstOrder}) {
     NRModel model({.spin = sm});
-    Vec th(kNRParams); th << m, m, a, b, c, sg, 0.1;
+    Vec th(kNRParams);
+    th << m, m, a, b, c, sg, 0.1;
     MatrixCache cache(spec);
-    std::cout << (sm == SpinMode::None ? "H0 (no contact)   " : "contact in H      ");
+    std::cout << (sm == SpinMode::None ? "H0 (no contact)   "
+                                       : "contact in H      ");
     for (const char* lab : {"1S0", "3S1"}) {
       Channel ch;
-      for (const Channel& cc : model.channels(0, true)) if (cc.label() == lab) ch = cc;
+      for (const Channel& cc : model.channels(0, true))
+        if (cc.label() == lab) ch = cc;
       const SolvedChannel sc = solve_channel(model, ch, th, cache);
       for (int k = 0; k < 2; ++k)
-        std::cout << lab << "(" << k + 1 << "S) M=" << std::setw(7) << sc.level(k).M
-                  << " R0^2=" << std::setw(7) << R0_squared(sc, k, cache) << "  ";
+        std::cout << lab << "(" << k + 1 << "S) M=" << std::setw(7)
+                  << sc.level(k).M << " R0^2=" << std::setw(7)
+                  << R0_squared(sc, k, cache) << "  ";
     }
     std::cout << "\n";
   }
   return 0;
 }
-
 
 // qgem_study complex-levels [--levels N]
 //   Model A (constant coupling, first-order spin) at the fitted c c-bar
@@ -107,12 +118,15 @@ int contact_r0(const std::vector<std::string>& args) {
 //   real-range bases and on mixed real + complex-range bases of the same total
 //   number of functions (each complex range is two real functions, Re and Im of
 //   r^l exp(-eta (1 + i w) r^2)), and the deviation of each from the lowest
-//   value of each level over a large real basis (n = 160) and a large mixed one. Masses in MeV.
+//   value of each level over a large real basis (n = 160) and a large mixed
+//   one. Masses in MeV.
 int complex_levels(const std::vector<std::string>& args) {
   int nlev = 12;
   for (std::size_t i = 0; i + 1 < args.size(); i += 2) {
-    if (args[i] == "--levels") nlev = std::stoi(args[i + 1]);
-    else throw std::runtime_error("unknown option " + args[i]);
+    if (args[i] == "--levels")
+      nlev = std::stoi(args[i + 1]);
+    else
+      throw std::runtime_error("unknown option " + args[i]);
   }
   NRModel model({.spin = SpinMode::FirstOrder});
   Vec th(kNRParams);
@@ -136,31 +150,68 @@ int complex_levels(const std::vector<std::string>& args) {
   };
   // every finite basis is an upper bound, so the reference is the lowest value
   // of each level over a large real basis and a large mixed one
-  auto ref = levels({.n = 160, .r1 = 0.005, .rmax = 120.0, .eta = 1e-13}, "ref");
-  const auto ref2 = levels({.n = 70, .r1 = 0.01, .rmax = 60.0, .eta = 1e-13, .nc = 40,
-                            .rho1 = 0.5, .rhomax = 60.0, .omega = 0.5}, "ref2");
-  for (std::size_t i = 0; i < ref.size(); ++i) ref[i] = std::min(ref[i], ref2[i]);
-  struct Cfg { const char* name; BasisSpec spec; };
+  auto ref =
+      levels({.n = 160, .r1 = 0.005, .rmax = 120.0, .eta = 1e-13}, "ref");
+  const auto ref2 = levels({.n = 70,
+                            .r1 = 0.01,
+                            .rmax = 60.0,
+                            .eta = 1e-13,
+                            .nc = 40,
+                            .rho1 = 0.5,
+                            .rhomax = 60.0,
+                            .omega = 0.5},
+                           "ref2");
+  for (std::size_t i = 0; i < ref.size(); ++i)
+    ref[i] = std::min(ref[i], ref2[i]);
+  struct Cfg {
+    const char* name;
+    BasisSpec spec;
+  };
   const Cfg cfgs[] = {
       {"real 24", {.n = 24, .r1 = 0.05, .rmax = 25.0}},
-      {"real 12 + cx 6 (24)", {.n = 12, .r1 = 0.05, .rmax = 25.0, .nc = 6, .rho1 = 0.8, .rhomax = 25.0, .omega = 0.5}},
+      {"real 12 + cx 6 (24)",
+       {.n = 12,
+        .r1 = 0.05,
+        .rmax = 25.0,
+        .nc = 6,
+        .rho1 = 0.8,
+        .rhomax = 25.0,
+        .omega = 0.5}},
       {"real 36", {.n = 36, .r1 = 0.05, .rmax = 25.0}},
-      {"real 18 + cx 9 (36)", {.n = 18, .r1 = 0.05, .rmax = 25.0, .nc = 9, .rho1 = 0.8, .rhomax = 25.0, .omega = 0.5}},
+      {"real 18 + cx 9 (36)",
+       {.n = 18,
+        .r1 = 0.05,
+        .rmax = 25.0,
+        .nc = 9,
+        .rho1 = 0.8,
+        .rhomax = 25.0,
+        .omega = 0.5}},
       {"real 48", {.n = 48, .r1 = 0.05, .rmax = 25.0}},
-      {"real 24 + cx 12 (48)", {.n = 24, .r1 = 0.05, .rmax = 25.0, .nc = 12, .rho1 = 0.8, .rhomax = 25.0, .omega = 0.5}},
+      {"real 24 + cx 12 (48)",
+       {.n = 24,
+        .r1 = 0.05,
+        .rmax = 25.0,
+        .nc = 12,
+        .rho1 = 0.8,
+        .rhomax = 25.0,
+        .omega = 0.5}},
   };
-  std::cout << std::fixed << std::setprecision(3)
-            << "reference (lowest of real n = 160 and mixed 70 + 40): masses (MeV)\n";
+  std::cout
+      << std::fixed << std::setprecision(3)
+      << "reference (lowest of real n = 160 and mixed 70 + 40): masses (MeV)\n";
   for (int ch = 0; ch < 2; ++ch) {
     std::cout << (ch ? "3P2 " : "3S1 ");
-    for (int k = 0; k < nlev; ++k) std::cout << std::setw(10) << ref[ch * nlev + k];
+    for (int k = 0; k < nlev; ++k)
+      std::cout << std::setw(10) << ref[ch * nlev + k];
     std::cout << "\n";
   }
-  std::cout << "deviation from the reference (MeV), basis size = number of real functions\n";
+  std::cout << "deviation from the reference (MeV), basis size = number of "
+               "real functions\n";
   for (const Cfg& c : cfgs) {
     const auto v = levels(c.spec, c.name);
     for (int ch = 0; ch < 2; ++ch) {
-      std::cout << std::left << std::setw(22) << c.name << (ch ? "3P2 " : "3S1 ") << std::right;
+      std::cout << std::left << std::setw(22) << c.name
+                << (ch ? "3P2 " : "3S1 ") << std::right;
       for (int k = 0; k < nlev; ++k)
         std::cout << std::setw(10) << v[ch * nlev + k] - ref[ch * nlev + k];
       std::cout << "\n";

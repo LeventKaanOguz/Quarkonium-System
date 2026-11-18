@@ -257,8 +257,7 @@ ChannelMatrices GIModel::assemble(const Channel& ch, const Vec& th,
                                      std::min(ma, mb), std::max(ma, mb), e);
     auto it = chimemo.find(key);
     if (it != chimemo.end()) return it->second;
-    return chimemo
-        .emplace(key, hankel_chi(B, fun_of(kind, ma, mb, e), grid))
+    return chimemo.emplace(key, hankel_chi(B, fun_of(kind, ma, mb, e), grid))
         .first->second;
   };
   // <f W f> in the original basis, bra basis Bb and ket basis Bk

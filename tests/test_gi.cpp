@@ -271,8 +271,10 @@ TEST(GI, ExactSandwichesAgreeWithClosureForTheLowLyingLevels) {
   const Vec th = gi_theta(closure, 1.628, 1.628);
   MatrixCache c1(kSpec), c2(kSpec);
   for (const char* lab : {"1S0", "3S1-3D1", "3P0", "1P1", "3P2-3F2", "1D2"}) {
-    const SolvedChannel a = solve_channel(closure, find(closure, lab, true, 3), th, c1);
-    const SolvedChannel b = solve_channel(exact, find(exact, lab, true, 3), th, c2);
+    const SolvedChannel a =
+        solve_channel(closure, find(closure, lab, true, 3), th, c1);
+    const SolvedChannel b =
+        solve_channel(exact, find(exact, lab, true, 3), th, c2);
     for (int k = 0; k < 3; ++k)
       EXPECT_NEAR(a.level(k).M, b.level(k).M, 5e-5) << lab << " n=" << k + 1;
   }

@@ -167,10 +167,10 @@ ChannelMatrices NRModel::build(const Channel& ch, const Vec& th,
   Dual c0(0.0), c1(0.0);
   if (one_loop) {
     const double nf = opt_.one_loop_nf, beta0 = 11.0 - 2.0 * nf / 3.0,
-                 a1 = 31.0 / 3.0 - 10.0 * nf / 9.0,
-                 gE = 0.57721566490153286061;
+                 a1 = 31.0 / 3.0 - 10.0 * nf / 9.0, gE = 0.57721566490153286061;
     const Dual eps = als / Dual(4.0 * M_PI);
-    c0 = eps * Dual(a1 + 2.0 * beta0 * gE + 2.0 * beta0 * std::log(opt_.one_loop_mu));
+    c0 = eps *
+         Dual(a1 + 2.0 * beta0 * gE + 2.0 * beta0 * std::log(opt_.one_loop_mu));
     c1 = eps * Dual(2.0 * beta0);
   }
 

@@ -175,8 +175,14 @@ TEST(ComplexRange, SmearedAndScreenedModelsAgreeWithTheRealRangeBasis) {
   // closed form for complex ranges and fall back to quadrature; the levels of
   // the coupled 3S1-3D1 and 3P2-3F2 channels must agree with a real-range basis
   const BasisSpec real{.n = 40, .r1 = 0.03, .rmax = 30.0, .eta = 1e-13};
-  const BasisSpec mixed{.n = 24, .r1 = 0.03, .rmax = 30.0, .eta = 1e-13,
-                        .nc = 8, .rho1 = 0.8, .rhomax = 30.0, .omega = 0.5};
+  const BasisSpec mixed{.n = 24,
+                        .r1 = 0.03,
+                        .rmax = 30.0,
+                        .eta = 1e-13,
+                        .nc = 8,
+                        .rho1 = 0.8,
+                        .rhomax = 30.0,
+                        .omega = 0.5};
   Vec th(kNRParams);
   th << 1.48, 1.48, 0.52, 0.15, 0.0, 1.2, 0.3;
   for (bool screened : {false, true}) {

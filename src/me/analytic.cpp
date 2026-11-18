@@ -161,7 +161,8 @@ Mat smeared_r_matrix(const Basis& bra, const Basis& ket, double s) {
 Mat smeared_r_prime_over_r_matrix(const Basis& bra, const Basis& ket,
                                   double s) {
   if (!bra.is_real() || !ket.is_real())
-    return local(bra, ket, [&](double r) { return smeared_r_prime_over_r(s, r); });
+    return local(bra, ket,
+                 [&](double r) { return smeared_r_prime_over_r(s, r); });
   const double lb = lbar(bra, ket);
   return fill(bra, ket, [&](double a) {
     return erf_moment(lb + 1.0, a, s) - erf_moment(lb, a, s) / (2 * s * s) +

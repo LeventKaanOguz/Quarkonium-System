@@ -88,8 +88,8 @@ Built build_model(const RunOptions& o, const System& sys) {
   const bool scr = (o.model == "B" || o.model == "D");
   if (o.model == "C" || o.model == "D") {
     b.gi = true;
-    auto m = std::make_unique<GIModel>(
-        GIModelOptions{.screened = scr, .nq = o.gi_nq, .exact_sandwich = o.gi_exact});
+    auto m = std::make_unique<GIModel>(GIModelOptions{
+        .screened = scr, .nq = o.gi_nq, .exact_sandwich = o.gi_exact});
     const GiRunning r = o.running == "const"  ? GiRunning::Constant
                         : o.running == "free" ? GiRunning::Free
                                               : GiRunning::Fixed;
@@ -135,7 +135,8 @@ Built build_model(const RunOptions& o, const System& sys) {
     if (o.one_loop) {
       if (o.running != "const")
         throw std::runtime_error("--one-loop needs --running const (A/B)");
-      no.one_loop_nf = sys.name == "ccbar" ? 3.0 : 4.0;  // B_c: of its c c-bar model
+      no.one_loop_nf =
+          sys.name == "ccbar" ? 3.0 : 4.0;  // B_c: of its c c-bar model
       no.one_loop_mu = o.mu_ref;
     }
     no.spin = o.spin == "none"      ? SpinMode::None
@@ -1035,14 +1036,14 @@ int run(const RunOptions& opt, std::ostream& out) {
         if (!collapsed)
           for (int rule = 1; rule < kInterpRules; ++rule) {
             try {
-              const Solved sr = solve_state(
-                  *built->model,
-                  interpolate_bc(fitted["ccbar"].first, fitted["bbar"].first,
-                                 rule),
-                  cache, ds.d[i]);
+              const Solved sr =
+                  solve_state(*built->model,
+                              interpolate_bc(fitted["ccbar"].first,
+                                             fitted["bbar"].first, rule),
+                              cache, ds.d[i]);
               if (sr.sc.level(0).M > 0)
-                sint(i) = std::max(sint(i), std::abs(sr.sc.level(sr.level).M -
-                                                     mu(i)));
+                sint(i) = std::max(sint(i),
+                                   std::abs(sr.sc.level(sr.level).M - mu(i)));
             } catch (const std::exception&) {
             }
           }
@@ -1183,9 +1184,8 @@ int run(const RunOptions& opt, std::ostream& out) {
       const double diff = 1e3 * (mu(i) - x.y);
       double pull = 0, h = 0;
       const double floor_i = sigma_th * x.floor_w;
-      const double sig =
-          std::sqrt(spar(i) * spar(i) + sint(i) * sint(i) + x.err * x.err +
-                    floor_i * floor_i);
+      const double sig = std::sqrt(spar(i) * spar(i) + sint(i) * sint(i) +
+                                   x.err * x.err + floor_i * floor_i);
       pull = sig > 0 ? (x.y - mu(i)) / sig : 0;
       const bool show_pull = !is_bc;
       if (x.in_fit && !is_bc) {

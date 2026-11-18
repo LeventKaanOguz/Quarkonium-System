@@ -144,7 +144,9 @@ double digamma_pos(double x) {
   }
   const double i2 = 1.0 / (x * x);
   return acc + std::log(x) - 0.5 / x -
-         i2 * (1.0 / 12 - i2 * (1.0 / 120 - i2 * (1.0 / 252 - i2 * (1.0 / 240 - i2 / 132))));
+         i2 *
+             (1.0 / 12 - i2 * (1.0 / 120 -
+                               i2 * (1.0 / 252 - i2 * (1.0 / 240 - i2 / 132))));
 }
 }  // namespace
 

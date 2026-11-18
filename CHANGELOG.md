@@ -8,6 +8,8 @@ line and its JSON output.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-18
+
 ### Added
 
 - **examples**: `medium_dissociation.py`, an application of the stored wave functions (JSON of `results/`): the screening

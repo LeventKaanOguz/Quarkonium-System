@@ -30,7 +30,9 @@ class TeeBuf : public std::streambuf {
                ? EOF
                : c;
   }
-  int sync() override { return (a_->pubsync() == 0 && b_->pubsync() == 0) ? 0 : -1; }
+  int sync() override {
+    return (a_->pubsync() == 0 && b_->pubsync() == 0) ? 0 : -1;
+  }
 
  private:
   std::streambuf *a_, *b_;
@@ -309,8 +311,7 @@ int main(int argc, char** argv) {
         if (v != "closure" && v != "exact")
           throw std::runtime_error("--gi-sandwich: closure or exact");
         o.gi_exact = v == "exact";
-      }
-      else if (k == "--one-loop")
+      } else if (k == "--one-loop")
         o.one_loop = true;
       else if (k == "--mu-ref")
         o.mu_ref = std::stod(val());
